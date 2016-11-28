@@ -1,0 +1,16 @@
+#include "adl-commands.h"
+
+void setup()
+{
+	{% for device in board.devices %}
+	// Setup for {{device.name}}
+	{{ device.setup }}
+	// END {{device.name}} setup
+
+	{% endfor %}
+}
+
+void loop()
+{
+	handle_adl_commands();
+}

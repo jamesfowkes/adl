@@ -1,0 +1,9 @@
+[Core]
+Name = Digital Output
+Module = output
+
+[Documentation]
+Description = Allows control of digital outputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

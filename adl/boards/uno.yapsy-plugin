@@ -1,0 +1,9 @@
+[Core]
+Name = Arduino Uno
+Module = uno
+
+[Documentation]
+Description = Board plugin for the Arduino Uno
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
