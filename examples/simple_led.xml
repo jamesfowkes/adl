@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<board name="Arduino Uno">
+<board type="Arduino Uno" name="Simple LED">
 
 	<devices>
 		<device name="Onboard LED" type="Digital Output">
-			<pin id="output">LED</pin>
+			<pin number="13">LED</pin>
 		</device>
 	</devices>
 

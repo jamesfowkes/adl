@@ -4,21 +4,23 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+Pin = namedtuple("Pin", ["name", "number"])
+
 class Output(namedtuple("Output", ["name", "pin"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "pinMode({}, OUTPUT);".format(self.pin)
+		return "pinMode({}, OUTPUT);".format(self.pin.name)
 
 	@property
-	def write(self, write_param):
-		return "digitalWrite({pin}, {write_param} ? HIGH : LOW);".format(pin=self.Pin, write_param=write_param)
+	def command_handler(self):
+		return "digitalWrite({pin}, command[0] == '0' ? LOW : HIGH);".format(pin=self.pin.name)
 
 	@property
-	def constants(self):
-		return "digitalWrite({pin}, {write_param} ? HIGH : LOW);".format(pin=self.Pin, write_param=write_param)
+	def declarations(self):
+		return "static const uint8_t {name} = {pin};".format(name=self.pin.name, pin=self.pin.number)
 
 class OutputPlugin(IPlugin):
 	def activate(self):
@@ -29,7 +31,10 @@ class OutputPlugin(IPlugin):
 
 	def get(self, tree):
 		name = tree.attrib["name"]
-		pin = tree.find("pin").text
+		pin_node = tree.find("pin")
+
+		pin = Pin(pin_node.text, pin_node.attrib["number"])
+
 		return Output(name, pin)
 
 	def set_log_level(self, level):

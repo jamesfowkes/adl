@@ -1,4 +1,29 @@
 #include "adl-commands.h"
+#include <stdint.h>
+
+{% for device in board.devices %}
+{{device.declarations}}
+{% endfor %}
+
+static const int DEVICE_COUNT = {{board.devices | length}};
+
+{% for device in board.devices %}
+void handle_device{{loop.index0}}_command(uint8_t * command)
+{
+	{{device.command_handler}}
+}
+{% endfor %}
+
+static void (*s_command_handlers[])(uint8_t *) = {
+	{% for device in board.devices %}
+	handle_device{{loop.index0}}_command,
+	{% endfor %}
+};
+
+void process_adl_command(char address, char * command)
+{
+	if (address >= DEVICE_COUNT) { return; }
+}
 
 void setup()
 {
@@ -7,10 +32,20 @@ void setup()
 	{{ device.setup }}
 	// END {{device.name}} setup
 
+	Serial.begin({{board.baudrate}});
+
 	{% endfor %}
 }
 
 void loop()
 {
-	handle_adl_commands();
+	handle_any_pending_commands();
+}
+
+void serialEvent()
+{
+	while (Serial.available())
+	{
+		adl_add_char((char)Serial.read());
+	}
 }
