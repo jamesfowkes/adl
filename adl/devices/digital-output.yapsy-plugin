@@ -1,6 +1,6 @@
 [Core]
 Name = Digital Output
-Module = output
+Module = digital_output
 
 [Documentation]
 Description = Allows control of digital outputs

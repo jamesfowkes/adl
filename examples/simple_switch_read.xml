@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Simple Switch Read">
+
+	<devices>
+		<device name="Digital Read" type="Digital Input">
+			<pin number="2">Switch</pin>
+		</device>
+	</devices>
+
+</board>

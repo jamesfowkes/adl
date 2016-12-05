@@ -1,0 +1,9 @@
+[Core]
+Name = Analog Output
+Module = analog_output
+
+[Documentation]
+Description = Allows control of analog outputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

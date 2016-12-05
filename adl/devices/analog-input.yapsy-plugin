@@ -1,0 +1,9 @@
+[Core]
+Name = Analog Input
+Module = analog_input
+
+[Documentation]
+Description = Allows reading of analog inputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

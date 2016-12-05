@@ -6,23 +6,23 @@ from yapsy.IPlugin import IPlugin
 
 Pin = namedtuple("Pin", ["name", "number"])
 
-class Output(namedtuple("Output", ["name", "pin"])):
+class DigitalInput(namedtuple("DigitalInput", ["name", "pin"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "pinMode({}, OUTPUT);".format(self.pin.name)
+		return "pinMode({}, INPUT);".format(self.pin.name.upper())
 
 	@property
 	def command_handler(self):
-		return "digitalWrite({pin}, command[0] == '0' ? LOW : HIGH);".format(pin=self.pin.name)
+		return "digitalRead({pin});".format(pin=self.pin.name.upper())
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name, pin=self.pin.number)
+		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.number)
 
-class OutputPlugin(IPlugin):
+class DigitalInputPlugin(IPlugin):
 	def activate(self):
 		pass
 
@@ -35,7 +35,7 @@ class OutputPlugin(IPlugin):
 
 		pin = Pin(pin_node.text, pin_node.attrib["number"])
 
-		return Output(name, pin)
+		return DigitalInput(name, pin)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

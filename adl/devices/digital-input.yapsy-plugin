@@ -1,0 +1,9 @@
+[Core]
+Name = Digital Input
+Module = digital_input
+
+[Documentation]
+Description = Allows reading of digital inputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
