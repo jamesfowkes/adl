@@ -1,0 +1,9 @@
+board: 
+  type: "Arduino Uno"
+  name: "Simple Switch Read"
+  devices:
+    - device:
+      name: "Digital Read"
+      type: "Digital Input"
+      pins:
+        - {number: 2, name: Switch}

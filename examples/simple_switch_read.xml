@@ -3,8 +3,8 @@
 <board type="Arduino Uno" name="Simple Switch Read">
 
 	<devices>
-		<device name="Digital Read" type="Digital Input">
-			<pin number="2">Switch</pin>
+		<device name="Switch" type="Digital Input">
+			<pin name="input" number="2"></pin>
 		</device>
 	</devices>
 

@@ -4,8 +4,6 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-Pin = namedtuple("Pin", ["name", "number"])
-
 class DigitalOutput(namedtuple("DigitalOutput", ["name", "pin"])):
 
 	__slots__ = ()
@@ -29,13 +27,8 @@ class DigitalOutputPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, tree):
-		name = tree.attrib["name"]
-		pin_node = tree.find("pin")
-
-		pin = Pin(pin_node.text, pin_node.attrib["number"])
-
-		return DigitalOutput(name, pin)
+	def get(self, device):
+		return DigitalOutput(device.name, device.pins[0])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

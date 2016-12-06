@@ -14,10 +14,13 @@ def activate_all():
 		logging.getLogger(__name__).info("Loaded device plugin '%s'", plugin.name)
 		devices_plugin_manager.activatePluginByName(plugin.name)
 
-def get(name, tree):
-	logging.getLogger(__name__).info("Trying to load device '%s'", name)
-	return devices_plugin_manager.getPluginByName(name).plugin_object.get(tree)
+def get_single_device(device):
+	logging.getLogger(__name__).info("Trying to load device '%s' (%s)", device.name, device.type)
+	return devices_plugin_manager.getPluginByName(device.type).plugin_object.get(device)
 
+def get(devices):
+	return [get_single_device(device) for device in devices]
+	
 def set_log_level(level):
 	logging.getLogger(__name__).setLevel(level)
 	for plugin in devices_plugin_manager.getAllPlugins():

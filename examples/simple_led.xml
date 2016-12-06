@@ -4,7 +4,7 @@
 
 	<devices>
 		<device name="Onboard LED" type="Digital Output">
-			<pin number="13">LED</pin>
+			<pin name="LED" number="13"></pin>
 		</device>
 	</devices>
 

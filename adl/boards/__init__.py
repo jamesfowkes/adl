@@ -15,8 +15,8 @@ def activate_all():
 		boards_plugin_manager.activatePluginByName(plugin.name)
 
 def get(board, devices):
-	logging.getLogger(__name__).info("Trying to load board '%s'", board.attrib["type"])
-	return boards_plugin_manager.getPluginByName(board.attrib["type"]).plugin_object.get(board, devices)
+	logging.getLogger(__name__).info("Trying to load board '%s'", board.type)
+	return boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices)
 
 def set_log_level(level):
 	logging.getLogger(__name__).setLevel(level)

@@ -21,12 +21,10 @@ class UnoPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, tree, devices):
-		baudrate = tree.attrib.get("baudrate", 115200)
-		adl_buffer_size = tree.attrib.get("adl_buffer_size", 32)
-
-		name = tree.attrib["name"]
-		return Uno(name, baudrate, devices)
+	def get(self, board, devices):
+		baudrate = board.attrs.get("baudrate", 115200)
+		adl_buffer_size = board.attrs.get("adl_buffer_size", 32)
+		return Uno(board.name, baudrate, devices)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
