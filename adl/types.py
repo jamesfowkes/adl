@@ -30,7 +30,7 @@ class Device(namedtuple("Device", ["name", "type", "pins"])):
 
 		return cls(name, device_type, pins)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "attrs"])):
+class Board(namedtuple("Board", ["type", "name", "devices", "info", "attrs"])):
 	__slots__ = ()
 
 	@classmethod
@@ -38,8 +38,9 @@ class Board(namedtuple("Board", ["type", "name", "devices", "attrs"])):
 		board_node = node.find(".")
 		name = board_node.attrib["name"]
 		board_type = board_node.attrib["type"]
+		info = board_node.find("info").text
 		devices = [Device.from_xml(node) for node in node.find("devices")]
-		return cls(board_type, name, devices, board_node.attrib)
+		return cls(board_type, name, devices, info, board_node.attrib)
 
 	@classmethod
 	def from_yaml(cls, board_dict):

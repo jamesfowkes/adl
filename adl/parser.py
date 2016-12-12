@@ -32,6 +32,4 @@ def parse_file(filename, filetype=None):
 
 	logging.getLogger("parser").info("Found board '%s', type '%s'", board.name, board.type)
 
-	
-
 	return adl.boards.get(board, adl.devices.get(board.devices))

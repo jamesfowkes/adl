@@ -1,3 +1,11 @@
+/*
+{{board.name}}
+Created on {{context.time("{:%Y-%m-%d}")}}
+By the Arduino Descripion Language tool.
+
+{{board.info}}
+*/
+
 #include "adl-commands.h"
 #include <stdint.h>
 
@@ -8,13 +16,13 @@
 static const int DEVICE_COUNT = {{board.devices | length}};
 
 {% for device in board.devices %}
-void handle_device{{loop.index0}}_command(uint8_t * command)
+int handle_device{{loop.index0}}_command(uint8_t * command, uint8_t * reply)
 {
 	{{device.command_handler}}
 }
 {% endfor %}
 
-static void (*s_command_handlers[])(uint8_t *) = {
+static COMMAND_HANDLER[] = {
 	{% for device in board.devices %}
 	handle_device{{loop.index0}}_command,
 	{% endfor %}

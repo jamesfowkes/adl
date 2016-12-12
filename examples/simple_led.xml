@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="Simple LED">
-
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
+	
 	<devices>
 		<device name="Onboard LED" type="Digital Output">
 			<pin name="LED" number="13"></pin>
