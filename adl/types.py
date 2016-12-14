@@ -1,15 +1,15 @@
 from collections import namedtuple
 
-class Pin(namedtuple("Pin", ["name", "number"])):
+class Pin(namedtuple("Pin", ["name", "number", "io"])):
 	__slots__ = ()
 
 	@classmethod
 	def from_xml(cls, pin_node):
-		return cls(pin_node.attrib["name"], pin_node.attrib["number"])
+		return cls(pin_node.attrib["name"], pin_node.attrib["number"], pin_node.attrib.get("io", ""))
 
 	@classmethod
 	def from_yaml(cls, pin_dict):
-		return cls(pin_dict["name"], pin_dict["number"])
+		return cls(pin_dict["name"], pin_dict["number"], pin_dict.get("io", ""))
 
 class Device(namedtuple("Device", ["name", "type", "pins"])):
 	__slots__ = ()
@@ -30,7 +30,7 @@ class Device(namedtuple("Device", ["name", "type", "pins"])):
 
 		return cls(name, device_type, pins)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "info", "attrs"])):
+class Board(namedtuple("Board", ["type", "name", "devices", "info", "adl", "attrs"])):
 	__slots__ = ()
 
 	@classmethod
@@ -40,12 +40,14 @@ class Board(namedtuple("Board", ["type", "name", "devices", "info", "attrs"])):
 		board_type = board_node.attrib["type"]
 		info = board_node.find("info").text
 		devices = [Device.from_xml(node) for node in node.find("devices")]
-		return cls(board_type, name, devices, info, board_node.attrib)
+		adl = board_node.find("adl")
+		return cls(board_type, name, devices, info, adl, board_node.attrib)
 
 	@classmethod
 	def from_yaml(cls, board_dict):
 		board_type = board_dict["board"]["type"]
-		name = board_dict["board"]["type"]
+		name = board_dict["board"]["name"]
 		devices = [Device.from_yaml(dev) for dev in board_dict["board"]["devices"]]
-
-		return cls(board_type, name, devices, board_dict["board"])
+		info = board_dict["board"].get("info", "")
+		adl = board_dict["board"].get("adl", {})
+		return cls(board_type, name, devices, info, adl, board_dict["board"])

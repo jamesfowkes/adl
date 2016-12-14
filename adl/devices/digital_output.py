@@ -14,7 +14,12 @@ class DigitalOutput(namedtuple("DigitalOutput", ["name", "pin"])):
 
 	@property
 	def command_handler(self):
-		return "digitalWrite({pin}, command[0] == '0' ? LOW : HIGH);".format(pin=self.pin.name.upper())
+		return """
+			digitalWrite({pin}, command[0] == '0' ? LOW : HIGH);
+			reply[0] = command[0];
+			reply[1] = '\\0';
+			return 1;
+			""".format(pin=self.pin.name.upper())
 
 	@property
 	def declarations(self):

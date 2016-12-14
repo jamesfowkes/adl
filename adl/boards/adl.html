@@ -1,0 +1,103 @@
+{% macro render_comment_header(board, context) -%}
+/*
+{{board.name}}
+Created on {{context.time("{:%Y-%m-%d}")}}
+By the Arduino Descripion Language tool.
+{%- from 'adl.html' import render_all %}
+ 
+{{board.info}}
+*/
+
+{% endmacro %}
+
+{% macro render_declarations(board) %}
+
+#include <stdint.h>
+#include "adl.h"
+
+{% for device in board.devices %}
+{{device.declarations}}
+{% endfor %}
+
+static const int DEVICE_COUNT = {{board.devices | length}};
+
+{% endmacro %}
+
+{% macro render_functions(board) %}
+
+{% for device in board.devices %}
+int handle_device{{loop.index0}}_command(char const * const command, char * reply)
+{
+	{{device.command_handler}}
+}
+{% endfor %}
+
+static COMMAND_HANDLER adl_commands[] = {
+	{% for device in board.devices %}
+	handle_device{{loop.index0}}_command,
+	{% endfor %}
+};
+
+int adl_process_command(uint8_t address, char const * const command, char * reply)
+{
+	if (address >= DEVICE_COUNT) { return 0; }
+
+	return adl_commands[address](command, reply);
+}
+
+{% endmacro %}
+
+{% macro render_serial_send(board) -%}
+void adl_board_send(char * to_send)
+{
+	{{ board.serial.send("to_send") }}
+}
+{% endmacro %}
+
+{% macro render_setup(board) -%}
+
+{{ render_serial_send(board) }}
+
+void setup()
+{
+	{% for device in board.devices %}
+	// Setup for {{device.name}}
+	{{ device.setup }}
+	// END {{device.name}} setup
+
+	{{ board.serial.setup }}
+
+	{% endfor %}
+}
+
+{% endmacro %}
+
+{% macro render_loop() -%}
+void loop()
+{
+	adl_handle_any_pending_commands();
+}
+{% endmacro %}
+
+{% macro render_serial_event(board) -%}
+
+{{ board.serial.read("adl_add_char") }}
+
+{% endmacro %}
+
+{% macro render_all(board, context) -%}
+
+{{ render_comment_header(board, context) }}
+
+{{ render_declarations(board) }}
+
+{{ render_functions(board) }}
+
+{{ render_setup(board)}}
+
+{{ render_loop()}}
+
+{{ render_serial_event(board) }}
+
+{% endmacro %}
+

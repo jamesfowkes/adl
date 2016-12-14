@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="Simple Switch Read">
-
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
 	<devices>
 		<device name="Switch" type="Digital Input">
 			<pin name="input" number="2"></pin>
 		</device>
 	</devices>
-
+	<adl buffer_size="64">
+	</adl>
 </board>

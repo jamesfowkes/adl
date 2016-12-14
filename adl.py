@@ -52,7 +52,7 @@ if __name__ == "__main__":
 	adl.devices.activate_all()
 	adl.boards.activate_all()
 
-	board = adl.parser.parse_file(args["<input_file>"])
+	board, adl_config = adl.parser.parse_file(args["<input_file>"])
 
 	if args["--sketchbook"]:
 		directory = args["--sketchbook"]
@@ -60,7 +60,4 @@ if __name__ == "__main__":
 
 		sketch_directory = create_sketch_directory(directory, sketch_name)
 		write_sketch_to_directory(sketch_directory, sketch_name+".ino", board.code)
-		adl.copy_library(sketch_directory)
-
-	else:
-		print(board.code)
+		adl.write_library(sketch_directory, adl_config)

@@ -4,7 +4,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-Pin = namedtuple("Pin", ["name", "number"])
+from adl.devices.pin import Pin
 
 class DigitalInput(namedtuple("DigitalInput", ["name", "pin"])):
 
@@ -12,15 +12,24 @@ class DigitalInput(namedtuple("DigitalInput", ["name", "pin"])):
 
 	@property
 	def setup(self):
-		return "pinMode({}, INPUT);".format(self.pin.name.upper())
+		return "pinMode({}, INPUT{});".format(self.pin_name(), "_PULLUP" if self.pin.io == "pullup" else "")
 
 	@property
 	def command_handler(self):
-		return "digitalRead({pin});".format(pin=self.pin.name.upper())
+		return """
+			reply[0] = digitalRead({pin}) == HIGH ? '1' : '0';
+			reply[1] = '\\0';
+			return 1;
+			""".format(pin=self.pin_name())
+
+	def pin_name(self):
+		return self.name.upper() + "_" + self.pin.name.upper()
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.number)
+		return """
+		static const uint8_t {pin_name} = {pin};
+		""".format(pin_name=self.pin_name(), pin=self.pin.number)
 
 class DigitalInputPlugin(IPlugin):
 	def activate(self):
