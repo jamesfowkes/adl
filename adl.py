@@ -34,6 +34,9 @@ def create_sketch_directory(parent_directory, sketch_directory):
 
 	if not os.path.exists(target_directory):
 		os.makedirs(target_directory)
+	else:
+		for file in os.listdir(target_directory):
+			os.unlink(os.path.join(target_directory, file))
 
 	return target_directory
 
