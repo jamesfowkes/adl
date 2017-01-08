@@ -10,12 +10,31 @@ import adl.template_engine
 
 THIS_PATH = os.path.dirname(__file__)
 
-def write_library(directory, adl_config):
-	src_path = os.path.join(THIS_PATH, "adl_code")
+def get_subfolders(path):
+
+	def absolute_path(d):
+		return os.path.join(THIS_PATH, "adl_code", d)
+
+	return [d for d in os.listdir(path) if os.path.isdir(absolute_path(d))]
+
+VALID_PROTOCOLS = get_subfolders(os.path.join(THIS_PATH, "adl_code"))
+
+def write_file(file, target_directory, adl_config, protocol_dir=None):
+	if protocol_dir is None:
+		protocol_dir = adl_config.protocol
+
+	rendered_code = adl.template_engine.render_library(os.path.join(protocol_dir, file), adl_config)
+	with open(os.path.join(target_directory, file), 'w') as f:
+		f.write(rendered_code)
+
+def write_library(target_directory, adl_config):
+	src_path = os.path.join(THIS_PATH, "adl_code", adl_config.protocol)
+
 	for file in os.listdir(src_path):
-		rendered_code = adl.template_engine.render_library(file, adl_config)
-		with open(os.path.join(directory, file), 'w') as f:
-			f.write(rendered_code)
+		write_file(file, target_directory, adl_config)
+
+	write_file("adl.cpp", target_directory, adl_config, "")
+	write_file("adl.h", target_directory, adl_config, "")
 
 def set_log_level(level):
 	logging.getLogger("parser").setLevel(level)
