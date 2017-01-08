@@ -10,5 +10,5 @@
 			<pin name="LED" number="13"></pin>
 		</device>
 	</devices>
-
+	<adl protocol="json"></adl>
 </board>
