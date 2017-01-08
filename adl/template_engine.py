@@ -15,8 +15,8 @@ class Context:
 	def time(self, fmt):
 		return fmt.format(self._time)
 
-def render_library(template_name, adl):
-	return library_loader.get_template(template_name).render(adl=adl, context=Context())
+def render_library(template_path, adl):
+	return library_loader.get_template(template_path).render(adl=adl, context=Context())
 
 def render_board(template_name, board):	
 	return board_loader.get_template(template_name).render(board=board, context=Context())
