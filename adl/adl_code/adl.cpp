@@ -27,6 +27,8 @@ void adl_handle_any_pending_commands()
 {
 	if (s_command_pending)
 	{
+		memset(s_adl_tx_buffer, '\0', sizeof(s_adl_tx_buffer));
+
 		s_protocol_handler.process(s_adl_recv_buffer);
 
 		int reply_length = adl_process_command(
@@ -45,6 +47,10 @@ void adl_handle_any_pending_commands()
 
 void adl_add_char(char c)
 {
-	s_adl_recv_buffer[s_recv_idx++] = c;
 	s_command_pending = end_of_command(c);
+	if (!s_command_pending)
+	{
+		s_adl_recv_buffer[s_recv_idx++] = c;
+		s_adl_recv_buffer[s_recv_idx] = '\0';
+	}
 }
