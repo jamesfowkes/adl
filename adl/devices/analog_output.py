@@ -19,6 +19,8 @@ class AnalogOutput(namedtuple("AnalogOutput", ["name", "pin"])):
 		return """
 		int value = atol(command);
 		analogWrite({pin}, value);
+		strcpy(reply, command);
+		return strlen(command);
 		""".format(pin=self.pin.name.upper())
 
 	@property
@@ -32,13 +34,8 @@ class AnalogOutputPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, tree):
-		name = tree.attrib["name"]
-		pin_node = tree.find("pin")
-
-		pin = Pin(pin_node.text, pin_node.attrib["number"])
-
-		return AnalogOutput(name, pin)
+	def get(self, device):
+		return AnalogOutput(device.name, device.pins[0])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
