@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Simple Analog Output">
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
+	
+	<devices>
+		<device name="Analog Output" type="Analog Output">
+			<pin name="analog_output" number="3"></pin>
+		</device>
+	</devices>
+	<adl protocol="simple"></adl>
+</board>
