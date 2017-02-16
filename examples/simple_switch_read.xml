@@ -9,6 +9,6 @@
 			<pin name="input" number="2"></pin>
 		</device>
 	</devices>
-	<adl buffer_size="64">
+	<adl protocol="simple" buffer_size="64">
 	</adl>
 </board>

@@ -23,7 +23,7 @@ public:
 	virtual void process(char *) = 0;
 	virtual void write_reply(char * buffer, char const * const reply, uint8_t reply_length) = 0;
 	uint8_t address;
-	char * command;
+	char const * command;
 	
 };
 

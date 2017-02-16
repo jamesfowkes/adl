@@ -6,8 +6,6 @@ from yapsy.IPlugin import IPlugin
 
 from adl.devices.generic_device import GenericDevice
 
-Pin = namedtuple("Pin", ["name", "number"])
-
 class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "limits"])):
 
 	__slots__ = ()
@@ -15,10 +13,6 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "li
 	@property
 	def setup(self):
 		return "{name}.setup();".format(name=self.name)
-
-	@property
-	def command_handler(self):
-		return "return {name}.command_handler(command, reply);".format(name=self.name)
 
 	@property
 	def sources(self):

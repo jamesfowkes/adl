@@ -4,32 +4,28 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.devices.pin import Pin
+from adl.devices.generic_device import GenericDevice
 
-class DigitalInput(namedtuple("DigitalInput", ["name", "pin"])):
+class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "pinMode({}, INPUT{});".format(self.pin_name(), "_PULLUP" if self.pin.io == "pullup" else "")
+		return "{name}.setup();".format(name=self.cname())
 
 	@property
-	def command_handler(self):
-		return """
-			reply[0] = digitalRead({pin}) == HIGH ? '1' : '0';
-			reply[1] = '\\0';
-			return 1;
-			""".format(pin=self.pin_name())
+	def sources(self):
+		return ["digital-input.cpp"]
 
-	def pin_name(self):
-		return self.name.upper() + "_" + self.pin.name.upper()
+	@property
+	def includes(self):
+		return ["digital-input.h"]
 
 	@property
 	def declarations(self):
-		return """
-		static const uint8_t {pin_name} = {pin};
-		""".format(pin_name=self.pin_name(), pin=self.pin.number)
+		return "static DigitalInput {name} = DigitalInput({pin});".format(
+			name=self.cname(), pin=self.pin.number)
 
 class DigitalInputPlugin(IPlugin):
 	def activate(self):

@@ -4,7 +4,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-Pin = namedtuple("Pin", ["name", "number"])
+from adl.devices.generic_device import GenericDevice
 
 class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
 
@@ -12,11 +12,7 @@ class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
 
 	@property
 	def setup(self):
-		return "pinMode({}, INPUT);".format(self.pin.name.upper())
-
-	@property
-	def command_handler(self):
-		return "analogRead({pin});".format(pin=self.pin.name.upper())
+		return "{name}.setup();".format(name=self.name)
 
 	@property
 	def declarations(self):
@@ -29,13 +25,8 @@ class AnalogInputPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, tree):
-		name = tree.attrib["name"]
-		pin_node = tree.find("pin")
-
-		pin = Pin(pin_node.text, pin_node.attrib["number"])
-
-		return AnalogInput(name, pin)
+	def get(self, device):
+		return AnalogInput(device.name, device.pins[0])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
