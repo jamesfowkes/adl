@@ -1,4 +1,4 @@
-class Serial1:
+class Serial0:
 
 	def __init__(self, baudrate):
 		self.baudrate = baudrate

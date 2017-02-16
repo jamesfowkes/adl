@@ -4,26 +4,32 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-class DigitalOutput(namedtuple("DigitalOutput", ["name", "pin"])):
+from adl.devices.generic_device import GenericDevice
+
+class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "pinMode({}, OUTPUT);".format(self.pin.name.upper())
+		return "{name}.setup();".format(name=self.cname())
 
 	@property
 	def command_handler(self):
-		return """
-			digitalWrite({pin}, command[0] == '0' ? LOW : HIGH);
-			reply[0] = command[0];
-			reply[1] = '\\0';
-			return 1;
-			""".format(pin=self.pin.name.upper())
+		return "return {name}.command_handler(command, reply);".format(name=self.cname())
+
+	@property
+	def sources(self):
+		return ["digital-output.cpp"]
+
+	@property
+	def includes(self):
+		return ["digital-output.h"]
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.number)
+		return "static DigitalOutput {name} = DigitalOutput({pin});".format(
+			name=self.cname(), pin=self.pin.number)
 
 class DigitalOutputPlugin(IPlugin):
 	def activate(self):

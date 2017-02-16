@@ -1,0 +1,9 @@
+[Core]
+Name = Reset
+Module = reset
+
+[Documentation]
+Description = Allows global reset of devices
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

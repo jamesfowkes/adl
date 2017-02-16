@@ -12,6 +12,11 @@ int adl_process_command(uint8_t address, char const * const command, char * repl
 void adl_add_char(char c);
 void adl_board_send(char * to_send);
 
+bool is_digit_string(char const * s);
+
+int adl_device_count();
+DeviceBase * adl_get_device(int n);
+
 class ProtocolHandlerBase
 {
 public:

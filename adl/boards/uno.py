@@ -6,9 +6,10 @@ from collections import namedtuple
 from yapsy.IPlugin import IPlugin
 
 from adl import template_engine
-from adl.boards.serial.serial1 import Serial1
+from adl.boards.serial.serial0 import Serial0
+from adl.boards.generic_board import GenericBoard
 
-class Uno(namedtuple("Uno", ["name", "serial", "devices", "info"])):
+class Uno(GenericBoard, namedtuple("Uno", ["name", "serial", "devices", "info"])):
 	__slots__ = ()
 
 	@property
@@ -27,7 +28,7 @@ class UnoPlugin(IPlugin):
 
 	def get(self, board, devices):
 		baudrate = board.attrs.get("baudrate", 115200)
-		serial = Serial1(baudrate)
+		serial = Serial0(baudrate)
 		return Uno(board.name, serial, devices, board.info)
 
 	def set_log_level(self, level):

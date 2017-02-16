@@ -13,13 +13,26 @@ By the Arduino Description Language tool.
 {% macro render_declarations(board) %}
 
 #include <stdint.h>
+#include "device.h"
 #include "adl.h"
+
+{% for include in board.includes() %}
+#include "{{include}}"
+{% endfor %}
 
 {% for device in board.devices %}
 {{device.declarations}}
 {% endfor %}
 
-static const int DEVICE_COUNT = {{board.devices | length}};
+static DeviceBase * s_devices[] = 
+{
+	{% for device in board.devices %}
+	&{{device.cname()}}
+	{% if not loop.last %}
+    ,
+	{% endif %}
+	{% endfor %}
+};
 
 {% endmacro %}
 
@@ -38,9 +51,23 @@ static COMMAND_HANDLER adl_commands[] = {
 	{% endfor %}
 };
 
+int adl_device_count() { return {{board.devices | length}}; }
+
+DeviceBase * adl_get_device(int n)
+{
+	if (n < adl_device_count())
+	{
+		return s_devices[n];
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 int adl_process_command(uint8_t address, char const * const command, char * reply)
 {
-	if (address >= DEVICE_COUNT) { return 0; }
+	if (address >= adl_device_count()) { return 0; }
 
 	return adl_commands[address](command, reply);
 }
@@ -65,9 +92,10 @@ void setup()
 	{{ device.setup }}
 	// END {{device.name}} setup
 
+	{% endfor %}
+
 	{{ board.serial.setup }}
 
-	{% endfor %}
 }
 
 {% endmacro %}

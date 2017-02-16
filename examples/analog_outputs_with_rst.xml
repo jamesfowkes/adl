@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Simple Analog Output">
+<board type="Arduino Uno" name="Analog Outputs with reset">
 	<info>
 		An example sketch to demonstrate what ADL can do
 	</info>
@@ -14,6 +14,8 @@
 		</device>
 		<device name="LED3" type="Analog Output">
 			<pin name="LED_3_PIN" number="11"></pin>
+		</device>
+		<device name="Output Reset" type="Reset">
 		</device>
 	</devices>
 	<adl protocol="simple"></adl>

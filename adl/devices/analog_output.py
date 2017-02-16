@@ -4,29 +4,39 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.devices.generic_device import GenericDevice
+
 Pin = namedtuple("Pin", ["name", "number"])
 
-class AnalogOutput(namedtuple("AnalogOutput", ["name", "pin"])):
+class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "limits"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "pinMode({}, OUTPUT);".format(self.pin.name.upper())
+		return "{name}.setup();".format(name=self.name)
 
 	@property
 	def command_handler(self):
-		return """
-		int value = atol(command);
-		analogWrite({pin}, value);
-		strcpy(reply, command);
-		return strlen(command);
-		""".format(pin=self.pin.name.upper())
+		return "return {name}.command_handler(command, reply);".format(name=self.name)
+
+	@property
+	def sources(self):
+		return ["analog-output.cpp"]
+
+	@property
+	def includes(self):
+		return ["analog-output.h"]
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.number)
-
+		if self.limits:
+			return "static AnalogOutput {name} = AnalogOutput({pin}, {llow}, {lhigh});".format(
+				name=self.name, pin=self.pin.number, llow=self.limits.low, lhigh=self.limits.high)
+		else:
+			return "static AnalogOutput {name} = AnalogOutput({pin});".format(
+				name=self.name, pin=self.pin.number)
+		
 class AnalogOutputPlugin(IPlugin):
 	def activate(self):
 		pass
@@ -35,7 +45,8 @@ class AnalogOutputPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		return AnalogOutput(device.name, device.pins[0])
+		limits = device.limits[0] if len(device.limits) else None
+		return AnalogOutput(device.name, device.pins[0], limits)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

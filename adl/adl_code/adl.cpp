@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 
+#include "device.h"
 #include "adl.h"
 #include "protocol.h"
 
@@ -53,4 +55,17 @@ void adl_add_char(char c)
 		s_adl_recv_buffer[s_recv_idx++] = c;
 		s_adl_recv_buffer[s_recv_idx] = '\0';
 	}
+}
+
+bool is_digit_string(char const * s)
+{
+	if (s == NULL) { return false; }
+	if (strlen(s) == 0) { return false; }
+
+	while(*s)
+	{
+		if (!isdigit(*s)) { return false; }
+		s++;
+	}
+	return true;
 }
