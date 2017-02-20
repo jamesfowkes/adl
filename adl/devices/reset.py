@@ -4,7 +4,9 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-class Reset():
+from adl.devices.generic_device import GenericDevice
+
+class Reset(GenericDevice, namedtuple("Reset", ["name"])):
 
 	__slots__ = ()
 
@@ -15,8 +17,8 @@ class Reset():
 	@property
 	def command_handler(self):
 		return """
-			return s_resetter.command_handler(command, reply);
-		"""
+			return {name}.command_handler(command, reply);
+		""".format(name=self.cname())
 
 	@property
 	def sources(self):
@@ -27,12 +29,8 @@ class Reset():
 		return ["reset.h"]
 
 	@property
-	def name(self):
-		return "s_resetter"
-
-	@property
 	def declarations(self):
-		return "static Reset s_resetter = Reset();"
+		return "static Reset {name} = Reset();".format(name=self.cname())
 
 class ResetPlugin(IPlugin):
 	def activate(self):
@@ -42,7 +40,7 @@ class ResetPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		return Reset()
+		return Reset(device.name)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
