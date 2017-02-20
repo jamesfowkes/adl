@@ -8,12 +8,14 @@
 AnalogOutput::AnalogOutput(int pin, int limit_min, int limit_max)
 {
 	m_pin = pin;
+	m_setting = 0;
 	m_limit_min = limit_min;
 	m_limit_max = limit_max;
 }
 
 void AnalogOutput::reset()
 {
+	m_setting = 0;
 	analogWrite(m_pin, 0);
 }
 
@@ -31,7 +33,8 @@ int AnalogOutput::command_handler(char const * const command, char * reply)
 		int value = atol(command);
 		if ((value >= m_limit_min) && (value <= m_limit_max))
 		{
-			analogWrite(m_pin, value);
+			m_setting = value;
+			analogWrite(m_pin, m_setting);
 			strcpy(reply, command);
 			reply_length = strlen(reply);
 		}
@@ -40,6 +43,11 @@ int AnalogOutput::command_handler(char const * const command, char * reply)
 			strcpy(reply, "LIM");
 			reply_length = 3;
 		}
+	}
+	else if (command[0] == '?')
+	{
+		sprintf(reply, "%d", m_setting);
+		reply_length = strlen(reply);
 	}
 	else
 	{

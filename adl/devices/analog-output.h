@@ -13,6 +13,7 @@ private:
 	int m_pin;
 	int m_limit_min;
 	int m_limit_max;
+	int m_setting;
 
 };
 

@@ -12,7 +12,7 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "li
 
 	@property
 	def setup(self):
-		return "{name}.setup();".format(name=self.name)
+		return "{name}.setup();".format(name=self.cname())
 
 	@property
 	def sources(self):
@@ -26,10 +26,10 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "li
 	def declarations(self):
 		if self.limits:
 			return "static AnalogOutput {name} = AnalogOutput({pin}, {llow}, {lhigh});".format(
-				name=self.name, pin=self.pin.number, llow=self.limits.low, lhigh=self.limits.high)
+				name=self.cname(), pin=self.pin.number, llow=self.limits.low, lhigh=self.limits.high)
 		else:
 			return "static AnalogOutput {name} = AnalogOutput({pin});".format(
-				name=self.name, pin=self.pin.number)
+				name=self.cname(), pin=self.pin.number)
 		
 class AnalogOutputPlugin(IPlugin):
 	def activate(self):
