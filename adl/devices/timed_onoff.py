@@ -6,7 +6,7 @@ from yapsy.IPlugin import IPlugin
 
 from adl.devices.generic_device import GenericDevice
 
-class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
+class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime", "offtime"])):
 
 	__slots__ = ()
 
@@ -16,18 +16,18 @@ class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
 
 	@property
 	def sources(self):
-		return ["digital-input.cpp"]
+		return ["timed-onoff.cpp"]
 
 	@property
 	def includes(self):
-		return ["digital-input.h"]
+		return ["timed-onoff.h"]
 
 	@property
 	def declarations(self):
-		return "static DigitalInput {name} = DigitalInput({pin});".format(
-			name=self.cname(), pin=self.pin.value)
+		return "static TimedOnOff {name} = TimedOnOff({pin}, {ontime}, {offtime});".format(
+			name=self.cname(), pin=self.pin.value, ontime=self.ontime.value, offtime=self.offtime.value)
 
-class DigitalInputPlugin(IPlugin):
+class TimedOnOffPlugin(IPlugin):
 	def activate(self):
 		pass
 
@@ -35,7 +35,7 @@ class DigitalInputPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		return DigitalInput(device.name, device.settings["pin"])
+		return TimedOnOff(device.name, device.settings["pin"], device.settings["ontime"], device.settings["offtime"])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

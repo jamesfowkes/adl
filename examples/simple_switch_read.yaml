@@ -5,7 +5,7 @@ board:
     - device:
       name: "Switch"
       type: "Digital Input"
-      pins:
-        - {number: 2, name: "input"}
+      setting:
+        - {id: "pin", value: 2, name: "input"}
   adl:
     buffer_size: 48

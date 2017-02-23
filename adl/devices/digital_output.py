@@ -29,7 +29,7 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
 	@property
 	def declarations(self):
 		return "static DigitalOutput {name} = DigitalOutput({pin});".format(
-			name=self.cname(), pin=self.pin.number)
+			name=self.cname(), pin=self.pin.value)
 
 class DigitalOutputPlugin(IPlugin):
 	def activate(self):
@@ -39,7 +39,7 @@ class DigitalOutputPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		return DigitalOutput(device.name, device.pins[0])
+		return DigitalOutput(device.name, device.settings["pin"])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

@@ -1,45 +1,46 @@
 from collections import namedtuple
 
-class Pin(namedtuple("Pin", ["name", "number", "io"])):
+class Setting(namedtuple("Setting", ["id", "name", "value"])):
+
 	__slots__ = ()
 
 	@classmethod
-	def from_xml(cls, pin_node):
-		return cls(pin_node.attrib["name"], pin_node.attrib["number"], pin_node.attrib.get("io", ""))
+	def from_xml(cls, setting_node):
+		dev_id = setting_node.attrib["id"]
+		name = setting_node.attrib.get("name", "")
+		value = setting_node.attrib["value"]
+
+		return cls(dev_id, name, value)
 
 	@classmethod
-	def from_yaml(cls, pin_dict):
-		return cls(pin_dict["name"], pin_dict["number"], pin_dict.get("io", ""))
+	def from_yaml(cls, setting_dict):
+		dev_id = setting_dict["id"]
+		name = setting_dict.get("name", "")
+		value = setting_dict["value"]
+		
+		return cls(dev_id, name, value)
 
-class Limits(namedtuple("Limits", ["low", "high"])):
+class Device(namedtuple("Device", ["name", "type", "settings"])):
+
 	__slots__ = ()
 
-	@classmethod
-	def from_xml(cls, limits_node):
-		return cls(limits_node.attrib.get("low", 0), limits_node.attrib["high"])
-
-	@classmethod
-	def from_yaml(cls, limits_dict):
-		return cls(limits_dict.get("low",0), limits_dict["high"])
-
-class Device(namedtuple("Device", ["name", "type", "pins", "limits"])):
-	
 	@classmethod
 	def from_xml(cls, device_node):
 		name = device_node.attrib["name"]
 		device_type = device_node.attrib["type"]
-		pins = [Pin.from_xml(pin_node) for pin_node in device_node.findall("pin")]
-		limits = [Limits.from_xml(limits_node) for limits_node in device_node.findall("limits")]
-		return cls(name, device_type, pins, limits)
+		settings = [Setting.from_xml(setting_node) for setting_node in device_node.findall("setting")]
+		settings_dict = {setting.id : setting for setting in settings}
+
+		return cls(name, device_type, settings_dict)
 
 	@classmethod
 	def from_yaml(cls, device_dict):
 		name = device_dict["name"]
 		device_type = device_dict["type"]
-		pins = [Pin.from_yaml(pin) for pin in device_dict["pins"]]
-		limits = [Limits.from_yaml(limits) for limits in device_dict["limits"]]
+		settings = [Setting.from_yaml(setting) for setting in device_dict["setting"]]
+		settings_dict = {setting.id : setting for setting in settings}
 
-		return cls(name, device_type, pins, limits)
+		return cls(name, device_type, settings_dict)
 
 class Board(namedtuple("Board", ["type", "name", "devices", "info", "adl", "attrs"])):
 	__slots__ = ()

@@ -1,0 +1,9 @@
+[Core]
+Name = Random PWM
+Module = random_pwm
+
+[Documentation]
+Description = Outputs PWM on a pin with a pseudo-randomised duty cycle at a certain interval 
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

@@ -16,7 +16,7 @@ class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.number)
+		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.value)
 
 class AnalogInputPlugin(IPlugin):
 	def activate(self):

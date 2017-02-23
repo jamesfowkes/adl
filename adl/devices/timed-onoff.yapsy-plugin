@@ -1,0 +1,9 @@
+[Core]
+Name = Timed OnOff
+Module = timed_onoff
+
+[Documentation]
+Description = Allows timed control of digital outputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

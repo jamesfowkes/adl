@@ -6,7 +6,7 @@
 	</info>
 	<devices>
 		<device name="Switch" type="Digital Input">
-			<pin name="input" number="2"></pin>
+			<setting id="pin" name="input" value="2"/>
 		</device>
 	</devices>
 	<adl protocol="simple" buffer_size="64">

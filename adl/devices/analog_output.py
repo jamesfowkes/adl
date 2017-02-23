@@ -6,7 +6,7 @@ from yapsy.IPlugin import IPlugin
 
 from adl.devices.generic_device import GenericDevice
 
-class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "limits"])):
+class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "llimit", "hlimit"])):
 
 	__slots__ = ()
 
@@ -26,10 +26,10 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "li
 	def declarations(self):
 		if self.limits:
 			return "static AnalogOutput {name} = AnalogOutput({pin}, {llow}, {lhigh});".format(
-				name=self.cname(), pin=self.pin.number, llow=self.limits.low, lhigh=self.limits.high)
+				name=self.cname(), pin=self.pin.value, llow=self.llimit, lhigh=self.hlimit)
 		else:
 			return "static AnalogOutput {name} = AnalogOutput({pin});".format(
-				name=self.cname(), pin=self.pin.number)
+				name=self.cname(), pin=self.pin.value)
 		
 class AnalogOutputPlugin(IPlugin):
 	def activate(self):
@@ -39,8 +39,9 @@ class AnalogOutputPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		limits = device.limits[0] if len(device.limits) else None
-		return AnalogOutput(device.name, device.pins[0], limits)
+		llimit = device.settings.get("limits", 0)
+		hlimit = device.settings.get("limits", 255)
+		return AnalogOutput(device.name, device.settings["pin"], llimit, hlimit)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

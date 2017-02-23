@@ -7,7 +7,7 @@
 	
 	<devices>
 		<device name="Onboard LED" type="Digital Output">
-			<pin name="LED" number="13"></pin>
+			<setting id="pin" name="LED" value="13"/>
 		</device>
 	</devices>
 	<adl protocol="json"></adl>

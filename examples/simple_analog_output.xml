@@ -7,13 +7,15 @@
 	
 	<devices>
 		<device name="LED1" type="Analog Output">
-			<pin name="LED_1_PIN" number="9"></pin>
+			<setting id="pin" name="LED_1_PIN" value="9"></setting>
 		</device>
 		<device name="LED2" type="Analog Output">
-			<pin name="LED_2_PIN" number="10"></pin>
+			<setting id="pin" name="LED_2_PIN" value="10"></setting>
 		</device>
 		<device name="LED3" type="Analog Output">
-			<pin name="LED_3_PIN" number="11"></pin>
+			<setting id="pin" name="LED_3_PIN" value="11"></setting>
+			<setting id="lowlimit" value="0"></setting>
+			<setting id="highlimit" value="128"></setting>
 		</device>
 	</devices>
 	<adl protocol="simple"></adl>
