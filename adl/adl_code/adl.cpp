@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -19,6 +21,9 @@ static char s_adl_reply_buffer[16];
 static bool s_command_pending = false;
 
 static ProtocolHandler s_protocol_handler; 
+
+static unsigned long s_timer = 0;
+static const unsigned long ADL_TICK_MS = 5000;
 
 static inline bool end_of_command(char c)
 {
@@ -44,6 +49,21 @@ void adl_handle_any_pending_commands()
 
 		s_command_pending = false;
 		s_recv_idx = 0;
+	}
+}
+
+void adl_service_timer()
+{
+	unsigned long time_now = millis();
+
+	int i;
+
+	if ((time_now - s_timer) > ADL_TICK_MS)
+	{
+		for (i = 0; i < adl_device_count(); i++)
+		{
+			adl_get_device(i)->tick();
+		}
 	}
 }
 
