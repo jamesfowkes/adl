@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Flashing LED">
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
+	
+	<devices>
+		<device name="Onboard LED" type="Timed OnOff">
+			<setting id="pin" name="LED" value="13"/>
+			<setting id="ontime" value="500"/>
+			<setting id="offtime" value="500"/>
+		</device>
+	</devices>
+	<adl protocol="simple"></adl>
+</board>
