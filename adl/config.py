@@ -6,7 +6,7 @@ ADLConfig = namedtuple("ADLConfig", ["buffer_size", "protocol"])
 
 def get(board):
 	adl_buffer_size = board.adl.get("buffer_size", 32)
-	protocol = board.adl.get("protocol", None)
+	protocol = board.adl.get("protocol", "simple")
 
 	if protocol not in VALID_PROTOCOLS:
 		raise Exception("Protocol {} not found in {}".format(protocol, VALID_PROTOCOLS))
