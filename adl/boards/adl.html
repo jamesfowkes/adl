@@ -67,7 +67,11 @@ DeviceBase * adl_get_device(int n)
 
 int adl_process_command(uint8_t address, char const * const command, char * reply)
 {
-	if (address >= adl_device_count()) { return 0; }
+	if (address >= adl_device_count())
+	{
+		strcpy(reply, "?");
+		return strlen(reply);
+	}
 
 	return adl_commands[address](command, reply);
 }
