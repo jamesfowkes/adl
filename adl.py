@@ -48,6 +48,7 @@ def write_sketch_to_directory(directory, sketch_name, sketch_contents):
 		sketch.write(sketch_contents)
 
 if __name__ == "__main__":
+
 	args = docopt.docopt(__doc__)
 
 	logging.basicConfig(level=logging.INFO)
