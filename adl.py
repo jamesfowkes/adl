@@ -54,8 +54,6 @@ def write_sketch_to_directory(directory, sketch_name, sketch_contents):
 if __name__ == "__main__":
     args = docopt.docopt(__doc__)
 
-    print(args)
-
     logging.basicConfig(level=logging.INFO)
     adl.set_log_level(logging.INFO)
     adl.devices.activate_all()
