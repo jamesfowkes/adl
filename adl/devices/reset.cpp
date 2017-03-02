@@ -24,8 +24,8 @@ int Reset::command_handler(char const * const command, char * reply)
 			adl_get_device(i)->reset();
 		}
 		
-		strcpy(reply, "ROK");
-		reply_length = strlen(reply);
+		strcpy(reply, "OK");
+		reply_length = 2;
 	}
 	else
 	{

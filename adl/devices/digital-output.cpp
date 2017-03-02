@@ -27,20 +27,14 @@ int DigitalOutput::command_handler(char const * const command, char * reply)
 	if (command[0] == '1')
 	{
 		digitalWrite(m_pin, HIGH);
-		strcpy(reply, "1OK");
-		reply_length = strlen(reply);
+		strcpy(reply, "OK");
+		reply_length = 2;
 	}
 	else if (command[0] == '0')
 	{
 		digitalWrite(m_pin, LOW);
-		strcpy(reply, "0OK");
-		reply_length = strlen(reply);
-	}
-	else if (command[0] == 'R')
-	{
-		digitalWrite(m_pin, LOW);
-		strcpy(reply, "ROK");
-		reply_length = strlen(reply);
+		strcpy(reply, "OK");
+		reply_length = 2;
 	}
 	else
 	{

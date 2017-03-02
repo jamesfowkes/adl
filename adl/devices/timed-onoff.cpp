@@ -33,8 +33,9 @@ int TimedOnOff::command_handler(char const * const command, char * reply)
 	if (command[0] == 'R')
 	{
 		this->reset();
-		strcpy(reply, "ROK");
-		reply_length = strlen(reply);
+		reply[0] = 'O';
+		reply[1] = 'K';
+		reply_length = 2;
 	}
 	else
 	{
