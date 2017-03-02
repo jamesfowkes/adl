@@ -4,7 +4,7 @@
 class AnalogOutput : public DeviceBase
 {
 public:
-	AnalogOutput(int pin, int limit_min=0, int limit_max=255);
+	AnalogOutput(int pin, int limit_min=0, int limit_max=255, int reset_level=0);
 	void setup();
 	void reset();
 	int command_handler(char const * const command, char * reply);
@@ -14,6 +14,7 @@ private:
 	int m_limit_min;
 	int m_limit_max;
 	int m_setting;
+	int m_reset_level;
 
 };
 

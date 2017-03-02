@@ -5,18 +5,23 @@
 
 #include "analog-output.h"
 
-AnalogOutput::AnalogOutput(int pin, int limit_min, int limit_max)
+AnalogOutput::AnalogOutput(int pin, int limit_min, int limit_max, int reset_level)
 {
 	m_pin = pin;
 	m_setting = 0;
 	m_limit_min = limit_min;
 	m_limit_max = limit_max;
+
+	if (reset_level > m_limit_max) { reset_level = m_limit_max; }
+	if (reset_level < m_limit_min) { reset_level = m_limit_min; }
+
+	m_reset_level = reset_level;
 }
 
 void AnalogOutput::reset()
 {
-	m_setting = 0;
-	analogWrite(m_pin, 0);
+	m_setting = m_reset_level;
+	analogWrite(m_pin, m_setting);
 }
 
 void AnalogOutput::setup()
@@ -41,12 +46,18 @@ int AnalogOutput::command_handler(char const * const command, char * reply)
 		else
 		{
 			strcpy(reply, "LIM");
-			reply_length = 3;
+			reply_length = strlen(reply);
 		}
 	}
 	else if (command[0] == '?')
 	{
 		sprintf(reply, "%d", m_setting);
+		reply_length = strlen(reply);
+	}
+	else if (command[0] == 'R')
+	{
+		this->reset();
+		sprintf(reply, "ROK");
 		reply_length = strlen(reply);
 	}
 	else
