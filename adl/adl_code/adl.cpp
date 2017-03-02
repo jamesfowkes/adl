@@ -30,6 +30,51 @@ static inline bool end_of_command(char c)
 	return c == '\n';
 }
 
+static int adl_board_command(char const * const command, char * reply)
+{
+	int reply_length = 0;
+	if (command[0] == 'R')
+	{
+		int i = 0;
+		int n_devices = adl_device_count();
+
+		for (i = 0; i < n_devices; i++)
+		{
+			adl_get_device(i).reset();
+		}
+			
+		strcpy(reply, "ROK");
+		reply_length = strlen(reply);
+	}
+	else
+	{
+		reply[0] = '?';
+		reply_length = 1;
+	}
+	return reply_length;
+}
+
+static int adl_process_command(uint8_t address, char const * const command, char * reply)
+{
+	int reply_length = 0;
+
+	if (address == ADL_BOARD_ADDRESS)
+	{
+		return adl_board_command(command, reply);
+	}
+	else if (address >= adl_device_count())
+	{
+		strcpy(reply, "?");
+		return strlen(reply);
+	}
+	else
+	{
+		reply_length = adl_get_command_handler(address)(command, reply);
+	}
+
+	return reply_length;
+}
+
 void adl_handle_any_pending_commands()
 {
 	if (s_command_pending)
@@ -37,6 +82,8 @@ void adl_handle_any_pending_commands()
 		memset(s_adl_tx_buffer, '\0', sizeof(s_adl_tx_buffer));
 
 		s_protocol_handler.process(s_adl_recv_buffer);
+
+
 
 		int reply_length = adl_process_command(
 			s_protocol_handler.address,
@@ -62,7 +109,7 @@ void adl_service_timer()
 	{
 		for (i = 0; i < adl_device_count(); i++)
 		{
-			adl_get_device(i)->tick();
+			adl_get_device(i).tick();
 		}
 	}
 }

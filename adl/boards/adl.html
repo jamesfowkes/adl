@@ -52,28 +52,14 @@ static COMMAND_HANDLER adl_commands[] = {
 };
 
 int adl_device_count() { return {{board.devices | length}}; }
-
-DeviceBase * adl_get_device(int n)
+COMMAND_HANDLER& adl_get_command_handler(uint8_t address)
 {
-	if (n < adl_device_count())
-	{
-		return s_devices[n];
-	}
-	else
-	{
-		return NULL;
-	}
+	return adl_commands[address];
 }
 
-int adl_process_command(uint8_t address, char const * const command, char * reply)
+DeviceBase& adl_get_device(int n)
 {
-	if (address >= adl_device_count())
-	{
-		strcpy(reply, "?");
-		return strlen(reply);
-	}
-
-	return adl_commands[address](command, reply);
+	return *s_devices[n];
 }
 
 {% endmacro %}
