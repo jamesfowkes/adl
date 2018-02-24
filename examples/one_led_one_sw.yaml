@@ -1,0 +1,17 @@
+board: 
+  type: "Arduino Uno"
+  name: "One LED One Switch"
+  devices:
+    - device:
+      name: "Switch"
+      type: "Digital Input"
+      setting:
+        - {id: "pin", value: 2, name: "switch"}
+    - device:
+      name: "LED"
+      type: "Digital Output"
+      setting:
+        - {id: "pin", value: 13, name: "led"}
+
+  adl:
+    buffer_size: 48
