@@ -3,7 +3,7 @@
 {{board.name}}
 Created on {{context.time("{:%Y-%m-%d}")}}
 By the Arduino Description Language tool.
-{%- from 'adl.html' import render_all %}
+{%- from 'adl.tpl' import render_all %}
  
 {{board.info}}
 */
