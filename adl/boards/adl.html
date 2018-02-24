@@ -52,12 +52,12 @@ static COMMAND_HANDLER adl_commands[] = {
 };
 
 int adl_device_count() { return {{board.devices | length}}; }
-COMMAND_HANDLER& adl_get_command_handler(uint8_t address)
+COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address)
 {
 	return adl_commands[address-1];
 }
 
-DeviceBase& adl_get_device(int n)
+DeviceBase& adl_get_device(DEVICE_ADDRESS address)
 {
 	return *s_devices[n-1];
 }
