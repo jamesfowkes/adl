@@ -62,7 +62,7 @@ static int adl_process_command(uint8_t address, char const * const command, char
 	{
 		return adl_board_command(command, reply);
 	}
-	else if (address >= adl_device_count())
+	else if (address > adl_device_count())
 	{
 		strcpy(reply, "?");
 		return strlen(reply);

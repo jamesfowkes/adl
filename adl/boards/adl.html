@@ -39,7 +39,7 @@ static DeviceBase * s_devices[] =
 {% macro render_functions(board) %}
 
 {% for device in board.devices %}
-int handle_device{{loop.index0}}_command(char const * const command, char * reply)
+int handle_device{{loop.index}}_command(char const * const command, char * reply)
 {
 	{{device.command_handler}}
 }
@@ -47,19 +47,19 @@ int handle_device{{loop.index0}}_command(char const * const command, char * repl
 
 static COMMAND_HANDLER adl_commands[] = {
 	{% for device in board.devices %}
-	handle_device{{loop.index0}}_command,
+	handle_device{{loop.index}}_command,
 	{% endfor %}
 };
 
 int adl_device_count() { return {{board.devices | length}}; }
 COMMAND_HANDLER& adl_get_command_handler(uint8_t address)
 {
-	return adl_commands[address];
+	return adl_commands[address-1];
 }
 
 DeviceBase& adl_get_device(int n)
 {
-	return *s_devices[n];
+	return *s_devices[n-1];
 }
 
 {% endmacro %}

@@ -3,7 +3,7 @@
 
 // ADL addresses are all positive
 static const int INVALID_ADDRESS = -1;
-static const int ADL_BOARD_ADDRESS = 99;
+static const int ADL_BOARD_ADDRESS = 0;
 
 typedef int (*COMMAND_HANDLER)(char const * const command, char * reply);
 
