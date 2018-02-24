@@ -65,8 +65,11 @@ class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", 
 		name = board_dict["board"]["name"]
 		devices = [Device.from_yaml(dev) for dev in board_dict["board"]["devices"]]
 		
-		settings = [Setting.from_yaml(setting) for setting in board_dict["board"]["settings"]]
-		settings_dict = {setting.id : setting for setting in settings}
+		if "settings" in board_dict["board"]:
+			settings = [Setting.from_yaml(setting) for setting in board_dict["board"]["settings"]]
+			settings_dict = {setting.id : setting for setting in settings}
+		else:
+			settings_dict = {}
 		
 		info = board_dict["board"].get("info", "")
 		adl = board_dict["board"].get("adl", {})
