@@ -59,7 +59,7 @@ COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address)
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address)
 {
-	return *s_devices[n-1];
+	return *s_devices[address-1];
 }
 
 {% endmacro %}
