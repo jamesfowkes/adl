@@ -4,7 +4,7 @@
 class RandomPWM : public DeviceBase
 {
 public:
-	RandomPWM(int pin, unsigned long interval, int llimit, int hlimit);
+	RandomPWM(int pin, unsigned long interval, int low_limit, int high_limit);
 	void setup();
 	void reset();
 	int command_handler(char const * const command, char * reply);

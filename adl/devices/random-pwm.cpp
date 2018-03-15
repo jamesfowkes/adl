@@ -5,12 +5,12 @@
 
 #include "random-pwm.h"
 
-RandomPWM::RandomPWM(int pin, unsigned long interval, int llimit, int hlimit)
+RandomPWM::RandomPWM(int pin, unsigned long interval, int low_limit, int high_limit)
 {
 	m_pin = pin;
 	m_interval = interval;
-	m_llimit = llimit;
-	m_hlimit = hlimit;
+	m_llimit = low_limit;
+	m_hlimit = high_limit;
 	m_level = 0;
 	m_last_time = 0;
 }

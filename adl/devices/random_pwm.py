@@ -7,7 +7,7 @@ from yapsy.IPlugin import IPlugin
 from adl.devices.generic_device import GenericDevice
 from adl.types import Setting
 
-class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval", "llimit", "hlimit"])):
+class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval", "low_limit", "high_limit"])):
 
 	__slots__ = ()
 
@@ -25,8 +25,8 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
 	@property
 	def declarations(self):
-		return "static RandomPWM {name} = RandomPWM({pin}, {interval}, {llimit}, {hlimit});".format(
-			name=self.cname(), pin=self.pin.value, interval=self.interval.value, llimit=self.llimit.value, hlimit=self.hlimit.value)
+		return "static RandomPWM {name} = RandomPWM({pin}, {interval}, {low_limit}, {high_limit});".format(
+			name=self.cname(), pin=self.pin.value, interval=self.interval.value, low_limit=self.low_limit.value, high_limit=self.high_limit.value)
 
 class RandomPWMPlugin(IPlugin):
 	def activate(self):
