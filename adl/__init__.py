@@ -6,6 +6,7 @@ from collections import namedtuple
 
 import adl.devices
 import adl.boards
+import adl.parameters
 import adl.template_engine
 
 THIS_PATH = os.path.dirname(__file__)
@@ -52,3 +53,4 @@ def set_log_level(level):
 	logging.getLogger("parser").setLevel(level)
 	adl.devices.set_log_level(level)
 	adl.boards.set_log_level(level)
+	adl.parameters.set_log_level(level)

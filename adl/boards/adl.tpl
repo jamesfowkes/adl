@@ -24,6 +24,10 @@ By the Arduino Description Language tool.
 {{device.declarations}}
 {% endfor %}
 
+{% for parameter in board.parameters %}
+{{parameter.declarations}}
+{% endfor %}
+
 static DeviceBase * s_devices[] = 
 {
 	{% for device in board.devices %}

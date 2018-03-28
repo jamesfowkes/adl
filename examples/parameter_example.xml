@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Parameter Example">
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
+	
+	<parameters>
+		<parameter name="My Boolean" type="boolean"/>
+	</parameters>
+</board>

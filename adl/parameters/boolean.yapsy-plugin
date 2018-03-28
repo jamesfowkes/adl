@@ -1,0 +1,9 @@
+[Core]
+Name = Boolean
+Module = boolean
+
+[Documentation]
+Description = Allows read/write of a boolean parameter
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

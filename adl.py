@@ -10,6 +10,7 @@ import adl
 import adl.parser
 import adl.devices
 import adl.boards
+import adl.parameters
 import logging
 import os
 
@@ -55,6 +56,7 @@ if __name__ == "__main__":
 	adl.set_log_level(logging.INFO)
 	adl.devices.activate_all()
 	adl.boards.activate_all()
+	adl.parameters.activate_all()
 
 	board, adl_config = adl.parser.parse_file(args["<input_file>"])
 

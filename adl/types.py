@@ -42,7 +42,20 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
 
 		return cls(name, device_type, settings_dict)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", "adl", "attrs"])):
+class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
+
+	__slots__ = ()
+
+	@classmethod
+	def from_xml(cls, parameter_node):
+		name = parameter_node.attrib["name"]
+		parameter_type = parameter_node.attrib["type"]
+		settings = [Setting.from_xml(setting_node) for setting_node in parameter_node.findall("setting")]
+		settings_dict = {setting.id : setting for setting in settings}
+
+		return cls(name, parameter_type, settings_dict)
+
+class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "attrs"])):
 	__slots__ = ()
 
 	@classmethod
@@ -51,13 +64,20 @@ class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", 
 		name = board_node.attrib["name"]
 		board_type = board_node.attrib["type"]
 		info = board_node.find("info").text
-		devices = [Device.from_xml(node) for node in node.find("devices")]
 		
-		settings = [Setting.from_xml(node) for node in node.findall("setting")]
+		devices = node.find("devices") or []
+		devices = [Device.from_xml(node) for node in devices]
+		
+		settings = node.findall("setting") or []
+		settings = [Setting.from_xml(node) for node in settings]
 		settings_dict = {setting.id : setting for setting in settings}
 
-		adl = board_node.find("adl")
-		return cls(board_type, name, devices, settings_dict, info, adl, board_node.attrib)
+		parameters = node.find("parameters") or []
+		parameters = [Parameter.from_xml(node) for node in parameters]
+
+		adl = board_node.find("adl") or {}
+
+		return cls(board_type, name, devices, parameters, settings_dict, info, adl, board_node.attrib)
 
 	@classmethod
 	def from_yaml(cls, board_dict):
