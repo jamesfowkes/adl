@@ -26,7 +26,7 @@ COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address);
 class ProtocolHandlerBase
 {
 public:
-	virtual void process(char *) = 0;
+	virtual bool process(char *) = 0;
 	virtual void write_reply(char * buffer, char const * const reply, uint8_t reply_length) = 0;
 	DEVICE_ADDRESS address;
 	char const * command;

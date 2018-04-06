@@ -10,6 +10,9 @@ import adl.template_engine
 
 THIS_PATH = os.path.dirname(__file__)
 
+def get_module_logger():
+	return logging.getLogger(__name__)
+
 def get_subfolders(path):
 
 	def absolute_path(d):
@@ -35,6 +38,8 @@ def copy_file(relative_src_path, target_directory):
 
 def write_library(target_directory, adl_config):
 	src_path = os.path.join(THIS_PATH, "adl_code", adl_config.protocol)
+
+	get_module_logger().info("Using protocol from {}".format(src_path))
 
 	for file in os.listdir(src_path):
 		write_file(file, target_directory, adl_config)

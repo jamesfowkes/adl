@@ -42,7 +42,7 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
 
 		return cls(name, device_type, settings_dict)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", "adl", "attrs"])):
+class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", "adl", "custom_code", "attrs"])):
 	__slots__ = ()
 
 	@classmethod
@@ -56,8 +56,17 @@ class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", 
 		settings = [Setting.from_xml(node) for node in node.findall("setting")]
 		settings_dict = {setting.id : setting for setting in settings}
 
+		custom_code = board_node.find("custom_code")
+		if custom_code:
+			filenames = [f.text for f in custom_code.findall("file")]
+		else:
+			filenames = []
+
 		adl = board_node.find("adl")
-		return cls(board_type, name, devices, settings_dict, info, adl, board_node.attrib)
+		if adl is None:
+			adl = {}
+
+		return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_node.attrib)
 
 	@classmethod
 	def from_yaml(cls, board_dict):
@@ -71,6 +80,11 @@ class Board(namedtuple("Board", ["type", "name", "devices", "settings", "info", 
 		else:
 			settings_dict = {}
 		
+		if "custom_code" in board_dict["board"]:
+			filenames = board_dict["board"]["custom_code"]
+		else:
+			filenames = []
+
 		info = board_dict["board"].get("info", "")
 		adl = board_dict["board"].get("adl", {})
-		return cls(board_type, name, devices, settings_dict, info, adl, board_dict["board"])
+		return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_dict["board"])
