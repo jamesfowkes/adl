@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Simple Output">
+	<info>
+		An example sketch to demonstrate what ADL can do
+	</info>
+	
+	<devices>
+		<device name="Output" type="Digital Output">
+			<setting id="pin" name="Output" value="13"/>
+		</device>
+	</devices>
+</board>
