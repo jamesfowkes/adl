@@ -9,6 +9,7 @@ public:
 	void reset();
 	int command_handler(char const * const command, char * reply);
 	
+	bool state();
 private:
 	int m_pin;
 };
