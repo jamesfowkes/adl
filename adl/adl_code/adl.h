@@ -33,4 +33,7 @@ public:
 	
 };
 
+void adl_custom_setup(DeviceBase * pdevices[], int ndevice);
+void adl_custom_loop(DeviceBase * pdevices[], int ndevice);
+
 #endif

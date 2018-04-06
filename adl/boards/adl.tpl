@@ -84,6 +84,10 @@ void setup()
 
 	{% endfor %}
 
+	{% if board.custom_code | length %}
+	adl_custom_setup(s_devices, {{board.devices | length}});
+	{% endif %}
+
 	{{ board.serial.setup }}
 
 	{{ board.start_delay }}
@@ -91,11 +95,14 @@ void setup()
 
 {% endmacro %}
 
-{% macro render_loop() -%}
+{% macro render_loop(board) -%}
 void loop()
 {
 	adl_handle_any_pending_commands();
 	adl_service_timer();
+	{% if board.custom_code | length %}
+	adl_custom_loop(s_devices, {{board.devices | length}});
+	{% endif %}
 }
 {% endmacro %}
 
@@ -115,7 +122,7 @@ void loop()
 
 {{ render_setup(board)}}
 
-{{ render_loop()}}
+{{ render_loop(board)}}
 
 {{ render_serial_event(board) }}
 
