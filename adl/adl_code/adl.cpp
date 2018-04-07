@@ -80,18 +80,21 @@ void adl_handle_any_pending_commands()
 	if (s_command_pending)
 	{
 		memset(s_adl_tx_buffer, '\0', sizeof(s_adl_tx_buffer));
+		memset(s_adl_reply_buffer, '\0', sizeof(s_adl_reply_buffer));
 
-		s_protocol_handler.process(s_adl_recv_buffer);
+		if (s_protocol_handler.process(s_adl_recv_buffer))
+		{
+			int reply_length = adl_process_command(
+				s_protocol_handler.address,
+				s_protocol_handler.command,
+				s_adl_reply_buffer);
 
-
-
-		int reply_length = adl_process_command(
-			s_protocol_handler.address,
-			s_protocol_handler.command,
-			s_adl_reply_buffer);
-
-		s_protocol_handler.write_reply(s_adl_tx_buffer, s_adl_reply_buffer, reply_length);
-
+			s_protocol_handler.write_reply(s_adl_tx_buffer, s_adl_reply_buffer, reply_length);
+		}
+		else
+		{
+			strcpy(s_adl_tx_buffer, "ADDR?");
+		}
 		adl_board_send(s_adl_tx_buffer);
 
 		s_command_pending = false;

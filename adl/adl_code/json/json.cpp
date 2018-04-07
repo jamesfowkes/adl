@@ -24,6 +24,13 @@ static char const * skip_to_next(char const * p, CHAR_CONDITIONAL char_tester)
 	return p;
 }
 
+static char const * skip_to_next(char const * p, char to_find)
+{
+	if (!p) { return p; }
+	while (*p != to_find) { p++; }
+	return p;
+}
+
 static char const * find_end_of_substring(char const * const haystack, char const * const subs)
 {
 	int subs_length = strlen(subs);
@@ -69,14 +76,19 @@ static int json_write_int(char * json, char const * const key, int value)
 	return sprintf(json, "\"%s\":%d", key, value);
 }
 
-static uint8_t get_address(char const * const buffer)
+static bool get_address(char const * const buffer, DEVICE_ADDRESS& addr)
 {
-	char const * addr = find_end_of_substring(buffer, "\"address\"");
-	if (!addr) { return INVALID_ADDRESS; }
+	char const * paddr = find_end_of_substring(buffer, "\"address\"");
+	if (!paddr) { return INVALID_ADDRESS; }
 
-	addr = skip_to_next(addr, isdigit);
+	paddr = skip_to_next(paddr, isdigit);
 
-	return ((addr[0] - '0') * 10) + (addr[1] - '0');
+	bool valid = isdigit(paddr[0]) && (isdigit(paddr[1]));
+	if (valid)
+	{
+		addr = ((paddr[0] - '0') * 10) + (paddr[1] - '0');
+	}
+	return valid;
 }
 
 static char const * get_command(char const * const buffer)
@@ -84,17 +96,35 @@ static char const * get_command(char const * const buffer)
 	char const * cmd = find_end_of_substring(buffer, "\"command\"");
 	if (!cmd) { return NULL; }
 
-	cmd = skip_to_next(cmd, isalnum);
+	cmd = skip_to_next(cmd, '"');
 
-	return cmd;
+	return cmd+1;
+}
+
+static void copy_quoted_string(char * dst, char const * src)
+{
+	if (*src == '"') { src++; }
+
+	while (*src != '"')
+	{
+		*dst = *src;
+		dst++; src++;
+	}
+	*dst = '\0';
 }
 
 ProtocolHandler::ProtocolHandler() { this->address = INVALID_ADDRESS; }
 
-void ProtocolHandler::process(char * json)
+bool ProtocolHandler::process(char * json)
 {
-	this->address = get_address(json);
-	this->command = get_command(json);
+	if (!get_address(json, this->address)) { return false; }
+	char const * p_cmd = get_command(json);
+
+	copy_quoted_string(m_command_copy, p_cmd);
+
+	this->command = m_command_copy;
+	
+	return true;
 }
 
 void ProtocolHandler::write_reply(char * buffer, char const * const reply, uint8_t reply_length)

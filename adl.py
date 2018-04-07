@@ -14,6 +14,8 @@ import adl.parameters
 import logging
 import os
 
+THIS_DIRECTORY = os.path.dirname(__file__)
+
 def get_module_logger():
 	return logging.getLogger(__name__)
 
@@ -58,6 +60,9 @@ if __name__ == "__main__":
 	adl.boards.activate_all()
 	adl.parameters.activate_all()
 
+	input_file_path = os.path.abspath(os.path.dirname(args["<input_file>"]))
+	get_module_logger().info("Custom code directory: {}".format(input_file_path))
+
 	board, adl_config = adl.parser.parse_file(args["<input_file>"])
 
 	if args["--sketchbook"]:
@@ -69,3 +74,4 @@ if __name__ == "__main__":
 		adl.write_library(sketch_directory, adl_config)
 		adl.write_sources(sketch_directory, board.includes("devices"))
 		adl.write_sources(sketch_directory, board.sources("devices"))
+		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))

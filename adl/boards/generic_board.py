@@ -20,3 +20,12 @@ class GenericBoard:
 				all_sources.append(src_path)
 
 		return set(all_sources)
+
+	def custom_code_paths(self, path=None):
+		
+		all_sources = []
+		for src in self.custom_code:
+			src_path = os.path.join(path, src) if path else src
+			all_sources.append(src_path)
+
+		return set(all_sources)

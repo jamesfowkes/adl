@@ -50,3 +50,8 @@ int DigitalOutput::command_handler(char const * const command, char * reply)
 
 	return reply_length;
 }
+
+void DigitalOutput::set(bool on)
+{
+	digitalWrite(m_pin, on ? HIGH : LOW);
+}
