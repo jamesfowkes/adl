@@ -36,9 +36,8 @@ static int adl_board_command(char const * const command, char * reply)
 	if (command[0] == 'R')
 	{
 		int i = 0;
-		int n_devices = adl_device_count();
 
-		for (i = 0; i < n_devices; i++)
+		for (i = 0; i < ADL_DEVICE_COUNT; i++)
 		{
 			adl_get_device(i).reset();
 		}
@@ -62,7 +61,7 @@ static int adl_process_command(uint8_t address, char const * const command, char
 	{
 		return adl_board_command(command, reply);
 	}
-	else if (address > adl_device_count())
+	else if (address > ADL_DEVICE_COUNT)
 	{
 		strcpy(reply, "?");
 		return strlen(reply);
@@ -110,7 +109,7 @@ void adl_service_timer()
 
 	if ((time_now - s_timer) > ADL_TICK_MS)
 	{
-		for (i = 0; i < adl_device_count(); i++)
+		for (i = 0; i < ADL_DEVICE_COUNT; i++)
 		{
 			adl_get_device(i).tick();
 		}
