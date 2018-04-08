@@ -1,10 +1,13 @@
 import logging
+import os
 
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
 from adl.devices.generic_device import GenericDevice
+
+THIS_DIRECTORY = os.path.dirname(__file__)
 
 class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime", "offtime"])):
 
@@ -13,6 +16,10 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
 	@property
 	def setup(self):
 		return "{name}.setup();".format(name=self.cname())
+
+	@property
+	def directory(self):
+		return THIS_DIRECTORY
 
 	@property
 	def sources(self):

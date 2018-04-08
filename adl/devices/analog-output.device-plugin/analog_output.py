@@ -1,4 +1,5 @@
 import logging
+import os
 
 from collections import namedtuple
 
@@ -7,6 +8,9 @@ from yapsy.IPlugin import IPlugin
 from adl.devices.generic_device import GenericDevice
 from adl.types import Setting
 
+THIS_DIRECTORY = os.path.dirname(__file__)
+
+
 class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "low_limit", "high_limit", "reset_level"])):
 
 	__slots__ = ()
@@ -14,6 +18,11 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
 	@property
 	def setup(self):
 		return "{name}.setup();".format(name=self.cname())
+
+	@property
+	def directory(self):
+		return THIS_DIRECTORY
+
 
 	@property
 	def sources(self):
