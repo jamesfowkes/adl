@@ -16,7 +16,7 @@ By the Arduino Description Language tool.
 #include "device.h"
 #include "adl.h"
 
-{% for include in board.includes() %}
+{% for include in board.includes(False) %}
 #include "{{include}}"
 {% endfor %}
 

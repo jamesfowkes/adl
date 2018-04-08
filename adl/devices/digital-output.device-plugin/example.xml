@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Simple Output">
+<board type="Arduino Uno" name="Digital Output">
 	<info>
-		An example sketch to demonstrate what ADL can do
+		An example sketch for the digital output device
 	</info>
 	
 	<devices>

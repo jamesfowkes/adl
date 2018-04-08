@@ -1,6 +1,7 @@
 board: 
   type: "Arduino Uno"
-  name: "Simple Switch Read"
+  name: "Digital Input"
+  info: "An example sketch for the digital input device"
   devices:
     - device:
       name: "Switch"
