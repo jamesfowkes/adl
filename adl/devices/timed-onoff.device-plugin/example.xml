@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Flashing LED">
+<board type="Arduino Uno" name="Timed OnOff">
 	<info>
-		An example sketch to demonstrate what ADL can do
+		An example sketch for the timed onoff device
+		Flashes the onboard LED every second
 	</info>
 	
 	<devices>

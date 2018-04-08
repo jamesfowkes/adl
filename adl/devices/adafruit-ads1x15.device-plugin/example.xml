@@ -2,7 +2,7 @@
 
 <board type="Arduino Uno" name="ADS1115">
 	<info>
-		An example sketch to demonstrate what ADL can do
+		An example sketch for the ADS1115 device
 	</info>
 	
 	<devices>
@@ -11,5 +11,5 @@
 			<setting id="multiplier" value="20.0f"/>
 		</device>
 	</devices>
-	<adl protocol="json"></adl>
+	<adl protocol="simple"></adl>
 </board>

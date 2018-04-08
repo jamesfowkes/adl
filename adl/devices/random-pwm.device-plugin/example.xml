@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Random Analog Output">
+<board type="Arduino Uno" name="Random PWM">
 	<info>
-		An example sketch to demonstrate what ADL can do
+		An example sketch to demonstrate the random PWM device
+		Implements PWM randomisation on three different pins, with 25% duty cycle limit
 	</info>
 	
 	<devices>
