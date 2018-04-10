@@ -1,3 +1,4 @@
+import os
 import logging
 
 from collections import namedtuple
@@ -5,6 +6,8 @@ from collections import namedtuple
 from yapsy.IPlugin import IPlugin
 
 from adl.devices.generic_device import GenericDevice
+
+THIS_DIRECTORY = os.path.dirname(__file__)
 
 class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"])):
 
@@ -18,6 +21,10 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
 	def command_handler(self):
 		return "return {name}.command_handler(command, reply);".format(name=self.cname())
 
+	@property
+	def directory(self):
+		return THIS_DIRECTORY
+		
 	@property
 	def sources(self):
 		return ["digital-output.cpp"]

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Simple Switch Read">
+<board type="Arduino Uno" name="Digital Input">
 	<info>
-		An example sketch to demonstrate what ADL can do
+		An example sketch for the digital input device
 	</info>
 	<devices>
 		<device name="Switch" type="Digital Input">

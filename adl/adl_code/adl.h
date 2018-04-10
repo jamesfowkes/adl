@@ -5,6 +5,17 @@
 static const int INVALID_ADDRESS = -1;
 static const int ADL_BOARD_ADDRESS = 0;
 
+enum adl_devices
+{
+	ADL_DEVICE_BOARD,
+{% for device in board.devices %}
+	ADL_DEVICE_{{ device.cname() | upper }},
+{% endfor %}
+};
+typedef enum adl_devices ADL_DEVICES;
+
+static int ADL_DEVICE_COUNT = {{ board.devices | length }};
+
 typedef int DEVICE_ADDRESS;
 
 typedef int (*COMMAND_HANDLER)(char const * const command, char * reply);
@@ -19,7 +30,6 @@ void adl_service_timer();
 
 bool is_digit_string(char const * s);
 
-int adl_device_count();
 DeviceBase& adl_get_device(DEVICE_ADDRESS address);
 COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address);
 

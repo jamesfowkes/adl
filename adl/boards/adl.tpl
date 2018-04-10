@@ -16,7 +16,7 @@ By the Arduino Description Language tool.
 #include "device.h"
 #include "adl.h"
 
-{% for include in board.includes() %}
+{% for include in board.includes(False) %}
 #include "{{include}}"
 {% endfor %}
 
@@ -55,7 +55,6 @@ static COMMAND_HANDLER adl_commands[] = {
 	{% endfor %}
 };
 
-int adl_device_count() { return {{board.devices | length}}; }
 COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address)
 {
 	return adl_commands[address-1];

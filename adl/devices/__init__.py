@@ -1,7 +1,11 @@
 import os
 import logging
+import sys
 
 from yapsy.PluginManager import PluginManager
+
+def get_module_logger():
+	return logging.getLogger(__name__)
 
 THIS_PATH = os.path.dirname(__file__)
 
@@ -16,7 +20,11 @@ def activate_all():
 
 def get_single_device(device):
 	logging.getLogger(__name__).info("Trying to load device '%s' (%s)", device.name, device.type)
-	return devices_plugin_manager.getPluginByName(device.type).plugin_object.get(device)
+	try:
+		return devices_plugin_manager.getPluginByName(device.type).plugin_object.get(device)
+	except AttributeError:
+		get_module_logger().error("Could not load plugin '{}'".format(device.type))
+		sys.exit()
 
 def get(devices):
 	return [get_single_device(device) for device in devices]

@@ -1,4 +1,5 @@
 import logging
+import os
 
 from collections import namedtuple
 
@@ -7,6 +8,8 @@ from yapsy.IPlugin import IPlugin
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
 
+THIS_DIRECTORY = os.path.dirname(__file__)
+
 class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "ads_type", "multiplier"])):
 
 	__slots__ = ()
@@ -14,6 +17,10 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
 	@property
 	def setup(self):
 		return "{name}.setup();".format(name=self.cname())
+
+	@property
+	def directory(self):
+		return THIS_DIRECTORY
 
 	@property
 	def sources(self):

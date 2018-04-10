@@ -1,22 +1,22 @@
 import os
 
 class GenericBoard:
-	def includes(self, path=None):
+	def includes(self, full_path):
 		
 		all_includes = []
 		for d in self.devices:
 			for include in d.includes:
-				inc_path = os.path.join(path, include) if path else include
+				inc_path = os.path.join(d.directory, include) if full_path else include
 				all_includes.append(inc_path)
 
 		return set(all_includes)
 
-	def sources(self, path=None):
+	def sources(self, full_path):
 		
 		all_sources = []
 		for d in self.devices:
 			for src in d.sources:
-				src_path = os.path.join(path, src) if path else src
+				src_path = os.path.join(d.directory, src) if full_path else src
 				all_sources.append(src_path)
 
 		return set(all_sources)
