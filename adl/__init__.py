@@ -10,6 +10,11 @@ import adl.template_engine
 
 THIS_PATH = os.path.dirname(__file__)
 
+ADL_SOURCE_FILES = [
+	"adl.cpp",
+	"adl.h"
+]
+
 def get_module_logger():
 	return logging.getLogger(__name__)
 
@@ -46,8 +51,8 @@ def write_library(target_directory, adl_config, board):
 
 	copy_file("devices/device.h", target_directory)
 
-	write_file("adl.cpp", target_directory, adl_config, board, "")
-	write_file("adl.h", target_directory, adl_config, board, "")
+	for f in ADL_SOURCE_FILES:
+		write_file(f, target_directory, adl_config, board, "")
 
 def write_sources(target_directory, sources):
 	for src in sources:

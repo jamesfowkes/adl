@@ -70,7 +70,9 @@ if __name__ == "__main__":
 		sketch_directory = create_sketch_directory(directory, sketch_name)
 		write_sketch_to_directory(sketch_directory, sketch_name+".ino", board.code)
 
-		adl.write_library(sketch_directory, adl_config)
+		adl.write_library(sketch_directory, adl_config, board)
+		adl.write_sources(sketch_directory, board.adl_sources(True))
+		adl.write_sources(sketch_directory, board.adl_includes(True))
 		adl.write_sources(sketch_directory, board.includes(True))
 		adl.write_sources(sketch_directory, board.sources(True))
 		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))
