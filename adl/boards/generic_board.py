@@ -1,6 +1,27 @@
 import os
 
 class GenericBoard:
+
+	def adl_sources(self, full_path):
+		all_deps = []
+		for d in self.devices:
+			for dep in d.adl_dependencies:
+				for src in dep.sources:
+					inc_path = os.path.join(dep.directory, src) if full_path else src
+					all_deps.append(inc_path)
+
+		return set(all_deps)
+
+	def adl_includes(self, full_path):
+		all_deps = []
+		for d in self.devices:
+			for dep in d.adl_dependencies:
+				for header in dep.headers:
+					inc_path = os.path.join(dep.directory, header) if full_path else header
+					all_deps.append(inc_path)
+
+		return set(all_deps)
+		
 	def includes(self, full_path):
 		
 		all_includes = []

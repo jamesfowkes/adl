@@ -11,6 +11,10 @@ class GenericDevice:
 	def command_handler(self):
 		return "return {name}.command_handler(command, reply);".format(name=self.cname())
 
+	@property
+	def adl_dependencies(self):
+		return []
+		
 class GenericDevicePlugin:
 
 	def verify_settings(self, device):
