@@ -37,7 +37,7 @@ static int adl_board_command(char const * const command, char * reply)
 	{
 		int i = 0;
 
-		for (i = 0; i < ADL_DEVICE_COUNT; i++)
+		for (i = 1; i <= ADL_DEVICE_COUNT; i++)
 		{
 			adl_get_device(i).reset();
 		}
