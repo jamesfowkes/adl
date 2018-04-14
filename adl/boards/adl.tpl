@@ -13,6 +13,7 @@ By the Arduino Description Language tool.
 {% macro render_declarations(board) %}
 
 #include <stdint.h>
+#include "adl_defs.h"
 #include "device.h"
 #include "adl.h"
 
@@ -88,7 +89,7 @@ void setup()
 	{% endfor %}
 
 	{% if board.custom_code | length %}
-	adl_custom_setup(s_devices, {{board.devices | length}});
+	adl_custom_setup(s_devices, ADL_DEVICE_COUNT);
 	{% endif %}
 
 	{{ board.serial.setup }}
@@ -104,7 +105,7 @@ void loop()
 	adl_handle_any_pending_commands();
 	adl_service_timer();
 	{% if board.custom_code | length %}
-	adl_custom_loop(s_devices, {{board.devices | length}});
+	adl_custom_loop(s_devices, ADL_DEVICE_COUNT);
 	{% endif %}
 }
 {% endmacro %}

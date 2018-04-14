@@ -14,7 +14,6 @@ enum adl_devices
 };
 typedef enum adl_devices ADL_DEVICES;
 
-static const int ADL_DEVICE_COUNT = {{ board.devices | length }};
 
 typedef int DEVICE_ADDRESS;
 

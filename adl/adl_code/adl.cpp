@@ -4,16 +4,18 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "parameter.h"
 #include "device.h"
+#include "adl_defs.h"
 #include "adl.h"
 #include "protocol.h"
 
 // ADL receives into this buffer
-static char s_adl_recv_buffer[{{adl.buffer_size}}];
+static char s_adl_recv_buffer[ADL_BUFFER_SIZE];
 static uint32_t s_recv_idx = 0;
 
 // ADL builds reply strings into this buffer
-static char s_adl_tx_buffer[{{adl.buffer_size}}];
+static char s_adl_tx_buffer[ADL_BUFFER_SIZE];
 
 // ADL passes this buffer to application to fill with command replies 
 static char s_adl_reply_buffer[16];
