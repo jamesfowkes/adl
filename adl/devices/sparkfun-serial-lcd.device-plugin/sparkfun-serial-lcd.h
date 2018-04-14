@@ -114,7 +114,8 @@ public:
 
 	void setCursor(int, int);
 	void selectLine(int);
-
+	void setLine(int num, char * text);
+	
 	void leftToRight();
 	void rightToLeft();
 	void autoscroll();

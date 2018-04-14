@@ -80,6 +80,12 @@ void SparkfunSerialLCD::selectLine(int num){
 	}
 }
 
+// Clears then sets a particular line
+void SparkfunSerialLCD::setLine(int num, char * text){
+	this->clearLine(num);
+	this->print(text);
+}
+
 // returns cursor to home position
 void SparkfunSerialLCD::home(){
 	command(LCD_RETURNHOME);
