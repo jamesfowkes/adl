@@ -20,6 +20,9 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
 		
 		return cls(dev_id, name, value)
 
+	def update(self, new_value):
+		return Setting(self.id, self.name, new_value)
+		
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
 	__slots__ = ()
