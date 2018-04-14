@@ -91,3 +91,6 @@ ENV/
 # Presentation
 presentation/
 
+# C object files
+*.o
+
