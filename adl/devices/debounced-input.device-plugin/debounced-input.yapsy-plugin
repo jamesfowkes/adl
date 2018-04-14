@@ -1,0 +1,9 @@
+[Core]
+Name = Debounced Input
+Module = debounced_input
+
+[Documentation]
+Description = Allows debounced read of digital inputs
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
