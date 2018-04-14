@@ -12,6 +12,9 @@ import adl.types
 
 import logging
 
+def get_logger():
+	return logging.get_logger(__name__)
+
 VALID_FILETYPES = ["xml", "yaml", "json"]
 def get_type_from_filename(filename):
 	return os.path.splitext(filename)[1][1:]
@@ -22,14 +25,14 @@ def parse_file(filename, filetype=None):
 		filetype = get_type_from_filename(filename)
 
 		if filetype not in VALID_FILETYPES:
-			logging.getLogger("parser").error("Could not identify filetype of %s", filename)
+			get_logger().error("Could not identify filetype of %s", filename)
 			return None
 
 	if filetype not in VALID_FILETYPES:
-		logging.getLogger("parser").error("filetype %s not valid (expected one of %s)", filetype, ", ".join(VALID_FILETYPES))
+		get_logger().error("filetype %s not valid (expected one of %s)", filetype, ", ".join(VALID_FILETYPES))
 		return None
 
-	logging.getLogger("parser").info("Parsing %s as %s", filename, filetype)
+	get_logger().info("Parsing %s as %s", filename, filetype)
 
 	if filetype == "xml":
 		tree = ET.parse(filename)
@@ -39,6 +42,6 @@ def parse_file(filename, filetype=None):
 		stream = open(filename, 'r')
 		board = adl.types.Board.from_yaml(yaml.load(stream))
 
-	logging.getLogger("parser").info("Found board '%s', type '%s'", board.name, board.type)
+	get_logger().info("Found board '%s', type '%s'", board.name, board.type)
 
 	return adl.boards.get(board, adl.devices.get(board.devices)), adl.config.get(board)

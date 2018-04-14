@@ -12,8 +12,9 @@ import adl.template_engine
 THIS_PATH = os.path.dirname(__file__)
 
 ADL_SOURCE_FILES = [
-	"adl.cpp",
-	"adl.h"
+	("adl.cpp", "adl.cpp"),
+	("adl.h", "adl.h"),
+	("adl_defs.tpl", "adl_defs.h")
 ]
 
 def get_module_logger():
@@ -28,12 +29,12 @@ def get_subfolders(path):
 
 VALID_PROTOCOLS = get_subfolders(os.path.join(THIS_PATH, "adl_code"))
 
-def write_file(file, target_directory, adl_config, board, protocol_dir=None):
+def write_file(template_file, target_directory, target_file, adl_config, board, protocol_dir=None):
 	if protocol_dir is None:
 		protocol_dir = adl_config.protocol
 
-	rendered_code = adl.template_engine.render_library(os.path.join(protocol_dir, file), adl_config, board)
-	with open(os.path.join(target_directory, file), 'w') as f:
+	rendered_code = adl.template_engine.render_library(os.path.join(protocol_dir, template_file), adl_config, board)
+	with open(os.path.join(target_directory, target_file), 'w') as f:
 		f.write(rendered_code)
 
 def copy_file(relative_src_path, target_directory):
@@ -48,12 +49,14 @@ def write_library(target_directory, adl_config, board):
 	get_module_logger().info("Using protocol from {}".format(src_path))
 
 	for file in os.listdir(src_path):
-		write_file(file, target_directory, adl_config, board)
+		if file.endswith(".h") or file.endswith(".cpp") or file.endswith(".c"):
+			write_file(file, target_directory, file, adl_config, board)
 
 	copy_file("devices/device.h", target_directory)
+	copy_file("parameters/parameter.h", target_directory)
 
-	for f in ADL_SOURCE_FILES:
-		write_file(f, target_directory, adl_config, board, "")
+	for template_file, target_file in ADL_SOURCE_FILES:
+		write_file(template_file, target_directory, target_file, adl_config, board, "")
 
 def write_sources(target_directory, sources):
 	for src in sources:

@@ -14,7 +14,6 @@ enum adl_devices
 };
 typedef enum adl_devices ADL_DEVICES;
 
-static const int ADL_DEVICE_COUNT = {{ board.devices | length }};
 
 typedef int DEVICE_ADDRESS;
 
@@ -31,7 +30,8 @@ void adl_service_timer();
 bool is_digit_string(char const * s);
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address);
-COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address);
+
+COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address);
 
 class ProtocolHandlerBase
 {
