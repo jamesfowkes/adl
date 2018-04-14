@@ -120,6 +120,18 @@ static int adl_process_param_command(PARAM_ADDRESS address, char const * const c
 	return reply_length;
 }
 
+int adl_chars_to_address(char const * const buffer)
+{
+	return ((buffer[1] - '0') * 10) + (buffer[2] - '0');
+}
+
+bool adl_validate_char_address(char const * const buffer)
+{
+	if (!buffer) { return false; }
+
+	return (isdigit(buffer[1]) && isdigit(buffer[2]));
+}
+
 ADDRESS_TYPE adl_get_address_type_from_char(char c)
 {
 	ADDRESS_TYPE t = ADDRESS_TYPE_NONE;

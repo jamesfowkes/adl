@@ -7,28 +7,16 @@
 #include "adl.h"
 #include "protocol.h"
 
-static uint8_t get_address(char * buffer)
-{
-	return ((buffer[1] - '0') * 10) + (buffer[2] - '0');
-}
-
-static bool validate_address(char const * const buffer)
-{
-	if (!buffer) { return false; }
-
-	return (isdigit(buffer[1]) && isdigit(buffer[2]));
-}
-
 ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 
 ADDRESS_TYPE ProtocolHandler::process(char * buffer)
 {
 	ADDRESS_TYPE address_type = adl_get_address_type_from_char(buffer[0]);
-	bool valid = validate_address(buffer) && (address_type != ADDRESS_TYPE_NONE);
+	bool valid = adl_validate_char_address(buffer) && (address_type != ADDRESS_TYPE_NONE);
 
 	if (valid)
 	{
-		this->last_address = get_address(buffer);
+		this->last_address = adl_chars_to_address(buffer);
 		this->last_address_type = address_type;
 		this->command = &buffer[3];
 	}

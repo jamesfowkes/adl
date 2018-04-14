@@ -18,6 +18,10 @@ static const int ADL_BOARD_ADDRESS = 0;
 
 typedef int (*COMMAND_HANDLER)(char const * const command, char * reply);
 
+
+int adl_chars_to_address(char const * const buffer);
+bool adl_validate_char_address(char const * const buffer);
+
 ADDRESS_TYPE adl_get_address_type_from_char(char c);
 char adl_get_char_from_address_type(ADDRESS_TYPE t);
 

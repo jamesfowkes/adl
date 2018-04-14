@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "parameter.h"
 #include "device.h"
 #include "adl.h"
 #include "protocol.h"
@@ -76,19 +77,23 @@ static int json_write_int(char * json, char const * const key, int value)
 	return sprintf(json, "\"%s\":%d", key, value);
 }
 
-static bool get_address(char const * const buffer, DEVICE_ADDRESS& addr)
+static ADDRESS_TYPE get_address(char const * const buffer, DEVICE_ADDRESS& addr)
 {
 	char const * paddr = find_end_of_substring(buffer, "\"address\"");
-	if (!paddr) { return INVALID_ADDRESS; }
+	if (!paddr) { return ADDRESS_TYPE_NONE; }
 
-	paddr = skip_to_next(paddr, isdigit);
+	paddr = skip_to_next(paddr, '"');
+	paddr++;
 
-	bool valid = isdigit(paddr[0]) && (isdigit(paddr[1]));
+	ADDRESS_TYPE address_type = adl_get_address_type_from_char(paddr[0]);
+
+	bool valid = (address_type != ADDRESS_TYPE_NONE) && adl_validate_char_address(paddr);
+
 	if (valid)
 	{
-		addr = ((paddr[0] - '0') * 10) + (paddr[1] - '0');
+		addr = adl_chars_to_address(paddr);
 	}
-	return valid;
+	return address_type;
 }
 
 static char const * get_command(char const * const buffer)
@@ -113,18 +118,21 @@ static void copy_quoted_string(char * dst, char const * src)
 	*dst = '\0';
 }
 
-ProtocolHandler::ProtocolHandler() { this->address = INVALID_ADDRESS; }
+ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 
-bool ProtocolHandler::process(char * json)
+ADDRESS_TYPE ProtocolHandler::process(char * json)
 {
-	if (!get_address(json, this->address)) { return false; }
+	this->last_address_type = get_address(json, this->last_address);
+
+	if (this->last_address_type == ADDRESS_TYPE_NONE) { return ADDRESS_TYPE_NONE; }
+
 	char const * p_cmd = get_command(json);
 
 	copy_quoted_string(m_command_copy, p_cmd);
 
 	this->command = m_command_copy;
 	
-	return true;
+	return this->last_address_type;
 }
 
 void ProtocolHandler::write_reply(char * buffer, char const * const reply, uint8_t reply_length)
@@ -133,7 +141,7 @@ void ProtocolHandler::write_reply(char * buffer, char const * const reply, uint8
 	int i = 0;
 
 	i += json_start(buffer+i);
-	i += json_write_int(buffer+i, "from", this->address);
+	i += json_write_int(buffer+i, "from", this->last_address);
 	i += json_write_separator(buffer+i);
 	i += json_write_str(buffer+i, "reply", reply);
 	i += json_end_level(buffer+i);
