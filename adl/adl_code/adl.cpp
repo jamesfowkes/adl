@@ -25,7 +25,7 @@ static bool s_command_pending = false;
 static ProtocolHandler s_protocol_handler; 
 
 static unsigned long s_timer = 0;
-static const unsigned long ADL_TICK_MS = 5000;
+static const unsigned long ADL_TICK_MS = 10;
 
 static inline bool end_of_command(char c)
 {
@@ -220,9 +220,20 @@ void adl_service_timer()
 
 	if ((time_now - s_timer) > ADL_TICK_MS)
 	{
-		for (i = 0; i < ADL_DEVICE_COUNT; i++)
+		s_timer = time_now;
+		if (ADL_DEVICE_COUNT)
 		{
-			adl_get_device(i).tick();
+			for (i = 1; i <= ADL_DEVICE_COUNT; i++)
+			{
+				adl_get_device(i).tick();
+			}
+		}
+		if (ADL_PARAM_COUNT)
+		{
+			for (i = 1; i <= ADL_PARAM_COUNT; i++)
+			{
+				adl_get_param(i).tick();
+			}
 		}
 	}
 }
