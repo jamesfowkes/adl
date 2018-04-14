@@ -42,7 +42,7 @@ class GenericBoard:
 		all_sources = []
 		for d in self.devices:
 			for src in d.sources:
-				src_path = os.path.join(p.directory, src) if full_path else src
+				src_path = os.path.join(d.directory, src) if full_path else src
 				all_sources.append(src_path)
 
 		for p in self.parameters:
