@@ -32,7 +32,7 @@ static inline bool end_of_command(char c)
 	return c == '\n';
 }
 
-static int adl_board_command(char const * const command, char * reply)
+static int adl_board_device_command(char const * const command, char * reply)
 {
 	int reply_length = 0;
 	if (command[0] == 'R')
@@ -55,13 +55,13 @@ static int adl_board_command(char const * const command, char * reply)
 	return reply_length;
 }
 
-static int adl_process_command(uint8_t address, char const * const command, char * reply)
+static int adl_process_device_command(DEVICE_ADDRESS address, char const * const command, char * reply)
 {
 	int reply_length = 0;
 
 	if (address == ADL_BOARD_ADDRESS)
 	{
-		return adl_board_command(command, reply);
+		return adl_board_device_command(command, reply);
 	}
 	else if (address > ADL_DEVICE_COUNT)
 	{
@@ -70,7 +70,7 @@ static int adl_process_command(uint8_t address, char const * const command, char
 	}
 	else
 	{
-		reply_length = adl_get_command_handler(address)(command, reply);
+		reply_length = adl_get_device_cmd_handler(address)(command, reply);
 	}
 
 	return reply_length;
@@ -85,7 +85,7 @@ void adl_handle_any_pending_commands()
 
 		if (s_protocol_handler.process(s_adl_recv_buffer))
 		{
-			int reply_length = adl_process_command(
+			int reply_length = adl_process_device_command(
 				s_protocol_handler.address,
 				s_protocol_handler.command,
 				s_adl_reply_buffer);
@@ -96,6 +96,7 @@ void adl_handle_any_pending_commands()
 		{
 			strcpy(s_adl_tx_buffer, "ADDR?");
 		}
+
 		adl_board_send(s_adl_tx_buffer);
 
 		s_command_pending = false;

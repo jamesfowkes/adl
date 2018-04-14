@@ -50,15 +50,15 @@ int handle_device{{loop.index}}_command(char const * const command, char * reply
 }
 {% endfor %}
 
-static COMMAND_HANDLER adl_commands[] = {
+static COMMAND_HANDLER adl_devices[] = {
 	{% for device in board.devices %}
 	handle_device{{loop.index}}_command,
 	{% endfor %}
 };
 
-COMMAND_HANDLER& adl_get_command_handler(DEVICE_ADDRESS address)
+COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address)
 {
-	return adl_commands[address-1];
+	return adl_devices[address-1];
 }
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address)
