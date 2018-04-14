@@ -93,4 +93,4 @@ presentation/
 
 # C object files
 *.o
-
+*.out
