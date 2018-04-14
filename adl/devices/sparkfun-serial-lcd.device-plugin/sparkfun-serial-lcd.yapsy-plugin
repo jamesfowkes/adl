@@ -1,0 +1,9 @@
+[Core]
+Name = Sparkfun Serial LCD
+Module = sparkfun_serial_lcd
+
+[Documentation]
+Description = Instantiates a Sparkfun serial LCD controller
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

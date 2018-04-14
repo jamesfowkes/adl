@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Sparkfun Serial LCD">
+	<info>
+		An example sketch for the Sparkfun serial LCD device
+	</info>
+	
+	<devices>
+		<device name="LCD" type="Sparkfun Serial LCD">
+			<setting id="pin" name="TX" value="2"/>
+			<setting id="width" value="20"/>
+			<setting id="lines" value="4"/>
+		</device>
+	</devices>
+	<adl protocol="simple"></adl>
+</board>
