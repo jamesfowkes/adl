@@ -15,6 +15,7 @@ By the Arduino Description Language tool.
 #include <stdint.h>
 #include "adl_defs.h"
 #include "device.h"
+#include "parameter.h"
 #include "adl.h"
 
 {% for dep in board.adl_includes(False) %}
@@ -29,14 +30,24 @@ By the Arduino Description Language tool.
 {{device.declarations}}
 {% endfor %}
 
-{% for parameter in board.parameters %}
-{{parameter.declarations}}
-{% endfor %}
-
 static DeviceBase * s_devices[] = 
 {
 	{% for device in board.devices %}
 	&{{device.cname()}}
+	{% if not loop.last %}
+    ,
+	{% endif %}
+	{% endfor %}
+};
+
+{% for parameter in board.parameters %}
+{{parameter.declarations}}
+{% endfor %}
+
+static ParameterBase * s_params[] = 
+{
+	{% for parameter in board.parameters %}
+	&{{parameter.cname()}}
 	{% if not loop.last %}
     ,
 	{% endif %}
@@ -70,6 +81,29 @@ DeviceBase& adl_get_device(DEVICE_ADDRESS address)
 	return *s_devices[address-1];
 }
 
+{% for parameter in board.parameters %}
+int handle_param{{loop.index}}_command(char const * const command, char * reply)
+{
+	{{parameter.command_handler}}
+}
+{% endfor %}
+
+static COMMAND_HANDLER adl_params[] = {
+	{% for parameter in board.parameters %}
+	handle_param{{loop.index}}_command,
+	{% endfor %}
+};
+
+COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address)
+{
+	return adl_params[address-1];
+}
+
+ParameterBase& adl_get_param(PARAM_ADDRESS address)
+{
+	return *s_params[address-1];
+}
+
 {% endmacro %}
 
 {% macro render_serial_send(board) -%}
@@ -93,7 +127,7 @@ void setup()
 	{% endfor %}
 
 	{% if board.custom_code | length %}
-	adl_custom_setup(s_devices, ADL_DEVICE_COUNT);
+	adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
 	{% endif %}
 
 	{{ board.serial.setup }}
@@ -109,7 +143,7 @@ void loop()
 	adl_handle_any_pending_commands();
 	adl_service_timer();
 	{% if board.custom_code | length %}
-	adl_custom_loop(s_devices, ADL_DEVICE_COUNT);
+	adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
 	{% endif %}
 }
 {% endmacro %}

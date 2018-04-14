@@ -13,7 +13,7 @@ import adl.types
 import logging
 
 def get_logger():
-	return logging.get_logger(__name__)
+	return logging.getLogger(__name__)
 
 VALID_FILETYPES = ["xml", "yaml", "json"]
 def get_type_from_filename(filename):
@@ -44,4 +44,6 @@ def parse_file(filename, filetype=None):
 
 	get_logger().info("Found board '%s', type '%s'", board.name, board.type)
 
-	return adl.boards.get(board, adl.devices.get(board.devices)), adl.config.get(board)
+	devices = adl.devices.get(board.devices)
+	parameters = adl.parameters.get(board.parameters)
+	return adl.boards.get(board, devices, parameters), adl.config.get(board)

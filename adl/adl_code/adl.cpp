@@ -55,6 +55,29 @@ static int adl_board_device_command(char const * const command, char * reply)
 	return reply_length;
 }
 
+static int adl_board_param_command(char const * const command, char * reply)
+{
+	int reply_length = 0;
+	if (command[0] == 'R')
+	{
+		int i = 0;
+
+		for (i = 1; i <= ADL_PARAM_COUNT; i++)
+		{
+			adl_get_param(i).reset();
+		}
+
+		strcpy(reply, "ROK");
+		reply_length = strlen(reply);
+	}
+	else
+	{
+		reply[0] = '?';
+		reply_length = 1;
+	}
+	return reply_length;
+}
+
 static int adl_process_device_command(DEVICE_ADDRESS address, char const * const command, char * reply)
 {
 	int reply_length = 0;
@@ -76,20 +99,93 @@ static int adl_process_device_command(DEVICE_ADDRESS address, char const * const
 	return reply_length;
 }
 
+static int adl_process_param_command(PARAM_ADDRESS address, char const * const command, char * reply)
+{
+	int reply_length = 0;
+
+	if (address == ADL_BOARD_ADDRESS)
+	{
+		return adl_board_param_command(command, reply);
+	}
+	else if (address > ADL_PARAM_COUNT)
+	{
+		strcpy(reply, "?");
+		return strlen(reply);
+	}
+	else
+	{
+		reply_length = adl_get_param_cmd_handler(address)(command, reply);
+	}
+
+	return reply_length;
+}
+
+ADDRESS_TYPE adl_get_address_type_from_char(char c)
+{
+	ADDRESS_TYPE t = ADDRESS_TYPE_NONE;
+
+	switch(c)
+	{
+	case 'D':
+		t = ADDRESS_TYPE_DEVICE;
+		break;
+	case 'P':
+		t = ADDRESS_TYPE_PARAM;
+		break;
+	default:
+		break;
+	}
+
+	return t;
+}
+
+char adl_get_char_from_address_type(ADDRESS_TYPE t)
+{
+	char c = '?';
+
+	switch(t)
+	{
+	case ADDRESS_TYPE_DEVICE:
+		c = 'D';
+		break;
+	case ADDRESS_TYPE_PARAM:
+		c = 'P';
+		break;
+	default:
+		break;
+	}
+
+	return c;
+}
+
 void adl_handle_any_pending_commands()
 {
+	int reply_length = 0;
+
 	if (s_command_pending)
 	{
 		memset(s_adl_tx_buffer, '\0', sizeof(s_adl_tx_buffer));
 		memset(s_adl_reply_buffer, '\0', sizeof(s_adl_reply_buffer));
 
-		if (s_protocol_handler.process(s_adl_recv_buffer))
+		switch(s_protocol_handler.process(s_adl_recv_buffer))
 		{
-			int reply_length = adl_process_device_command(
-				s_protocol_handler.address,
+		case ADDRESS_TYPE_DEVICE:
+			reply_length = adl_process_device_command(
+				s_protocol_handler.last_address,
 				s_protocol_handler.command,
 				s_adl_reply_buffer);
+			break;
+		case ADDRESS_TYPE_PARAM:
+			reply_length = adl_process_param_command(
+				s_protocol_handler.last_address,
+				s_protocol_handler.command,
+				s_adl_reply_buffer);
+		default:
+			break;
+		}
 
+		if(reply_length)
+		{
 			s_protocol_handler.write_reply(s_adl_tx_buffer, s_adl_reply_buffer, reply_length);
 		}
 		else

@@ -23,10 +23,10 @@ class UnoPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, board, devices):
+	def get(self, board, devices, parameters):
 		baudrate = board.attrs.get("baudrate", 115200)
 		serial = Serial0(baudrate)
-		return Uno(board.name, serial, devices, board.parameters, board.custom_code, board.settings, board.info)
+		return Uno(board.name, serial, devices, parameters, board.custom_code, board.settings, board.info)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

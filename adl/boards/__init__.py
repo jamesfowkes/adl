@@ -14,12 +14,15 @@ def activate_all():
 		logging.getLogger(__name__).info("Loaded board plugin '%s'", plugin.name)
 		boards_plugin_manager.activatePluginByName(plugin.name)
 
-def get(board, devices):
+def get(board, devices, parameters):
 	logging.getLogger(__name__).info("Trying to load board '%s'", board.type)
-	board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices)
-	logging.getLogger(__name__).info("Loaded board and devices:")
+	board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices, parameters)
+	logging.getLogger(__name__).info("Loaded board. Devices and parameters:")
 	for device in board.devices:
 		logging.getLogger(__name__).info(device)
+
+	for parameter in board.parameters:
+		logging.getLogger(__name__).info(parameter)
 
 	return board
 	
