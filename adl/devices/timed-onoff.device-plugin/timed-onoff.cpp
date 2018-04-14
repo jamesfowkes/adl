@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "parameter.h"
 #include "device.h"
 #include "adl.h"
 
@@ -47,9 +48,11 @@ int TimedOnOff::command_handler(char const * const command, char * reply)
 
 void TimedOnOff::tick()
 {
-	if ((millis() - m_last_time) > m_interval)
+	unsigned long now = millis();
+
+	if ((now - m_last_time) > m_interval)
 	{
-		m_last_time = millis();
+		m_last_time = now;
 		m_state = !m_state;
 		m_interval = m_state ? m_offtime : m_ontime;
 		digitalWrite(m_pin, m_state ? HIGH : LOW);
