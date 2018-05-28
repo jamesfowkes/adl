@@ -19,18 +19,6 @@ THIS_DIRECTORY = os.path.dirname(__file__)
 def get_module_logger():
 	return logging.getLogger(__name__)
 
-def sanitise_sketch_name(name):
-
-	if name[0].isdigit():
-		get_module_logger().warning("Name starts with numeric value. Prefixing with underscore.")
-		name = "_" + name
-
-	if " " in name:
-		get_module_logger().warning("Name contains spaces. Replacing with underscores.")
-		name = name.replace(" ", "_")
-
-	return name
-
 def create_sketch_directory(parent_directory, sketch_directory):
 	parent_directory = os.path.expanduser(parent_directory)
 	target_directory = os.path.join(parent_directory + "/" + sketch_directory)
@@ -50,6 +38,29 @@ def write_sketch_to_directory(directory, sketch_name, sketch_contents):
 	with open(target, 'w') as sketch:
 		sketch.write(sketch_contents)
 
+def run(input_file, sketchbook=None):
+
+	input_file_path = os.path.abspath(os.path.dirname(input_file))
+	get_module_logger().info("Custom code directory: {}".format(input_file_path))
+
+	board, adl_config = adl.parser.parse_file(input_file)
+
+	if sketchbook:
+		directory = sketchbook
+		sketch_name = board.sketch_name()
+
+		sketch_directory = create_sketch_directory(directory, sketch_name.folder)
+		write_sketch_to_directory(sketch_directory, sketch_name.full_name, board.code)
+
+		adl.write_library(sketch_directory, adl_config, board)
+		adl.write_sources(sketch_directory, board.adl_sources(True))
+		adl.write_sources(sketch_directory, board.adl_includes(True))
+		adl.write_sources(sketch_directory, board.device_includes(True))
+		adl.write_sources(sketch_directory, board.sources(True))
+		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))
+
+	return board, adl_config
+
 if __name__ == "__main__":
 
 	args = docopt.docopt(__doc__)
@@ -60,21 +71,4 @@ if __name__ == "__main__":
 	adl.boards.activate_all()
 	adl.parameters.activate_all()
 
-	input_file_path = os.path.abspath(os.path.dirname(args["<input_file>"]))
-	get_module_logger().info("Custom code directory: {}".format(input_file_path))
-
-	board, adl_config = adl.parser.parse_file(args["<input_file>"])
-
-	if args["--sketchbook"]:
-		directory = args["--sketchbook"]
-		sketch_name = sanitise_sketch_name(board.name)
-
-		sketch_directory = create_sketch_directory(directory, sketch_name)
-		write_sketch_to_directory(sketch_directory, sketch_name+".ino", board.code)
-
-		adl.write_library(sketch_directory, adl_config, board)
-		adl.write_sources(sketch_directory, board.adl_sources(True))
-		adl.write_sources(sketch_directory, board.adl_includes(True))
-		adl.write_sources(sketch_directory, board.includes(True))
-		adl.write_sources(sketch_directory, board.sources(True))
-		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))
+	run(args["<input_file>"], args["--sketchbook"])
