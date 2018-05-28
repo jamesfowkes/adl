@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "parameter.h"
 #include "device.h"
 #include "adl.h"
 
