@@ -18,11 +18,15 @@ By the Arduino Description Language tool.
 #include "parameter.h"
 #include "adl.h"
 
+{% for include in board.library_includes(False) %}
+#include "{{include}}"
+{% endfor %}
+
 {% for dep in board.adl_includes(False) %}
 	#include "{{dep}}"
 {% endfor %}
 
-{% for include in board.includes(False) %}
+{% for include in board.device_includes(False) %}
 #include "{{include}}"
 {% endfor %}
 

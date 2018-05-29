@@ -5,6 +5,8 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LibraryInclude, LocalInclude
+
 from adl.devices.generic_device import GenericDevice
 from adl.types import Setting
 
@@ -23,14 +25,13 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
 	def directory(self):
 		return THIS_DIRECTORY
 
-
 	@property
 	def sources(self):
 		return ["analog-output.cpp"]
 
 	@property
 	def includes(self):
-		return ["analog-output.h"]
+		return [LocalInclude("analog-output.h")]
 
 	@property
 	def declarations(self):

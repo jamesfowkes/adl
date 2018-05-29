@@ -5,7 +5,10 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LocalInclude
+
 from adl.devices.generic_device import GenericDevice
+
 from adl.types import Setting
 
 THIS_DIRECTORY = os.path.dirname(__file__)
@@ -28,7 +31,7 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
 	@property
 	def includes(self):
-		return ["random-pwm.h"]
+		return [LocalInclude("random-pwm.h")]
 
 	@property
 	def declarations(self):

@@ -110,3 +110,13 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		info = board_dict["board"].get("info", "")
 		adl = board_dict["board"].get("adl", {})
 		return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_dict["board"])
+
+class LocalInclude:
+	def __init__(self, filename):
+		self.filename = filename
+	
+
+class LibraryInclude:
+	def __init__(self, filename):
+		self.filename = filename
+

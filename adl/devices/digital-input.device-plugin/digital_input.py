@@ -5,6 +5,8 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LocalInclude
+
 from adl.devices.generic_device import GenericDevice
 
 THIS_DIRECTORY = os.path.dirname(__file__)
@@ -27,7 +29,7 @@ class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
 
 	@property
 	def includes(self):
-		return ["digital-input.h"]
+		return [LocalInclude("digital-input.h")]
 
 	@property
 	def declarations(self):

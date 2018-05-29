@@ -4,6 +4,8 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LibraryInclude, LocalInclude
+
 from adl.devices.generic_device import GenericDevice
 
 class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
@@ -13,6 +15,15 @@ class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
 	@property
 	def setup(self):
 		return "{name}.setup();".format(name=self.name)
+
+	@property
+	@property
+	def sources(self):
+		return ["analog-input.cpp"]
+
+	@property
+	def includes(self):
+		return [LocalInclude("analog-input.h")]
 
 	@property
 	def declarations(self):

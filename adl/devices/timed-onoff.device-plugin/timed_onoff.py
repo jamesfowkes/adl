@@ -5,6 +5,8 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LocalInclude
+
 from adl.devices.generic_device import GenericDevice
 
 THIS_DIRECTORY = os.path.dirname(__file__)
@@ -27,7 +29,7 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
 
 	@property
 	def includes(self):
-		return ["timed-onoff.h"]
+		return [LocalInclude("timed-onoff.h")]
 
 	@property
 	def declarations(self):
