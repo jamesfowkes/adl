@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Analog Input">
+	<info>
+		An example sketch for the analog input device
+	</info>
+	<devices>
+		<device name="Potentiometer" type="Analog Input">
+			<setting id="pin" name="pot_input" value="A5"/>
+		</device>
+	</devices>
+	<adl protocol="simple" buffer_size="64">
+	</adl>
+</board>

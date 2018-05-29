@@ -1,3 +1,4 @@
+import os
 import logging
 
 from collections import namedtuple
@@ -8,15 +9,20 @@ from adl.types import LibraryInclude, LocalInclude
 
 from adl.devices.generic_device import GenericDevice
 
-class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
+THIS_DIRECTORY = os.path.dirname(__file__)
+
+class AnalogInput(GenericDevice, namedtuple("AnalogInput", ["name", "pin"])):
 
 	__slots__ = ()
 
 	@property
 	def setup(self):
-		return "{name}.setup();".format(name=self.name)
+		return "{name}.setup();".format(name=self.cname())
 
 	@property
+	def directory(self):
+		return THIS_DIRECTORY
+
 	@property
 	def sources(self):
 		return ["analog-input.cpp"]
@@ -27,7 +33,8 @@ class AnalogInput(namedtuple("AnalogInput", ["name", "pin"])):
 
 	@property
 	def declarations(self):
-		return "static const uint8_t {name} = {pin};".format(name=self.pin.name.upper(), pin=self.pin.value)
+		return "static AnalogInput {name} = AnalogInput({pin});".format(
+			name=self.cname(), pin=self.pin.value)
 
 class AnalogInputPlugin(IPlugin):
 	def activate(self):
@@ -37,7 +44,7 @@ class AnalogInputPlugin(IPlugin):
 		pass
 
 	def get(self, device):
-		return AnalogInput(device.name, device.pins[0])
+		return AnalogInput(device.name, device.settings["pin"])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
