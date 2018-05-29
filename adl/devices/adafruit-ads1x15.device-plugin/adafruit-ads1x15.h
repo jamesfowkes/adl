@@ -13,6 +13,7 @@ public:
 	Adafruit_ADS1x15(ADC_SUBTYPE ads_subtype, float multiplier);
 	void setup();
 	void reset();
+	void tick();
 	int command_handler(char const * const command, char * reply);
 	
 private:

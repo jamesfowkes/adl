@@ -11,6 +11,8 @@ DigitalOutput::DigitalOutput(int pin)
 	m_pin = pin;
 }
 
+void DigitalOutput::tick() {}
+
 void DigitalOutput::reset()
 {
 	digitalWrite(m_pin, LOW);

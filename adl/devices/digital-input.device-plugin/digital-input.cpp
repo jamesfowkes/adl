@@ -12,6 +12,7 @@ DigitalInput::DigitalInput(int pin)
 }
 
 void DigitalInput::reset() {}
+void DigitalInput::tick() {}
 
 void DigitalInput::setup()
 {

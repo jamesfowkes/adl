@@ -105,6 +105,11 @@ void Adafruit_ADS1x15::reset()
     
 }
 
+void Adafruit_ADS1x15::tick()
+{
+
+}
+
 void Adafruit_ADS1x15::setup()
 {
     this->reset();

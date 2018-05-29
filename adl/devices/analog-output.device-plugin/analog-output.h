@@ -7,6 +7,7 @@ public:
 	AnalogOutput(int pin, int limit_min=0, int limit_max=255, int reset_level=0);
 	void setup();
 	void reset();
+	void tick() {}
 	int command_handler(char const * const command, char * reply);
 	
 private:
