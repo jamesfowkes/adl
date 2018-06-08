@@ -1,0 +1,10 @@
+[Core]
+Name = Keypad
+Module = keypad
+
+[Documentation]
+Description = Allows reading matrix style keypads
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
+Attribution = Based on keypad library and examples by Mark Stanley, Alexander Brevig (https://playground.arduino.cc/Code/Keypad)
