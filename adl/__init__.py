@@ -37,6 +37,7 @@ def write_file(template_file, target_directory, target_file, adl_config, board, 
 
 	rendered_code = adl.template_engine.render_library(os.path.join(protocol_dir, template_file), adl_config, board)
 	with open(os.path.join(target_directory, target_file), 'w') as f:
+		get_module_logger().info("Writing file %s to %s", target_file, target_directory)
 		f.write(rendered_code)
 
 def copy_file(relative_src_path, target_directory):
