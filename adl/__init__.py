@@ -13,7 +13,9 @@ THIS_PATH = os.path.dirname(__file__)
 
 ADL_SOURCE_FILES = [
 	("adl.cpp", "adl.cpp"),
-	("adl.h", "adl.h"),
+	("adl-util.cpp", "adl-util.cpp"),
+	("adl.h", "adl.h",),
+	("adl-util.h", "adl-util.h"),
 	("adl_defs.tpl", "adl_defs.h")
 ]
 
