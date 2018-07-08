@@ -5,7 +5,7 @@ from adl import VALID_PROTOCOLS
 ADLConfig = namedtuple("ADLConfig", ["buffer_size", "protocol"])
 
 def get(board):
-	adl_buffer_size = board.adl.get("buffer_size", 32)
+	adl_buffer_size = board.adl.get("buffer_size", 64)
 	protocol = board.adl.get("protocol", "simple")
 
 	if protocol not in VALID_PROTOCOLS:

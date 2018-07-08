@@ -18,7 +18,7 @@ static uint32_t s_recv_idx = 0;
 static char s_adl_tx_buffer[ADL_BUFFER_SIZE];
 
 // ADL passes this buffer to application to fill with command replies 
-static char s_adl_reply_buffer[16];
+static char s_adl_reply_buffer[ADL_BUFFER_SIZE];
 
 static bool s_command_pending = false;
 
