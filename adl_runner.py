@@ -1,7 +1,7 @@
 """ adl.py
 
 Usage:
-	adp.py <input_file> [--sketchbook=<parent_directory>]
+	adl.py <input_file> [--sketchbook=<parent_directory>]
 
 """
 
