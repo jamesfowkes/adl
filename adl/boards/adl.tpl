@@ -19,7 +19,7 @@ By the Arduino Description Language tool.
 #include "adl.h"
 
 {% for include in board.library_includes(False) %}
-#include "{{include}}"
+#include <{{include}}>
 {% endfor %}
 
 {% for dep in board.adl_includes(False) %}
