@@ -1,0 +1,9 @@
+[Core]
+Name = Adafruit NeoPixel
+Module = adafruit_neopixel
+
+[Documentation]
+Description = Allows control of Neopixels with the Adafruit library
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
