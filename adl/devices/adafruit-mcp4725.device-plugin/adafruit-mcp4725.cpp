@@ -5,41 +5,24 @@
 
 #include "parameter.h"
 #include "device.h"
+#include "adl-util.h"
 #include "adl.h"
 
 #include "adafruit-mcp4725.h"
-
-static bool command_is_query(char const * const command)
-{
-    int command_length = strlen(command);
-    return command[command_length-1] == '?';
-}
-
-static bool command_is_voltage_setting(char const * const command)
-{
-    return (command[0] == 'V')
-}
 
 /*
  * Class Private Functions
  */
 
-uint8_t Adafruit_MCP4725ADL::handle_query_command(char const * const command, char * reply)
-{
-    reply[0] = '?';
-    return 1;
-}
-
-uint8_t Adafruit_MCP4725ADL::handle_setting_command(char const * const command, char * reply)
+uint8_t Adafruit_MCP4725ADL::handle_set_voltage_command(char const * const command, char * reply)
 {
     int32_t voltage_mv;
     bool ok = false;
 
-    if (ok = adl_parse_single_numeric(&command[1], voltage_mv, NULL);)
+    if ((ok = adl_parse_single_numeric(&command[1], voltage_mv, NULL)))
     {
-        if (ok = voltage_mv <= 0x0FFF)
+        if (ok = this->set_voltage(voltage_mv, false))
         {
-            m_dac.setVoltage(voltage_mv);
             strcpy(reply, "VOK");            
         }
     }
@@ -50,8 +33,22 @@ uint8_t Adafruit_MCP4725ADL::handle_setting_command(char const * const command, 
     }
     else
     {
-        reply[0] = '?';
-        return 1;
+        strcpy(reply, "V?");
+        return 2;
+    }
+}
+
+uint8_t Adafruit_MCP4725ADL::handle_save_command(char const * const command, char * reply)
+{
+    if (this->set_voltage(m_last_value, true))
+    {
+        strcpy(reply, "SOK");
+        return strlen(reply);
+    }
+    else
+    {
+        strcpy(reply, "S?");
+        return 2;
     }
 }
 
@@ -59,9 +56,9 @@ uint8_t Adafruit_MCP4725ADL::handle_setting_command(char const * const command, 
  * Class Public Functions
  */
 
-Adafruit_MCP4725ADL::Adafruit_MCP4725ADL(uint8_t i2c_addr) : m_dac(0,0), m_i2c_addr(i2c_addr)
+Adafruit_MCP4725ADL::Adafruit_MCP4725ADL(uint8_t i2c_addr, int32_t default_setting, uint16_t min, uint16_t max):
+    m_dac(), m_i2c_addr(i2c_addr), m_last_value(-1), m_default(default_setting), m_min(min), m_max(max)
 {
-    
 }
 
 void Adafruit_MCP4725ADL::reset()
@@ -78,25 +75,42 @@ void Adafruit_MCP4725ADL::setup()
 {
     this->reset();
     m_dac.begin(m_i2c_addr);
+    this->set_voltage(m_default, false);
 }
 
 int Adafruit_MCP4725ADL::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
+    switch(command[0])
+    {
+    case 'V':
+        reply_length = handle_set_voltage_command(command, reply);
+        break;
+    case 'S':
+        reply_length = handle_save_command(command, reply);
+        break;
+    default:
+        break;
+    }
 
-    if (command_is_query(command))
-    {
-        reply_length = handle_query_command(command, reply);
-    }
-    else if (command_is_voltage_setting(command))
-    {
-        reply_length = handle_setting_command(command, reply);
-    }
-    else
+    if (reply_length == 0)
     {
         reply[0] = '?';
         reply_length = 1;
     }
 
     return reply_length;
+}
+
+bool Adafruit_MCP4725ADL::set_voltage(int32_t voltage, bool save_to_device_eeprom)
+{
+    bool valid = (voltage >= m_min) && (voltage <= m_max);
+
+    if (valid)
+    {
+        m_last_value = voltage;
+        m_dac.setVoltage(voltage, save_to_device_eeprom);    
+    }
+
+    return valid;
 }
