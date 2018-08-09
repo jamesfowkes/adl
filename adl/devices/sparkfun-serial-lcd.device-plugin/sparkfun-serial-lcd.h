@@ -127,6 +127,7 @@ public:
 	// Required ADL functions
 	void setup();
 	void reset();
+	void tick();
 	int command_handler(char const * const command, char * reply);
 
 private:

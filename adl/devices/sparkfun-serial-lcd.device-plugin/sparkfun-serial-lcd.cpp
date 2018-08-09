@@ -286,8 +286,11 @@ void SparkfunSerialLCD::command(uint8_t value){
 	write(value);
 	delay(5);
 }
+
 void SparkfunSerialLCD::specialCommand(uint8_t value){
 	write(0x7C);
 	write(value);
 	delay(5);
 }
+
+void SparkfunSerialLCD::tick() {}

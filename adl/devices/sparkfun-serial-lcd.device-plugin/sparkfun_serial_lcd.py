@@ -5,6 +5,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+from adl.types import LibraryInclude, LocalInclude
 from adl.devices.generic_device import GenericDevice
 
 THIS_DIRECTORY = os.path.dirname(__file__)
@@ -27,7 +28,7 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
 
 	@property
 	def includes(self):
-		return ["sparkfun-serial-lcd.h"]
+		return [LocalInclude("sparkfun-serial-lcd.h")]
 
 	@property
 	def declarations(self):
