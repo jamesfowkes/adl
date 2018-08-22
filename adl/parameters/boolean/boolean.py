@@ -1,6 +1,7 @@
 import os
-
 import logging
+
+from pathlib import Path
 
 from collections import namedtuple
 
@@ -10,7 +11,7 @@ from adl.parameters.generic_parameter import GenericParameter
 
 from adl.types import Setting
 
-THIS_DIRECTORY = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_value"])):
 
@@ -28,7 +29,7 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
 
 	@property
 	def directory(self):
-		return THIS_DIRECTORY
+		return THIS_PATH
 
 	@property
 	def sources(self):
