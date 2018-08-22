@@ -1,6 +1,8 @@
 import logging
 import os
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
@@ -8,7 +10,7 @@ from yapsy.IPlugin import IPlugin
 from adl.types import LocalInclude, LibraryInclude
 from adl.devices.generic_device import GenericDevice
 
-THIS_DIRECTORY = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin", "debounce_time", "pullup"])):
 
@@ -20,7 +22,7 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
 
 	@property
 	def directory(self):
-		return THIS_DIRECTORY
+		return THIS_PATH
 
 	@property
 	def sources(self):

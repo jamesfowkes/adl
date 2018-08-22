@@ -1,6 +1,8 @@
 import logging
 import os
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
@@ -10,7 +12,7 @@ from adl.types import LibraryInclude, LocalInclude
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
 
-THIS_DIRECTORY = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", "pin", "npixels"])):
 
@@ -22,7 +24,7 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     @property
     def directory(self):
-        return THIS_DIRECTORY
+        return THIS_PATH
 
     @property
     def sources(self):

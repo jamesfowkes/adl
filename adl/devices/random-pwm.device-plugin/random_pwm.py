@@ -1,6 +1,8 @@
 import logging
 import os
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
@@ -11,7 +13,7 @@ from adl.devices.generic_device import GenericDevice
 
 from adl.types import Setting
 
-THIS_DIRECTORY = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval", "low_limit", "high_limit"])):
 
@@ -23,7 +25,7 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
 	@property
 	def directory(self):
-		return THIS_DIRECTORY
+		return THIS_PATH
 
 	@property
 	def sources(self):
