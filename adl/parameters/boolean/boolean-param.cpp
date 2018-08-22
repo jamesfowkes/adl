@@ -1,14 +1,11 @@
-#include <Arduino.h>
-
-#include "device.h"
+#include "string.h"
 #include "parameter.h"
-#include "adl.h"
-
 #include "boolean-param.h"
 
 BooleanParam::BooleanParam(bool reset_value)
 {
 	m_reset_value = reset_value;
+	m_state = reset_value;
 }
 
 void BooleanParam::reset() {
@@ -20,9 +17,15 @@ void BooleanParam::setup()
 	this->reset();
 }
 
-bool BooleanParam::state()
+bool BooleanParam::get()
 {
 	return m_state;
+}
+
+bool BooleanParam::set(bool setting)
+{
+	m_state = setting;
+	return true;
 }
 
 int BooleanParam::command_handler(char const * const command, char * reply)

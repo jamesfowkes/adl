@@ -9,7 +9,8 @@ public:
 	void reset();
 	int command_handler(char const * const command, char * reply);
 	
-	bool state();
+	bool set(bool setting);
+	bool get();
 private:
 	bool m_reset_value;
 	bool m_state;
