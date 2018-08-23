@@ -26,31 +26,36 @@ static bool command_is_setting(char const * const command)
  * Class Private Functions
  */
 
-uint8_t Adafruit_ADS1x15::handle_query_command(char const * const command, char * reply)
+unsigned long Adafruit_ADS1x15::get_raw_value(uint8_t channel)
 {
-    unsigned long adc_value = 0;
-
+    unsigned long raw_adc_value = 0;
     switch(m_ads_subtype)
     {
     case ADC_SUBTYPE_ADS1015:
-        adc_value = ((Adafruit_ADS1015*)mp_adc)->readADC_SingleEnded(m_channel);
+        raw_adc_value = ((Adafruit_ADS1015*)mp_adc)->readADC_SingleEnded(channel);
         break;
     case ADC_SUBTYPE_ADS1115:
-        adc_value = ((Adafruit_ADS1115*)mp_adc)->readADC_SingleEnded(m_channel);
+        raw_adc_value = ((Adafruit_ADS1115*)mp_adc)->readADC_SingleEnded(channel);
         break;
     }
+    return raw_adc_value;
+}
+
+uint8_t Adafruit_ADS1x15::handle_query_command(char const * const command, char * reply)
+{
+    unsigned long adc_value;
 
     if (strcmp(command, "?") == 0)
     {
-        // No need to change raw value
+        adc_value = this->get_reading(m_channel, ADS_READING_RAW);
     }
     else if (strcmp(command, "pin?") == 0)
     {
-        adc_value *= READING_TO_MILLIVOLTS_MULTIPLIER;
+        adc_value = this->get_reading(m_channel, ADS_READING_MV);
     }
     else if (strcmp(command, "mv?") == 0)
     {
-        adc_value *= READING_TO_MILLIVOLTS_MULTIPLIER * m_multiplier;
+        adc_value = this->get_reading(m_channel, ADS_READING_SCALED);
     }
     else
     {
@@ -144,4 +149,22 @@ int Adafruit_ADS1x15::command_handler(char const * const command, char * reply)
     }
 
     return reply_length;
+}
+
+unsigned long Adafruit_ADS1x15::get_reading(uint8_t channel, ADS_READING_TYPE type)
+{
+    unsigned long adc_value = this->get_raw_value(channel);
+
+    switch(type)
+    {
+    case ADS_READING_RAW:
+        break;
+    case ADS_READING_MV:
+        adc_value *= READING_TO_MILLIVOLTS_MULTIPLIER;
+        break;
+    case ADS_READING_SCALED:
+        adc_value *= (READING_TO_MILLIVOLTS_MULTIPLIER * m_multiplier);
+        break;
+    }
+    return adc_value;
 }
