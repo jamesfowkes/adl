@@ -1,7 +1,10 @@
 """ create_all_example_sketches.py
 
 Usage:
-    create_all_example_sketches.py [-v]
+    create_all_example_sketches.py all [-v]
+    create_all_example_sketches.py devices [-v]
+    create_all_example_sketches.py params [-v]
+    create_all_example_sketches.py modules [-v]
 
 Options:
     -v, --verbose  Output extra logging information
@@ -56,9 +59,20 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    for root, directories, files in os.walk("adl/devices"):
-        xml_files = [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
-        example_files += xml_files  
+    if args["all"] or args["devices"]:
+        for root, directories, files in os.walk("adl/devices"):
+            xml_files = [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
+            example_files += xml_files  
+
+    if args["all"] or args["params"]:
+        for root, directories, files in os.walk("adl/parameters"):
+            xml_files = [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
+            example_files += xml_files  
+
+    if args["all"] or args["modules"]:
+        for root, directories, files in os.walk("adl/modules"):
+            xml_files = [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
+            example_files += xml_files  
 
     for example in example_files:
         print("Trying to build {}".format(example))
