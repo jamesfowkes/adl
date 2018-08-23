@@ -71,7 +71,6 @@ class GenericBoard:
 				all_includes.append(inc_path)
 
 		all_includes = set(all_includes)
-		get_module_logger().info("Includes: {}".format(",".join([str(p) for p in all_includes])))
 		return set(all_includes)
 
 	def library_includes(self, full_path):
@@ -84,8 +83,9 @@ class GenericBoard:
 
 		for p in self.parameters:
 			for include in p.includes:
-				inc_path = Path.joinpath(p.directory, include) if full_path else include
-				all_includes.append(inc_path)
+				if type(include) is LibraryInclude:
+					inc_path = Path.joinpath(p.directory, include.filename) if full_path else include
+					all_includes.append(inc_path)
 
 		return set(all_includes)
 
