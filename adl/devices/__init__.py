@@ -2,15 +2,17 @@ import os
 import logging
 import sys
 
+from pathlib import Path
+
 from yapsy.PluginManager import PluginManager
 
 def get_module_logger():
 	return logging.getLogger(__name__)
 
-THIS_PATH = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 devices_plugin_manager = PluginManager()
-devices_plugin_manager.setPluginPlaces([THIS_PATH])
+devices_plugin_manager.setPluginPlaces([str(THIS_PATH)])
 devices_plugin_manager.collectPlugins()
 
 def activate_all():

@@ -7,8 +7,11 @@ from pathlib import Path, PurePosixPath
 
 THIS_PATH = Path(__file__).parent
 
-board_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(THIS_PATH.joinpath("boards"))))
-library_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(THIS_PATH.joinpath("adl_code"))))
+BOARDS_PATH = THIS_PATH.joinpath("boards")
+LIBRARY_PATH = THIS_PATH.joinpath("adl_code")
+
+board_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(BOARDS_PATH)))
+library_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(LIBRARY_PATH)))
 
 def get_logger():
 	return logging.getLogger(__name__)
@@ -27,7 +30,9 @@ def jinja2_path(p):
 
 def render_library(template_path, adl, board):
 	try:
-		return library_loader.get_template(str(jinja2_path(template_path))).render(adl=adl, board=board, context=Context())
+		target = str(jinja2_path(template_path.relative_to(LIBRARY_PATH)))
+		get_logger().info("Rendering %s", target)
+		return library_loader.get_template(target).render(adl=adl, board=board, context=Context())
 	except jinja2.exceptions.TemplateNotFound:
 		if THIS_PATH.joinpath("adl_code", template_path).exists():
 			get_logger().error("Template '%s' exists but not found in jinja2 environment", template_path)

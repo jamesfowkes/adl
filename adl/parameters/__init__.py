@@ -1,12 +1,13 @@
 import os
 import logging
+from pathlib import Path
 
 from yapsy.PluginManager import PluginManager
 
-THIS_PATH = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 parameters_plugin_manager = PluginManager()
-parameters_plugin_manager.setPluginPlaces([THIS_PATH])
+parameters_plugin_manager.setPluginPlaces([str(THIS_PATH)])
 parameters_plugin_manager.collectPlugins()
 
 logger = logging.getLogger(__name__)
