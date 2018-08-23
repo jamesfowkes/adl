@@ -3,13 +3,15 @@ import jinja2
 import datetime
 import logging
 
-THIS_PATH = os.path.dirname(__file__)
+from pathlib import Path, PurePosixPath
 
-board_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(THIS_PATH+"/boards"))
-library_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(THIS_PATH+"/adl_code"))
+THIS_PATH = Path(__file__).parent
+
+board_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(THIS_PATH.joinpath("boards"))))
+library_loader = jinja2.Environment(loader=jinja2.FileSystemLoader(str(THIS_PATH.joinpath("adl_code"))))
 
 def get_logger():
-	return logging.get_logger(__name__)
+	return logging.getLogger(__name__)
 
 class Context:
 
@@ -19,11 +21,20 @@ class Context:
 	def time(self, fmt):
 		return fmt.format(self._time)
 
+def jinja2_path(p):
+	#jinja2 paths are NOT filesystem path! Always use forward slashes!
+	return PurePosixPath(p)
+
 def render_library(template_path, adl, board):
 	try:
-		return library_loader.get_template(template_path).render(adl=adl, board=board, context=Context())
+		return library_loader.get_template(str(jinja2_path(template_path))).render(adl=adl, board=board, context=Context())
+	except jinja2.exceptions.TemplateNotFound:
+		if THIS_PATH.joinpath("adl_code", template_path).exists():
+			get_logger().error("Template '%s' exists but not found in jinja2 environment", template_path)
+		else:
+			get_logger().error("Template '%s' does not exist", template_path)
+		raise
 	except:
-		get_logger().error("Exception processing template {}".format(template_path))
 		raise
 
 def render_board(template_name, board):	

@@ -14,17 +14,42 @@ import subprocess
 import logging
 import docopt
 
+from pathlib import Path
+
 from adl_runner import run
 
-def get_cmd_args(sketch_path):
-    return ["/opt/bin/arduino-1.8.5/arduino", "--board", "arduino:avr:uno", "--verify", sketch_path]
+WINDOWS_PATH = Path("C:\\Program Files (x86)\\Arduino\\arduino.exe")
+
+def find_arduino_executable():
+    if WINDOWS_PATH.exists():
+        return str(WINDOWS_PATH)
+
+    #TODO: use which to find linux path
+    return "/opt/bin/arduino-1.8.5/arduino"
+
+def get_cmd_args(arduino_executable, sketch_path):
+    return [arduino_executable, "--board", "arduino:avr:uno", "--verify", sketch_path]
+
+def find_sketchbook_path():
+    POSSIBLE_SKETCHBOOK_PATHS = ["~/sketchbook", "~/Arduino", "~/Documents/Arduino"]
+    for possible_sketchbook_path in POSSIBLE_SKETCHBOOK_PATHS:
+        candidate = Path(possible_sketchbook_path).expanduser()
+        if candidate.exists():
+            return candidate
+    
+    return None
 
 if __name__ == "__main__":
 
     args = docopt.docopt(__doc__)
 
     example_files = []
-    sketchbook_path = os.path.expanduser("~/sketchbook")
+
+    sketchbook_path = find_sketchbook_path()
+
+    if sketchbook_path is None:
+        print("No sketchbook found")
+        sys.exit(1)
 
     if (args["--verbose"]):
         logging.basicConfig(level=logging.INFO)
@@ -32,22 +57,24 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.WARNING)
 
     for root, directories, files in os.walk("adl/devices"):
-        xml_files = [os.path.join(root, f) for f in files if f == "example.xml"]
+        xml_files = [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
         example_files += xml_files  
 
     for example in example_files:
         print("Trying to build {}".format(example))
         board, adl_config = run(example, sketchbook_path)
-        sketch_path = board.sketch_name()
-        sketch_path = os.path.join(sketchbook_path, sketch_path.full_path)
+        sketch_path = board.sketch_path()
+        sketch_path = sketchbook_path.joinpath(sketch_path)
         try:
-            res = subprocess.run(get_cmd_args(sketch_path), check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            args = get_cmd_args(find_arduino_executable(), str(sketch_path))
+            res = subprocess.run(args, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except subprocess.CalledProcessError as e:
             print("Out: " + e.output.decode("utf-8"))
             print("Std: " + e.stdout.decode("utf-8"))
             print("Err: " + e.stderr.decode("utf-8"))
             sys.exit(1)
         except:
+            print("Attempted command: '{}'".format(" ".join(args)))
             raise
 
         

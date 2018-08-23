@@ -2,6 +2,8 @@ import os
 import logging
 from collections import namedtuple
 
+from pathlib import Path
+
 from adl.types import LocalInclude, LibraryInclude
 
 def get_module_logger():
@@ -17,11 +19,11 @@ class SketchPath(namedtuple("SketchPath", ["folder", "extension"])):
 
 	@property
 	def full_path(self):
-		return os.path.join(self.folder, self.folder + self.extension)
+		return Path.joinpath(self.folder, self.folder + self.extension)
 
 class GenericBoard:
 
-	def sketch_name(self, extension=".ino"):
+	def sketch_path(self, extension=".ino"):
 		sketch_name = self.name
 		if sketch_name[0].isdigit():
 			get_module_logger().warning("Name starts with numeric value. Prefixing with underscore.")
@@ -31,14 +33,16 @@ class GenericBoard:
 			get_module_logger().warning("Name contains spaces. Replacing with underscores.")
 			sketch_name = sketch_name.replace(" ", "_")
 
-		return SketchPath(sketch_name, extension)
+		full_sketch_name = sketch_name + extension
+
+		return Path(sketch_name).joinpath(full_sketch_name)
 
 	def adl_sources(self, full_path):
 		all_deps = []
 		for d in self.devices:
 			for dep in d.adl_dependencies:
 				for src in dep.sources:
-					inc_path = os.path.join(dep.directory, src) if full_path else src
+					inc_path = Path.joinpath(dep.directory, src) if full_path else src
 					all_deps.append(inc_path)
 
 		return set(all_deps)
@@ -48,7 +52,7 @@ class GenericBoard:
 		for d in self.devices:
 			for dep in d.adl_dependencies:
 				for header in dep.headers:
-					inc_path = os.path.join(dep.directory, header) if full_path else header
+					inc_path = Path.joinpath(dep.directory, header) if full_path else header
 					all_deps.append(inc_path)
 
 		return set(all_deps)
@@ -58,16 +62,16 @@ class GenericBoard:
 		for d in self.devices:
 			for include in d.includes:
 				if type(include) is LocalInclude:
-					inc_path = os.path.join(d.directory, include.filename) if full_path else include.filename
+					inc_path = Path.joinpath(d.directory, include.filename) if full_path else include.filename
 					all_includes.append(inc_path)
 
 		for p in self.parameters:
 			for include in p.includes:
-				inc_path = os.path.join(p.directory, include) if full_path else include
+				inc_path = Path.joinpath(p.directory, include) if full_path else include
 				all_includes.append(inc_path)
 
 		all_includes = set(all_includes)
-		get_module_logger().info("Includes: {}".format(",".join(all_includes)))
+		get_module_logger().info("Includes: {}".format(",".join([str(p) for p in all_includes])))
 		return set(all_includes)
 
 	def library_includes(self, full_path):
@@ -75,12 +79,12 @@ class GenericBoard:
 		for d in self.devices:
 			for include in d.includes:
 				if type(include) is LibraryInclude:
-					inc_path = os.path.join(d.directory, include.filename) if full_path else include.filename
+					inc_path = Path.joinpath(d.directory, include.filename) if full_path else include.filename
 					all_includes.append(inc_path)
 
 		for p in self.parameters:
 			for include in p.includes:
-				inc_path = os.path.join(p.directory, include) if full_path else include
+				inc_path = Path.joinpath(p.directory, include) if full_path else include
 				all_includes.append(inc_path)
 
 		return set(all_includes)
@@ -90,12 +94,12 @@ class GenericBoard:
 		all_includes = []
 		for d in self.devices:
 			for include in d.includes:
-				inc_path = os.path.join(d.directory, include) if full_path else include
+				inc_path = Path.joinpath(d.directory, include) if full_path else include
 				all_includes.append(inc_path)
 
 		for p in self.parameters:
 			for include in p.includes:
-				inc_path = os.path.join(p.directory, include) if full_path else include
+				inc_path = Path.joinpath(p.directory, include) if full_path else include
 				all_includes.append(inc_path)
 
 		return set(all_includes)
@@ -105,12 +109,12 @@ class GenericBoard:
 		all_sources = []
 		for d in self.devices:
 			for src in d.sources:
-				src_path = os.path.join(d.directory, src) if full_path else src
+				src_path = Path.joinpath(d.directory, src) if full_path else src
 				all_sources.append(src_path)
 
 		for p in self.parameters:
 			for src in p.sources:
-				src_path = os.path.join(p.directory, src) if full_path else src
+				src_path = Path.joinpath(p.directory, src) if full_path else src
 				all_sources.append(src_path)
 
 		return set(all_sources)
@@ -119,7 +123,7 @@ class GenericBoard:
 		
 		all_sources = []
 		for src in self.custom_code:
-			src_path = os.path.join(path, src) if path else src
+			src_path = Path.joinpath(path, src) if path else src
 			all_sources.append(src_path)
 
 		return set(all_sources)

@@ -1,9 +1,10 @@
 import os
 import logging
 
+from pathlib import Path
 from yapsy.PluginManager import PluginManager
 
-THIS_PATH = os.path.dirname(__file__)
+THIS_PATH = Path(__file__).parent
 
 boards_plugin_manager = PluginManager()
 boards_plugin_manager.setPluginPlaces([THIS_PATH])

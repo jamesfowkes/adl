@@ -15,9 +15,10 @@ import logging
 def get_logger():
 	return logging.getLogger(__name__)
 
-VALID_FILETYPES = ["xml", "yaml", "json"]
+VALID_FILETYPES = [".xml", ".yaml", ".json"]
+
 def get_type_from_filename(filename):
-	return os.path.splitext(filename)[1][1:]
+	return filename.suffix
 
 def parse_file(filename, filetype=None):
 
@@ -25,7 +26,7 @@ def parse_file(filename, filetype=None):
 		filetype = get_type_from_filename(filename)
 
 		if filetype not in VALID_FILETYPES:
-			get_logger().error("Could not identify filetype of %s", filename)
+			get_logger().error("Could not identify filetype of %s (got %s)", filename, filetype)
 			return None
 
 	if filetype not in VALID_FILETYPES:
@@ -34,11 +35,11 @@ def parse_file(filename, filetype=None):
 
 	get_logger().info("Parsing %s as %s", filename, filetype)
 
-	if filetype == "xml":
+	if filetype == ".xml":
 		tree = ET.parse(filename)
 		board = adl.types.Board.from_xml(tree)
 
-	if filetype == "yaml":
+	elif filetype == ".yaml":
 		stream = open(filename, 'r')
 		board = adl.types.Board.from_yaml(yaml.load(stream))
 
