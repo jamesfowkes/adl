@@ -11,6 +11,8 @@ public:
 	int command_handler(char const * const command, char * reply);
 	
 	void set(bool on);
+	void tristate();
+
 private:
 	int m_pin;
 };
