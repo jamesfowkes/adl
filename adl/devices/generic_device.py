@@ -18,7 +18,7 @@ class GenericDevice:
 class GenericDevicePlugin:
 
 	def verify_settings(self, device):
-
-		for setting in self.REQUIRED_SETTINGS:
-			if setting not in device.settings:
-				raise Exception("Expected setting {} in device '{}'".format(setting, device.name))
+		if hasattr(self, "REQUIRED_SETTINGS"):
+			for setting in self.REQUIRED_SETTINGS:
+				if setting not in device.settings:
+					raise Exception("Expected setting {} in device '{}'".format(setting, device.name))
