@@ -23,6 +23,13 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
 	def update(self, new_value):
 		return Setting(self.id, self.name, new_value)
 		
+	def check(self, check_fn, exception_str):
+		if not check_fn(self.value):
+			raise Exception(exception_str)
+
+	def parse(self, parser):
+		return self.update(parser(self.value))
+
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
 	__slots__ = ()
