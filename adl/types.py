@@ -22,7 +22,15 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
 	def update(self, new_value):
 		return Setting(self.id, self.name, new_value)
-		
+
+	def parse(self, parse_function):
+		return self.update(parse_function(self.value))
+
+	def check(self, check_function, error_msg):
+		if not check_function(self.value):
+			raise Exception(error_msg)
+
+
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
 	__slots__ = ()

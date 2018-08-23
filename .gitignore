@@ -94,3 +94,6 @@ presentation/
 # C object files
 *.o
 *.out
+
+# Unittest executables (windows)
+*.exe
