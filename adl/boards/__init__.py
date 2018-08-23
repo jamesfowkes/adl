@@ -2,12 +2,13 @@ import os
 import logging
 
 from pathlib import Path
+from pathlib import Path
 from yapsy.PluginManager import PluginManager
 
 THIS_PATH = Path(__file__).parent
 
 boards_plugin_manager = PluginManager()
-boards_plugin_manager.setPluginPlaces([THIS_PATH])
+boards_plugin_manager.setPluginPlaces([str(THIS_PATH)])
 boards_plugin_manager.collectPlugins()
 
 def activate_all():
