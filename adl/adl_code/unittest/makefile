@@ -23,11 +23,16 @@ ADL_UTIL_DELIMITED_STREAM_PARSER_OBJS = ../adl-util-delimited-stream-parser.o \
 	adl-util-delimited-stream-parser.unittest.o \
 	adl-util.unittest.runner.o
 
+ADL_UTIL_LIMITED_RANGE_INT_OBJS = ../adl-util-limited-range-int.o \
+	adl-util-limited-range-int.unittest.o \
+	adl-util.unittest.runner.o
+
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
 default:
-	@echo "Available Tests: adl-util adl-util-delimited-stream-parser"
+	@echo "Available Tests: adl-util adl-util-delimited-stream-parser adl-util-limited-range-int"
 
 .PHONY: adl-util
 adl-util: $(ADL_UTIL_OBJS)
@@ -38,6 +43,11 @@ adl-util: $(ADL_UTIL_OBJS)
 adl-util-delimited-stream-parser: $(ADL_UTIL_DELIMITED_STREAM_PARSER_OBJS)
 	$(CC) -o adl-util-delimited-stream-parser.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util-delimited-stream-parser.$(TARGET_EXTENSION)
+
+.PHONY: adl-util-limited-range-int
+adl-util-limited-range-int: $(ADL_UTIL_LIMITED_RANGE_INT_OBJS)
+	$(CC) -o adl-util-limited-range-int.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-util-limited-range-int.$(TARGET_EXTENSION)
 
 clean:
 	rm *.o
