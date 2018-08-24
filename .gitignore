@@ -95,5 +95,7 @@ presentation/
 *.o
 *.out
 
-# Unittest executables (windows)
+# Unittest outputs
 *.exe
+*.stackdump
+*.a
