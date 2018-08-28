@@ -1,0 +1,9 @@
+[Core]
+Name = Integer
+Module = integer
+
+[Documentation]
+Description = Allows read/write of an integer parameter
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Integer Parameter Example">
+	<info>
+		An example sketch for the boolean parameter
+	</info>
+	
+	<parameters>
+		<parameter name="My Integer" type="Integer"/>
+	</parameters>
+
+	<custom_code>
+		<file>custom_code.cpp</file>
+	</custom_code>
+</board>
