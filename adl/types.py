@@ -1,4 +1,8 @@
+from pathlib import Path
+
 from collections import namedtuple
+
+import adl
 
 class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
@@ -119,12 +123,36 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		adl = board_dict["board"].get("adl", {})
 		return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_dict["board"])
 
-class LocalInclude:
-	def __init__(self, filename):
-		self.filename = filename
+class IncludeFile(Path):
+	_flavour = Path('.')._flavour
+
+class SourceFile(Path):
+	_flavour = Path('.')._flavour
+
+class ADLSource(SourceFile):
+	pass
+
+class ADLInclude(IncludeFile):
+	pass
+
+class LocalSource(SourceFile):
+	pass
+
+class LocalInclude(IncludeFile):
+	pass
+
+class LibraryInclude(IncludeFile):
+	pass
+
+class ParameterSource(SourceFile):
+	pass
+
+class ParameterInclude(IncludeFile):
+	pass
+
+class DeviceSource(SourceFile):
+	pass
+
+class DeviceInclude(IncludeFile):
+	pass
 	
-
-class LibraryInclude:
-	def __init__(self, filename):
-		self.filename = filename
-

@@ -59,7 +59,9 @@ def run(input_file, sketchbook=None):
 		adl.write_sources(sketch_directory, board.adl_sources(True))
 		adl.write_sources(sketch_directory, board.adl_includes(True))
 		adl.write_sources(sketch_directory, board.device_includes(True))
-		adl.write_sources(sketch_directory, board.sources(True))
+		adl.write_sources(sketch_directory, board.device_sources(True))
+		adl.write_sources(sketch_directory, board.parameter_includes(True))
+		adl.write_sources(sketch_directory, board.parameter_sources(True))
 		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))
 
 	return board, adl_config

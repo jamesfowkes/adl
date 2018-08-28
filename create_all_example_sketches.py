@@ -62,7 +62,7 @@ if __name__ == "__main__":
     if args["all"]:
         targets = ["devices", "parameters", "modules"]
     else:
-        targets = [next(x for x in args if x in ["devices", "parameters", "modules"])]
+        targets = [next(x for x in args if x in ["devices", "parameters", "modules"] and args[x])]
 
     for target in targets:
         xml_files = []
@@ -79,6 +79,8 @@ if __name__ == "__main__":
         try:
             args = get_cmd_args(find_arduino_executable(), str(sketch_path))
             res = subprocess.run(args, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if len(res.stderr):
+                print(res.stderr.decode("utf-8"))
         except subprocess.CalledProcessError as e:
             print("Out: " + e.output.decode("utf-8"))
             print("Std: " + e.stdout.decode("utf-8"))

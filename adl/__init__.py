@@ -24,6 +24,9 @@ ADL_SOURCE_FILES = [
 def get_module_logger():
 	return logging.getLogger(__name__)
 
+def codepath():
+	return THIS_PATH.joinpath("adl_code")
+	
 def get_subfolders(path):
 
 	def absolute_path(d):
@@ -43,6 +46,7 @@ def write_file(template_file, target_directory, target_file, adl_config, board, 
 		f.write(rendered_code)
 
 def copy_file(relative_src_path, target_directory):
+	get_module_logger().info("Copying from %s", relative_src_path)
 	filename = relative_src_path.name
 	src_path = THIS_PATH.joinpath(relative_src_path)
 	dst_path = target_directory.joinpath(filename)
