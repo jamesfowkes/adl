@@ -2,9 +2,11 @@
 #include "adl-util.h"
 #include "adl-util-limited-range-int.h"
 
-LimitedRangeInt::LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val):
+LimitedRangeInt::LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val, bool clip_on_out_of_range):
 m_min(min_val), m_max(max_val)
 {
+    m_clip_on_out_of_range = clip_on_out_of_range;
+    m_value = 0;
     (void)this->set(init_value);
 }
 
@@ -21,11 +23,11 @@ bool LimitedRangeInt::set(int32_t to_set)
     {
         m_value = to_set;
     }
-    else if (to_set > m_max)
+    else if (m_clip_on_out_of_range && (to_set > m_max))
     {
         m_value = m_max;
     }
-    else if (to_set < m_min)
+    else if (m_clip_on_out_of_range && (to_set < m_min))
     {
         m_value = m_min;
     }

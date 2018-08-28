@@ -4,7 +4,7 @@
 class LimitedRangeInt
 {
 public:
-    LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val);
+    LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val, bool clip_on_out_of_range);
     bool set(int32_t to_set);
     bool check(int32_t to_check);
     
@@ -32,6 +32,7 @@ private:
     int32_t m_min;
     int32_t m_max;
     int32_t m_value;
+    bool m_clip_on_out_of_range;
 };
 
 #endif

@@ -24,7 +24,8 @@ ADL_UTIL_DELIMITED_STREAM_PARSER_OBJS = ../adl-util-delimited-stream-parser.o \
 	adl-util.unittest.runner.o
 
 ADL_UTIL_LIMITED_RANGE_INT_OBJS = ../adl-util-limited-range-int.o \
-	adl-util-limited-range-int.unittest.o \
+	adl-util-limited-range-int.clipped-behaviour.unittest.o \
+	adl-util-limited-range-int.unclipped-behaviour.unittest.o \
 	adl-util.unittest.runner.o
 
 
@@ -34,18 +35,15 @@ ADL_UTIL_LIMITED_RANGE_INT_OBJS = ../adl-util-limited-range-int.o \
 default:
 	@echo "Available Tests: adl-util adl-util-delimited-stream-parser adl-util-limited-range-int"
 
-.PHONY: adl-util
-adl-util: $(ADL_UTIL_OBJS)
+adl-util.$(TARGET_EXTENSION): $(ADL_UTIL_OBJS)
 	$(CC) -o adl-util.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util.$(TARGET_EXTENSION)
 
-.PHONY: adl-util-delimited-stream-parser
-adl-util-delimited-stream-parser: $(ADL_UTIL_DELIMITED_STREAM_PARSER_OBJS)
+adl-util-delimited-stream-parser.$(TARGET_EXTENSION): $(ADL_UTIL_DELIMITED_STREAM_PARSER_OBJS)
 	$(CC) -o adl-util-delimited-stream-parser.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util-delimited-stream-parser.$(TARGET_EXTENSION)
 
-.PHONY: adl-util-limited-range-int
-adl-util-limited-range-int: $(ADL_UTIL_LIMITED_RANGE_INT_OBJS)
+adl-util-limited-range-int.$(TARGET_EXTENSION): $(ADL_UTIL_LIMITED_RANGE_INT_OBJS)
 	$(CC) -o adl-util-limited-range-int.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util-limited-range-int.$(TARGET_EXTENSION)
 
