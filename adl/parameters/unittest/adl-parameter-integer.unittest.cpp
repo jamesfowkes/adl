@@ -8,6 +8,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "adl-util-limited-range-int.h"
 #include "parameter.h"
 #include "integer-param.h"
 
@@ -18,7 +19,8 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testIntegerParameterInitsToResetValue);
     CPPUNIT_TEST(testIntegerParameterSetReturnsTrueAndStateIsSet);
     CPPUNIT_TEST(testIntegerParameterWithoutLimitsAllowIntegerMinMax);
-    CPPUNIT_TEST(testIntegerParameterWithLimitsDoesNotAllowSetOutsideRange);
+    CPPUNIT_TEST(testClippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange);
+    CPPUNIT_TEST(testUnclippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange);
     CPPUNIT_TEST(testIntegerParameterWithLimitsAllowSetInsideRange);
     CPPUNIT_TEST(testIntegerParameterResetsToResetValue);
 
@@ -42,9 +44,18 @@ class IntegerParameterTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT(param.set(INT32_MIN));
     }
 
-    void testIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
+    void testClippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
         IntegerParam param = IntegerParam(0, -10, 10);
+        CPPUNIT_ASSERT(!param.set(-11));
+        CPPUNIT_ASSERT_EQUAL(-10, param.get());
+        CPPUNIT_ASSERT(!param.set(11));
+        CPPUNIT_ASSERT_EQUAL(10, param.get());
+    }
+
+    void testUnclippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
+    {
+        IntegerParam param = IntegerParam(0, -10, 10, false);
         CPPUNIT_ASSERT(!param.set(-11));
         CPPUNIT_ASSERT(!param.set(11));
         CPPUNIT_ASSERT_EQUAL(0, param.get());

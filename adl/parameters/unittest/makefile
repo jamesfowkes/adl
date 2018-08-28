@@ -9,20 +9,28 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../boolean -I../integer
+INC = -I../ -I../boolean -I../integer -I../../adl_code
 
 CFLAGS = -Wall -Wextra
 
-OBJS = ../boolean/boolean-param.o \
-	../integer/integer-param.o \
-	adl-parameter-boolean.unittest.o \
+GLOBAL_OBJS = adl-parameter.unittest.runner.o
+
+INTEGER_OBJS = ../integer/integer-param.o \
 	adl-parameter-integer.unittest.o \
-	adl-parameter.unittest.runner.o
+	../../adl_code/adl-util-limited-range-int.o \
+	$(GLOBAL_OBJS)
+
+BOOLEAN_OBJS = ../boolean/boolean-param.o \
+	adl-parameter-boolean.unittest.o \
+	$(GLOBAL_OBJS)
 
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
-.PHONY: adl-parameter
-adl-parameter: $(OBJS)
-	$(CC) -o adl-parameter.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
-	./adl-parameter.$(TARGET_EXTENSION)
+adl-integer-param.$(TARGET_EXTENSION): $(INTEGER_OBJS)
+	$(CC) -o adl-integer-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-integer-param.$(TARGET_EXTENSION)
+
+adl-boolean-param.$(TARGET_EXTENSION): $(BOOLEAN_OBJS)
+	$(CC) -o adl-boolean-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-boolean-param.$(TARGET_EXTENSION)

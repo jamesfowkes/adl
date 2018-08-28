@@ -4,25 +4,25 @@
 
 #include "stdint.h"
 #include "string.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 /*
  * ADL Includes
  */
 
+#include "adl-util-limited-range-int.h"
 #include "parameter.h"
 #include "integer-param.h"
-#include "adl-util-limited-range-int.h"
 
-IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_limit)
+IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_limit, bool clip_on_out_of_range) :
+m_value(reset_value, min_limit, max_limit, clip_on_out_of_range)
 {
-	m_min = min_limit;
-	m_max = max_limit;
 	m_reset_value = reset_value;
-	m_state = reset_value;
 }
 
 void IntegerParam::reset() {
-	m_state = m_reset_value;
+	m_value.set(m_reset_value);
 }
 
 void IntegerParam::setup()
@@ -32,48 +32,35 @@ void IntegerParam::setup()
 
 int32_t IntegerParam::get()
 {
-	return m_state;
+	return m_value.value();
 }
 
 bool IntegerParam::set(int32_t setting)
 {
-	bool valid = (setting <= m_max) && (setting >= m_min);
-
-	if (valid)
-	{
-		m_state = setting;
-	}
-
-	return valid;
+	return m_value.set(setting);
 }
 
 int IntegerParam::command_handler(char const * const command, char * reply)
 {
-	int reply_length = 0;
-	if ((command[0] == '1') || (command[0] == 'T') || (command[0] == 't') || (command[0] == 'y'))
+	long int value = 0;
+	char * pEnd;
+	int reply_length;
+
+	if (command[0] == 'S')
 	{
-		m_state = true;
-		strcpy(reply, " OK");
-		reply[0] = command[0];
-		reply_length = strlen(reply);
+		value = strtol(command, &pEnd, 10);
+		if (pEnd > command)
+		{
+			if ((value <= INT32_MAX) && (value >= INT32_MIN))
+			{
+				strcpy(reply, "OK");
+				reply_length = 2;
+			}
+		}
 	}
-	else if ((command[0] == '0') || (command[0] == 'F') || (command[0] == 'f') || (command[0] == 'n'))
+	else if (command[0] == '?')
 	{
-		m_state = false;
-		strcpy(reply, " OK");
-		reply[0] = command[0];
-		reply_length = strlen(reply);
-	}
-	else if (command[0] == 'R')
-	{
-		this->reset();
-		strcpy(reply, "ROK");
-		reply_length = strlen(reply);
-	}
-	else
-	{
-		reply[0] = '?';
-		reply_length = 1;
+		sprintf(reply, "%d", this->get());
 	}
 
 	return reply_length;
