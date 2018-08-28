@@ -4,6 +4,7 @@
 #include "parameter.h"
 #include "adl.h"
 
+#include "adl-util-limited-range-int.h"
 #include "integer-param.h"
 
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)

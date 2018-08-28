@@ -6,7 +6,9 @@
 	</info>
 	
 	<parameters>
-		<parameter name="My Integer" type="Integer"/>
+		<parameter name="My Integer" type="Integer">
+			<setting id="clip" value="false"/>
+		</parameter>
 	</parameters>
 
 	<custom_code>

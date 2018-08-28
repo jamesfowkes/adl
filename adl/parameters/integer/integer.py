@@ -16,7 +16,7 @@ from adl.types import LocalSource, LocalInclude
 
 THIS_PATH = Path(__file__).parent
 
-class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_value", "min", "max"])):
+class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_value", "min", "max", "clip"])):
 
 	__slots__ = ()
 
@@ -26,9 +26,9 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 
 	@property
 	def declarations(self):
-		return "static IntegerParam {name} = IntegerParam({init}, {min}, {max});".format(
+		return "static IntegerParam {name} = IntegerParam({init}, {min}, {max}, {clip});".format(
 			name=self.cname(), init=self.init_value.value,
-			min=self.min.value, max=self.max.value
+			min=self.min.value, max=self.max.value, clip=self.clip.value
 		)
 
 	@property
@@ -61,7 +61,8 @@ class IntegerPlugin(IPlugin):
 		return IntegerParam(param.name, 
 			param.settings.get("init_value", Setting("init_value", "", "0")),
 			param.settings.get("min", Setting("min", "", "INT32_MIN")),
-			param.settings.get("max", Setting("max", "", "INT32_MAX"))
+			param.settings.get("max", Setting("max", "", "INT32_MAX")),
+			param.settings.get("clip", Setting("clip", "", "true"))
 		)
 
 	def set_log_level(self, level):
