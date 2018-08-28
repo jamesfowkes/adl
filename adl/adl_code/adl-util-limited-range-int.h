@@ -6,6 +6,8 @@ class LimitedRangeInt
 public:
     LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val);
     bool set(int32_t to_set);
+    bool check(int32_t to_check);
+    
     int32_t value();
 
     int32_t operator=(const int32_t rhs);

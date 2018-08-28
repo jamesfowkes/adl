@@ -27,6 +27,8 @@ class LimitedRangeIntTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testLimitedRangeIntDecrementGoesDownToMinValue);
     CPPUNIT_TEST(testLimitedRangeIntSubtractionGoesDownToMinValue);
     CPPUNIT_TEST(testLimitedRangeIntSubtractionDoesNotUnderflow);
+    CPPUNIT_TEST(testLimitedRangeCheckReturnsTrueForValuesInsideRange);
+    CPPUNIT_TEST(testLimitedRangeCheckReturnsFalseForValuesOutsideRange);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -136,6 +138,25 @@ class LimitedRangeIntTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(INT32_MIN, limited.value());
         limited = limited - 1;
         CPPUNIT_ASSERT_EQUAL(INT32_MIN, limited.value());
+    }
+
+    void testLimitedRangeCheckReturnsTrueForValuesInsideRange()
+    {
+        LimitedRangeInt limited(0, -10, 10);
+        CPPUNIT_ASSERT(limited.check(-10));
+        CPPUNIT_ASSERT(limited.check(-9));
+        CPPUNIT_ASSERT(limited.check(0));
+        CPPUNIT_ASSERT(limited.check(9));
+        CPPUNIT_ASSERT(limited.check(10));
+    }
+
+    void testLimitedRangeCheckReturnsFalseForValuesOutsideRange()
+    {
+        LimitedRangeInt limited(0, -10, 10);
+        CPPUNIT_ASSERT(!limited.check(-11));
+        CPPUNIT_ASSERT(!limited.check(11));
+        CPPUNIT_ASSERT(!limited.check(INT32_MIN));
+        CPPUNIT_ASSERT(!limited.check(INT32_MAX));
     }
 };
 

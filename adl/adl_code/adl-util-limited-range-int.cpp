@@ -8,9 +8,14 @@ m_min(min_val), m_max(max_val)
     (void)this->set(init_value);
 }
 
+bool LimitedRangeInt::check(int32_t to_check)
+{
+    return (to_check <= m_max) && (to_check >= m_min);
+}
+
 bool LimitedRangeInt::set(int32_t to_set)
 {
-    bool in_range = (to_set <= m_max) && (to_set >= m_min);
+    bool in_range = this->check(to_set);
 
     if (in_range)
     {
