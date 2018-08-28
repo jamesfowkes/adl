@@ -30,6 +30,10 @@ By the Arduino Description Language tool.
 #include "{{include}}"
 {% endfor %}
 
+{% for include in board.parameter_includes(False) %}
+#include "{{include}}"
+{% endfor %}
+
 {% for device in board.devices %}
 {{device.declarations}}
 {% endfor %}
