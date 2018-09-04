@@ -24,12 +24,15 @@ ADL_SOURCE_FILES = [
 def get_module_logger():
 	return logging.getLogger(__name__)
 
+def codepath():
+	return THIS_PATH.joinpath("adl_code")
+	
 def get_subfolders(path):
 
 	def absolute_path(d):
 		return THIS_PATH.joinpath("adl_code", d)
 
-	return [d for d in os.listdir(path) if absolute_path(d).is_dir()]
+	return [d.name for d in path.iterdir() if absolute_path(d).is_dir()]
 
 VALID_PROTOCOLS = get_subfolders(THIS_PATH.joinpath("adl_code"))
 
@@ -37,30 +40,32 @@ def write_file(template_file, target_directory, target_file, adl_config, board, 
 	if protocol_dir is None:
 		protocol_dir = Path(adl_config.protocol)
 
-	rendered_code = adl.template_engine.render_library(protocol_dir.joinpath(template_file), adl_config, board)
-	with open(target_directory.joinpath(target_file), 'w') as f:
-		get_module_logger().info("Writing file %s to %s", target_file, target_directory)
+	rendered_code = adl.template_engine.render_library(protocol_dir.joinpath(template_file).resolve(), adl_config, board)
+	with target_directory.joinpath(target_file).open('w') as f:
+		get_module_logger().info("Writing file %s to %s", target_file, f.name)
 		f.write(rendered_code)
 
 def copy_file(relative_src_path, target_directory):
+	get_module_logger().info("Copying from %s", relative_src_path)
 	filename = relative_src_path.name
 	src_path = THIS_PATH.joinpath(relative_src_path)
 	dst_path = target_directory.joinpath(filename)
-	shutil.copy(src_path, dst_path)
+	shutil.copy(str(src_path), str(dst_path))
 
 def write_library(target_directory, adl_config, board):
+	get_module_logger().info("Writing ADL library to %s", str(target_directory))
 	protocol_src_path = THIS_PATH.joinpath("adl_code", adl_config.protocol)
 	get_module_logger().info("Using protocol from {}".format(protocol_src_path))
 
-	for file in os.listdir(protocol_src_path):
-		if file.endswith(".h") or file.endswith(".cpp") or file.endswith(".c"):
-			write_file(file, target_directory, file, adl_config, board)
+	for file in protocol_src_path.iterdir():
+		if file.suffix in [".h", ".cpp", ".c"]:
+			write_file(file, target_directory, file.name, adl_config, board)
 
 	copy_file(Path("devices/device.h"), target_directory)
 	copy_file(Path("parameters/parameter.h"), target_directory)
 
 	for template_file, target_file in ADL_SOURCE_FILES:
-		write_file(template_file, target_directory, target_file, adl_config, board, Path(""))
+		write_file(template_file, target_directory, target_file, adl_config, board, THIS_PATH.joinpath("adl_code"))
 
 def write_sources(target_directory, sources):
 	for src in sources:

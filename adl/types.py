@@ -1,4 +1,8 @@
+from pathlib import Path
+
 from collections import namedtuple
+
+import adl
 
 class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
@@ -22,13 +26,13 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
 	def update(self, new_value):
 		return Setting(self.id, self.name, new_value)
-		
-	def check(self, check_fn, exception_str):
-		if not check_fn(self.value):
-			raise Exception(exception_str)
 
-	def parse(self, parser):
-		return self.update(parser(self.value))
+	def parse(self, parse_function):
+		return self.update(parse_function(self.value))
+
+	def check(self, check_function, error_msg):
+		if not check_function(self.value):
+			raise Exception(error_msg)
 
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
@@ -118,12 +122,36 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		adl = board_dict["board"].get("adl", {})
 		return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_dict["board"])
 
-class LocalInclude:
-	def __init__(self, filename):
-		self.filename = filename
+class IncludeFile(Path):
+	_flavour = Path('.')._flavour
+
+class SourceFile(Path):
+	_flavour = Path('.')._flavour
+
+class ADLSource(SourceFile):
+	pass
+
+class ADLInclude(IncludeFile):
+	pass
+
+class LocalSource(SourceFile):
+	pass
+
+class LocalInclude(IncludeFile):
+	pass
+
+class LibraryInclude(IncludeFile):
+	pass
+
+class ParameterSource(SourceFile):
+	pass
+
+class ParameterInclude(IncludeFile):
+	pass
+
+class DeviceSource(SourceFile):
+	pass
+
+class DeviceInclude(IncludeFile):
+	pass
 	
-
-class LibraryInclude:
-	def __init__(self, filename):
-		self.filename = filename
-

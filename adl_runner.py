@@ -25,13 +25,13 @@ def create_sketch_directory(parent_directory, sketch_directory):
 	parent_directory = Path(parent_directory).expanduser()
 	target_directory = Path.joinpath(parent_directory, sketch_directory)
 
-	get_module_logger().info("Creating sketch dircetory '%s'", target_directory)
+	get_module_logger().info("Creating sketch directory '%s'", target_directory)
 
 	if not target_directory.exists():
-		os.makedirs(target_directory)
+		os.makedirs(str(target_directory))
 	else:
-		for file in os.listdir(target_directory):
-			os.unlink(target_directory.joinpath(file))
+		for file in target_directory.iterdir():
+			os.unlink(str(file))
 
 	return target_directory
 
@@ -39,7 +39,7 @@ def write_sketch_to_directory(directory, sketch_name, sketch_contents):
 
 	target = directory.joinpath(sketch_name)
 	get_module_logger().info("Writing sketch '%s'", target)
-	with open(target, 'w') as sketch:
+	with target.open('w') as sketch:
 		sketch.write(sketch_contents)
 
 def run(input_file, sketchbook=None):
@@ -59,7 +59,9 @@ def run(input_file, sketchbook=None):
 		adl.write_sources(sketch_directory, board.adl_sources(True))
 		adl.write_sources(sketch_directory, board.adl_includes(True))
 		adl.write_sources(sketch_directory, board.device_includes(True))
-		adl.write_sources(sketch_directory, board.sources(True))
+		adl.write_sources(sketch_directory, board.device_sources(True))
+		adl.write_sources(sketch_directory, board.parameter_includes(True))
+		adl.write_sources(sketch_directory, board.parameter_sources(True))
 		adl.write_sources(sketch_directory, board.custom_code_paths(input_file_path))
 
 	return board, adl_config

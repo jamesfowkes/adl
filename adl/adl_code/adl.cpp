@@ -25,7 +25,6 @@ static bool s_command_pending = false;
 static ProtocolHandler s_protocol_handler; 
 
 static unsigned long s_timer = 0;
-static const unsigned long ADL_TICK_MS = 10;
 
 static inline bool end_of_command(char c)
 {
