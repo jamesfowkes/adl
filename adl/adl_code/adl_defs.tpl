@@ -23,4 +23,6 @@ static const int ADL_PARAM_COUNT = {{ board.parameters | length }};
 
 static const int ADL_BUFFER_SIZE = {{adl.buffer_size}};
 
+static const unsigned long ADL_TICK_MS = {{adl.tick_duration_ms}};
+
 #endif
