@@ -12,9 +12,8 @@ from adl.boards.generic_board import GenericBoard
 class Uno(GenericBoard, namedtuple("Uno", ["name", "serial", "devices", "parameters", "custom_code", "settings", "info"])):
 	__slots__ = ()
 
-	@property
-	def code(self):
-		return template_engine.render_board("uno.template", self)
+	def code(self, adl):
+		return template_engine.render_board("uno.template", adl=adl, board=self)
 
 class UnoPlugin(IPlugin):
 	def activate(self):

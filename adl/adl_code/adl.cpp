@@ -6,7 +6,8 @@
 
 #include "parameter.h"
 #include "device.h"
-#include "adl_defs.h"
+#include "adl-callbacks.h"
+#include "adl-defs.h"
 #include "adl.h"
 #include "protocol.h"
 

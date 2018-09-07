@@ -16,9 +16,11 @@ THIS_PATH = Path(__file__).parent
 ADL_SOURCE_FILES = [
 	("adl.cpp", "adl.cpp"),
 	("adl-util.cpp", "adl-util.cpp"),
+	("adl-callbacks.cpp", "adl-callbacks.cpp"),
 	("adl.h", "adl.h",),
 	("adl-util.h", "adl-util.h"),
-	("adl_defs.tpl", "adl_defs.h")
+	("adl_defs.tpl", "adl-defs.h"),
+	("adl-callbacks.h", "adl-callbacks.h")
 ]
 
 def get_module_logger():

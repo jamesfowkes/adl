@@ -42,5 +42,5 @@ def render_library(template_path, adl, board):
 	except:
 		raise
 
-def render_board(template_name, board):	
-	return board_loader.get_template(template_name).render(board=board, context=Context())
+def render_board(template_name, adl, board):	
+	return board_loader.get_template(template_name).render(adl=adl, board=board, context=Context())
