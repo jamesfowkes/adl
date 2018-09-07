@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import DeviceSource, DeviceInclude
+from adl.types import DeviceSource, DeviceInclude, LibraryInclude
 
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
@@ -33,7 +33,7 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
 	@property
 	def includes(self):
 		return [
-			LocalInclude("adafruit-ads1x15.h"),
+			DeviceInclude(THIS_PATH, "adafruit-ads1x15.h"),
 			LibraryInclude("Adafruit_ADS1015.h")
 		]
 
