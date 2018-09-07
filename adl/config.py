@@ -3,9 +3,13 @@ from pathlib import Path
 
 from adl import VALID_PROTOCOLS
 
-ADLConfig = namedtuple("ADLConfig", ["buffer_size", "protocol", "tick_duration_ms", "delay_start_time"])
+class ADLConfig(namedtuple("ADLConfig", ["source_file", "buffer_size", "protocol", "tick_duration_ms", "delay_start_time"])):
 
-def get(board):
+	@property
+	def source_path(self):
+		return Path.resolve(Path(self.source_file).parent)
+
+def get(board, source_file):
 	adl_buffer_size = board.adl.get("buffer_size", 64)
 	protocol = board.adl.get("protocol", "simple")
 	tick_duration_ms = board.adl.get("tick_duration_ms", 10)
@@ -14,4 +18,4 @@ def get(board):
 	if protocol not in VALID_PROTOCOLS:
 		raise Exception("Protocol {} not found in {}".format(protocol, VALID_PROTOCOLS))
 		
-	return ADLConfig(adl_buffer_size, protocol, tick_duration_ms, delay_start_time)
+	return ADLConfig(source_file, adl_buffer_size, protocol, tick_duration_ms, delay_start_time)

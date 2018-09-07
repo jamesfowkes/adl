@@ -44,4 +44,4 @@ def parse_file(filename, filetype=None):
 
 	devices = adl.devices.get(board.devices)
 	parameters = adl.parameters.get(board.parameters)
-	return adl.boards.get(board, devices, parameters), adl.config.get(board)
+	return adl.boards.get(board, devices, parameters), adl.config.get(board, filename)
