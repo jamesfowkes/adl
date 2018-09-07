@@ -41,6 +41,8 @@ ParameterBase& adl_get_param(PARAM_ADDRESS address);
 COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address);
 COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address);
 
+void adl_delay_start(uint8_t seconds);
+
 class ProtocolHandlerBase
 {
 public:

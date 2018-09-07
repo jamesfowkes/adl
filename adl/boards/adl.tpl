@@ -142,6 +142,12 @@ void setup()
 
 	{{ board.serial.setup }}
 
+	adl_on_setup_complete();
+	
+	if ({{adl.delay_start_time}})
+	{
+		adl_delay_start( {{adl.delay_start_time}} );
+	}
 }
 
 {% endmacro %}

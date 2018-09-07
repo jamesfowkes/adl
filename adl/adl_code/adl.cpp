@@ -238,6 +238,16 @@ void adl_service_timer()
 	}
 }
 
+void adl_delay_start(uint8_t seconds)
+{
+	while(seconds)
+	{
+		adl_on_delay_start_tick(seconds);
+		seconds--;
+		delay(1000);
+	}
+}
+
 void adl_add_char(char c)
 {
 	s_command_pending = end_of_command(c);
