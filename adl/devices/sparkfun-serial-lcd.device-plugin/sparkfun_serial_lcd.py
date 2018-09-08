@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LibraryInclude, LocalInclude
+from adl.types import LibraryInclude, DeviceSource, DeviceInclude
 from adl.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
@@ -26,11 +26,11 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
 
 	@property
 	def sources(self):
-		return ["sparkfun-serial-lcd.cpp"]
+		return [DeviceSource(THIS_PATH, "sparkfun-serial-lcd.cpp")]
 
 	@property
 	def includes(self):
-		return [LocalInclude("sparkfun-serial-lcd.h")]
+		return [DeviceInclude(THIS_PATH, "sparkfun-serial-lcd.h")]
 
 	@property
 	def declarations(self):

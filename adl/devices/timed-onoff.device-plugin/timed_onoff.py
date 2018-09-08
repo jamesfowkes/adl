@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LocalInclude
+from adl.types import DeviceSource, DeviceInclude
 
 from adl.devices.generic_device import GenericDevice
 
@@ -27,11 +27,11 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
 
 	@property
 	def sources(self):
-		return ["timed-onoff.cpp"]
+		return [DeviceSource(THIS_PATH, "timed-onoff.cpp")]
 
 	@property
 	def includes(self):
-		return [LocalInclude("timed-onoff.h")]
+		return [DeviceInclude(THIS_PATH, "timed-onoff.h")]
 
 	@property
 	def declarations(self):

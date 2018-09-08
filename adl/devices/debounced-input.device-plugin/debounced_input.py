@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LocalInclude, LibraryInclude
+from adl.types import DeviceSource, DeviceInclude, LibraryInclude
 from adl.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
@@ -26,11 +26,11 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
 
 	@property
 	def sources(self):
-		return ["debounced-input.cpp"]
+		return [DeviceSource(THIS_PATH, "debounced-input.cpp")]
 
 	@property
 	def includes(self):
-		return [LocalInclude("debounced-input.h")]
+		return [DeviceInclude(THIS_PATH, "debounced-input.h")]
 
 	@property
 	def declarations(self):

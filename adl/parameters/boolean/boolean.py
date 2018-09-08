@@ -2,6 +2,8 @@ import os
 import logging
 from pathlib import Path
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
@@ -9,6 +11,7 @@ from yapsy.IPlugin import IPlugin
 from adl.parameters.generic_parameter import GenericParameter
 
 from adl.types import Setting
+from adl.types import ParameterSource, ParameterInclude
 
 THIS_PATH = Path(__file__).parent
 
@@ -32,11 +35,11 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
 
 	@property
 	def sources(self):
-		return ["boolean-param.cpp"]
+		return [ParameterSource(THIS_PATH, "boolean-param.cpp")]
 
 	@property
 	def includes(self):
-		return ["boolean-param.h"]
+		return [ParameterInclude(THIS_PATH, "boolean-param.h")]
 
 
 class BooleanPlugin(IPlugin):

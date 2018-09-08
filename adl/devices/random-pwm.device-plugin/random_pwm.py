@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LocalInclude
+from adl.types import DeviceSource, DeviceInclude
 
 from adl.devices.generic_device import GenericDevice
 
@@ -29,11 +29,11 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
 	@property
 	def sources(self):
-		return ["random-pwm.cpp"]
+		return [DeviceSource(THIS_PATH, "random-pwm.cpp")]
 
 	@property
 	def includes(self):
-		return [LocalInclude("random-pwm.h")]
+		return [DeviceInclude(THIS_PATH, "random-pwm.h")]
 
 	@property
 	def declarations(self):

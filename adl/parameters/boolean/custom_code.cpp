@@ -17,5 +17,5 @@ void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * ppar
 	(void)pdevices; (void)ndevices; (void)nparams;
 	BooleanParam * pbool = (BooleanParam*)pparams[0];
 
-	digitalWrite(13, pbool->state() ? HIGH : LOW);
+	digitalWrite(13, pbool->get() ? HIGH : LOW);
 }

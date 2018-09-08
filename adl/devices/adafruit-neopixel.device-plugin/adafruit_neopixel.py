@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LibraryInclude, LocalInclude
+from adl.types import LibraryInclude, DeviceSource, DeviceInclude
 
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
@@ -28,12 +28,12 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     @property
     def sources(self):
-        return ["adafruit-neopixel-adl.cpp"]
+        return [DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp")]
 
     @property
     def includes(self):
         return [
-            LocalInclude("adafruit-neopixel-adl.h"),
+            DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
             LibraryInclude("Adafruit_NeoPixel.h")
         ]
 

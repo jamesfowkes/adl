@@ -4,7 +4,12 @@ from collections import namedtuple
 
 from pathlib import Path
 
-from adl.types import LocalInclude, LibraryInclude
+import adl
+from adl.types import ADLSource, ADLInclude
+from adl.types import ParameterSource, ParameterInclude
+from adl.types import DeviceSource, DeviceInclude
+from adl.types import LocalSource, LocalInclude
+from adl.types import LibraryInclude
 
 def get_module_logger():
 	return logging.getLogger(__name__)
@@ -20,6 +25,22 @@ class SketchPath(namedtuple("SketchPath", ["folder", "extension"])):
 	@property
 	def full_path(self):
 		return Path.joinpath(self.folder, self.folder + self.extension)
+
+def get_paths(dependencies, use_full_path):
+	paths = []
+	for dep in dependencies:
+		path = dep if use_full_path else dep.name
+		paths.append(path)
+
+	return paths
+
+def dependencies_by_type(component_list, dependency, use_full_path):
+	all_paths = []
+	for component in component_list:
+		incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
+		all_paths.extend(get_paths(incs_and_srcs, use_full_path))
+
+	return set(all_paths)
 
 class GenericBoard:
 
@@ -37,87 +58,34 @@ class GenericBoard:
 
 		return Path(sketch_name).joinpath(full_sketch_name)
 
-	def adl_sources(self, full_path):
-		all_deps = []
-		for d in self.devices:
-			for dep in d.adl_dependencies:
-				for src in dep.sources:
-					inc_path = Path.joinpath(dep.directory, src) if full_path else src
-					all_deps.append(inc_path)
+	def all_components(self):
+		return self.devices + self.parameters
 
-		return set(all_deps)
+	def adl_sources(self, use_full_path):
+		sources = dependencies_by_type(self.all_components(), ADLSource, False)
+		return [adl.codepath().joinpath(src) for src in sources] if use_full_path else sources
 
-	def adl_includes(self, full_path):
-		all_deps = []
-		for d in self.devices:
-			for dep in d.adl_dependencies:
-				for header in dep.headers:
-					inc_path = Path.joinpath(dep.directory, header) if full_path else header
-					all_deps.append(inc_path)
+	def adl_includes(self, use_full_path):
+		includes = dependencies_by_type(self.all_components(), ADLInclude, False)
+		return [adl.codepath().joinpath(inc) for inc in includes] if use_full_path else includes
 
-		return set(all_deps)
+	def parameter_includes(self, use_full_path):
+		return dependencies_by_type(self.parameters, ParameterInclude, use_full_path)
 
-	def device_includes(self, full_path):
-		all_includes = []
-		for d in self.devices:
-			for include in d.includes:
-				if type(include) is LocalInclude:
-					inc_path = Path.joinpath(d.directory, include.filename) if full_path else include.filename
-					all_includes.append(inc_path)
+	def parameter_sources(self, use_full_path):
+		return dependencies_by_type(self.parameters, ParameterSource, use_full_path)
 
-		for p in self.parameters:
-			for include in p.includes:
-				inc_path = Path.joinpath(p.directory, include) if full_path else include
-				all_includes.append(inc_path)
+	def device_includes(self, use_full_path):
+		return dependencies_by_type(self.devices, DeviceInclude, use_full_path)
 
-		all_includes = set(all_includes)
-		get_module_logger().info("Includes: {}".format(",".join([str(p) for p in all_includes])))
-		return set(all_includes)
+	def device_sources(self, use_full_path):
+		return dependencies_by_type(self.devices, DeviceSource, use_full_path)
 
-	def library_includes(self, full_path):
-		all_includes = []
-		for d in self.devices:
-			for include in d.includes:
-				if type(include) is LibraryInclude:
-					inc_path = Path.joinpath(d.directory, include.filename) if full_path else include.filename
-					all_includes.append(inc_path)
-
-		for p in self.parameters:
-			for include in p.includes:
-				inc_path = Path.joinpath(p.directory, include) if full_path else include
-				all_includes.append(inc_path)
-
-		return set(all_includes)
-
-	def includes(self, full_path):
+	def library_includes(self, use_full_path):
+		return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)
 		
-		all_includes = []
-		for d in self.devices:
-			for include in d.includes:
-				inc_path = Path.joinpath(d.directory, include) if full_path else include
-				all_includes.append(inc_path)
-
-		for p in self.parameters:
-			for include in p.includes:
-				inc_path = Path.joinpath(p.directory, include) if full_path else include
-				all_includes.append(inc_path)
-
-		return set(all_includes)
-
-	def sources(self, full_path):
-		
-		all_sources = []
-		for d in self.devices:
-			for src in d.sources:
-				src_path = Path.joinpath(d.directory, src) if full_path else src
-				all_sources.append(src_path)
-
-		for p in self.parameters:
-			for src in p.sources:
-				src_path = Path.joinpath(p.directory, src) if full_path else src
-				all_sources.append(src_path)
-
-		return set(all_sources)
+	def sources(self, use_full_path):
+		return dependencies_by_type(self.all_components(), SourceFile, use_full_path)
 
 	def custom_code_paths(self, path=None):
 		

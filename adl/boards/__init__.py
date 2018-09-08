@@ -11,24 +11,27 @@ boards_plugin_manager = PluginManager()
 boards_plugin_manager.setPluginPlaces([str(THIS_PATH)])
 boards_plugin_manager.collectPlugins()
 
+def get_module_logger():
+	return logging.getLogger(__name__)
+
 def activate_all():
 	for plugin in boards_plugin_manager.getAllPlugins():
 		logging.getLogger(__name__).info("Loaded board plugin '%s'", plugin.name)
 		boards_plugin_manager.activatePluginByName(plugin.name)
 
 def get(board, devices, parameters):
-	logging.getLogger(__name__).info("Trying to load board '%s'", board.type)
+	get_module_logger().info("Trying to load board '%s'", board.type)
 	board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices, parameters)
-	logging.getLogger(__name__).info("Loaded board. Devices and parameters:")
+	get_module_logger().info("Loaded board. Devices and parameters:")
 	for device in board.devices:
-		logging.getLogger(__name__).info(device)
+		get_module_logger().info(device)
 
 	for parameter in board.parameters:
-		logging.getLogger(__name__).info(parameter)
+		get_module_logger().info(parameter)
 
 	return board
 	
 def set_log_level(level):
-	logging.getLogger(__name__).setLevel(level)
+	get_module_logger().setLevel(level)
 	for plugin in boards_plugin_manager.getAllPlugins():
 		plugin.plugin_object.set_log_level(level)

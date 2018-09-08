@@ -94,3 +94,8 @@ presentation/
 # C object files
 *.o
 *.out
+
+# Unittest outputs
+*.exe
+*.stackdump
+*.a

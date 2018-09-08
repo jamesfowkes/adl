@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LocalInclude, LibraryInclude
+from adl.types import DeviceSource, DeviceInclude, LibraryInclude
 
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
@@ -28,12 +28,12 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
 
 	@property
 	def sources(self):
-		return ["adafruit-mcp4725.cpp"]
+		return [DeviceSource(THIS_PATH, "adafruit-mcp4725.cpp")]
 
 	@property
 	def includes(self):
 		return [
-			LocalInclude("adafruit-mcp4725.h"),
+			DeviceInclude(THIS_PATH, "adafruit-mcp4725.h"),
 			LibraryInclude("Adafruit_MCP4725.h")
 		]
 
