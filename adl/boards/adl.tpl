@@ -13,12 +13,12 @@ By the Arduino Description Language tool.
 
 #include <stdint.h>
 
-#include "adl-callbacks.h"
 #include "adl-logging.h"
 #include "adl-defs.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"
+#include "adl-callbacks.h"
 
 {% for include in board.library_includes(False) %}
 #include <{{include}}>
@@ -141,9 +141,7 @@ void setup()
 
 	{% endfor %}
 
-	{% if board.custom_code | length %}
 	adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
-	{% endif %}
 
 	adl_on_setup_complete();
 	
@@ -160,9 +158,7 @@ void loop()
 {
 	adl_handle_any_pending_commands();
 	adl_service_timer();
-	{% if board.custom_code | length %}
 	adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
-	{% endif %}
 }
 {% endmacro %}
 

@@ -53,7 +53,4 @@ public:
 	char const * command;
 };
 
-void adl_custom_setup(DeviceBase * pdevices[], int ndevice, ParameterBase * pparams[], int nparams);
-void adl_custom_loop(DeviceBase * pdevices[], int ndevice, ParameterBase * pparams[], int nparams);
-
 #endif
