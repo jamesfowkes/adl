@@ -69,7 +69,7 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
 		return cls(name, parameter_type, settings_dict)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs"])):
+class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs", "modules"])):
 	__slots__ = ()
 
 	@classmethod

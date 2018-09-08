@@ -12,8 +12,10 @@ By the Arduino Description Language tool.
 {% macro render_declarations(board) %}
 
 #include <stdint.h>
+
 #include "adl-callbacks.h"
-#include "adl-defs.h"
+#include "adl_logging.h"
+#include "adl_defs.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"
