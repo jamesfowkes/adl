@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from collections import namedtuple
+from collections import namedtuple, Counter
 
 import adl
 
@@ -69,7 +69,38 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
 		return cls(name, parameter_type, settings_dict)
 
-class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs"])):
+class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
+
+	__slots__ = ()
+
+	@classmethod
+	def from_xml(cls, log_module_node):
+		name = log_module_node.text
+		prefix = log_module_node.attrib.get("prefix", name[0:3])
+		return cls(name, prefix)
+
+	def c_name(self):
+		return "s_%d".format(self.name.lower())
+
+def get_unique_log_modules(nodes):
+
+	prefixes = [node.attrib.get("prefix", node.text[0:3]) for node in nodes]
+	
+	if len(set(prefixes)) < len(prefixes):
+		counter = Counter()
+		unique_prefixes = []
+		for prefix in prefixes:
+			if (counter[prefix] == 0):
+				unique_prefixes.append(prefix)
+			else:
+				unique_prefixes.append("{}_{}".format(prefix, counter[prefix]+1))
+
+			counter[prefix] += 1
+
+	return [LoggingModule(node.text, prefix) for (node, prefix) in zip(nodes, unique_prefixes)]
+
+
+class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs", "log_modules"])):
 	__slots__ = ()
 
 	@classmethod
@@ -89,17 +120,20 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		parameters = node.find("parameters") or []
 		parameters = [Parameter.from_xml(node) for node in parameters]
 
+		log_modules = get_unique_log_modules(node.find("logging") or [])
+
 		custom_code = board_node.find("custom_code")
 		if custom_code:
-			filenames = [f.text for f in custom_code.findall("file")]
+			custom_code_filenames = [f.text for f in custom_code.findall("file")]
 		else:
-			filenames = []
+			custom_code_filenames = []
 
 		adl = board_node.find("adl")
 		if adl is None:
 			adl = {}
 
-		return cls(board_type, name, devices, parameters, settings_dict, info, adl, filenames, board_node.attrib)
+		return cls(board_type, name, devices, parameters, settings_dict, info, adl,
+			custom_code_filenames, board_node.attrib, log_modules)
 
 	@classmethod
 	def from_yaml(cls, board_dict):

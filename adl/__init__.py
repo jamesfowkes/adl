@@ -12,35 +12,39 @@ import adl.parameters
 import adl.template_engine
 
 THIS_PATH = Path(__file__).parent
-
-ADL_SOURCE_FILES = [
-	("adl.cpp", "adl.cpp"),
-	("adl-util.cpp", "adl-util.cpp"),
-	("adl.h", "adl.h",),
-	("adl-util.h", "adl-util.h"),
-	("adl_defs.tpl", "adl_defs.h")
-]
+ADL_CODE_PATH = THIS_PATH.joinpath("adl_code")
 
 def get_module_logger():
 	return logging.getLogger(__name__)
 
 def codepath():
-	return THIS_PATH.joinpath("adl_code")
+	return ADL_CODE_PATH
 	
 def get_subfolders(path):
 
 	def absolute_path(d):
-		return THIS_PATH.joinpath("adl_code", d)
+		return ADL_CODE_PATH.joinpath(d)
 
 	return [d.name for d in path.iterdir() if absolute_path(d).is_dir()]
 
-VALID_PROTOCOLS = get_subfolders(THIS_PATH.joinpath("adl_code"))
+ADL_SOURCE_FILES = [
+	(ADL_CODE_PATH.joinpath("adl.cpp"), "adl.cpp"),
+	(ADL_CODE_PATH.joinpath("adl-util.cpp"), "adl-util.cpp"),
+	(ADL_CODE_PATH.joinpath("adl-callbacks.cpp"), "adl-callbacks.cpp"),
+	(ADL_CODE_PATH.joinpath("adl-callbacks.h"), "adl-callbacks.h"),
+	(ADL_CODE_PATH.joinpath("adl.h"), "adl.h",),
+	(ADL_CODE_PATH.joinpath("adl-util.h"), "adl-util.h"),
+	(ADL_CODE_PATH.joinpath("adl_defs.tpl"), "adl-defs.h"),
+	(ADL_CODE_PATH.joinpath("logging", "adl_logging.tpl"), "adl-logging.cpp"),
+	(ADL_CODE_PATH.joinpath("logging", "adl-logging.h"), "adl-logging.h")
+]
 
-def write_file(template_file, target_directory, target_file, adl_config, board, protocol_dir=None):
-	if protocol_dir is None:
-		protocol_dir = Path(adl_config.protocol)
+PROTOCOLS_PATH = ADL_CODE_PATH.joinpath("protocols")
+VALID_PROTOCOLS = get_subfolders(PROTOCOLS_PATH)
 
-	rendered_code = adl.template_engine.render_library(protocol_dir.joinpath(template_file).resolve(), adl_config, board)
+def write_file(template_file, target_directory, target_file, adl_config, board):
+
+	rendered_code = adl.template_engine.render_library(Path(template_file), adl_config, board)
 	with target_directory.joinpath(target_file).open('w') as f:
 		get_module_logger().info("Writing file %s to %s", target_file, f.name)
 		f.write(rendered_code)
@@ -54,7 +58,7 @@ def copy_file(relative_src_path, target_directory):
 
 def write_library(target_directory, adl_config, board):
 	get_module_logger().info("Writing ADL library to %s", str(target_directory))
-	protocol_src_path = THIS_PATH.joinpath("adl_code", adl_config.protocol)
+	protocol_src_path = PROTOCOLS_PATH.joinpath(adl_config.protocol)
 	get_module_logger().info("Using protocol from {}".format(protocol_src_path))
 
 	for file in protocol_src_path.iterdir():
@@ -65,7 +69,7 @@ def write_library(target_directory, adl_config, board):
 	copy_file(Path("parameters/parameter.h"), target_directory)
 
 	for template_file, target_file in ADL_SOURCE_FILES:
-		write_file(template_file, target_directory, target_file, adl_config, board, THIS_PATH.joinpath("adl_code"))
+		write_file(template_file, target_directory, target_file, adl_config, board)
 
 def write_sources(target_directory, sources):
 	for src in sources:

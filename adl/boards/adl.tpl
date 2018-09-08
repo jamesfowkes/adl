@@ -3,7 +3,6 @@
 {{board.name}}
 Created on {{context.time("{:%Y-%m-%d}")}}
 By the Arduino Description Language tool.
-{%- from 'adl.tpl' import render_all %}
  
 {{board.info}}
 */
@@ -13,10 +12,13 @@ By the Arduino Description Language tool.
 {% macro render_declarations(board) %}
 
 #include <stdint.h>
-#include "adl_defs.h"
+
+#include "adl-logging.h"
+#include "adl-defs.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"
+#include "adl-callbacks.h"
 
 {% for include in board.library_includes(False) %}
 #include <{{include}}>
@@ -121,12 +123,17 @@ void adl_board_send(char * to_send)
 }
 {% endmacro %}
 
-{% macro render_setup(board) -%}
+{% macro render_setup(adl, board) -%}
 
 {{ render_serial_send(board) }}
 
 void setup()
 {
+	adl_on_setup_start();
+
+	{{ board.serial.setup }}
+	adl_logging_setup({{ board.log_printer }});
+
 	{% for device in board.devices %}
 	// Setup for {{device.name}}
 	{{ device.setup }}
@@ -134,13 +141,14 @@ void setup()
 
 	{% endfor %}
 
-	{% if board.custom_code | length %}
 	adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
-	{% endif %}
 
-	{{ board.serial.setup }}
-
-	{{ board.start_delay }}
+	adl_on_setup_complete();
+	
+	if ({{adl.delay_start_time}})
+	{
+		adl_delay_start( {{adl.delay_start_time}} );
+	}
 }
 
 {% endmacro %}
@@ -150,9 +158,7 @@ void loop()
 {
 	adl_handle_any_pending_commands();
 	adl_service_timer();
-	{% if board.custom_code | length %}
 	adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
-	{% endif %}
 }
 {% endmacro %}
 
@@ -162,7 +168,7 @@ void loop()
 
 {% endmacro %}
 
-{% macro render_all(board, context) -%}
+{% macro render_all(adl, board, context) -%}
 
 {{ render_comment_header(board, context) }}
 
@@ -170,7 +176,7 @@ void loop()
 
 {{ render_functions(board) }}
 
-{{ render_setup(board)}}
+{{ render_setup(adl, board)}}
 
 {{ render_loop(board)}}
 

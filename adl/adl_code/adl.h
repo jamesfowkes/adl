@@ -41,6 +41,10 @@ ParameterBase& adl_get_param(PARAM_ADDRESS address);
 COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address);
 COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address);
 
+void adl_delay_start(uint8_t seconds);
+
+int adl_board_read_progmem(char * const dst, char const * const src);
+
 class ProtocolHandlerBase
 {
 public:
@@ -50,8 +54,5 @@ public:
 	ADDRESS_TYPE last_address_type;
 	char const * command;
 };
-
-void adl_custom_setup(DeviceBase * pdevices[], int ndevice, ParameterBase * pparams[], int nparams);
-void adl_custom_loop(DeviceBase * pdevices[], int ndevice, ParameterBase * pparams[], int nparams);
 
 #endif

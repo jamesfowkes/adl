@@ -6,7 +6,8 @@
 
 #include "parameter.h"
 #include "device.h"
-#include "adl_defs.h"
+#include "adl-callbacks.h"
+#include "adl-defs.h"
 #include "adl.h"
 #include "protocol.h"
 
@@ -234,6 +235,16 @@ void adl_service_timer()
 				adl_get_param(i).tick();
 			}
 		}
+	}
+}
+
+void adl_delay_start(uint8_t seconds)
+{
+	while(seconds)
+	{
+		adl_on_delay_start_tick(seconds);
+		seconds--;
+		delay(1000);
 	}
 }
 
