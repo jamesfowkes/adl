@@ -16,6 +16,10 @@ class Uno(GenericBoard, namedtuple("Uno",
 	def code(self, adl):
 		return template_engine.render_board("uno.template", adl=adl, board=self)
 
+	@property
+	def log_printer(self):
+		return "Serial";
+
 class UnoPlugin(IPlugin):
 	def activate(self):
 		pass

@@ -69,6 +69,16 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
 		return cls(name, parameter_type, settings_dict)
 
+class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
+
+	__slots__ = ()
+
+	@classmethod
+	def from_xml(cls, log_module_node):
+		name = log_module_node.text
+		prefix = log_module_node.attrib.get("prefix", name[0:3])
+		return cls(name, prefix)
+
 class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs", "modules"])):
 	__slots__ = ()
 
@@ -89,6 +99,9 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		parameters = node.find("parameters") or []
 		parameters = [Parameter.from_xml(node) for node in parameters]
 
+		logging_modules = node.find("logging") or []
+		logging_modules = [LoggingModule.from_xml(node) for node in logging_modules]
+
 		custom_code = board_node.find("custom_code")
 		if custom_code:
 			filenames = [f.text for f in custom_code.findall("file")]
@@ -99,7 +112,7 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		if adl is None:
 			adl = {}
 
-		return cls(board_type, name, devices, parameters, settings_dict, info, adl, filenames, board_node.attrib)
+		return cls(board_type, name, devices, parameters, settings_dict, info, adl, filenames, board_node.attrib, logging_modules)
 
 	@classmethod
 	def from_yaml(cls, board_dict):

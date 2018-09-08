@@ -17,11 +17,12 @@ ADL_SOURCE_FILES = [
 	("adl.cpp", "adl.cpp"),
 	("adl-util.cpp", "adl-util.cpp"),
 	("adl-callbacks.cpp", "adl-callbacks.cpp"),
+	("adl-callbacks.h", "adl-callbacks.h"),
 	("adl.h", "adl.h",),
 	("adl-util.h", "adl-util.h"),
 	("adl_defs.tpl", "adl-defs.h"),
-	("adl-callbacks.h", "adl-callbacks.h"),
-	("adl_logging.tpl", "adl_logging.h")
+	("adl_logging.tpl", "adl-logging.cpp"),
+	("adl-logging.h", "adl-logging.h")
 ]
 
 def get_module_logger():

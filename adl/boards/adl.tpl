@@ -14,8 +14,8 @@ By the Arduino Description Language tool.
 #include <stdint.h>
 
 #include "adl-callbacks.h"
-#include "adl_logging.h"
-#include "adl_defs.h"
+#include "adl-logging.h"
+#include "adl-defs.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"
@@ -131,6 +131,9 @@ void setup()
 {
 	adl_on_setup_start();
 
+	{{ board.serial.setup }}
+	adl_logging_setup({{ board.log_printer }});
+
 	{% for device in board.devices %}
 	// Setup for {{device.name}}
 	{{ device.setup }}
@@ -141,8 +144,6 @@ void setup()
 	{% if board.custom_code | length %}
 	adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
 	{% endif %}
-
-	{{ board.serial.setup }}
 
 	adl_on_setup_complete();
 	
