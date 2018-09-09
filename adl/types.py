@@ -96,7 +96,9 @@ def get_unique_log_modules(nodes):
 				unique_prefixes.append("{}_{}".format(prefix, counter[prefix]+1))
 
 			counter[prefix] += 1
-
+	else:
+		unique_prefixes = prefixes
+		
 	return [LoggingModule(node.text, prefix) for (node, prefix) in zip(nodes, unique_prefixes)]
 
 
