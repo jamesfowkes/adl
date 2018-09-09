@@ -10,7 +10,7 @@
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
 	(void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
-	pinMode(13, OUTPUT);
+	pinMode(3, OUTPUT);
 }
 
 void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
