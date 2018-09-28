@@ -2,10 +2,14 @@
  * C++/Arduino Includes
  */
 
-#include "stdint.h"
-#include "string.h"
-#include "stdlib.h"
-#include "stdio.h"
+#define __STDC_LIMIT_MACROS
+#define __STDC_FORMAT_MACROS 
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
+#include <inttypes.h>
 
 /*
  * ADL Includes
@@ -70,7 +74,7 @@ int IntegerParam::command_handler(char const * const command, char * reply)
 	}
 	else if (command[0] == '?')
 	{
-		sprintf(reply, "%ld", this->get());
+		sprintf(reply, "%" PRIi32, this->get());
 		reply_length = strlen(reply);
 	}
 
