@@ -10,7 +10,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "Arduino.h"
-#include "adl-oneshot-timer.h"
+#include "adl-oneshottimer.h"
 
 class ADLModuleOneShotTimerTest : public CppUnit::TestFixture { 
 

@@ -58,6 +58,8 @@ def make(board, adl_config, sketchbook):
 		adl.write_sources(sketch_directory, board.device_sources(True))
 		adl.write_sources(sketch_directory, board.parameter_includes(True))
 		adl.write_sources(sketch_directory, board.parameter_sources(True))
+		adl.write_sources(sketch_directory, board.module_includes(True))
+		adl.write_sources(sketch_directory, board.module_sources(True))
 		adl.write_sources(sketch_directory, board.custom_code_paths(adl_config.source_path))
 		write_sketch_to_directory(sketch_directory, sketch_path.name, board.code(adl_config))
 
@@ -72,6 +74,7 @@ if __name__ == "__main__":
 	adl.devices.activate_all()
 	adl.boards.activate_all()
 	adl.parameters.activate_all()
+	adl.modules.activate_all()
 
 	input_file = args["<input_file>"]
 	sketchbook_path = Path(args["--sketchbook"])

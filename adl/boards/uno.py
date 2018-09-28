@@ -10,7 +10,7 @@ from adl.boards.serial.serial0 import Serial0
 from adl.boards.generic_board import GenericBoard
 
 class Uno(GenericBoard, namedtuple("Uno", 
-	["name", "serial", "devices", "parameters", "custom_code", "settings", "info", "log_modules"])):
+	["name", "serial", "devices", "parameters", "modules", "custom_code", "settings", "info", "log_modules"])):
 	__slots__ = ()
 
 	def code(self, adl):
@@ -31,10 +31,10 @@ class UnoPlugin(IPlugin):
 	def deactivate(self):
 		pass
 
-	def get(self, board, devices, parameters):
+	def get(self, board, devices, parameters, modules):
 		baudrate = board.attrs.get("baudrate", 115200)
 		serial = Serial0(baudrate)
-		return Uno(board.name, serial, devices, parameters, board.custom_code, board.settings, board.info, board.log_modules)
+		return Uno(board.name, serial, devices, parameters, modules, board.custom_code, board.settings, board.info, board.log_modules)
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
