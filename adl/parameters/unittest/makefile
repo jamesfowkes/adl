@@ -34,3 +34,10 @@ adl-integer-param.$(TARGET_EXTENSION): $(INTEGER_OBJS)
 adl-boolean-param.$(TARGET_EXTENSION): $(BOOLEAN_OBJS)
 	$(CC) -o adl-boolean-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-boolean-param.$(TARGET_EXTENSION)
+
+all: adl-integer-param.$(TARGET_EXTENSION) adl-boolean-param.$(TARGET_EXTENSION)
+
+clean:
+	$(DEL) $(GLOBAL_OBJS)
+	$(DEL) $(INTEGER_OBJS)
+	$(DEL) $(BOOLEAN_OBJS)
