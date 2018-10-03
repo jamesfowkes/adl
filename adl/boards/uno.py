@@ -24,6 +24,10 @@ class Uno(GenericBoard, namedtuple("Uno",
 	def progmem(self):
 		return "PROGMEM";
 
+	@property
+	def fqbn(self):
+		return "arduino:avr:uno"
+
 class UnoPlugin(IPlugin):
 	def activate(self):
 		pass
