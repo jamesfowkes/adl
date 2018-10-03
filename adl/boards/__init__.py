@@ -19,15 +19,18 @@ def activate_all():
 		logging.getLogger(__name__).info("Loaded board plugin '%s'", plugin.name)
 		boards_plugin_manager.activatePluginByName(plugin.name)
 
-def get(board, devices, parameters):
+def get(board, devices, parameters, modules):
 	get_module_logger().info("Trying to load board '%s'", board.type)
-	board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices, parameters)
+	board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices, parameters, modules)
 	get_module_logger().info("Loaded board. Devices and parameters:")
 	for device in board.devices:
 		get_module_logger().info(device)
 
 	for parameter in board.parameters:
 		get_module_logger().info(parameter)
+
+	for module in board.modules:
+		get_module_logger().info(module)
 
 	return board
 	

@@ -9,6 +9,7 @@ from collections import namedtuple
 import adl.devices
 import adl.boards
 import adl.parameters
+import adl.modules
 import adl.template_engine
 
 THIS_PATH = Path(__file__).parent
