@@ -1,7 +1,9 @@
 #ifndef _ADL_ONESHOT_TASK_H_
 #define _ADL_ONESHOT_TASK_H_
 
-typedef void (*OneShotTask)(void * pTaskData);
+class ADLOneShotTask;
+
+typedef void (*OneShotTask)(ADLOneShotTask* pTask, void * pTaskData);
 
 class ADLOneShotTask
 {

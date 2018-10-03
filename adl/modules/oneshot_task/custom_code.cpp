@@ -8,12 +8,13 @@
 #include "adl-oneshot-task.h"
 
 static int some_data;
-static void my_task_fn(void * pTaskData)
+static void my_task_fn(ADLOneShotTask * pThisTask, void * pTaskData)
 {
 	Serial.print("Task run at ");
 	Serial.print(millis());
 	Serial.print("ms. Data = ");
-	Serial.print(*(int*)pTaskData);
+	Serial.println(*(int*)pTaskData);
+	pThisTask->start();
 }
 
 static ADLOneShotTask my_task(1000, my_task_fn, &some_data);

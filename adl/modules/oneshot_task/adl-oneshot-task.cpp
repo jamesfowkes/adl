@@ -47,7 +47,7 @@ bool ADLOneShotTask::run()
 	{
 		if (m_pfn_task)
 		{
-			m_pfn_task(m_p_data);
+			m_pfn_task(this, m_p_data);
 		}
 	}
 	return m_timer.is_running();
