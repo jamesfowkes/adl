@@ -8,27 +8,23 @@ from yapsy.IPlugin import IPlugin
 from adl import template_engine
 from adl.boards.serial.serial0 import Serial0
 from adl.boards.generic_board import GenericBoard
-from adl.boards.uno import Uno
+from adl.boards.uno import UnoBaseType, UnoPlugin
 
-class Duemilanove(Uno, namedtuple("Duemilanove", 
-	["name", "serial", "devices", "parameters", "custom_code", "settings", "info", "log_modules"])):
-	__slots__ = ()
+class Duemilanove(UnoBaseType):
 
-	@property
-	def fqbn(self):
-		return "arduino:avr:diecimila:cpu=atmega328"
+    __slots__ = ()
 
-class DuemilanovePlugin(IPlugin):
-	def activate(self):
-		pass
+    def __new__(cls, *args, **kwargs):
+        self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
+        return self
 
-	def deactivate(self):
-		pass
+    @property
+    def fqbn(self):
+        return "arduino:avr:diecimila:cpu=atmega328"
 
-	def get(self, board, devices, parameters):
-		baudrate = board.attrs.get("baudrate", 115200)
-		serial = Serial0(baudrate)
-		return Duemilanove(board.name, serial, devices, parameters, board.custom_code, board.settings, board.info, board.log_modules)
+class DuemilanovePlugin(UnoPlugin):
 
-	def set_log_level(self, level):
-		logging.getLogger(__name__).setLevel(level)
+    def get(self, board, devices, parameters, modules):
+        baudrate = board.attrs.get("baudrate", 115200)
+        serial = Serial0(baudrate)
+        return Duemilanove(board.name, serial, devices, parameters, modules, board.custom_code, board.settings, board.info, board.log_modules)
