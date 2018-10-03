@@ -1,5 +1,5 @@
-#ifndef _ADL_ONESHOT_H_
-#define _ADL_ONESHOT_H_
+#ifndef _ADL_ONESHOT_TIMER_H_
+#define _ADL_ONESHOT_TIMER_H_
 
 class ADLOneShotTimer
 {

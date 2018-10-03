@@ -17,11 +17,11 @@ class OneShotTimerModule(GenericModule):
 
 	@property
 	def sources(self):
-		return [ModuleSource(THIS_PATH, "adl-oneshottimer.cpp")]
+		return [ModuleSource(THIS_PATH, "adl-oneshot-timer.cpp")]
 
 	@property
 	def includes(self):
-		return [ModuleInclude(THIS_PATH, "adl-oneshottimer.h")]
+		return [ModuleInclude(THIS_PATH, "adl-oneshot-timer.h")]
 
 class OneShotTimerPlugin(IPlugin):
 	def activate(self):

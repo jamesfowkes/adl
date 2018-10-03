@@ -1,6 +1,6 @@
 [Core]
 Name = Oneshot Timer
-Module = oneshottimer
+Module = oneshot_timer
 
 [Documentation]
 Description = Implements a resettable one-shot timer (millisecond resolution)
