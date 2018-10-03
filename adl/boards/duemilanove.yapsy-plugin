@@ -1,0 +1,9 @@
+[Core]
+Name = Arduino Duemilanove
+Module = duemilanove
+
+[Documentation]
+Description = Board plugin for the Arduino Duemilanove
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
