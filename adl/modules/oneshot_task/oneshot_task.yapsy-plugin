@@ -1,0 +1,9 @@
+[Core]
+Name = Oneshot Task
+Module = oneshot_task
+
+[Documentation]
+Description = Implements a resettable one-shot task (millisecond resolution)
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

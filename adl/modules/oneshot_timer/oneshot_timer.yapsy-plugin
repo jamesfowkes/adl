@@ -1,0 +1,9 @@
+[Core]
+Name = Oneshot Timer
+Module = oneshot_timer
+
+[Documentation]
+Description = Implements a resettable one-shot timer (millisecond resolution)
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

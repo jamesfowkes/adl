@@ -82,6 +82,14 @@ class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
 	def c_name(self):
 		return "s_%d".format(self.name.lower())
 
+class Module(namedtuple("Module", ["name"])):
+
+	__slots__ = ()
+
+	@classmethod
+	def from_xml(cls, module_node):
+		return cls(module_node.text)
+
 def get_unique_log_modules(nodes):
 
 	prefixes = [node.attrib.get("prefix", node.text[0:3]) for node in nodes]
@@ -102,7 +110,7 @@ def get_unique_log_modules(nodes):
 	return [LoggingModule(node.text, prefix) for (node, prefix) in zip(nodes, unique_prefixes)]
 
 
-class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "settings", "info", "adl", "custom_code", "attrs", "log_modules"])):
+class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "modules", "settings", "info", "adl", "custom_code", "attrs", "log_modules"])):
 	__slots__ = ()
 
 	@classmethod
@@ -122,6 +130,9 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		parameters = node.find("parameters") or []
 		parameters = [Parameter.from_xml(node) for node in parameters]
 
+		modules = node.find("modules") or []
+		modules = [Module.from_xml(node) for node in modules]
+
 		log_modules = get_unique_log_modules(node.find("logging") or [])
 
 		custom_code = board_node.find("custom_code")
@@ -134,7 +145,7 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "setti
 		if adl is None:
 			adl = {}
 
-		return cls(board_type, name, devices, parameters, settings_dict, info, adl,
+		return cls(board_type, name, devices, parameters, modules, settings_dict, info, adl,
 			custom_code_filenames, board_node.attrib, log_modules)
 
 	@classmethod
@@ -189,5 +200,11 @@ class DeviceSource(SourceFile):
 	pass
 
 class DeviceInclude(IncludeFile):
+	pass
+	
+class ModuleSource(SourceFile):
+	pass
+
+class ModuleInclude(IncludeFile):
 	pass
 	

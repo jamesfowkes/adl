@@ -9,6 +9,7 @@ from adl.types import ADLSource, ADLInclude
 from adl.types import ParameterSource, ParameterInclude
 from adl.types import DeviceSource, DeviceInclude
 from adl.types import LocalSource, LocalInclude
+from adl.types import ModuleSource, ModuleInclude
 from adl.types import LibraryInclude
 
 def get_module_logger():
@@ -80,6 +81,12 @@ class GenericBoard:
 
 	def device_sources(self, use_full_path):
 		return dependencies_by_type(self.devices, DeviceSource, use_full_path)
+
+	def module_includes(self, use_full_path):
+		return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
+
+	def module_sources(self, use_full_path):
+		return dependencies_by_type(self.modules, ModuleSource, use_full_path)
 
 	def library_includes(self, use_full_path):
 		return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Oneshot Task Example">
+	<info>
+		An example sketch for the oneshot task
+	</info>
+	
+	<modules>
+		<module>Oneshot Task</module>
+	</modules>
+
+	<custom_code>
+		<file>custom_code.cpp</file>
+	</custom_code>
+</board>
