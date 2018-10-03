@@ -2,7 +2,7 @@
 
 <board type="Arduino Uno" name="Oneshot Timer Example">
 	<info>
-		An example sketch for the boolean parameter
+		An example sketch for the oneshot timer
 	</info>
 	
 	<modules>

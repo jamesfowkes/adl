@@ -4,12 +4,13 @@ from pathlib import Path
 from yapsy.IPlugin import IPlugin
 
 from adl.modules.generic_module import GenericModule
+from adl.modules.oneshot_timer.oneshot_timer import OneShotTimerModule
 
 from adl.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
-class OneShotTimerModule(GenericModule):
+class OneShotTaskModule(GenericModule):
 	
 	@property
 	def directory(self):
@@ -17,13 +18,17 @@ class OneShotTimerModule(GenericModule):
 
 	@property
 	def sources(self):
-		return [ModuleSource(THIS_PATH, "adl-oneshot-timer.cpp")]
+		sources = OneShotTimerModule().sources
+		sources.append(ModuleSource(THIS_PATH, "adl-oneshot-task.cpp"))
+		return sources
 
 	@property
 	def includes(self):
-		return [ModuleInclude(THIS_PATH, "adl-oneshot-timer.h")]
+		includes = OneShotTimerModule().includes
+		includes.append(ModuleInclude(THIS_PATH, "adl-oneshot-task.h"))
+		return includes
 
-class OneShotTimerPlugin(IPlugin):
+class OneShotTaskPlugin(IPlugin):
 	def activate(self):
 		pass
 
@@ -31,7 +36,7 @@ class OneShotTimerPlugin(IPlugin):
 		pass
 
 	def get(self, param):
-		return OneShotTimerModule()
+		return OneShotTaskModule()
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)

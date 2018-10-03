@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Oneshot Timer Example">
+<board type="Arduino Uno" name="Oneshot Task Example">
 	<info>
-		An example sketch for the boolean parameter
+		An example sketch for the oneshot task
 	</info>
 	
 	<modules>
-		<module>Oneshot Timer</module>
+		<module>Oneshot Task</module>
 	</modules>
 
 	<custom_code>

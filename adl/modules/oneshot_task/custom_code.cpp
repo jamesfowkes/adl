@@ -4,25 +4,30 @@
 #include "parameter.h"
 #include "adl.h"
 
-#include "adl-oneshottimer.h"
+#include "adl-oneshot-timer.h"
+#include "adl-oneshot-task.h"
 
-static ADLOneShotTimer my_timer(1000);
+static int some_data;
+static void my_task_fn(void * pTaskData)
+{
+	Serial.print("Task run at ");
+	Serial.print(millis());
+	Serial.print("ms. Data = ");
+	Serial.print(*(int*)pTaskData);
+}
+
+static ADLOneShotTask my_task(1000, my_task_fn, &some_data);
 
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
 	(void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
 
-	my_timer.start();
+	my_task.start();
 }
 
 void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
 	(void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
 
-	if (my_timer.check_and_restart())
-	{
-		Serial.print("Timer expired and restarted at ");
-		Serial.print(millis());
-		Serial.println("ms!");
-	}
+	my_task.run();
 }
