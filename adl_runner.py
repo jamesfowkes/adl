@@ -1,7 +1,7 @@
 """ adl.py
 
 Usage:
-	adl.py (--make|--build|--upload)... [--port=<port>] <input_file> [--sketchbook=<parent_directory>]
+	adl.py (--make|--build|--upload)... [--override=<target:value>]... [--port=<port>] <input_file> [--sketchbook=<parent_directory>]
 
 """
 
@@ -15,7 +15,7 @@ import adl.parser
 import adl.devices
 import adl.boards
 import adl.parameters
-#from adl_arduino_cli import build
+
 from arduino_cli_interface import verify, upload
 
 THIS_PATH = Path(__file__).parent
@@ -81,7 +81,8 @@ if __name__ == "__main__":
 	input_file = args["<input_file>"]
 	sketchbook_path = Path(args["--sketchbook"]).expanduser()
 
-	board, adl_config = adl.parser.parse_file(Path(input_file))
+	board, adl_config = adl.parser.parse_file(Path(input_file), None, args.get("--override", None))
+
 	get_module_logger().info("Custom code directory: {}".format(adl_config.source_path))
 
 	if args["--make"]:
