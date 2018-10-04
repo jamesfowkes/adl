@@ -20,10 +20,11 @@
 
 static int s_call_count;
 
-static void test_task(void * pData)
+static void test_task(ADLOneShotTask& task, void * pData)
 {
-    s_call_count++;
+    (void)task;
     (void)pData;
+    s_call_count++;
 }
 
 static bool runTaskAtTime(ADLOneShotTask& task, unsigned long _millis)
