@@ -2,8 +2,6 @@ import os
 import logging
 from pathlib import Path
 
-from pathlib import Path
-
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
