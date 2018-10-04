@@ -24,13 +24,13 @@
  * Class Functions
  */
 
-ADLOneShotTask::ADLOneShotTask(uint16_t period, OneShotTask pfnTask) :
+ADLOneShotTask::ADLOneShotTask(uint16_t period, OneShotTaskFn pfnTask) :
 	m_timer(period), m_pfn_task(pfnTask), m_p_data(NULL)
 {
 
 }
 
-ADLOneShotTask::ADLOneShotTask(uint16_t period, OneShotTask pfnTask, void * pData) : 
+ADLOneShotTask::ADLOneShotTask(uint16_t period, OneShotTaskFn pfnTask, void * pData) : 
 	m_timer(period), m_pfn_task(pfnTask), m_p_data(pData)
 {
 	
@@ -47,7 +47,7 @@ bool ADLOneShotTask::run()
 	{
 		if (m_pfn_task)
 		{
-			m_pfn_task(this, m_p_data);
+			m_pfn_task(*this, m_p_data);
 		}
 	}
 	return m_timer.is_running();

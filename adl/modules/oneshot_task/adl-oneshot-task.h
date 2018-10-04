@@ -3,20 +3,20 @@
 
 class ADLOneShotTask;
 
-typedef void (*OneShotTask)(ADLOneShotTask* pTask, void * pTaskData);
+typedef void (*OneShotTaskFn)(ADLOneShotTask& Task, void * pTaskData);
 
 class ADLOneShotTask
 {
 public:
-	ADLOneShotTask(uint16_t period, OneShotTask pfnTask);
-	ADLOneShotTask(uint16_t period, OneShotTask pfnTask, void * pData);
+	ADLOneShotTask(uint16_t period, OneShotTaskFn pfnTask);
+	ADLOneShotTask(uint16_t period, OneShotTaskFn pfnTask, void * pData);
 	void start();
 	bool run();
 	bool is_running();
 	void reset();
 private:
 	ADLOneShotTimer m_timer;
-	OneShotTask m_pfn_task;
+	OneShotTaskFn m_pfn_task;
 	void * m_p_data;
 };
 

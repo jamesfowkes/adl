@@ -9,20 +9,26 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../oneshot-timer -I../oneshot-task -I../../unittest -I../../adl_code -I../../devices -I../../parameters
+INC = -I../ -I../oneshot_timer -I../oneshot_task -I../task -I../../unittest -I../../adl_code -I../../devices -I../../parameters
 
 CFLAGS = -Wall -Wextra
 
 GLOBAL_OBJS = adl-module.unittest.runner.o \
 	../../unittest/adl-mock-board.o
 
-ONESHOT_TIMER_OBJS = ../oneshot-timer/adl-oneshot-timer.o \
+ONESHOT_TIMER_OBJS = ../oneshot_timer/adl-oneshot-timer.o \
 	adl-module-oneshot-timer.unittest.o \
 	$(GLOBAL_OBJS)
 
-ONESHOT_TASK_OBJS = ../oneshot-task/adl-oneshot-task.o \
-	../oneshot-timer/adl-oneshot-timer.o \
+ONESHOT_TASK_OBJS = ../oneshot_task/adl-oneshot-task.o \
+	../oneshot_timer/adl-oneshot-timer.o \
 	adl-module-oneshot-task.unittest.o \
+	$(GLOBAL_OBJS)
+
+TASK_OBJS = ../task/adl-task.o \
+	../oneshot_task/adl-oneshot-task.o \
+	../oneshot_timer/adl-oneshot-timer.o \
+	adl-module-task.unittest.o \
 	$(GLOBAL_OBJS)
 
 %.o: %.cpp
@@ -36,7 +42,11 @@ adl-module-oneshot-task.$(TARGET_EXTENSION): $(ONESHOT_TASK_OBJS)
 	$(CC) -o adl-module-oneshot-task.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-module-oneshot-task.$(TARGET_EXTENSION)
 
-all: adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION)
+adl-module-task.$(TARGET_EXTENSION): $(TASK_OBJS)
+	$(CC) -o adl-module-task.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-module-task.$(TARGET_EXTENSION)
+
+all: adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION) adl-module-task.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
