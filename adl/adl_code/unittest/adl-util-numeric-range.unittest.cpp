@@ -50,27 +50,34 @@ class NumericRangeTest : public CppUnit::TestFixture {
  
     void testConvertNumericRangeWithNullReturnsNull() {
 
+        p_result = (char*)1; b_result=true;
         test_range_conversion_with_string(NULL);
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
     }
 
     void testConvertNumericRangeWithEmptyStringReturnsNull() {
         test_range_conversion_with_string("");
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
     }
 
     void testConvertNumericRangeWithNonNumericStringReturnsNull() {
         test_range_conversion_with_string("A");
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
     }
 
     void testConvertNumericRangeWithNonNumericRangeReturnsNull() {
         test_range_conversion_with_string("0:A");
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
         test_range_conversion_with_string("A:0");
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
         test_range_conversion_with_string("A:A");
         CPPUNIT_ASSERT(NULL == p_result);
+        CPPUNIT_ASSERT(!b_result);
     }
 
     void testConvertNumericRangeWithSingleDigitBelowZero() {
@@ -121,6 +128,13 @@ class NumericRangeTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL((void*)(s_test_string+6), (void*)p_result);
         CPPUNIT_ASSERT_EQUAL(-10, min);
         CPPUNIT_ASSERT_EQUAL(10, max);
+    }
+
+public:
+    void setUp()
+    {
+        p_result = NULL;
+        b_result = false;
     }
 };
 
