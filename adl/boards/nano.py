@@ -8,48 +8,34 @@ from yapsy.IPlugin import IPlugin
 from adl import template_engine
 from adl.boards.serial.serial0 import Serial0
 from adl.boards.generic_board import GenericBoard
+from adl.boards.uno import UnoBaseType, UnoPlugin
 
-class UnoBaseType(GenericBoard, namedtuple("UnoBaseType", 
-    ["name", "serial", "devices", "parameters", "modules", "custom_code", "settings", "info", "log_modules", "fqbn"])):
+class Nano168(UnoBaseType):
 
     __slots__ = ()
 
-    def code(self, adl):
-        return template_engine.render_board("uno.template", adl=adl, board=self)
+    def __new__(cls, *args, **kwargs):
+        if kwargs[ "fqbn"] is None:
+            kwargs["fqbn"] = "arduino:avr:nano:cpu=atmega168"
+        self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
+        return self
 
-    @property
-    def log_printer(self):
-        return "Serial";
+class Nano(UnoBaseType):
 
-    @property
-    def progmem(self):
-        return "PROGMEM";
-
-class Uno(UnoBaseType):
-    
     __slots__ = ()
 
     def __new__(cls, *args, **kwargs):
         if kwargs["fqbn"] is None:
-            kwargs["fqbn"] = "arduino:avr:uno"
+            kwargs["fqbn"] = "arduino:avr:nano:cpu=atmega328"
         self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
         return self
 
-class UnoPlugin(IPlugin):
-    def activate(self):
-        pass
+class NanoPlugin(UnoPlugin):
 
-    def deactivate(self):
-        pass
-        
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0(baudrate)
-
-        return Uno(
+        return Nano(
             board.name, serial, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
             fqbn=board.attrs.get("fqbn", None))
-
-    def set_log_level(self, level):
-        logging.getLogger(__name__).setLevel(level)
