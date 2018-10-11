@@ -15,7 +15,7 @@ OVERRIDE_FUNCTION_MAP = {
 def apply_overrides(overrides, board):
 
 	for override in overrides:
-		target, value = override.split(":")
+		target, value = override.split(":", maxsplit=1)
 		if target in OVERRIDE_FUNCTION_MAP:
 			board = OVERRIDE_FUNCTION_MAP[target](value, board)	
 		else:
