@@ -13,27 +13,31 @@ bool adl_convert_numeric_range(char const * const range, int32_t& min, int32_t& 
     bool valid_min = false;
     bool valid_max = false;
 
-    if (!range) { return NULL; }
-    if (strlen(range) == 0)  { return NULL; }
-
-    char * p_separator = strchr((char*)range, ':');
-
-    if (p_separator)
+    if (range && strlen(range) > 0)
     {
-        valid_min = adl_parse_single_numeric(range, min, &p_local_end);
-        valid_max = adl_parse_single_numeric(p_separator+1, max, &p_local_end);
+        char * p_separator = strchr((char*)range, ':');
+
+        if (p_separator)
+        {
+            valid_min = adl_parse_single_numeric(range, min, &p_local_end);
+            valid_max = adl_parse_single_numeric(p_separator+1, max, &p_local_end);
+        }
+        else
+        {
+            min = (int32_t)strtol(range, &p_local_end, 10);
+            valid_min = p_local_end > range;
+            max = min;
+            valid_max = valid_min;
+        }
+
+        if (p_end && (valid_min && valid_max))
+        {
+            *p_end = p_local_end;
+        }
     }
     else
     {
-        min = (int32_t)strtol(range, &p_local_end, 10);
-        valid_min = p_local_end > range;
-        max = min;
-        valid_max = valid_min;
-    }
-
-    if (p_end && (valid_min && valid_max))
-    {
-        *p_end = p_local_end;
+        if (p_end) { *p_end = NULL; }
     }
 
     return (valid_min && valid_max);

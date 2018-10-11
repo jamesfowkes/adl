@@ -4,19 +4,25 @@
 #include "parameter.h"
 #include "adl.h"
 
-#include "adl-util-limited-range-int.h"
-#include "integer-param.h"
+#include "adl-oneshot-timer.h"
+
+static ADLOneShotTimer my_timer(1000);
 
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
 	(void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
-	pinMode(3, OUTPUT);
+
+	my_timer.start();
 }
 
 void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
-	(void)pdevices; (void)ndevices; (void)nparams;
-	IntegerParam * pInt = (IntegerParam*)pparams[0];
+	(void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
 
-	analogWrite(3, (uint8_t)pInt->get());
+	if (my_timer.check_and_restart())
+	{
+		Serial.print("Timer expired and restarted at ");
+		Serial.print(millis());
+		Serial.println("ms!");
+	}
 }

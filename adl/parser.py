@@ -10,14 +10,17 @@ import adl.config
 import adl.devices
 import adl.types
 
+import adl.overrides
+
 import logging
+
 
 def get_logger():
 	return logging.getLogger(__name__)
 
 VALID_FILETYPES = [".xml", ".yaml", ".json"]
 
-def parse_file(filename, filetype=None):
+def parse_file(filename, filetype=None, overrides=None):
 
 	if filetype is None:
 		filetype = filename.suffix
@@ -40,8 +43,12 @@ def parse_file(filename, filetype=None):
 		stream = open(filename, 'r')
 		board = adl.types.Board.from_yaml(yaml.load(stream))
 
+	if overrides:
+		board = adl.overrides.apply_overrides(overrides, board)
+
 	get_logger().info("Found board '%s', type '%s'", board.name, board.type)
 
 	devices = adl.devices.get(board.devices)
 	parameters = adl.parameters.get(board.parameters)
-	return adl.boards.get(board, devices, parameters), adl.config.get(board, filename)
+	modules = adl.modules.get(board.modules)
+	return adl.boards.get(board, devices, parameters, modules), adl.config.get(board, filename)

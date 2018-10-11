@@ -47,6 +47,8 @@ adl-util-limited-range-int.$(TARGET_EXTENSION): $(ADL_UTIL_LIMITED_RANGE_INT_OBJ
 	$(CC) -o adl-util-limited-range-int.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util-limited-range-int.$(TARGET_EXTENSION)
 
+all: adl-util.$(TARGET_EXTENSION) adl-util-delimited-stream-parser.$(TARGET_EXTENSION) adl-util-limited-range-int.$(TARGET_EXTENSION)
+	
 clean:
 	rm *.o
 	rm ../*.o

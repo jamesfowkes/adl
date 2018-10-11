@@ -2,10 +2,14 @@
  * C++/Arduino Includes
  */
 
-#include "stdint.h"
-#include "string.h"
-#include "stdlib.h"
-#include "stdio.h"
+#define __STDC_LIMIT_MACROS
+#define __STDC_FORMAT_MACROS 
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
+#include <inttypes.h>
 
 /*
  * ADL Includes
@@ -44,23 +48,34 @@ int IntegerParam::command_handler(char const * const command, char * reply)
 {
 	long int value = 0;
 	char * pEnd;
-	int reply_length;
+	int reply_length = 0;
 
 	if (command[0] == 'S')
 	{
-		value = strtol(command, &pEnd, 10);
+		value = strtol(command+1, &pEnd, 10);
 		if (pEnd > command)
 		{
-			if ((value <= INT32_MAX) && (value >= INT32_MIN))
+			if (this->set(value))
 			{
 				strcpy(reply, "OK");
 				reply_length = 2;
 			}
+			else
+			{
+				strcpy(reply, "RNG!");
+				reply_length = 4;
+			}
+		}
+		else
+		{
+			strcpy(reply, "VAL?");
+			reply_length = 4;
 		}
 	}
 	else if (command[0] == '?')
 	{
-		sprintf(reply, "%d", this->get());
+		sprintf(reply, "%" PRIi32, this->get());
+		reply_length = strlen(reply);
 	}
 
 	return reply_length;

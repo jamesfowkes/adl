@@ -1,0 +1,9 @@
+[Core]
+Name = Arduino Nano
+Module = nano
+
+[Documentation]
+Description = Board plugin for the Arduino Nano
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

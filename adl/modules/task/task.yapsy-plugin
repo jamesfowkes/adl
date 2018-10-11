@@ -1,0 +1,9 @@
+[Core]
+Name = Task
+Module = task
+
+[Documentation]
+Description = Implements a repeating task (millisecond resolution)
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
