@@ -1,0 +1,9 @@
+[Core]
+Name = TLC5973
+Module = TLC5973
+
+[Documentation]
+Description = Allows control TLC5973 devices
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
