@@ -137,3 +137,8 @@ int AdafruitNeoPixelADL::command_handler(char const * const command, char * repl
 
     return reply_length;
 }
+
+Adafruit_NeoPixel& AdafruitNeoPixelADL::pixels()
+{
+    return m_pixels;
+}

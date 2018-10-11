@@ -9,7 +9,7 @@ public:
 	void reset();
 	void tick();
 	int command_handler(char const * const command, char * reply);
-	
+	Adafruit_NeoPixel& pixels();
 private:
 	int handle_command(char const * const command, char * reply);
 	void set_pixels(uint8_t range_min, uint8_t range_max, uint8_t r, uint8_t g, uint8_t b);
