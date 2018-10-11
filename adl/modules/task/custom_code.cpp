@@ -14,10 +14,10 @@ static void my_task_fn(void * pTaskData)
 	Serial.print("Task run at ");
 	Serial.print(millis());
 	Serial.print("ms. Data = ");
-	Serial.print(*(int*)pTaskData);
+	Serial.println(*(int*)pTaskData);
 }
 
-static ADLOneShotTask my_task(1000, my_task_fn, &some_data);
+static ADLTask my_task(1000, my_task_fn, &some_data);
 
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {
