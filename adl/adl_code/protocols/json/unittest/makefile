@@ -9,7 +9,7 @@ endif
 
 LIBS = -lcppunit
 
-OBJ = json.unittest.o ../json.o  ../../../adl.o \
+OBJ = json.unittest.o ../json.o ../../../adl.o \
 	../../../../unittest/adl-mock-board.o \
 	../../../../unittest/adl-mock-device.o \
 	../../../../unittest/adl-mock-parameter.o \

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -12,11 +13,12 @@ ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 ADDRESS_TYPE ProtocolHandler::process(char * buffer)
 {
 	ADDRESS_TYPE address_type = adl_get_address_type_from_char(buffer[0]);
+
 	bool valid = adl_validate_char_address(buffer+1) && (address_type != ADDRESS_TYPE_NONE);
 
 	if (valid)
 	{
-		this->last_address = adl_chars_to_address(buffer);
+		this->last_address = adl_chars_to_address(buffer+1);
 		this->last_address_type = address_type;
 		this->command = &buffer[3];
 	}

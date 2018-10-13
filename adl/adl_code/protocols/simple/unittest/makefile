@@ -9,9 +9,13 @@ endif
 
 LIBS = -lcppunit
 
-OBJ = simple.unittest.o ../simple.o ../../adl.o ../../../unittest/adl.mock.o
-
-INC = -I../../../unittest/ -I../ -I../../ -I../../../devices -I../../../parameters
+OBJ = simple.unittest.o ../simple.o ../../../adl.o \
+	../../../../unittest/adl-mock-board.o \
+	../../../../unittest/adl-mock-device.o \
+	../../../../unittest/adl-mock-parameter.o \
+	../../../adl-callbacks.o
+	
+INC = -I../../../../unittest/ -I../ -I../../ -I../../../ -I../../../../devices -I../../../../parameters
 
 TARGET = simple.unittest.$(TARGET_EXTENSION)
 
