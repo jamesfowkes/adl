@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -122,14 +123,34 @@ static int adl_process_param_command(PARAM_ADDRESS address, char const * const c
 
 int adl_chars_to_address(char const * const buffer)
 {
-	return ((buffer[1] - '0') * 10) + (buffer[2] - '0');
+	return ((buffer[0] - '0') * 10) + (buffer[1] - '0');
 }
 
 bool adl_validate_char_address(char const * const buffer)
 {
 	if (!buffer) { return false; }
 
-	return (isdigit(buffer[1]) && isdigit(buffer[2]));
+	return (isdigit(buffer[0]) && isdigit(buffer[1]));
+}
+
+ADDRESS_TYPE adl_get_address_type_from_string(char const * const s)
+{
+	ADDRESS_TYPE t = ADDRESS_TYPE_NONE;
+
+	if ((strlen(s) >= 6) && (strncmp(s, "device", 6) == 0))
+	{
+		t = ADDRESS_TYPE_DEVICE;
+	}
+	else if ((strlen(s) >= 5) && (strncmp(s, "param", 5) == 0))
+	{
+		t = ADDRESS_TYPE_PARAM;
+	}
+	else if ((strlen(s) >= 6) && (strncmp(s, "module", 6) == 0))
+	{
+		t = ADDRESS_TYPE_MODULE;
+	}
+	
+	return t;
 }
 
 ADDRESS_TYPE adl_get_address_type_from_char(char c)

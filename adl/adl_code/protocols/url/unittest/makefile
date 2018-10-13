@@ -1,5 +1,5 @@
 CC = g++
-DEL = @rm -f
+DEL = rm -f
 
 ifeq ($(OS),Windows_NT)
 	TARGET_EXTENSION = exe
@@ -9,15 +9,15 @@ endif
 
 LIBS = -lcppunit
 
-OBJ = json.unittest.o ../json.o  ../../../adl.o \
+OBJ = url.unittest.o ../url.o ../../../adl.o \
 	../../../../unittest/adl-mock-board.o \
 	../../../../unittest/adl-mock-device.o \
 	../../../../unittest/adl-mock-parameter.o \
 	../../../adl-callbacks.o
-	
+
 INC = -I../../../../unittest/ -I../ -I../../ -I../../../ -I../../../../devices -I../../../../parameters
 
-TARGET = json.unittest.$(TARGET_EXTENSION)
+TARGET = url.unittest.$(TARGET_EXTENSION)
 
 CFLAGS = -Wall -Wextra
 
@@ -30,3 +30,4 @@ all: $(OBJ)
 	
 clean:
 	$(DEL) $(TARGET)
+	$(DEL) $(OBJ)

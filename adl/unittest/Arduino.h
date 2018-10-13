@@ -2,6 +2,6 @@
 #define _ARDUINO_H_
 
 unsigned long millis(void); void millis_set(unsigned long set);
-
+void delay(unsigned long ms);
 
 #endif

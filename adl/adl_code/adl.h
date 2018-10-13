@@ -5,7 +5,8 @@ enum address_type
 {
 	ADDRESS_TYPE_NONE = 0,
 	ADDRESS_TYPE_DEVICE = 1,
-	ADDRESS_TYPE_PARAM = 2
+	ADDRESS_TYPE_PARAM = 2,
+	ADDRESS_TYPE_MODULE = 3
 };
 typedef enum address_type ADDRESS_TYPE;
 
@@ -23,6 +24,7 @@ int adl_chars_to_address(char const * const buffer);
 bool adl_validate_char_address(char const * const buffer);
 
 ADDRESS_TYPE adl_get_address_type_from_char(char c);
+ADDRESS_TYPE adl_get_address_type_from_string(char const * const s);
 char adl_get_char_from_address_type(ADDRESS_TYPE t);
 
 void adl_handle_any_pending_commands();
