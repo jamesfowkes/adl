@@ -87,11 +87,11 @@ static ADDRESS_TYPE get_address(char const * const buffer, DEVICE_ADDRESS& addr)
 
 	ADDRESS_TYPE address_type = adl_get_address_type_from_char(paddr[0]);
 
-	bool valid = (address_type != ADDRESS_TYPE_NONE) && adl_validate_char_address(paddr);
+	bool valid = (address_type != ADDRESS_TYPE_NONE) && adl_validate_char_address(paddr+1);
 
 	if (valid)
 	{
-		addr = adl_chars_to_address(paddr);
+		addr = adl_chars_to_address(paddr+1);
 	}
 	return address_type;
 }

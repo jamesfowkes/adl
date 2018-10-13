@@ -12,7 +12,7 @@ ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 ADDRESS_TYPE ProtocolHandler::process(char * buffer)
 {
 	ADDRESS_TYPE address_type = adl_get_address_type_from_char(buffer[0]);
-	bool valid = adl_validate_char_address(buffer) && (address_type != ADDRESS_TYPE_NONE);
+	bool valid = adl_validate_char_address(buffer+1) && (address_type != ADDRESS_TYPE_NONE);
 
 	if (valid)
 	{

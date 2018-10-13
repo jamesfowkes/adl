@@ -20,5 +20,6 @@ static TestParam s_mock_param;
 ParameterBase& adl_get_param(DEVICE_ADDRESS address) {(void)address; return s_mock_param; }
 
 static int test_param_cmd_handler(char const * const command, char * reply) {(void)command; (void)reply; return 0;}
+static COMMAND_HANDLER test_command_handlers[] = {test_param_cmd_handler};
 
-COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address) { (void)address; return test_param_cmd_handler; }
+COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address) { (void)address; return test_command_handlers[0]; }
