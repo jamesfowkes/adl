@@ -15,6 +15,7 @@ public:
 	bool run();
 	bool is_running();
 	void reset();
+	void set_period(uint16_t period);
 private:
 	ADLOneShotTask m_task;
 	TaskFn m_pfn_task;

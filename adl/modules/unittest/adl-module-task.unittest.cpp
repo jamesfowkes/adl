@@ -42,6 +42,7 @@ class ADLModuleTaskTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testTaskRunsAtCorrectTime);
     CPPUNIT_TEST(testTaskIsStillRunningAfterExpiry);
     CPPUNIT_TEST(testTaskOperatesCorrectlyWithTimerOverflow);
+    CPPUNIT_TEST(testTaskPeriodCanBeChanged);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -91,6 +92,19 @@ class ADLModuleTaskTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(0, s_call_count);
         CPPUNIT_ASSERT(runTaskAtTime(task, 999));
         CPPUNIT_ASSERT_EQUAL(1, s_call_count);
+    }
+
+    void testTaskPeriodCanBeChanged()
+    {
+        ADLTask task(1000, test_task);
+        task.set_period(500);
+        task.start();
+        millis_set(0);
+
+        CPPUNIT_ASSERT(!runTaskAtTime(task, 499));
+        CPPUNIT_ASSERT_EQUAL(0, s_call_count);
+        CPPUNIT_ASSERT(runTaskAtTime(task, 500));
+        CPPUNIT_ASSERT_EQUAL(1, s_call_count); 
     }
 
 public:

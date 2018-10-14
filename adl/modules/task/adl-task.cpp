@@ -70,3 +70,8 @@ void ADLTask::reset()
 {
 	m_task.reset();
 }
+
+void ADLTask::set_period(uint16_t period)
+{
+	m_task.set_period(period);
+}
