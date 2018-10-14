@@ -26,9 +26,18 @@ static bool command_is_setting(char const * const command)
 
 uint8_t IR_Receiver::handle_query_command(char const * const command, char * reply)
 {
+    unsigned long code;
+
     if (strcmp(command, "?") == 0)
     {
-        
+        if (this->get_code(code))
+        {
+            sprintf(reply, "%x", code);
+        }
+        else
+        {
+            sprintf(reply, "No Recv");
+        }
     }
     else
     {
@@ -62,6 +71,9 @@ void IR_Receiver::tick()
 
 void IR_Receiver::setup()
 {
+    pinMode(10, OUTPUT);
+    pinMode(9, OUTPUT);
+    digitalWrite(10, HIGH);
     this->reset();
     m_irrecv.enableIRIn();
 }

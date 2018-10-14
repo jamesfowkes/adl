@@ -38,6 +38,10 @@ class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
 		]
 
 	@property
+	def required_libraries(self):
+		return ["IRremote"]
+
+	@property
 	def declarations(self):
 		return "static IR_Receiver {name} = IR_Receiver({pin});".format(
 			name=self.cname(), pin=self.pin.value)
