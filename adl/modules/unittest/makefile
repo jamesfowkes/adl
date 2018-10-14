@@ -46,7 +46,7 @@ adl-module-task.$(TARGET_EXTENSION): $(TASK_OBJS)
 	$(CC) -o adl-module-task.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-module-task.$(TARGET_EXTENSION)
 
-all: adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION) adl-module-task.$(TARGET_EXTENSION)
+all: clean adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION) adl-module-task.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
