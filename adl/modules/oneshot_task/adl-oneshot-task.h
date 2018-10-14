@@ -14,6 +14,8 @@ public:
 	bool run();
 	bool is_running();
 	void reset();
+	void set_period(uint16_t period);
+
 private:
 	ADLOneShotTimer m_timer;
 	OneShotTaskFn m_pfn_task;

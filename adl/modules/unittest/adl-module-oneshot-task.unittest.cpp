@@ -45,6 +45,7 @@ class ADLModuleOneShotTaskTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testOneShotTaskNotRunningAfterReset);
     CPPUNIT_TEST(testOneShotTaskCanBeRestarted);
     CPPUNIT_TEST(testOneShotTaskOperatesCorrectlyWithTimerOverflow);
+    CPPUNIT_TEST(testOneShotTaskPeriodCanBeChanged);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -118,6 +119,18 @@ class ADLModuleOneShotTaskTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT(runTaskAtTime(task, 998));
         CPPUNIT_ASSERT_EQUAL(0, s_call_count);
         CPPUNIT_ASSERT(!runTaskAtTime(task, 999));
+        CPPUNIT_ASSERT_EQUAL(1, s_call_count);
+    }
+
+    void testOneShotTaskPeriodCanBeChanged()
+    {
+        ADLOneShotTask task(1000, test_task);
+        task.start();
+        task.set_period(500);
+
+        CPPUNIT_ASSERT(runTaskAtTime(task, 499));
+        CPPUNIT_ASSERT_EQUAL(0, s_call_count);
+        CPPUNIT_ASSERT(!runTaskAtTime(task, 500));
         CPPUNIT_ASSERT_EQUAL(1, s_call_count);
     }
 

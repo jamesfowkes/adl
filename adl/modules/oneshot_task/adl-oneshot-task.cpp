@@ -62,3 +62,8 @@ void ADLOneShotTask::reset()
 {
 	m_timer.reset();
 }
+
+void ADLOneShotTask::set_period(uint16_t period)
+{
+	m_timer.set_period(period);
+}
