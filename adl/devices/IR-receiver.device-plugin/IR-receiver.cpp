@@ -71,9 +71,6 @@ void IR_Receiver::tick()
 
 void IR_Receiver::setup()
 {
-    pinMode(10, OUTPUT);
-    pinMode(9, OUTPUT);
-    digitalWrite(10, HIGH);
     this->reset();
     m_irrecv.enableIRIn();
 }
