@@ -24,8 +24,8 @@ def get_single_device(device):
 	logging.getLogger(__name__).info("Trying to load device '%s' (%s)", device.name, device.type)
 	try:
 		return devices_plugin_manager.getPluginByName(device.type).plugin_object.get(device)
-	except AttributeError:
-		get_module_logger().error("Could not load plugin '{}'".format(device.type))
+	except AttributeError as e:
+		get_module_logger().error("Could not load plugin '{}': {}".format(device.type, e))
 		sys.exit()
 
 def get(devices):
