@@ -13,6 +13,10 @@ def install(library):
 	get_module_logger().info("Install: '{}'".format(" ".join(result.args)))
 
 def verify(board, sketch_path):
+
+	for library in board.required_libraries():
+		install(library)
+
 	args = ["arduino-cli", "compile", "--fqbn", board.fqbn, str(sketch_path)]
 	result = subprocess.run(args)
 	get_module_logger().info("Verify: '{}'".format(" ".join(result.args)))
