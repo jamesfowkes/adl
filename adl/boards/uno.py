@@ -49,7 +49,8 @@ class UnoPlugin(IPlugin):
         return Uno(
             board.name, serial, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
-            fqbn=board.attrs.get("fqbn", None))
+            fqbn=board.attrs.get("fqbn", None)
+        )
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

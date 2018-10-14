@@ -15,16 +15,17 @@ class Duemilanove(UnoBaseType):
     __slots__ = ()
 
     def __new__(cls, *args, **kwargs):
+        if kwargs["fqbn"] is None:
+            kwargs["fqbn"] = "arduino:avr:diecimila:cpu=atmega328"
         self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
         return self
-
-    @property
-    def fqbn(self):
-        return "arduino:avr:diecimila:cpu=atmega328"
 
 class DuemilanovePlugin(UnoPlugin):
 
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0(baudrate)
-        return Duemilanove(board.name, serial, devices, parameters, modules, board.custom_code, board.settings, board.info, board.log_modules)
+        return Duemilanove(board.name, serial, devices, parameters, modules,
+            board.custom_code, board.settings, board.info, board.log_modules,
+            fqbn=board.attrs.get("fqbn", None)
+        )
