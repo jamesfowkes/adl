@@ -1,5 +1,7 @@
 import os
 import logging
+import itertools
+
 from collections import namedtuple
 
 from pathlib import Path
@@ -90,6 +92,10 @@ class GenericBoard:
 
 	def library_includes(self, use_full_path):
 		return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)
+		
+	def required_libraries(self):
+		required_libraries = [d.required_libraries for d in self.devices]
+		return list(itertools.chain.from_iterable(required_libraries))
 		
 	def sources(self, use_full_path):
 		return dependencies_by_type(self.all_components(), SourceFile, use_full_path)
