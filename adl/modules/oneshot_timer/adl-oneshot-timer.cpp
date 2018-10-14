@@ -64,3 +64,8 @@ bool ADLOneShotTimer::check_and_restart()
 	}
 	return expired;
 }
+
+void ADLOneShotTimer::set_period(uint16_t period)
+{
+	m_period = period;
+}

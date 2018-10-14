@@ -29,6 +29,7 @@ class ADLModuleOneShotTimerTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testOneShotTimerCheckAndRestartIsTrueAndRestartsIfExpired);
     CPPUNIT_TEST(testOneShotTimerCanBeRestartedWithCheckAndRestart);
     CPPUNIT_TEST(testOneShotTimerOperatesCorrectlyWithTimerOverflow);
+    CPPUNIT_TEST(testOneShotTimerPeriodCanBeChanged);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -154,6 +155,19 @@ class ADLModuleOneShotTimerTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT(!timer.check());
         millis_set(999);
         CPPUNIT_ASSERT(timer.check());
+    }
+
+    void testOneShotTimerPeriodCanBeChanged()
+    {
+        ADLOneShotTimer timer(1000);
+        timer.set_period(500);
+        timer.start();
+        millis_set(0);
+        CPPUNIT_ASSERT(!timer.check());
+        millis_set(499);
+        CPPUNIT_ASSERT(!timer.check());
+        millis_set(500);
+        CPPUNIT_ASSERT(timer.check());   
     }
 
 public:

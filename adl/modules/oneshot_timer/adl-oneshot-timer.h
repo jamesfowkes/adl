@@ -11,6 +11,8 @@ public:
 	bool check_and_reset();
 	bool check_and_restart();
 	bool is_running();
+	void set_period(uint16_t period);
+	
 private:
 	unsigned long m_start;
 	uint16_t m_period;
