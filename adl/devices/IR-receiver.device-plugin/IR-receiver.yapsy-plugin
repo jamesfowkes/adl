@@ -1,9 +1,9 @@
 [Core]
-Name = Adafruit ADS1x15
-Module = adafruit_ads1x15
+Name = IR Receiver
+Module = IR_receiver
 
 [Documentation]
-Description = Allows reading of ADS1x15 i2c ADCs via Adafruit library
+Description = Allows reading of various IR remotes via IRremote library
 Author = James Fowkes
 Version = 1.0
 Website = www.returnzero.co.uk

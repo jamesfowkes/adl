@@ -6,7 +6,7 @@
 	</info>
 	
 	<devices>
-		<device name="IR Receiver" type="IR_Receiver">
+		<device name="IR Receiver" type="IR Receiver">
 			<setting id="pin" value="11"/>
 		</device>
 	</devices>

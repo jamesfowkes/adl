@@ -14,7 +14,7 @@ from adl.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "ads_type", "multiplier"])):
+class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
 
 	__slots__ = ()
 
@@ -28,23 +28,23 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
 
 	@property
 	def sources(self):
-		return [DeviceSource(THIS_PATH, "adafruit-ads1x15.cpp")]
+		return [DeviceSource(THIS_PATH, "IR-receiver.cpp")]
 
 	@property
 	def includes(self):
 		return [
-			DeviceInclude(THIS_PATH, "adafruit-ads1x15.h"),
-			LibraryInclude("Adafruit_ADS1015.h")
+			DeviceInclude(THIS_PATH, "IR-receiver.h"),
+			LibraryInclude("IRremote.h")
 		]
 
 	@property
 	def declarations(self):
-		return "static Adafruit_ADS1x15 {name} = Adafruit_ADS1x15({ads_type}, {multiplier});".format(
-			name=self.cname(), ads_type=self.ads_type.value, multiplier=self.multiplier.value)
+		return "static IR_Receiver {name} = IR_Receiver({pin});".format(
+			name=self.cname(), pin=self.pin.value)
 
-class Adafruit_ADS1x15Plugin(IPlugin, GenericDevicePlugin):
+class IR_ReceiverPlugin(IPlugin, GenericDevicePlugin):
 
-	REQUIRED_SETTINGS = ["ads_type"]
+	REQUIRED_SETTINGS = ["pin"]
 
 	def activate(self):
 		pass
@@ -54,16 +54,7 @@ class Adafruit_ADS1x15Plugin(IPlugin, GenericDevicePlugin):
 
 	def get(self, device):
 		self.verify_settings(device)
-		multiplier = device.settings.get("multiplier", Setting("multiplier", "", 1.0))
-
-		if device.settings["ads_type"].value == "ADS1015":
-			ads_type = Setting("ads_type", "ads_type", "ADC_SUBTYPE_ADS1015")
-		elif device.settings["ads_type"].value == "ADS1115":
-			ads_type = Setting("ads_type", "ads_type", "ADC_SUBTYPE_ADS1115")
-		else:
-			raise Exception("ads_type must be one of ADS1015, ADS1115 (got {})".format(device.settings["ads_type"]))
-
-		return Adafruit_ADS1x15(device.name, ads_type, multiplier)
+		return IR_Receiver(device.name, device.settings["pin"])
 
 	def set_log_level(self, level):
 		logging.getLogger(__name__).setLevel(level)
