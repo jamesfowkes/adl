@@ -25,8 +25,12 @@ ADLOneShotTimer::ADLOneShotTimer(uint16_t period) : m_period(period), m_running(
 
 }
 
-void ADLOneShotTimer::start()
+void ADLOneShotTimer::start(uint16_t period)
 {
+	if (period)
+	{
+		this->set_period(period);
+	}
 	m_running = true;
 	m_start = millis();
 }
