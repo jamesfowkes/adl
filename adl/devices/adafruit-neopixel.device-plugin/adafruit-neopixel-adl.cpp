@@ -43,11 +43,19 @@ static int wrong_number_of_values(char * reply, uint8_t count, char * s)
 
 void AdafruitNeoPixelADL::set_pixels(uint8_t range_min, uint8_t range_max, uint8_t r, uint8_t g, uint8_t b)
 {
-    for (uint8_t i=range_min; i<range_max+1; i++)
+    if (range_min < range_max)
     {
-        m_pixels.setPixelColor(i, r, g, b);
+        for (uint8_t i=range_min; i<range_max+1; i++)
+        {
+            m_pixels.setPixelColor(i, r, g, b);
+        }
+        m_pixels.show();
     }
-    m_pixels.show();
+}
+
+void AdafruitNeoPixelADL::set_pixels(uint8_t range_min, uint8_t range_max, const uint8_t rgb[3])
+{
+    this->set_pixels(range_min, range_max, rgb[0], rgb[1], rgb[2]);
 }
 
 int AdafruitNeoPixelADL::handle_command(char const * const command, char * reply)
