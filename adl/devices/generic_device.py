@@ -15,6 +15,10 @@ class GenericDevice:
 	def adl_dependencies(self):
 		return []
 
+	@property
+	def required_libraries(self):
+		return []
+
 	def get_sources(self, target_type):
 		return [s for s in self.sources if isinstance(s, target_type)]
 
