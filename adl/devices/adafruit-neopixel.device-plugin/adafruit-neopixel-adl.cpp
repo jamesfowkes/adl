@@ -7,6 +7,7 @@
 #include "device.h"
 #include "adl.h"
 #include "adl-util.h"
+#include "adl-messages.h"
 
 #include "adafruit-neopixel-adl.h"
 
@@ -22,23 +23,6 @@ static bool valid_rgb_value(int32_t val)
 static bool valid_rgb_values(int32_t(&rgb)[3])
 {
     return valid_rgb_value(rgb[0]) && valid_rgb_value(rgb[1]) && valid_rgb_value(rgb[2]);
-}
-
-static int invalid_range(char * reply)
-{
-    strcpy(reply, "Invalid range");
-    return strlen(reply);
-}
-
-static int invalid_values(char * reply)
-{
-    strcpy(reply, "Invalid values");
-    return strlen(reply);
-}
-
-static int wrong_number_of_values(char * reply, uint8_t count, char * s)
-{
-    return sprintf(reply, "Value count incorrect (%u, '%s')", count, s);
 }
 
 void AdafruitNeoPixelADL::set_pixels(uint8_t range_min, uint8_t range_max, uint8_t r, uint8_t g, uint8_t b)
@@ -87,17 +71,17 @@ int AdafruitNeoPixelADL::handle_command(char const * const command, char * reply
             }
             else
             {
-                return invalid_values(reply);
+                return adl_msg_invalid_values(reply);
             }
         }
         else
         {
-            return wrong_number_of_values(reply, parsed_count, end_of_range);
+            return adl_msg_wrong_number_of_values(reply, parsed_count, end_of_range);
         }
     }
     else
     {
-        return invalid_range(reply);
+        return adl_msg_invalid_range(reply);
     }
 }
 
