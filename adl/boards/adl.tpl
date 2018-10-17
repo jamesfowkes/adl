@@ -25,7 +25,7 @@ By the Arduino Description Language tool.
 {% endfor %}
 
 {% for dep in board.adl_includes(False) %}
-	#include "{{dep}}"
+    #include "{{dep}}"
 {% endfor %}
 
 {% for include in board.device_includes(False) %}
@@ -42,12 +42,12 @@ By the Arduino Description Language tool.
 
 static DeviceBase * s_devices[] = 
 {
-	{% for device in board.devices %}
-	&{{device.cname()}}
-	{% if not loop.last %}
+    {% for device in board.devices %}
+    &{{device.cname()}}
+    {% if not loop.last %}
     ,
-	{% endif %}
-	{% endfor %}
+    {% endif %}
+    {% endfor %}
 };
 
 {% for parameter in board.parameters %}
@@ -56,12 +56,12 @@ static DeviceBase * s_devices[] =
 
 static ParameterBase * s_params[] = 
 {
-	{% for parameter in board.parameters %}
-	&{{parameter.cname()}}
-	{% if not loop.last %}
+    {% for parameter in board.parameters %}
+    &{{parameter.cname()}}
+    {% if not loop.last %}
     ,
-	{% endif %}
-	{% endfor %}
+    {% endif %}
+    {% endfor %}
 };
 
 {% endmacro %}
@@ -71,47 +71,47 @@ static ParameterBase * s_params[] =
 {% for device in board.devices %}
 int handle_device{{loop.index}}_command(char const * const command, char * reply)
 {
-	{{device.command_handler}}
+    {{device.command_handler}}
 }
 {% endfor %}
 
 static COMMAND_HANDLER adl_devices[] = {
-	{% for device in board.devices %}
-	handle_device{{loop.index}}_command,
-	{% endfor %}
+    {% for device in board.devices %}
+    handle_device{{loop.index}}_command,
+    {% endfor %}
 };
 
 COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address)
 {
-	return adl_devices[address-1];
+    return adl_devices[address-1];
 }
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address)
 {
-	return *s_devices[address-1];
+    return *s_devices[address-1];
 }
 
 {% for parameter in board.parameters %}
 int handle_param{{loop.index}}_command(char const * const command, char * reply)
 {
-	{{parameter.command_handler}}
+    {{parameter.command_handler}}
 }
 {% endfor %}
 
 static COMMAND_HANDLER adl_params[] = {
-	{% for parameter in board.parameters %}
-	handle_param{{loop.index}}_command,
-	{% endfor %}
+    {% for parameter in board.parameters %}
+    handle_param{{loop.index}}_command,
+    {% endfor %}
 };
 
 COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address)
 {
-	return adl_params[address-1];
+    return adl_params[address-1];
 }
 
 ParameterBase& adl_get_param(PARAM_ADDRESS address)
 {
-	return *s_params[address-1];
+    return *s_params[address-1];
 }
 
 {% endmacro %}
@@ -119,7 +119,7 @@ ParameterBase& adl_get_param(PARAM_ADDRESS address)
 {% macro render_serial_send(board) -%}
 void adl_board_send(char * to_send)
 {
-	{{ board.serial.send("to_send") }}
+    {{ board.serial.send("to_send") }}
 }
 {% endmacro %}
 
@@ -129,26 +129,26 @@ void adl_board_send(char * to_send)
 
 void setup()
 {
-	adl_on_setup_start();
+    adl_on_setup_start();
 
-	{{ board.serial.setup }}
-	adl_logging_setup({{ board.log_printer }});
+    {{ board.serial.setup }}
+    adl_logging_setup({{ board.log_printer }});
 
-	{% for device in board.devices %}
-	// Setup for {{device.name}}
-	{{ device.setup }}
-	// END {{device.name}} setup
+    {% for device in board.devices %}
+    // Setup for {{device.name}}
+    {{ device.setup }}
+    // END {{device.name}} setup
 
-	{% endfor %}
+    {% endfor %}
 
-	adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
+    adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
 
-	adl_on_setup_complete();
-	
-	if ({{adl.delay_start_time}})
-	{
-		adl_delay_start( {{adl.delay_start_time}} );
-	}
+    adl_on_setup_complete();
+    
+    if ({{adl.delay_start_time}})
+    {
+        adl_delay_start( {{adl.delay_start_time}} );
+    }
 }
 
 {% endmacro %}
@@ -156,9 +156,9 @@ void setup()
 {% macro render_loop(board) -%}
 void loop()
 {
-	adl_handle_any_pending_commands();
-	adl_service_timer();
-	adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
+    adl_handle_any_pending_commands();
+    adl_service_timer();
+    adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
 }
 {% endmacro %}
 

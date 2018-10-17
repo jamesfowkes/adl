@@ -3,9 +3,9 @@
 
 enum adl_devices
 {
-	ADL_DEVICE_BOARD,
+    ADL_DEVICE_BOARD,
 {% for device in board.devices %}
-	ADL_DEVICE_{{ device.cname(False) | upper }},
+    ADL_DEVICE_{{ device.cname(False) | upper }},
 {% endfor %}
 };
 typedef enum adl_devices ADL_DEVICES;
@@ -13,7 +13,7 @@ typedef enum adl_devices ADL_DEVICES;
 enum adl_parameters
 {
 {% for param in board.parameters %}
-	ADL_PARAM_{{ param.cname(False) | upper }},
+    ADL_PARAM_{{ param.cname(False) | upper }},
 {% endfor %}
 };
 typedef enum adl_parameters ADL_PARAMETERS;

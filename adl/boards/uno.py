@@ -25,6 +25,10 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
     def progmem(self):
         return "PROGMEM";
 
+    @property
+    def required_core(self):
+        return "arduino:avr"
+        
 class Uno(UnoBaseType):
     
     __slots__ = ()

@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="TLC5973">
-	<info>
-		An example sketch for the TLC5973 device.
-	</info>
-	
-	<devices>
-		<device name="TLC5973" type="TLC5973">
-			<setting id="pin" value="A5"/>
-			<setting id="num_leds" value="1"/>
-		</device>
-	</devices>
-	<adl protocol="simple"></adl>
+    <info>
+        An example sketch for the TLC5973 device.
+    </info>
+    
+    <devices>
+        <device name="TLC5973" type="TLC5973">
+            <setting id="pin" value="A5"/>
+            <setting id="num_leds" value="1"/>
+        </device>
+    </devices>
+    <adl protocol="simple"></adl>
 </board>

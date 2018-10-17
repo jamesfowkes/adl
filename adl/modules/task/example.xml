@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="Task Example">
-	<info>
-		An example sketch for the task module
-	</info>
-	
-	<modules>
-		<module>Task</module>
-	</modules>
+    <info>
+        An example sketch for the task module
+    </info>
+    
+    <modules>
+        <module>Task</module>
+    </modules>
 
-	<custom_code>
-		<file>custom_code.cpp</file>
-	</custom_code>
+    <custom_code>
+        <file>custom_code.cpp</file>
+    </custom_code>
 </board>

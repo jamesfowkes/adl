@@ -1,10 +1,10 @@
 """ create_all_example_sketches.py
 
 Usage:
-    create_all_example_sketches.py all [-v]
-    create_all_example_sketches.py devices [-v]
-    create_all_example_sketches.py parameters [-v]
-    create_all_example_sketches.py modules [-v]
+    create_all_example_sketches.py all [-v] [--sketchbook=<sketchbook_path>]
+    create_all_example_sketches.py devices [-v] [--sketchbook=<sketchbook_path>]
+    create_all_example_sketches.py parameters [-v] [--sketchbook=<sketchbook_path>]
+    create_all_example_sketches.py modules [-v] [--sketchbook=<sketchbook_path>]
 
 Options:
     -v, --verbose  Output extra logging information
@@ -19,8 +19,8 @@ import docopt
 from pathlib import Path
 
 from adl import parser
-from adl_runner import make
-from adl_arduino_cli import build
+from adl_runner import make, get_sketch_directory
+import arduino_cli_interface
 
 def find_sketchbook_path():
     POSSIBLE_SKETCHBOOK_PATHS = ["~/sketchbook", "~/Arduino", "~/Documents/Arduino"]
@@ -37,7 +37,12 @@ if __name__ == "__main__":
 
     example_files = []
 
-    sketchbook_path = find_sketchbook_path()
+    sketchbook_path = None
+
+    if "--sketchbook" in args:
+        sketchbook_path = Path(args["--sketchbook"]).expanduser()
+    else:
+        sketchbook_path = find_sketchbook_path()
 
     if sketchbook_path is None:
         print("No sketchbook found")
@@ -64,4 +69,7 @@ if __name__ == "__main__":
         print("Trying to build {}".format(example))
         board, adl_config = parser.parse_file(Path(example))
         make(board, adl_config, sketchbook_path)
-        build(board, sketchbook_path)
+
+        sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
+        cli = arduino_cli_interface.ArduinoCLIInterface()
+        cli.verify(board, sketch_directory)

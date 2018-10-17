@@ -3,9 +3,9 @@
 
 struct adl_time
 {
-	uint8_t hh;
-	uint8_t mm;
-	uint8_t ss;
+    uint8_t hh;
+    uint8_t mm;
+    uint8_t ss;
 };
 typedef struct adl_time ADL_TIME;
 
