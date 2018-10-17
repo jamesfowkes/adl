@@ -1,4 +1,14 @@
-#include "string.h"
+/*
+ * C/C++ Includes
+ */
+
+#include <string.h>
+#include <stdint.h>
+
+/*
+ * ADL Includes
+ */
+
 #include "parameter.h"
 #include "boolean-param.h"
 
