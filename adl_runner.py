@@ -16,7 +16,7 @@ import adl.devices
 import adl.boards
 import adl.parameters
 
-from arduino_cli_interface import verify, upload
+import arduino_cli_interface
 
 THIS_PATH = Path(__file__).parent
 
@@ -88,14 +88,16 @@ if __name__ == "__main__":
 
 	get_module_logger().info("Custom code directory: {}".format(adl_config.source_path))
 
+	cli = arduino_cli_interface.ArduinoCLIInterface()
+
 	if args["--make"]:
 		make(board, adl_config, sketchbook_path)
 
 	if args["--build"]:
 		sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
-		verify(board, sketch_directory)
+		cli.verify(board, sketch_directory)
 
 	if args["--upload"]:
 		port = args.get("--port", None)
 		sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
-		upload(board, sketch_directory, port)
+		cli.upload(board, sketch_directory, port)
