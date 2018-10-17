@@ -38,7 +38,7 @@ ADL_SOURCE_FILES = [
 	(ADL_CODE_PATH.joinpath("adl_defs.tpl"), "adl-defs.h"),
 	(ADL_CODE_PATH.joinpath("logging", "adl_logging.tpl"), "adl-logging.cpp"),
 	(ADL_CODE_PATH.joinpath("logging", "adl-logging.h"), "adl-logging.h"),
-	(ADL_CODE_PATH.joinpath("messages", "adl_messages.cpp"), "adl-messages.cpp"),
+	(ADL_CODE_PATH.joinpath("messages", "adl-messages.cpp"), "adl-messages.cpp"),
 	(ADL_CODE_PATH.joinpath("messages", "adl-messages.h"), "adl-messages.h")
 ]
 
