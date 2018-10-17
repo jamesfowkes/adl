@@ -5,7 +5,7 @@ class ADLOneShotTimer
 {
 public:
 	ADLOneShotTimer(uint16_t period);
-	void start();
+	void start(uint16_t period = 0);
 	bool check();
 	void reset();
 	bool check_and_reset();
