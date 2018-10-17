@@ -9,7 +9,7 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../boolean -I../integer -I../../adl_code
+INC = -I../ -I../boolean -I../integer -I../rgb -I../../adl_code
 
 CFLAGS = -Wall -Wextra
 
@@ -24,6 +24,13 @@ BOOLEAN_OBJS = ../boolean/boolean-param.o \
 	adl-parameter-boolean.unittest.o \
 	$(GLOBAL_OBJS)
 
+RGB_OBJS = ../rgb/rgb-param.o \
+	adl-parameter-rgb.unittest.o \
+	../../adl_code/adl-util-limited-range-int.o \
+	../../adl_code/adl-messages.o \
+	../../adl_code/adl-util.o \
+	$(GLOBAL_OBJS)
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -35,9 +42,15 @@ adl-boolean-param.$(TARGET_EXTENSION): $(BOOLEAN_OBJS)
 	$(CC) -o adl-boolean-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-boolean-param.$(TARGET_EXTENSION)
 
+adl-rgb-param.$(TARGET_EXTENSION): $(RGB_OBJS)
+	$(CC) -o adl-rgb-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-rgb-param.$(TARGET_EXTENSION)
+
 all: adl-integer-param.$(TARGET_EXTENSION) adl-boolean-param.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
 	$(DEL) $(INTEGER_OBJS)
 	$(DEL) $(BOOLEAN_OBJS)
+	$(DEL) $(RGB_OBJS)
+	
