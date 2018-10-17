@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="MCP4725">
-	<info>
-		An example sketch for the MCP4725 device
-	</info>
-	
-	<devices>
-		<device name="i2c DAC" type="Adafruit MCP4725">
-			<setting id="default" value="4095"/>
-			<setting id="min" value="2500"/>
-		</device>
-	</devices>
-	<adl protocol="simple"></adl>
+    <info>
+        An example sketch for the MCP4725 device
+    </info>
+    
+    <devices>
+        <device name="i2c DAC" type="Adafruit MCP4725">
+            <setting id="default" value="4095"/>
+            <setting id="min" value="2500"/>
+        </device>
+    </devices>
+    <adl protocol="simple"></adl>
 </board>

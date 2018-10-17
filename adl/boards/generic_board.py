@@ -15,96 +15,96 @@ from adl.types import ModuleSource, ModuleInclude
 from adl.types import LibraryInclude
 
 def get_module_logger():
-	return logging.getLogger(__name__)
+    return logging.getLogger(__name__)
 
 class SketchPath(namedtuple("SketchPath", ["folder", "extension"])):
 
-	__slots__ = ()
+    __slots__ = ()
 
-	@property
-	def full_name(self):
-		return self.folder + self.extension
+    @property
+    def full_name(self):
+        return self.folder + self.extension
 
-	@property
-	def full_path(self):
-		return Path.joinpath(self.folder, self.folder + self.extension)
+    @property
+    def full_path(self):
+        return Path.joinpath(self.folder, self.folder + self.extension)
 
 def get_paths(dependencies, use_full_path):
-	paths = []
-	for dep in dependencies:
-		path = dep if use_full_path else dep.name
-		paths.append(path)
+    paths = []
+    for dep in dependencies:
+        path = dep if use_full_path else dep.name
+        paths.append(path)
 
-	return paths
+    return paths
 
 def dependencies_by_type(component_list, dependency, use_full_path):
-	all_paths = []
-	for component in component_list:
-		incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
-		all_paths.extend(get_paths(incs_and_srcs, use_full_path))
+    all_paths = []
+    for component in component_list:
+        incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
+        all_paths.extend(get_paths(incs_and_srcs, use_full_path))
 
-	return set(all_paths)
+    return set(all_paths)
 
 class GenericBoard:
 
-	def sketch_path(self, extension=".ino"):
-		sketch_name = self.name
-		if sketch_name[0].isdigit():
-			get_module_logger().warning("Name starts with numeric value. Prefixing with underscore.")
-			sketch_name = "_" + sketch_name
+    def sketch_path(self, extension=".ino"):
+        sketch_name = self.name
+        if sketch_name[0].isdigit():
+            get_module_logger().warning("Name starts with numeric value. Prefixing with underscore.")
+            sketch_name = "_" + sketch_name
 
-		if " " in sketch_name:
-			get_module_logger().warning("Name contains spaces. Replacing with underscores.")
-			sketch_name = sketch_name.replace(" ", "_")
+        if " " in sketch_name:
+            get_module_logger().warning("Name contains spaces. Replacing with underscores.")
+            sketch_name = sketch_name.replace(" ", "_")
 
-		full_sketch_name = sketch_name + extension
+        full_sketch_name = sketch_name + extension
 
-		return Path(sketch_name).joinpath(full_sketch_name)
+        return Path(sketch_name).joinpath(full_sketch_name)
 
-	def all_components(self):
-		return self.devices + self.parameters
+    def all_components(self):
+        return self.devices + self.parameters
 
-	def adl_sources(self, use_full_path):
-		sources = dependencies_by_type(self.all_components(), ADLSource, False)
-		return [adl.codepath().joinpath(src) for src in sources] if use_full_path else sources
+    def adl_sources(self, use_full_path):
+        sources = dependencies_by_type(self.all_components(), ADLSource, False)
+        return [adl.codepath().joinpath(src) for src in sources] if use_full_path else sources
 
-	def adl_includes(self, use_full_path):
-		includes = dependencies_by_type(self.all_components(), ADLInclude, False)
-		return [adl.codepath().joinpath(inc) for inc in includes] if use_full_path else includes
+    def adl_includes(self, use_full_path):
+        includes = dependencies_by_type(self.all_components(), ADLInclude, False)
+        return [adl.codepath().joinpath(inc) for inc in includes] if use_full_path else includes
 
-	def parameter_includes(self, use_full_path):
-		return dependencies_by_type(self.parameters, ParameterInclude, use_full_path)
+    def parameter_includes(self, use_full_path):
+        return dependencies_by_type(self.parameters, ParameterInclude, use_full_path)
 
-	def parameter_sources(self, use_full_path):
-		return dependencies_by_type(self.parameters, ParameterSource, use_full_path)
+    def parameter_sources(self, use_full_path):
+        return dependencies_by_type(self.parameters, ParameterSource, use_full_path)
 
-	def device_includes(self, use_full_path):
-		return dependencies_by_type(self.devices, DeviceInclude, use_full_path)
+    def device_includes(self, use_full_path):
+        return dependencies_by_type(self.devices, DeviceInclude, use_full_path)
 
-	def device_sources(self, use_full_path):
-		return dependencies_by_type(self.devices, DeviceSource, use_full_path)
+    def device_sources(self, use_full_path):
+        return dependencies_by_type(self.devices, DeviceSource, use_full_path)
 
-	def module_includes(self, use_full_path):
-		return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
+    def module_includes(self, use_full_path):
+        return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
 
-	def module_sources(self, use_full_path):
-		return dependencies_by_type(self.modules, ModuleSource, use_full_path)
+    def module_sources(self, use_full_path):
+        return dependencies_by_type(self.modules, ModuleSource, use_full_path)
 
-	def library_includes(self, use_full_path):
-		return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)
-		
-	def required_libraries(self):
-		required_libraries = [d.required_libraries for d in self.devices]
-		return list(itertools.chain.from_iterable(required_libraries))
-		
-	def sources(self, use_full_path):
-		return dependencies_by_type(self.all_components(), SourceFile, use_full_path)
+    def library_includes(self, use_full_path):
+        return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)
+        
+    def required_libraries(self):
+        required_libraries = [d.required_libraries for d in self.devices]
+        return list(itertools.chain.from_iterable(required_libraries))
+        
+    def sources(self, use_full_path):
+        return dependencies_by_type(self.all_components(), SourceFile, use_full_path)
 
-	def custom_code_paths(self, path=None):
-		
-		all_sources = []
-		for src in self.custom_code:
-			src_path = Path.joinpath(path, src) if path else src
-			all_sources.append(src_path)
+    def custom_code_paths(self, path=None):
+        
+        all_sources = []
+        for src in self.custom_code:
+            src_path = Path.joinpath(path, src) if path else src
+            all_sources.append(src_path)
 
-		return set(all_sources)
+        return set(all_sources)

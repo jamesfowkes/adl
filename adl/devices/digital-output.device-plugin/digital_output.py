@@ -15,42 +15,42 @@ THIS_PATH = Path(__file__).parent
 
 class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"])):
 
-	__slots__ = ()
+    __slots__ = ()
 
-	@property
-	def setup(self):
-		return "{name}.setup();".format(name=self.cname())
+    @property
+    def setup(self):
+        return "{name}.setup();".format(name=self.cname())
 
-	@property
-	def command_handler(self):
-		return "return {name}.command_handler(command, reply);".format(name=self.cname())
+    @property
+    def command_handler(self):
+        return "return {name}.command_handler(command, reply);".format(name=self.cname())
 
-	@property
-	def directory(self):
-		return THIS_PATH
-		
-	@property
-	def sources(self):
-		return [DeviceSource(THIS_PATH, "digital-output.cpp")]
+    @property
+    def directory(self):
+        return THIS_PATH
+        
+    @property
+    def sources(self):
+        return [DeviceSource(THIS_PATH, "digital-output.cpp")]
 
-	@property
-	def includes(self):
-		return [DeviceInclude(THIS_PATH, "digital-output.h")]
+    @property
+    def includes(self):
+        return [DeviceInclude(THIS_PATH, "digital-output.h")]
 
-	@property
-	def declarations(self):
-		return "static DigitalOutput {name} = DigitalOutput({pin});".format(
-			name=self.cname(), pin=self.pin.value)
+    @property
+    def declarations(self):
+        return "static DigitalOutput {name} = DigitalOutput({pin});".format(
+            name=self.cname(), pin=self.pin.value)
 
 class DigitalOutputPlugin(IPlugin):
-	def activate(self):
-		pass
+    def activate(self):
+        pass
 
-	def deactivate(self):
-		pass
+    def deactivate(self):
+        pass
 
-	def get(self, device):
-		return DigitalOutput(device.name, device.settings["pin"])
+    def get(self, device):
+        return DigitalOutput(device.name, device.settings["pin"])
 
-	def set_log_level(self, level):
-		logging.getLogger(__name__).setLevel(level)
+    def set_log_level(self, level):
+        logging.getLogger(__name__).setLevel(level)

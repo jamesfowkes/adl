@@ -4,15 +4,15 @@
 class ADLKeypad : public DeviceBase
 {
 public:
-	ADLKeypad(Keypad& keypad);
-	void setup();
-	void reset();
-	void tick();
-	
-	int command_handler(char const * const command, char * reply);
+    ADLKeypad(Keypad& keypad);
+    void setup();
+    void reset();
+    void tick();
+    
+    int command_handler(char const * const command, char * reply);
 
 private:
-	Keypad * m_pkeypad;
+    Keypad * m_pkeypad;
 };
 
 #endif

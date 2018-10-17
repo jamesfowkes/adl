@@ -4,16 +4,16 @@
 class BooleanParam : public ParameterBase
 {
 public:
-	BooleanParam(bool reset_value);
-	void setup();
-	void reset();
-	int command_handler(char const * const command, char * reply);
-	
-	bool set(bool setting);
-	bool get();
+    BooleanParam(bool reset_value);
+    void setup();
+    void reset();
+    int command_handler(char const * const command, char * reply);
+    
+    bool set(bool setting);
+    bool get();
 private:
-	bool m_reset_value;
-	bool m_state;
+    bool m_reset_value;
+    bool m_state;
 };
 
 #endif

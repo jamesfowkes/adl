@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="Integer Parameter Example">
-	<info>
-		An example sketch for the boolean parameter
-	</info>
-	
-	<parameters>
-		<parameter name="My Integer" type="Integer">
-			<setting id="clip" value="false"/>
-			<setting id="min" value="0"/>
-			<setting id="max" value="100"/>
-		</parameter>
-	</parameters>
+    <info>
+        An example sketch for the boolean parameter
+    </info>
+    
+    <parameters>
+        <parameter name="My Integer" type="Integer">
+            <setting id="clip" value="false"/>
+            <setting id="min" value="0"/>
+            <setting id="max" value="100"/>
+        </parameter>
+    </parameters>
 
-	<custom_code>
-		<file>custom_code.cpp</file>
-	</custom_code>
+    <custom_code>
+        <file>custom_code.cpp</file>
+    </custom_code>
 </board>

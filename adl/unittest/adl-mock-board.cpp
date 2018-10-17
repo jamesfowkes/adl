@@ -18,5 +18,5 @@ void delay(unsigned long ms) { (void)ms; }
 static char _sent[128]; 
 void adl_board_send(char * to_send)
 {
-	strcpy(_sent, to_send);
+    strcpy(_sent, to_send);
 }

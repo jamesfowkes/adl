@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 
 <board type="Arduino Uno" name="Random PWM">
-	<info>
-		An example sketch to demonstrate the random PWM device
-		Implements PWM randomisation on three different pins, with 25% duty cycle limit
-	</info>
-	
-	<devices>
-		<device name="LED1" type="Random PWM">
-			<setting id="pin" name="LED_1_PIN" value="9"/>
-			<setting id="interval" value="10000"/>
-			<setting id="highlimit" value="64"/>
-		</device>
-		<device name="LED2" type="Random PWM">
-			<setting id="pin" name="LED_2_PIN" value="10"/>
-			<setting id="interval" value="10000"/>
-			<setting id="highlimit" value="64"/>
-		</device>
-		<device name="LED3" type="Random PWM">
-			<setting id="pin" name="LED_3_PIN" value="11"/>
-			<setting id="interval" value="10000"/>
-			<setting id="highlimit" value="64"/>
-		</device>
-	</devices>
+    <info>
+        An example sketch to demonstrate the random PWM device
+        Implements PWM randomisation on three different pins, with 25% duty cycle limit
+    </info>
+    
+    <devices>
+        <device name="LED1" type="Random PWM">
+            <setting id="pin" name="LED_1_PIN" value="9"/>
+            <setting id="interval" value="10000"/>
+            <setting id="highlimit" value="64"/>
+        </device>
+        <device name="LED2" type="Random PWM">
+            <setting id="pin" name="LED_2_PIN" value="10"/>
+            <setting id="interval" value="10000"/>
+            <setting id="highlimit" value="64"/>
+        </device>
+        <device name="LED3" type="Random PWM">
+            <setting id="pin" name="LED_3_PIN" value="11"/>
+            <setting id="interval" value="10000"/>
+            <setting id="highlimit" value="64"/>
+        </device>
+    </devices>
 
-	<adl protocol="simple"></adl>
+    <adl protocol="simple"></adl>
 </board>

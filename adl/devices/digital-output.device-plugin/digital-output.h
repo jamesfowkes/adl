@@ -4,17 +4,17 @@
 class DigitalOutput : public DeviceBase
 {
 public:
-	DigitalOutput(int pin);
-	void setup();
-	void reset();
-	void tick();
-	int command_handler(char const * const command, char * reply);
-	
-	void set(bool on);
-	void tristate();
+    DigitalOutput(int pin);
+    void setup();
+    void reset();
+    void tick();
+    int command_handler(char const * const command, char * reply);
+    
+    void set(bool on);
+    void tristate();
 
 private:
-	int m_pin;
+    int m_pin;
 };
 
 #endif

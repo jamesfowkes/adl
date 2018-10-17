@@ -26,5 +26,5 @@ int adl_msg_invalid_values(char * reply)
 
 int adl_msg_wrong_number_of_values(char * reply, uint8_t parsed_count, char const * const s)
 {
-  	return sprintf(reply, "Value count incorrect (%u) '%s'", parsed_count, s);
+    return sprintf(reply, "Value count incorrect (%u) '%s'", parsed_count, s);
 }

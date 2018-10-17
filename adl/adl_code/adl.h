@@ -3,10 +3,10 @@
 
 enum address_type
 {
-	ADDRESS_TYPE_NONE = 0,
-	ADDRESS_TYPE_DEVICE = 1,
-	ADDRESS_TYPE_PARAM = 2,
-	ADDRESS_TYPE_MODULE = 3
+    ADDRESS_TYPE_NONE = 0,
+    ADDRESS_TYPE_DEVICE = 1,
+    ADDRESS_TYPE_PARAM = 2,
+    ADDRESS_TYPE_MODULE = 3
 };
 typedef enum address_type ADDRESS_TYPE;
 
@@ -50,11 +50,11 @@ int adl_board_read_progmem(char * const dst, char const * const src);
 class ProtocolHandlerBase
 {
 public:
-	virtual ADDRESS_TYPE process(char *) = 0;
-	virtual void write_reply(char * buffer, char const * const reply, uint8_t reply_length) = 0;
-	int last_address;
-	ADDRESS_TYPE last_address_type;
-	char const * command;
+    virtual ADDRESS_TYPE process(char *) = 0;
+    virtual void write_reply(char * buffer, char const * const reply, uint8_t reply_length) = 0;
+    int last_address;
+    ADDRESS_TYPE last_address_type;
+    char const * command;
 };
 
 #endif

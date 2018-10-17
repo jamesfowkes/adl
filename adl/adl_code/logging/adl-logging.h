@@ -4,7 +4,7 @@
 typedef enum adl_log_modules
 {
 {% for module in board.log_modules %}
-	LOG_{{ module.prefix }},
+    LOG_{{ module.prefix }},
 {% endfor %}
 } ADL_LOG_MODULES;
 
