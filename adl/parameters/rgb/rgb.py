@@ -16,7 +16,7 @@ from adl.types import LocalSource, LocalInclude
 
 THIS_PATH = Path(__file__).parent
 
-class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_value", "min", "max", "clip"])):
+class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "init_value", "min", "max", "clip"])):
 
 	__slots__ = ()
 
@@ -26,7 +26,7 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 
 	@property
 	def declarations(self):
-		return "static IntegerParam {name} = IntegerParam({init}, {min}, {max}, {clip});".format(
+		return "static RGBParam {name} = RGBParam({init}, {min}, {max}, {clip});".format(
 			name=self.cname(), init=self.init_value.value,
 			min=self.min.value, max=self.max.value, clip=self.clip.value
 		)
@@ -39,14 +39,14 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 	def sources(self):
 		return [
 			ADLSource("adl-util-limited-range-int.cpp"),
-			ParameterSource(THIS_PATH, "integer-param.cpp")
+			ParameterSource(THIS_PATH, "rgb-param.cpp")
 		]
 
 	@property
 	def includes(self):
 		return [
 			ADLInclude("adl-util-limited-range-int.h"),
-			ParameterInclude(THIS_PATH, "integer-param.h")
+			ParameterInclude(THIS_PATH, "rgb-param.h")
 		]
 
 
@@ -58,7 +58,7 @@ class IntegerPlugin(IPlugin):
 		pass
 
 	def get(self, param):
-		return IntegerParam(param.name, 
+		return RGBParam(param.name, 
 			param.settings.get("init_value", Setting("init_value", "", "0")),
 			param.settings.get("min", Setting("min", "", "INT32_MIN")),
 			param.settings.get("max", Setting("max", "", "INT32_MAX")),

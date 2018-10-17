@@ -20,7 +20,7 @@ void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * ppar
 	(void)pdevices; (void)ndevices; (void)nparams;
 	RGBParam * pRGB = (RGBParam*)pparams[0];
 
-	analogWrite(3, (uint8_t)pRGB->get(0));
-	analogWrite(5, (uint8_t)pRGB->get(1));
-	analogWrite(6, (uint8_t)pRGB->get(2));
+	analogWrite(3, (uint8_t)pRGB->get(eR));
+	analogWrite(5, (uint8_t)pRGB->get(eG));
+	analogWrite(6, (uint8_t)pRGB->get(eB));
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Integer Parameter Example">
+<board type="Arduino Uno" name="RGB Parameter Example">
 	<info>
-		An example sketch for the boolean parameter
+		An example sketch for the RGB parameter
 	</info>
 	
 	<parameters>
-		<parameter name="My Integer" type="Integer">
+		<parameter name="My RGB Param" type="RGB">
 			<setting id="clip" value="false"/>
 			<setting id="min" value="0"/>
-			<setting id="max" value="100"/>
+			<setting id="max" value="255"/>
 		</parameter>
 	</parameters>
 

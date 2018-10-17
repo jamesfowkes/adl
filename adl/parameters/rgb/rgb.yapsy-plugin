@@ -1,9 +1,9 @@
 [Core]
-Name = Integer
-Module = integer
+Name = RGB
+Module = rgb
 
 [Documentation]
-Description = Allows read/write of an integer parameter
+Description = Allows read/write of an RGB parameter
 Author = James Fowkes
 Version = 1.0
 Website = www.returnzero.co.uk
