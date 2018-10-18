@@ -62,7 +62,7 @@ class GenericBoard:
         return Path(sketch_name).joinpath(full_sketch_name)
 
     def all_components(self):
-        return self.devices + self.parameters
+        return [self] + self.devices + self.parameters
 
     def adl_sources(self, use_full_path):
         sources = dependencies_by_type(self.all_components(), ADLSource, False)

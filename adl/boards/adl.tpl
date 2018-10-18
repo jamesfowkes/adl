@@ -19,6 +19,7 @@ By the Arduino Description Language tool.
 #include "parameter.h"
 #include "adl.h"
 #include "adl-callbacks.h"
+#include "adl-nv.h"
 
 {% for include in board.library_includes(False) %}
 #include <{{include}}>
@@ -132,6 +133,9 @@ void setup()
     adl_on_setup_start();
 
     {{ board.serial.setup }}
+    
+    adl_nonvolatile_setup();
+
     adl_logging_setup({{ board.log_printer }});
 
     {% for device in board.devices %}

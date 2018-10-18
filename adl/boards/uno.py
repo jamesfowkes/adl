@@ -7,10 +7,13 @@ from yapsy.IPlugin import IPlugin
 
 from adl import template_engine
 from adl.boards.serial.serial0 import Serial0
+from adl.boards.nonvolatile.EEPROM import EEPROM
 from adl.boards.generic_board import GenericBoard
+from adl.types import LibraryInclude
 
 class UnoBaseType(GenericBoard, namedtuple("UnoBaseType", 
-    ["name", "serial", "devices", "parameters", "modules", "custom_code", "settings", "info", "log_modules", "fqbn"])):
+    ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
+    "custom_code", "settings", "info", "log_modules", "fqbn"])):
 
     __slots__ = ()
 
@@ -28,7 +31,23 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
     @property
     def required_core(self):
         return "arduino:avr"
-        
+    
+    @property
+    def sources(self):
+        return []
+
+    @property
+    def includes(self):
+        return [
+            LibraryInclude("EEPROM.h")
+        ]
+
+    def get_sources(self, target_type):
+        return [s for s in self.sources if isinstance(s, target_type)]
+
+    def get_includes(self, target_type):
+        return [s for s in self.includes if isinstance(s, target_type)]
+
 class Uno(UnoBaseType):
     
     __slots__ = ()
@@ -49,9 +68,10 @@ class UnoPlugin(IPlugin):
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0(baudrate)
+        nonvolatile = EEPROM()
 
         return Uno(
-            board.name, serial, devices, parameters, modules,
+            board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
             fqbn=board.attrs.get("fqbn", None)
         )

@@ -18,6 +18,8 @@ enum adl_parameters
 };
 typedef enum adl_parameters ADL_PARAMETERS;
 
+typedef {{ board.eeprom.address_type }} ADL_NV_ADDR;
+
 static const int ADL_DEVICE_COUNT = {{ board.devices | length }};
 static const int ADL_PARAM_COUNT = {{ board.parameters | length }};
 
