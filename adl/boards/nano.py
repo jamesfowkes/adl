@@ -8,7 +8,7 @@ from yapsy.IPlugin import IPlugin
 from adl import template_engine
 from adl.boards.serial.serial0 import Serial0
 from adl.boards.generic_board import GenericBoard
-from adl.boards.nonvolatile.EEPROM import EEPROM
+from adl.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 
 from adl.boards.uno import UnoBaseType, UnoPlugin
 

@@ -41,13 +41,6 @@ def create_sketch_directory(parent_directory, sketch_directory):
 
     return target_directory
 
-def write_sketch_to_directory(directory, sketch_name, sketch_contents):
-
-    target = directory.joinpath(sketch_name)
-    get_module_logger().info("Writing sketch '%s'", target)
-    with target.open('w') as sketch:
-        sketch.write(sketch_contents)
-
 def make(board, adl_config, sketchbook):
 
     if sketchbook:
@@ -66,7 +59,8 @@ def make(board, adl_config, sketchbook):
         adl.write_sources(sketch_directory, board.module_includes(True))
         adl.write_sources(sketch_directory, board.module_sources(True))
         adl.write_sources(sketch_directory, board.custom_code_paths(adl_config.source_path))
-        write_sketch_to_directory(sketch_directory, sketch_path.name, board.code(adl_config))
+        adl.write_board_support_package(sketch_directory, adl_config, board)
+        adl.write_main(sketch_directory, sketch_path.name, adl_config, board)
 
     return board, adl_config, sketch_directory
 

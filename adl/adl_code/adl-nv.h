@@ -7,6 +7,7 @@ typedef struct _adl_nv_location
 	ADL_NV_ADDR address;
 } ADL_NV_LOCATION;
 
+void adl_nonvolatile_setup();
 void adl_nv_alloc(ADL_NV_LOCATION& to_alloc);
 void adl_nv_load(void * dst, ADL_NV_LOCATION& load_from);
 void adl_nv_save(void * src, ADL_NV_LOCATION& save_to);

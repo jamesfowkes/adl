@@ -188,3 +188,4 @@ void loop()
 
 {% endmacro %}
 
+{{ render_all(adl, board, context) }}

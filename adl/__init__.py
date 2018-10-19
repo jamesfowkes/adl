@@ -75,6 +75,17 @@ def write_library(target_directory, adl_config, board):
     for template_file, target_file in ADL_SOURCE_FILES:
         write_file(template_file, target_directory, target_file, adl_config, board)
 
+def write_main(directory, sketch_name, adl_config, board):
+    target = directory.joinpath(sketch_name)
+    get_module_logger().info("Writing sketch '%s'", target)
+    write_file(ADL_CODE_PATH.joinpath("adl-main.tpl"), directory, sketch_name, adl_config, board)
+
+def write_board_support_package(target_directory, adl_config, board):
+    rendered_code = adl.template_engine.render_board(board.template, adl_config, board)
+    with target_directory.joinpath("adl-bsp.cpp").open('w') as f:
+        get_module_logger().info("Writing file %s to %s", "adl-bsp.cpp", f.name)
+        f.write(rendered_code)
+
 def write_sources(target_directory, sources):
     for src in sources:
         copy_file(src, target_directory)

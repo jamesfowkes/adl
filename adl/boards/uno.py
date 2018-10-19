@@ -1,15 +1,19 @@
 import os
 import logging
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
 from adl import template_engine
 from adl.boards.serial.serial0 import Serial0
-from adl.boards.nonvolatile.EEPROM import EEPROM
+from adl.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 from adl.boards.generic_board import GenericBoard
 from adl.types import LibraryInclude
+
+THIS_PATH = Path(__file__).parent
 
 class UnoBaseType(GenericBoard, namedtuple("UnoBaseType", 
     ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
@@ -17,9 +21,10 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
 
     __slots__ = ()
 
-    def code(self, adl):
-        return template_engine.render_board("uno.template", adl=adl, board=self)
-
+    @property
+    def template(self):
+        #return THIS_PATH.joinpath("uno.template")
+        return "uno.template"
     @property
     def log_printer(self):
         return "Serial";
