@@ -5,10 +5,11 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "parameter.h"
 #include "device.h"
 #include "adl-callbacks.h"
-#include "adl-defs.h"
 #include "adl.h"
 #include "protocol.h"
 

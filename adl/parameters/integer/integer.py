@@ -16,7 +16,7 @@ from adl.types import LocalSource, LocalInclude
 
 THIS_PATH = Path(__file__).parent
 
-class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_value", "min", "max", "clip"])):
+class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_value", "min", "max", "clip", "use_eeprom"])):
 
     __slots__ = ()
 
@@ -26,9 +26,10 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 
     @property
     def declarations(self):
-        return "static IntegerParam {name} = IntegerParam({init}, {min}, {max}, {clip});".format(
+        return "static IntegerParam {name} = IntegerParam({init}, {min}, {max}, {clip}, {use_eeprom});".format(
             name=self.cname(), init=self.init_value.value,
-            min=self.min.value, max=self.max.value, clip=self.clip.value
+            min=self.min.value, max=self.max.value, clip=self.clip.value,
+            use_eeprom=self.use_eeprom.value
         )
 
     @property
@@ -62,7 +63,8 @@ class IntegerPlugin(IPlugin):
             param.settings.get("init_value", Setting("init_value", "", "0")),
             param.settings.get("min", Setting("min", "", "INT32_MIN")),
             param.settings.get("max", Setting("max", "", "INT32_MAX")),
-            param.settings.get("clip", Setting("clip", "", "true"))
+            param.settings.get("clip", Setting("clip", "", "true")),
+            param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))
         )
 
     def set_log_level(self, level):

@@ -9,10 +9,12 @@
  * ADL Includes
  */
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "parameter.h"
 #include "boolean-param.h"
 
-BooleanParam::BooleanParam(bool reset_value)
+BooleanParam::BooleanParam(bool reset_value, bool use_eeprom) : ParameterBase(use_eeprom, sizeof(bool))
 {
     m_reset_value = reset_value;
     m_state = reset_value;
@@ -68,4 +70,20 @@ int BooleanParam::command_handler(char const * const command, char * reply)
     }
 
     return reply_length;
+}
+
+void BooleanParam::save()
+{
+    if (m_use_eeprom)
+    {
+        adl_nv_save(&m_state, m_eeprom_location);
+    }
+}
+
+void BooleanParam::load()
+{
+    if (m_use_eeprom)
+    {
+        adl_nv_load(&m_state, m_eeprom_location);
+    }
 }

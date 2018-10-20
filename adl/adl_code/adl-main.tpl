@@ -15,11 +15,11 @@ By the Arduino Description Language tool.
 
 #include "adl-logging.h"
 #include "adl-defs.h"
+#include "adl-nv.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"
 #include "adl-callbacks.h"
-#include "adl-nv.h"
 
 {% for include in board.library_includes(False) %}
 #include <{{include}}>

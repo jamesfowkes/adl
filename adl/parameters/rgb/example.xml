@@ -7,9 +7,11 @@
 	
 	<parameters>
 		<parameter name="My RGB Param" type="RGB">
-			<setting id="clip" value="false"/>
-			<setting id="min" value="0"/>
-			<setting id="max" value="255"/>
+			<setting id="limit" value="255"/>
+			<setting id="clip" value="true"/>
+			<setting id="r_default" value="0"/>
+			<setting id="g_default" value="0"/>
+			<setting id="b_default" value="0"/>
 		</parameter>
 	</parameters>
 

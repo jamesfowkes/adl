@@ -16,7 +16,8 @@ from adl.types import LocalSource, LocalInclude
 
 THIS_PATH = Path(__file__).parent
 
-class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "init_value", "min", "max", "clip"])):
+class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit", 
+		"r_default", "g_default", "b_default", "clip", "use_eeprom"])):
 
 	__slots__ = ()
 
@@ -26,9 +27,10 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "init_value", "
 
 	@property
 	def declarations(self):
-		return "static RGBParam {name} = RGBParam({init}, {min}, {max}, {clip});".format(
-			name=self.cname(), init=self.init_value.value,
-			min=self.min.value, max=self.max.value, clip=self.clip.value
+		return "static RGBParam {name} = RGBParam({limit}, {r_default}, {g_default}, {b_default}, {clip}, {use_eeprom});".format(
+			name=self.cname(), limit=self.limit.value,
+			r_default=self.r_default.value, g_default=self.g_default.value, b_default=self.b_default.value,
+			clip=self.clip.value, use_eeprom=self.use_eeprom.value
 		)
 
 	@property
@@ -59,10 +61,12 @@ class IntegerPlugin(IPlugin):
 
 	def get(self, param):
 		return RGBParam(param.name, 
-			param.settings.get("init_value", Setting("init_value", "", "0")),
-			param.settings.get("min", Setting("min", "", "INT32_MIN")),
-			param.settings.get("max", Setting("max", "", "INT32_MAX")),
-			param.settings.get("clip", Setting("clip", "", "true"))
+			param.settings.get("limit", Setting("limit", "", "255")),
+			param.settings.get("r_default", Setting("r_default", "", "0")),
+			param.settings.get("g_default", Setting("g_default", "", "0")),
+			param.settings.get("b_default", Setting("b_default", "", "0")),
+			param.settings.get("clip", Setting("clip", "", "true")),
+            param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))
 		)
 
 	def set_log_level(self, level):

@@ -13,7 +13,7 @@ from adl.types import ParameterSource, ParameterInclude
 
 THIS_PATH = Path(__file__).parent
 
-class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_value"])):
+class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_value", "use_eeprom"])):
 
     __slots__ = ()
 
@@ -23,8 +23,9 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
 
     @property
     def declarations(self):
-        return "static BooleanParam {name} = BooleanParam({init});".format(
-            name=self.cname(), init=self.init_value.value
+        return "static BooleanParam {name} = BooleanParam({init}, {use_eeprom});".format(
+            name=self.cname(), init=self.init_value.value,
+            use_eeprom=self.use_eeprom.value
         )
 
     @property
@@ -48,7 +49,10 @@ class BooleanPlugin(IPlugin):
         pass
 
     def get(self, param):
-        return BooleanParam(param.name, param.settings.get("init_value", Setting("init_value", "", "false")))
-
+        return BooleanParam(param.name,
+            param.settings.get("init_value", Setting("init_value", "", "false")),
+            param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))
+        )
+        
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

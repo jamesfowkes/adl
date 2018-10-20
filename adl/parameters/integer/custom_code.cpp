@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "device.h"
 #include "parameter.h"
 #include "adl.h"

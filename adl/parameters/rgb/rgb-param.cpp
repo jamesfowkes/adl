@@ -15,6 +15,8 @@
  * ADL Includes
  */
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "adl-messages.h"
 #include "adl-util.h"
 #include "adl-util-limited-range-int.h"
@@ -23,14 +25,16 @@
 
 #define RGB_FORMAT "%" PRIu16 ",%" PRIu16 ",%" PRIu16
 
-RGBParam::RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default, bool clip_on_out_of_range) :
+RGBParam::RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default,
+    bool clip_on_out_of_range, bool use_eeprom) :
     m_rgb{
         {r_default, 0, limit, clip_on_out_of_range},
         {g_default, 0, limit, clip_on_out_of_range},
         {b_default, 0, limit, clip_on_out_of_range}
     },
     m_defaults{r_default, g_default, b_default},
-    m_clip(clip_on_out_of_range)
+    m_clip(clip_on_out_of_range),
+    ParameterBase(use_eeprom, sizeof(int16_t)*3)
 {
 }
 
@@ -110,4 +114,20 @@ int RGBParam::command_handler(char const * const command, char * reply)
     }
 
     return reply_length;
+}
+
+void RGBParam::save()
+{
+    if (m_use_eeprom)
+    {
+        adl_nv_save(m_rgb, m_eeprom_location);
+    }
+}
+
+void RGBParam::load()
+{
+    if (m_use_eeprom)
+    {
+        adl_nv_load(m_rgb, m_eeprom_location);
+    }
 }
