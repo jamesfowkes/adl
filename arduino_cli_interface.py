@@ -48,15 +48,23 @@ class ArduinoCLIInterface:
         self.find()
         if not self.lib_is_installed(library):
             args = [self.location, "lib", "install", library]
-            result = subprocess.run(args)
-            get_module_logger().info("Lib Install: '{}'".format(" ".join(result.args)))
+            try:
+                result = subprocess.run(args)
+                get_module_logger().info("Lib Install Success: '{}'".format(" ".join(result.args)))
+            except:
+                get_module_logger().info("Lib Install Failed: '{}'".format(" ".join(result.args)))
+                raise
 
     def install_core(self, core):
         self.find()
         if not self.core_is_installed(core):
             args = [self.location, "core", "install", core]
-            result = subprocess.run(args)
-            get_module_logger().info("Core Install: '{}'".format(" ".join(result.args)))
+            try:
+                result = subprocess.run(args)
+                get_module_logger().info("Core Install Success: '{}'".format(" ".join(result.args)))
+            except:
+                get_module_logger().info("Core Install Failed: '{}'".format(" ".join(args)))
+                raise
 
     def verify(self, board, sketch_path):
         self.find()
@@ -66,11 +74,20 @@ class ArduinoCLIInterface:
         self.install_core(board.required_core)
 
         args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path)]
-        result = subprocess.run(args)
-        get_module_logger().info("Verify: '{}'".format(" ".join(result.args)))
+        try:
+            result = subprocess.run(args)
+            get_module_logger().info("Verify Success: '{}'".format(" ".join(result.args)))
+        except:
+            get_module_logger().info("Verify Failed: '{}'".format(" ".join(args)))
+            raise
 
     def upload(self, board, sketch_path, port):
         self.find()
         args = [self.location, "upload", "-p", port, "--fqbn", board.fqbn, str(sketch_path)]
-        result = subprocess.run(args)
-        get_module_logger().info("Upload: '{}'".format(" ".join(result.args)))
+        try:
+            result = subprocess.run(args)
+            get_module_logger().info("Upload Success: '{}'".format(" ".join(result.args)))
+        except:
+            
+            get_module_logger().info("Upload Failed: '{}'".format(" ".join(args)))
+            raise

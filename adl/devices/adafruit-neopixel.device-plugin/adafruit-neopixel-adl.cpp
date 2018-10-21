@@ -89,11 +89,10 @@ int AdafruitNeoPixelADL::handle_command(char const * const command, char * reply
  * Class Public Functions
  */
 
-AdafruitNeoPixelADL::AdafruitNeoPixelADL(uint8_t pin, uint16_t npixels) : m_pixels(0,0), m_npixels(npixels)
+AdafruitNeoPixelADL::AdafruitNeoPixelADL(uint8_t pin, uint16_t npixels, uint16_t type) : 
+    m_pixels(npixels,pin,type), m_npixels(npixels)
 {
     m_pixels.begin();
-    m_pixels.setPin(pin);
-    m_pixels.updateLength(npixels);
 }
 
 void AdafruitNeoPixelADL::reset()

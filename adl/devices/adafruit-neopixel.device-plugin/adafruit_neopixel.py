@@ -14,7 +14,7 @@ from adl.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", "pin", "npixels"])):
+class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", "pin", "npixels", "pixel_type"])):
 
     __slots__ = ()
 
@@ -39,8 +39,8 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     @property
     def declarations(self):
-        return "static AdafruitNeoPixelADL {name} = AdafruitNeoPixelADL({pin}, {npixels});".format(
-            name=self.cname(), pin=self.pin.value, npixels=self.npixels.value)
+        return "static AdafruitNeoPixelADL {name} = AdafruitNeoPixelADL({pin}, {npixels}, {pixel_type});".format(
+            name=self.cname(), pin=self.pin.value, npixels=self.npixels.value, pixel_type=self.pixel_type.value)
 
 class Adafruit_NeopixelPlugin(IPlugin, GenericDevicePlugin):
 
@@ -54,7 +54,14 @@ class Adafruit_NeopixelPlugin(IPlugin, GenericDevicePlugin):
 
     def get(self, device):
         self.verify_settings(device)
-        return Adafruit_Neopixel(device.name, device.settings["pin"], device.settings["npixels"])
+
+        type_setting = device.settings.get("type", Setting("type","","NEO_GRB + NEO_KHZ800"))
+
+        return Adafruit_Neopixel(device.name, 
+            device.settings["pin"],
+            device.settings["npixels"],
+            type_setting
+        )
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

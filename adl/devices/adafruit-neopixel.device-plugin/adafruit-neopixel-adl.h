@@ -4,7 +4,7 @@
 class AdafruitNeoPixelADL : public DeviceBase
 {
 public:
-    AdafruitNeoPixelADL(uint8_t pin, uint16_t npixels);
+    AdafruitNeoPixelADL(uint8_t pin, uint16_t npixels, uint16_t type);
     void setup();
     void reset();
     void tick();
