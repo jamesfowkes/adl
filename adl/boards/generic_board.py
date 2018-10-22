@@ -73,7 +73,7 @@ class GenericBoard:
         return [self] + self.devices + self.parameters
 
     def bsp_components(self):
-        return [self.nonvolatile]
+        return [self.nonvolatile, self.serial]
 
     def adl_sources(self, use_full_path):
         sources = dependencies_by_type(self.all_components(), ADLSource, False)

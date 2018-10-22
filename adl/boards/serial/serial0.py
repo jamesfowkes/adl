@@ -19,3 +19,17 @@ class Serial0:
 
     def send(self, to_send):
         return "Serial.println({});".format(to_send)
+
+    @property
+    def sources(self):
+        return []
+
+    @property
+    def includes(self):
+        return []
+
+    def get_sources(self, target_type):
+        return [s for s in self.sources if isinstance(s, target_type)]
+
+    def get_includes(self, target_type):
+        return [s for s in self.includes if isinstance(s, target_type)]
