@@ -13,6 +13,7 @@ from adl.types import DeviceSource, DeviceInclude
 from adl.types import LocalSource, LocalInclude
 from adl.types import ModuleSource, ModuleInclude
 from adl.types import LibraryInclude
+from adl.types import SourceFileProvider
 
 def get_module_logger():
     return logging.getLogger(__name__)
@@ -45,7 +46,7 @@ def dependencies_by_type(component_list, dependency, use_full_path):
 
     return set(all_paths)
 
-class GenericBoard:
+class GenericBoard(SourceFileProvider):
 
     def sketch_path(self, extension=".ino"):
         sketch_name = self.name

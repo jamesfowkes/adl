@@ -1,4 +1,6 @@
-class Serial0:
+from adl.types import SourceFileProvider
+
+class Serial0(SourceFileProvider):
 
     def __init__(self, baudrate):
         self.baudrate = baudrate
@@ -27,9 +29,3 @@ class Serial0:
     @property
     def includes(self):
         return []
-
-    def get_sources(self, target_type):
-        return [s for s in self.sources if isinstance(s, target_type)]
-
-    def get_includes(self, target_type):
-        return [s for s in self.includes if isinstance(s, target_type)]

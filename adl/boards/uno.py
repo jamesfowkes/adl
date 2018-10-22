@@ -37,12 +37,6 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
     def required_core(self):
         return "arduino:avr"
 
-    def get_sources(self, target_type):
-        return [s for s in self.sources if isinstance(s, target_type)]
-
-    def get_includes(self, target_type):
-        return [s for s in self.includes if isinstance(s, target_type)]
-
 class Uno(UnoBaseType):
     
     __slots__ = ()

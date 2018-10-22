@@ -1,4 +1,6 @@
-class GenericDevice:
+from adl.types import SourceFileProvider
+
+class GenericDevice(SourceFileProvider):
 
     def cname(self, static=True):
         sanitised_name = self.name.lower().replace(" ", "_")
@@ -18,12 +20,6 @@ class GenericDevice:
     @property
     def required_libraries(self):
         return []
-
-    def get_sources(self, target_type):
-        return [s for s in self.sources if isinstance(s, target_type)]
-
-    def get_includes(self, target_type):
-        return [s for s in self.includes if isinstance(s, target_type)]
 
 class GenericDevicePlugin:
 
