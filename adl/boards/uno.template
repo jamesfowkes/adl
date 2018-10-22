@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <EEPROM.h>
 
 #include "adl-logging.h"
 #include "adl-defs.h"
@@ -15,24 +16,4 @@
 int adl_board_read_progmem(char * const dst, char const * const src)
 {
     return(strlen(strcpy_P(dst, src)));
-}
-
-void adl_nonvolatile_setup()
-{
-	
-}
-
-void adl_nv_alloc(ADL_NV_LOCATION& to_alloc)
-{
-	
-}
-
-void adl_nv_load(void * dst, ADL_NV_LOCATION& load_from)
-{
-	
-}
-
-void adl_nv_save(void * src, ADL_NV_LOCATION& save_to)
-{
-	
 }

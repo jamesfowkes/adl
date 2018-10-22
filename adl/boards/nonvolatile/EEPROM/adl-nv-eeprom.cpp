@@ -8,7 +8,20 @@
  * Arduino Includes
  */
 
+#include <Arduino.h>
 #include <EEPROM.h>
+
+/*
+ * ADL Includes
+ */
+
+#include "adl-logging.h"
+#include "adl-defs.h"
+#include "adl-nv.h"
+#include "device.h"
+#include "parameter.h"
+#include "adl.h"
+#include "adl-callbacks.h"
 
 /*
  * Private Variables
@@ -27,7 +40,8 @@ void adl_nonvolatile_setup()
 
 void adl_nv_alloc(ADL_NV_LOCATION& to_alloc)
 {
-
+	to_alloc.address = s_next_eeprom_address;
+	s_next_eeprom_address += to_alloc.size;
 }
 
 void adl_nv_load(void * dst, ADL_NV_LOCATION& load_from)

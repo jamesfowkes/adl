@@ -61,8 +61,19 @@ class GenericBoard:
 
         return Path(sketch_name).joinpath(full_sketch_name)
 
+    @property
+    def sources(self):
+        return []
+
+    @property
+    def includes(self):
+        return []
+
     def all_components(self):
         return [self] + self.devices + self.parameters
+
+    def bsp_components(self):
+        return [self.nonvolatile]
 
     def adl_sources(self, use_full_path):
         sources = dependencies_by_type(self.all_components(), ADLSource, False)
@@ -92,14 +103,14 @@ class GenericBoard:
 
     def library_includes(self, use_full_path):
         return dependencies_by_type(self.all_components(), LibraryInclude, use_full_path)
+
+    def board_sources(self, use_full_path):
+        return dependencies_by_type(self.bsp_components(), LocalSource, use_full_path)
         
     def required_libraries(self):
         required_libraries = [d.required_libraries for d in self.devices]
         return list(itertools.chain.from_iterable(required_libraries))
         
-    def sources(self, use_full_path):
-        return dependencies_by_type(self.all_components(), SourceFile, use_full_path)
-
     def custom_code_paths(self, path=None):
         
         all_sources = []

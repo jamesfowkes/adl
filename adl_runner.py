@@ -58,6 +58,7 @@ def make(board, adl_config, sketchbook):
         adl.write_sources(sketch_directory, board.parameter_sources(True))
         adl.write_sources(sketch_directory, board.module_includes(True))
         adl.write_sources(sketch_directory, board.module_sources(True))
+        adl.write_sources(sketch_directory, board.board_sources(True))
         adl.write_sources(sketch_directory, board.custom_code_paths(adl_config.source_path))
         adl.write_board_support_package(sketch_directory, adl_config, board)
         adl.write_main(sketch_directory, sketch_path.name, adl_config, board)

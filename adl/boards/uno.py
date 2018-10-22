@@ -36,16 +36,6 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
     @property
     def required_core(self):
         return "arduino:avr"
-    
-    @property
-    def sources(self):
-        return []
-
-    @property
-    def includes(self):
-        return [
-            LibraryInclude("EEPROM.h")
-        ]
 
     def get_sources(self, target_type):
         return [s for s in self.sources if isinstance(s, target_type)]
