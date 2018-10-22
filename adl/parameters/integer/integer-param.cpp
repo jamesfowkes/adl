@@ -23,7 +23,7 @@
 
 IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_limit,
     bool clip_on_out_of_range, bool use_eeprom) :
-m_value(reset_value, min_limit, max_limit, clip_on_out_of_range), ParameterBase(use_eeprom, sizeof(int32_t))
+    ParameterBase(use_eeprom, sizeof(int32_t)), m_value(reset_value, min_limit, max_limit, clip_on_out_of_range)
 {
     m_reset_value = reset_value;
 }
@@ -88,7 +88,8 @@ void IntegerParam::save()
 {
     if (m_use_eeprom)
     {
-        adl_nv_save(&m_value, m_eeprom_location);
+        int32_t value = this->get();
+        adl_nv_save(&value, m_eeprom_location);
     }
 }
 
@@ -96,6 +97,8 @@ void IntegerParam::load()
 {
     if (m_use_eeprom)
     {
-        adl_nv_load(&m_value, m_eeprom_location);
+        int32_t value;
+        adl_nv_load(&value, m_eeprom_location);
+        this->set(value);
     }
 }
