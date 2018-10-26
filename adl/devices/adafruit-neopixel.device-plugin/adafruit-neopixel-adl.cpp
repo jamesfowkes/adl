@@ -3,6 +3,8 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "parameter.h"
 #include "device.h"
 #include "adl.h"
