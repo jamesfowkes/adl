@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Keypad.h>
 
+#include "adl-defs.h"
+#include "adl-nv.h"
 #include "parameter.h"
 #include "device.h"
 #include "adl.h"
