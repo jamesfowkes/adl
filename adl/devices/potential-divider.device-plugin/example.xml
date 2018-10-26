@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Potential Divider">
+    <info>
+        An example sketch for the potential divider device
+    </info>
+    <devices>
+        <device name="Potential Divider" type="Potential Divider">
+            <setting id="pin" name="input" value="A5"/>
+            <setting id="divider_type" value="FIXED_PULLDOWN"/>
+            <setting id="other_resistance" value="10000"/>
+        </device>
+    </devices>
+    <adl protocol="simple" buffer_size="64">
+    </adl>
+</board>

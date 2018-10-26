@@ -1,0 +1,9 @@
+[Core]
+Name = Thermistor
+Module = thermistor
+
+[Documentation]
+Description = Allows reading of thermistors connected to analog input
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

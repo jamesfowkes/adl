@@ -3,6 +3,7 @@ import logging
 import itertools
 
 from collections import namedtuple
+from orderedset import OrderedSet
 
 from pathlib import Path
 
@@ -44,7 +45,7 @@ def dependencies_by_type(component_list, dependency, use_full_path):
         incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
         all_paths.extend(get_paths(incs_and_srcs, use_full_path))
 
-    return set(all_paths)
+    return OrderedSet(all_paths)
 
 class GenericBoard(SourceFileProvider):
 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Thermistor">
+    <info>
+        An example sketch for the thermistor device
+    </info>
+    <devices>
+        <device name="Thermistor" type="Thermistor">
+            <setting id="pin" name="input" value="A5"/>
+            <setting id="R25" value="10000"/>
+            <setting id="other_resistance" value="10000"/>
+            <setting id="divider_type" value="FIXED_PULLDOWN"/>
+            <setting id="beta" value="5237"/>
+            </device>
+    </devices>
+    <adl protocol="simple" buffer_size="64">
+    </adl>
+</board>

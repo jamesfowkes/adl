@@ -46,6 +46,7 @@ COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address);
 void adl_delay_start(uint8_t seconds);
 
 int adl_board_read_progmem(char * const dst, char const * const src);
+uint16_t adl_board_max_adc_reading();
 
 class ProtocolHandlerBase
 {
