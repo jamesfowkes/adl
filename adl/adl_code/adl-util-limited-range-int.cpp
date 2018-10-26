@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "adl-util.h"
+#include "adl.h"
 #include "adl-util-limited-range-int.h"
 
 LimitedRangeInt::LimitedRangeInt(int32_t init_value, int32_t min_val, int32_t max_val, bool clip_on_out_of_range):

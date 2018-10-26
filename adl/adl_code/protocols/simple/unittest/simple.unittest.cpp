@@ -7,9 +7,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "device.h"
-#include "parameter.h"
-
 #include "adl.h"
 #include "protocol.h"
 

@@ -1,10 +1,4 @@
 /*
- * Arduino Includes
- */
-
-#include <Arduino.h>
-
-/*
  * C/C++ Includes
  */
 
@@ -14,8 +8,8 @@
  * ADL Includes
  */
 
-#include "adl-defs.h"
-#include "adl-nv.h"
+#include "adl.h"
+
 #include "adl-oneshot-timer.h"
 
 /*

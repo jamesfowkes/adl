@@ -8,7 +8,6 @@
  * ADL Includes
  */
 
-#include "device.h"
 #include "adl.h"
 
 #include "adl-time.h"

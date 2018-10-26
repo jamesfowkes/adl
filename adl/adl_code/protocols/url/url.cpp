@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "parameter.h"
-#include "device.h"
 #include "adl.h"
 #include "protocol.h"
 

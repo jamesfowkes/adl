@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "adl-util.h"
+#include "adl.h"
 #include "adl-util-delimited-stream-parser.h"
 
 DelimitedStreamParser::DelimitedStreamParser(char start, char end, adl_string_buffer& buffer, PARSER_CALLBACK on_parsed_cb):

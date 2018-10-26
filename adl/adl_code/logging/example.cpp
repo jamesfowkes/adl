@@ -1,9 +1,4 @@
-#include <Arduino.h>
-
-#include "device.h"
-#include "parameter.h"
 #include "adl.h"
-#include "adl-logging.h"
 
 void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
 {

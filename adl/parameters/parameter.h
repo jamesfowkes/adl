@@ -1,3 +1,6 @@
+#ifndef _PARAMETER_H_
+#define _PARAMETER_H_
+
 class ParameterBase
 {
 public:
@@ -23,3 +26,5 @@ protected:
 	bool m_use_eeprom;
 	ADL_NV_LOCATION m_eeprom_location;
 };
+
+#endif

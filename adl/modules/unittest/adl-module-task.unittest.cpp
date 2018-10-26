@@ -9,12 +9,10 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "parameter.h"
-#include "device.h"
-#include "adl-callbacks.h"
+#include "Arduino.h"
+
 #include "adl.h"
 
-#include "Arduino.h"
 #include "adl-oneshot-timer.h"
 #include "adl-oneshot-task.h"
 #include "adl-task.h"

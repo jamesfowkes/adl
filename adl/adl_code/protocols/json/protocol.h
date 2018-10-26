@@ -1,3 +1,6 @@
+#ifndef _PROTOCOL_H_
+#define _PROTOCOL_H_
+
 class ProtocolHandler: public ProtocolHandlerBase
 {
 public:
@@ -9,3 +12,5 @@ private:
     char m_command_copy[16];
 
 };
+
+#endif

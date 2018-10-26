@@ -1,11 +1,4 @@
-#include <Arduino.h>
-
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "device.h"
-#include "parameter.h"
 #include "adl.h"
-#include "adl-logging.h"
 
 #include "adl-util-limited-range-int.h"
 #include "integer-param.h"

@@ -1,13 +1,6 @@
-#include <Arduino.h>
-
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "parameter.h"
-#include "device.h"
-#include "adl-util.h"
 #include "adl.h"
 
 #include "adafruit-mcp4725.h"

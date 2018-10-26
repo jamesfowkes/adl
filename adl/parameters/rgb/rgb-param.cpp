@@ -15,12 +15,9 @@
  * ADL Includes
  */
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "adl-messages.h"
-#include "adl-util.h"
+#include "adl.h"
+
 #include "adl-util-limited-range-int.h"
-#include "parameter.h"
 #include "rgb-param.h"
 
 #define RGB_FORMAT "%" PRIu16 ",%" PRIu16 ",%" PRIu16

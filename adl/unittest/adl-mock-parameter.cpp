@@ -3,9 +3,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "device.h"
-#include "parameter.h"
-
 #include "adl.h"
 #include "protocol.h"
 

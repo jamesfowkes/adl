@@ -1,12 +1,4 @@
-#include <Arduino.h>
-
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "parameter.h"
-#include "device.h"
 #include "adl.h"
-#include "adl-util.h"
-#include "adl-messages.h"
 
 #include "TLC5973.h"
 

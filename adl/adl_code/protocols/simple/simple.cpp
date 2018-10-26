@@ -3,12 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "parameter.h"
-#include "device.h"
 #include "adl.h"
-#include "protocol.h"
 
 ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 

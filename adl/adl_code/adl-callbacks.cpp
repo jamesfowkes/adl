@@ -9,12 +9,7 @@
  * ADL Includes
  */
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "device.h"
-#include "parameter.h"
 #include "adl.h"
-#include "adl-callbacks.h"
 
 __attribute__((weak)) void adl_on_setup_start() {}
 __attribute__((weak)) void adl_on_setup_complete() {}

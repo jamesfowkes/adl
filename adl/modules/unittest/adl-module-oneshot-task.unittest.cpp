@@ -9,9 +9,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "parameter.h"
-#include "device.h"
-#include "adl-callbacks.h"
 #include "adl.h"
 
 #include "Arduino.h"

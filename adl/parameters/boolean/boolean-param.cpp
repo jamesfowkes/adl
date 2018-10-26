@@ -9,9 +9,8 @@
  * ADL Includes
  */
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "parameter.h"
+#include "adl.h"
+
 #include "boolean-param.h"
 
 BooleanParam::BooleanParam(bool reset_value, bool use_eeprom) : ParameterBase(use_eeprom, sizeof(bool))

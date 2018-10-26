@@ -15,10 +15,9 @@
  * ADL Includes
  */
 
-#include "adl-defs.h"
-#include "adl-nv.h"
+#include "adl.h"
+
 #include "adl-util-limited-range-int.h"
-#include "parameter.h"
 #include "integer-param.h"
 
 IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_limit,

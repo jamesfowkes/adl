@@ -36,10 +36,6 @@ Version 1.7 - Completed the setType special command.
 
 #include <SoftwareSerial.h>
 
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "parameter.h"
-#include "device.h"
 #include "adl.h"
 
 #include "sparkfun-serial-lcd.h"

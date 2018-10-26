@@ -8,20 +8,13 @@
  * Arduino Includes
  */
 
-#include <Arduino.h>
 #include <EEPROM.h>
 
 /*
  * ADL Includes
  */
 
-#include "adl-logging.h"
-#include "adl-defs.h"
-#include "adl-nv.h"
-#include "device.h"
-#include "parameter.h"
 #include "adl.h"
-#include "adl-callbacks.h"
 
 /*
  * Private Variables
