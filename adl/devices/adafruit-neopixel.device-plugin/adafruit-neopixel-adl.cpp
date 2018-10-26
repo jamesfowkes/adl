@@ -133,3 +133,8 @@ Adafruit_NeoPixel& AdafruitNeoPixelADL::pixels()
 {
     return m_pixels;
 }
+
+uint8_t AdafruitNeoPixelADL::npixels()
+{
+    return m_npixels;
+}

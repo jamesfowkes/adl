@@ -12,6 +12,8 @@ public:
     Adafruit_NeoPixel& pixels();
     void set_pixels(uint8_t range_min, uint8_t range_max, uint8_t r, uint8_t g, uint8_t b);
     void set_pixels(uint8_t range_min, uint8_t range_max, const uint8_t rgb[3]);
+    uint8_t npixels();
+    
 private:
     int handle_command(char const * const command, char * reply);
     Adafruit_NeoPixel m_pixels;
