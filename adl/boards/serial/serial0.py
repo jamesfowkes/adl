@@ -1,4 +1,6 @@
-class Serial0:
+from adl.types import SourceFileProvider
+
+class Serial0(SourceFileProvider):
 
     def __init__(self, baudrate):
         self.baudrate = baudrate
@@ -19,3 +21,11 @@ class Serial0:
 
     def send(self, to_send):
         return "Serial.println({});".format(to_send)
+
+    @property
+    def sources(self):
+        return []
+
+    @property
+    def includes(self):
+        return []

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Integer Parameter EEPROM Example">
+    <info>
+        An example sketch for the integer parameter, with EEPROM support
+    </info>
+    
+    <parameters>
+        <parameter name="My Integer" type="Integer">
+            <setting id="clip" value="false"/>
+            <setting id="min" value="0"/>
+            <setting id="max" value="100"/>
+            <setting id="use_eeprom" value="true"/>
+        </parameter>
+    </parameters>
+
+    <custom_code>
+        <file>custom_code.cpp</file>
+    </custom_code>
+
+    <logging>
+        <log_module>APPLICATION</log_module>
+    </logging>
+</board>

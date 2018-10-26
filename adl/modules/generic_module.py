@@ -1,7 +1,5 @@
-class GenericModule:
-    
-    def get_sources(self, target_type):
-        return [s for s in self.sources if isinstance(s, target_type)]
+from adl.types import SourceFileProvider
 
-    def get_includes(self, target_type):
-        return [s for s in self.includes if isinstance(s, target_type)]
+class GenericModule(SourceFileProvider):
+	pass
+

@@ -1,10 +1,11 @@
 from pathlib import Path
 
 from adl.types import LocalSource, LibraryInclude
+from adl.types import SourceFileProvider
 
 THIS_PATH = Path(__file__).parent
 
-class EEPROM:
+class EEPROM(SourceFileProvider):
 
     def __init__(self):
         pass
@@ -32,9 +33,3 @@ class EEPROM:
         return [
             LibraryInclude("EEPROM.h")
         ]
-
-    def get_sources(self, target_type):
-        return [s for s in self.sources if isinstance(s, target_type)]
-
-    def get_includes(self, target_type):
-        return [s for s in self.includes if isinstance(s, target_type)]
