@@ -79,12 +79,12 @@ static int adl_process_device_command(DEVICE_ADDRESS address, char const * const
 
     if (address == ADL_BOARD_ADDRESS)
     {
-        return adl_board_device_command(command, reply);
+        reply_length = adl_board_device_command(command, reply);
     }
     else if (address > ADL_DEVICE_COUNT)
     {
         strcpy(reply, "?");
-        return strlen(reply);
+        reply_length = strlen(reply);
     }
     else
     {

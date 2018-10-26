@@ -21,11 +21,14 @@
 
 static const uint8_t LOG_BUFFER_SIZE = {{ adl.log_buffer_size }};
 
+static const char s_adl_log_prefix[] {{ board.progmem }} = "ADL";
+
 {% for module in board.log_modules %}
 static const char s_{{ module.name | lower }}_name[] {{ board.progmem }} = "{{module.prefix}}";
 {% endfor %}
 
 static char const * const s_adl_log_module_prefixes[] {{ board.progmem }} = {
+    s_adl_log_prefix,
 {% for module in board.log_modules %}
     s_{{ module.name | lower }}_name,
 {% endfor %}

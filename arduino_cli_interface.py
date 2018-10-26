@@ -88,6 +88,5 @@ class ArduinoCLIInterface:
             result = subprocess.run(args)
             get_module_logger().info("Upload Success: '{}'".format(" ".join(result.args)))
         except:
-            
             get_module_logger().info("Upload Failed: '{}'".format(" ".join(args)))
             raise

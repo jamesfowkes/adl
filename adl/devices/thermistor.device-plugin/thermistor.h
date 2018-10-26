@@ -10,7 +10,7 @@ public:
     void tick();
     int command_handler(char const * const command, char * reply);
     
-    unsigned int resistance();
+    float resistance();
     float reading();
     
 private:

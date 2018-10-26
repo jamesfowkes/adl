@@ -32,20 +32,26 @@ void Thermistor::setup()
     m_potential_divider.setup();
 }
 
-unsigned int Thermistor::resistance()
+float Thermistor::resistance()
 {
     return m_potential_divider.resistance();
 }
 
 float Thermistor::reading()
 {
-    float t = m_beta / log(m_potential_divider.resistance() / m_Rinf);
+    float r = m_potential_divider.resistance();
+    float t = m_beta / log(r / m_Rinf);
     return t - s_T0CinKelvin;
 }
 
 int Thermistor::command_handler(char const * const command, char * reply)
 {
     (void)command;
-    sprintf(reply, "%.2f", this->reading());
+    float readingx100 = this->reading() * 100.0f;
+
+    int8_t whole = ((int16_t)(readingx100) / 100);
+    int8_t decimal = ((int16_t)(readingx100 - (whole*100)));
+
+    sprintf(reply, "%d.%d", whole, decimal);
     return strlen(reply);
 }

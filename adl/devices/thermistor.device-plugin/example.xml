@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-
-<board type="Arduino Uno" name="Thermistor">
+<board type="Arduino Duemilanove" name="Thermistor">
     <info>
         An example sketch for the thermistor device
     </info>
@@ -9,8 +8,8 @@
             <setting id="pin" name="input" value="A5"/>
             <setting id="R25" value="10000"/>
             <setting id="other_resistance" value="10000"/>
-            <setting id="divider_type" value="FIXED_PULLDOWN"/>
-            <setting id="beta" value="5237"/>
+            <setting id="divider_type" value="FIXED_PULLUP"/>
+            <setting id="beta" value="3977"/>
             </device>
     </devices>
     <adl protocol="simple" buffer_size="64">

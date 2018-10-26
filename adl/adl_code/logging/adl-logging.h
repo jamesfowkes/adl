@@ -3,6 +3,7 @@
 
 typedef enum adl_log_modules
 {
+	LOG_ADL,
 {% for module in board.log_modules %}
     LOG_{{ module.prefix }},
 {% endfor %}
