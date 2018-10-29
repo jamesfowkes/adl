@@ -27,4 +27,21 @@ protected:
 	ADL_NV_LOCATION m_eeprom_location;
 };
 
+#ifdef UNITTEST
+class TestParam : public ParameterBase
+{
+public:
+	TestParam();
+    void reset() {};
+    void setup() {};
+    int command_handler(char const * const command, char * reply);
+
+    void save() { adl_nv_save(&m_data, m_eeprom_location); }
+    void load() { adl_nv_load(&m_data, m_eeprom_location); }
+
+	int32_t m_data;
+	char m_last_command[128];
+};
+#endif
+
 #endif

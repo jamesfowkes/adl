@@ -9,11 +9,12 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../boolean -I../integer -I../rgb -I../../adl_code
+INC = -I../ -I../boolean -I../integer -I../rgb -I../../adl_code -I../../unittest -I../../devices -I../../adl_code/messages
 
 CFLAGS = -Wall -Wextra
 
-GLOBAL_OBJS = adl-parameter.unittest.runner.o
+GLOBAL_OBJS = adl-parameter.unittest.runner.o \
+	../../unittest/adl-mock-board.o
 
 INTEGER_OBJS = ../integer/integer-param.o \
 	adl-parameter-integer.unittest.o \

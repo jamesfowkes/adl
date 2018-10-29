@@ -11,7 +11,7 @@ void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * ppa
 
     pInt->load();
 
-    logln(LOG_APP, "Loaded integer setting %d", pInt->get());
+    adl_logln(LOG_APP, "Loaded integer setting %d", pInt->get());
 }
 
 void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)

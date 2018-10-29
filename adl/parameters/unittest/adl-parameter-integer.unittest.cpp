@@ -8,9 +8,11 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "adl.h"
 #include "adl-util-limited-range-int.h"
-#include "parameter.h"
 #include "integer-param.h"
+
+#include "adl-mock.h"
 
 class IntegerParameterTest : public CppUnit::TestFixture { 
 
@@ -23,30 +25,32 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testUnclippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange);
     CPPUNIT_TEST(testIntegerParameterWithLimitsAllowSetInsideRange);
     CPPUNIT_TEST(testIntegerParameterResetsToResetValue);
+    CPPUNIT_TEST(testIntegerParameterCorrectlyWorksWithNonvolatile);
+    CPPUNIT_TEST(testIntegerParameterCorrectlyWorksWithMultipleNonvolatiles);
 
     CPPUNIT_TEST_SUITE_END();
     void testIntegerParameterInitsToResetValue()
     {
-        IntegerParam param = IntegerParam(10);
+        IntegerParam param = IntegerParam(10, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT_EQUAL(10, param.get());
     }
 
     void testIntegerParameterSetReturnsTrueAndStateIsSet()
     {
-        IntegerParam param = IntegerParam(0);
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT(param.set(10));
     }
 
     void testIntegerParameterWithoutLimitsAllowIntegerMinMax()
     {
-        IntegerParam param = IntegerParam(0);
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT(param.set(INT32_MAX));
         CPPUNIT_ASSERT(param.set(INT32_MIN));
     }
 
     void testClippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10);
+        IntegerParam param = IntegerParam(0, -10, 10, true, false);
         CPPUNIT_ASSERT(!param.set(-11));
         CPPUNIT_ASSERT_EQUAL(-10, param.get());
         CPPUNIT_ASSERT(!param.set(11));
@@ -55,7 +59,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testUnclippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10, false);
+        IntegerParam param = IntegerParam(0, -10, 10, false, false);
         CPPUNIT_ASSERT(!param.set(-11));
         CPPUNIT_ASSERT(!param.set(11));
         CPPUNIT_ASSERT_EQUAL(0, param.get());
@@ -63,7 +67,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterWithLimitsAllowSetInsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10);
+        IntegerParam param = IntegerParam(0, -10, 10, false, false);
         CPPUNIT_ASSERT(param.set(-10));
         CPPUNIT_ASSERT_EQUAL(-10, param.get());
         CPPUNIT_ASSERT(param.set(10));
@@ -72,11 +76,29 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterResetsToResetValue()
     {
-        IntegerParam param = IntegerParam(10);
+        IntegerParam param = IntegerParam(10, INT32_MIN, INT32_MAX, true, true);
         param.set(0);
         param.reset();
         CPPUNIT_ASSERT_EQUAL(10, param.get());
     }
+
+    void testIntegerParameterCorrectlyWorksWithNonvolatile()
+    {
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param.set(100);
+        CPPUNIT_ASSERT_EQUAL(100, *(int32_t*)adl_mock_nonvolatile_get_last_write());
+    }
+
+    void testIntegerParameterCorrectlyWorksWithMultipleNonvolatiles()
+    {
+        IntegerParam param1 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam param2 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param1.set(100);
+        CPPUNIT_ASSERT_EQUAL(100, *(int32_t*)adl_mock_nonvolatile_get_last_write());
+        param2.set(200);
+        CPPUNIT_ASSERT_EQUAL(200, *(int32_t*)adl_mock_nonvolatile_get_last_write());
+    }
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(IntegerParameterTest);

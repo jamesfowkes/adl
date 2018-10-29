@@ -22,7 +22,7 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 
     @property
     def setup(self):
-        return ""
+        return "{name}.setup();".format(name=self.cname())
 
     @property
     def declarations(self):

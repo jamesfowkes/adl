@@ -34,6 +34,7 @@ void IntegerParam::reset() {
 void IntegerParam::setup()
 {
     this->reset();
+    this->load();
 }
 
 int32_t IntegerParam::get()
@@ -43,7 +44,9 @@ int32_t IntegerParam::get()
 
 bool IntegerParam::set(int32_t setting)
 {
-    return m_value.set(setting);
+    bool success = m_value.set(setting);
+    this->save();
+    return success;
 }
 
 int IntegerParam::command_handler(char const * const command, char * reply)
