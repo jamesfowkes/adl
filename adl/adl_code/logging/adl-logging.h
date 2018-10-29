@@ -10,7 +10,7 @@ typedef enum adl_log_modules
 } ADL_LOG_MODULES;
 
 void adl_logging_setup(Print& log_printer);
-void log(ADL_LOG_MODULES module, char const * const fmt, ...);
-void logln(ADL_LOG_MODULES module, char const * const fmt, ...);
+void adl_log(ADL_LOG_MODULES module, char const * const fmt, ...);
+void adl_logln(ADL_LOG_MODULES module, char const * const fmt, ...);
 
 #endif

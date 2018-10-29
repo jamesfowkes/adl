@@ -43,17 +43,26 @@ static char s_prefix_buf[7];
  * Private Functions
  */
 
+static const char * get_prefix_ptr(ADL_LOG_MODULES module)
+{
+    return (const char *)pgm_read_ptr(&(s_adl_log_module_prefixes[module]));
+}
+
+static void print_prefix(ADL_LOG_MODULES module)
+{
+    adl_board_read_progmem(s_prefix_buf, get_prefix_ptr(module));
+    s_p_log_stream->print(s_prefix_buf);
+    s_p_log_stream->print(": ");
+}
 
 static void p(char const * const fmt, va_list args)
 {   
-    vsnprintf(s_buf, LOG_BUFFER_SIZE, fmt, args);
-    s_p_log_stream->print(s_buf);
+
 }
 
 static void pln(char const * const fmt, va_list args)
 {
-    vsnprintf(s_buf, LOG_BUFFER_SIZE, fmt, args);
-    s_p_log_stream->println(s_buf);
+
 }
 
 /*
@@ -65,26 +74,24 @@ void adl_logging_setup(Print& log_printer)
     s_p_log_stream = &log_printer;
 }
 
-void log(ADL_LOG_MODULES module, char const * const fmt, ...)
+void adl_log(ADL_LOG_MODULES module, char const * const fmt, ...)
 {
+    print_prefix(module);
     va_list args;
-    adl_board_read_progmem(s_prefix_buf, s_adl_log_module_prefixes[module]);
-    s_p_log_stream->print(s_prefix_buf);
-    s_p_log_stream->print(": ");
     va_start(args, fmt);
-    p(fmt, args);
+    vsnprintf(s_buf, LOG_BUFFER_SIZE, fmt, args);
+    s_p_log_stream->print(s_buf);
     va_end(args);
-    
 }
 
-void logln(ADL_LOG_MODULES module, char const * const fmt, ...)
+static uint8_t call_count=0;
+void adl_logln(ADL_LOG_MODULES module, char const * const fmt, ...)
 {
+    print_prefix(module);
     va_list args;
-    adl_board_read_progmem(s_prefix_buf, s_adl_log_module_prefixes[module]);
-    s_p_log_stream->print(s_prefix_buf);
-    s_p_log_stream->print(": ");
     va_start(args, fmt);
-    pln(fmt, args);
+    vsnprintf(s_buf, LOG_BUFFER_SIZE, fmt, args);
+    s_p_log_stream->println(s_buf);
     va_end(args);
 }
 
