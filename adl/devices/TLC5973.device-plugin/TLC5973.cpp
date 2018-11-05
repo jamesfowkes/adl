@@ -2,6 +2,26 @@
 
 #include "TLC5973.h"
 
+#define NOP *port&=~pinMask;
+
+#define writeAA()  writeOne(); writeZero(); writeOne(); writeZero();
+#define write03AA() writeZero(); writeZero(); writeOne();writeOne(); writeAA(); writeAA();
+#define writeBit(b) if (b) { writeOne(); } else { writeZero(); }
+
+#define write12Bits(x) \
+    writeBit(x & 0x800) \
+    writeBit(x & 0x400) \
+    writeBit(x & 0x200) \
+    writeBit(x & 0x100) \
+    writeBit(x & 0x080) \
+    writeBit(x & 0x040) \
+    writeBit(x & 0x020) \
+    writeBit(x & 0x010) \
+    writeBit(x & 0x008) \
+    writeBit(x & 0x004) \
+    writeBit(x & 0x002) \
+    writeBit(x & 0x001)
+
 /*
  * Class Private Functions
  */
@@ -16,18 +36,26 @@ static bool valid_rgb_values(int32_t(&rgb)[3])
     return valid_rgb_value(rgb[0]) && valid_rgb_value(rgb[1]) && valid_rgb_value(rgb[2]);
 }
 
+void TLC5973::dump_pixels()
+{
+    for(uint16_t i = 0; i < m_npixels; i++)
+    {
+        adl_logln(LOG_ADL, "%u=(%u,%u,%u)", i, mp_pixels[(i * 3) + 0], mp_pixels[(i * 3) + 1], mp_pixels[(i * 3) + 2]);
+    }  
+}
+
 void TLC5973::set_pixels(uint8_t range_min, uint8_t range_max, uint16_t r, uint16_t g, uint16_t b)
 {
     for (uint8_t i=range_min; i<range_max+1; i++)
     {
+        adl_logln(LOG_ADL, "Setting %u, (%u,%u,%u)", i, r, g, b);
         this->setPixelColor(i, r, g, b);
     }
+    this->dump_pixels();
     this->show();
 }
 
-#define NOP __asm__ __volatile__ ("nop\n\t"); __asm__ __volatile__ ("nop\n\t")
-
-TLC5973::TLC5973(uint16_t n, uint8_t p) : m_npixels(n), m_pin(p)
+TLC5973::TLC5973(uint16_t n, uint8_t p) : m_npixels(n), m_pin(p), mp_pixels(NULL)
 {
     updateLength();
 }
@@ -39,13 +67,14 @@ void TLC5973::updateLength()
         free(mp_pixels);
     }
     m_numWords = m_npixels * 3;
-    if((mp_pixels = (uint16_t *)malloc(m_numWords)))
+    if((mp_pixels = (uint16_t *)malloc(m_numWords*sizeof(uint16_t))))
     {
         memset(mp_pixels, 0, m_numWords);
     }
     else
     {
-        m_npixels = m_numWords = 0;
+        m_npixels = 0;
+        m_numWords = 0;
     } 
 }
 
@@ -56,6 +85,8 @@ void TLC5973::setup(void)
     mp_port = portOutputRegister(digitalPinToPort(m_pin));
     m_pinMask = digitalPinToBitMask(m_pin);
     this->reset();
+    adl_logln(LOG_ADL, "%u pixels",m_npixels);
+    adl_logln(LOG_ADL, "%u words",m_numWords);
 }
 
 void TLC5973::reset()
@@ -147,81 +178,89 @@ void TLC5973::setPixelColor(uint16_t n, uint16_t r, uint16_t g, uint16_t b)
 
 void TLC5973::clear()
 {
-    for(uint16_t i = 0; i < m_npixels; i++)
-    {
-        setPixelColor(i,0,0,0);
-    }
+  for(uint16_t i = 0; i < m_npixels; i++){
+     setPixelColor(i,0,0,0);
+   }
 }
 
 void TLC5973::pulse() 
 {
-    *mp_port|=m_pinMask;
-    *mp_port&=~m_pinMask;
+    *port|=pinMask;
+    *port&=~pinMask;
 }
 
-void TLC5973::writeZero()
-{
+void TLC5973::writeZero(){
     pulse();
     NOP;
     NOP;
     NOP;
-}
-
-void TLC5973::writeNone()
-{
-    NOP;
-    NOP;
-    NOP;
-    NOP;
     NOP;
 }
 
-void TLC5973::writeOne()
-{
+void TLC5973::writeNone(){
+    NOP;
+    NOP;
+    NOP;
+    NOP;
+    NOP;
+    NOP;
+    NOP;
+}
+
+void TLC5973::writeOne(){
     pulse();
     pulse();
     NOP;
 }
 
-void TLC5973::waitGSLAT()
-{
-    writeNone();
-    writeNone();
-    writeNone();
-    writeNone();
-    writeNone();
-    writeNone();
+void TLC5973::waitEOS(){
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
 }
 
-void TLC5973::writeWord(uint16_t word)
+void TLC5973::waitGSLAT(){
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+  writeNone();
+}
+
+void TLC5973::writePixel(uint16_t r, uint16_t g, uint16_t b)
 {
+    write03AA();
+    write12Bits(r);
+    write12Bits(g);
+    write12Bits(b);
+}
+
+void TLC5973::writeWord(uint16_t word){
     unsigned char i;
-    for(i = 0; i < 12; i++)
-    {
+    for(i = 0; i < 12; i++){
         if(word & 0x800)
         {
-            writeOne();
-        }
-        else
-        {
-            writeZero();
-        }
-        word <<= 1;
-    }
+          writeOne();
+      }
+      else
+      {
+          writeZero();
+      }
+      word <<= 1;
+  }
 }
 
-void TLC5973::show()
-{
-    noInterrupts();
-    for(uint16_t i = 0; i < m_numWords; i=i+3)
-    {
-        writeWord(0x03AA);
-        writeWord(mp_pixels[i] );
-        writeWord(mp_pixels[i+1] );
-        writeWord(mp_pixels[i+2] );
-        waitGSLAT();
-    }
-    waitGSLAT();
-    interrupts();
+void TLC5973::show(){
+   noInterrupts(); // Need 100% focus on instruction timing
+   for(uint16_t i = 0; i < numWords; i=i+3){
+      writePixel(pixels[i], pixels[i+1], pixels[i+2]);
+      waitEOS();
+  }
+  waitGSLAT();
+  interrupts();
 }
-

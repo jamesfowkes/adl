@@ -6,10 +6,13 @@
     </info>
     
     <devices>
-        <device name="TLC5973" type="TLC5973">
-            <setting id="pin" value="A5"/>
-            <setting id="num_leds" value="1"/>
-        </device>
+        
     </devices>
     <adl protocol="simple"></adl>
+    <modules>
+        <module>Task</module>
+    </modules>
+    <custom_code>
+        <file>custom-code.cpp</file>
+    </custom_code>
 </board>
