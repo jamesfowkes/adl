@@ -24,14 +24,14 @@
 
 RGBParam::RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default,
     bool clip_on_out_of_range, bool use_eeprom) :
+    ParameterBase(use_eeprom, sizeof(int16_t)*3),
     m_rgb{
         {r_default, 0, limit, clip_on_out_of_range},
         {g_default, 0, limit, clip_on_out_of_range},
         {b_default, 0, limit, clip_on_out_of_range}
     },
     m_defaults{r_default, g_default, b_default},
-    m_clip(clip_on_out_of_range),
-    ParameterBase(use_eeprom, sizeof(int16_t)*3)
+    m_clip(clip_on_out_of_range)
 {
 }
 
