@@ -45,6 +45,18 @@ int DebouncedInput::command_handler(char const * const command, char * reply)
         strcpy(reply, "ROK");
         reply_length = strlen(reply);
     }
+    else if (command[0] == '?')
+    {
+        if(this->state())   
+        {
+            reply[0] = '1';
+        }
+        else
+        {
+            reply[0] = '0';
+        }
+        reply_length = 1;
+    }
     else
     {
         reply[0] = '?';
