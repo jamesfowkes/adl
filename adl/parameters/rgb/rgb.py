@@ -7,6 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
+import adl
 from adl.parameters.generic_parameter import GenericParameter
 
 from adl.types import Setting
@@ -40,14 +41,14 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit",
 	@property
 	def sources(self):
 		return [
-			ADLSource("adl-util-limited-range-int.cpp"),
+			ADLSource("utility", "adl-util-limited-range-int.cpp"),
 			ParameterSource(THIS_PATH, "rgb-param.cpp")
 		]
 
 	@property
 	def includes(self):
 		return [
-			ADLInclude("adl-util-limited-range-int.h"),
+			ADLInclude("utility", "adl-util-limited-range-int.h"),
 			ParameterInclude(THIS_PATH, "rgb-param.h")
 		]
 

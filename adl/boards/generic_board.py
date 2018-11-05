@@ -78,11 +78,11 @@ class GenericBoard(SourceFileProvider):
         return [self.nonvolatile, self.serial]
 
     def adl_sources(self, use_full_path):
-        sources = dependencies_by_type(self.all_components(), ADLSource, False)
+        sources = dependencies_by_type(self.all_components(), ADLSource, use_full_path)
         return [adl.codepath().joinpath(src) for src in sources] if use_full_path else sources
 
     def adl_includes(self, use_full_path):
-        includes = dependencies_by_type(self.all_components(), ADLInclude, False)
+        includes = dependencies_by_type(self.all_components(), ADLInclude, use_full_path)
         return [adl.codepath().joinpath(inc) for inc in includes] if use_full_path else includes
 
     def parameter_includes(self, use_full_path):

@@ -1,7 +1,9 @@
 #ifndef _DEBOUNCED_INPUT_
 #define _DEBOUNCED_INPUT_
 
-class DebouncedInput : public DeviceBase
+#include "adl-util-debouncer.h"
+
+class DebouncedInput : public DeviceBase, public DebounceReader
 {
 public:
     DebouncedInput(int pin, uint16_t debounce_time, bool pullup);
@@ -12,15 +14,12 @@ public:
     bool check_high_and_clear();
     bool check_low_and_clear();
     bool state();
+    bool read();
     
 private:
     int m_pin;
     bool m_pullup;
-    uint16_t m_count_max;
-    uint16_t m_count;
-    bool m_just_high;
-    bool m_just_low;
-    bool m_state;
+    ADLDebouncer m_debouncer;
 };
 
 #endif

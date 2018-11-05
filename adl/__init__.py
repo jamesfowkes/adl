@@ -30,12 +30,12 @@ def get_subfolders(path):
 
 ADL_SOURCE_FILES = [
     (ADL_CODE_PATH.joinpath("adl.cpp"), "adl.cpp"),
-    (ADL_CODE_PATH.joinpath("adl-util.cpp"), "adl-util.cpp"),
+    (ADL_CODE_PATH.joinpath("utility", "adl-util.cpp"), "adl-util.cpp"),
     (ADL_CODE_PATH.joinpath("adl-callbacks.cpp"), "adl-callbacks.cpp"),
     (ADL_CODE_PATH.joinpath("adl-callbacks.h"), "adl-callbacks.h"),
     (ADL_CODE_PATH.joinpath("adl-interface.h"), "adl-interface.h"),
     (ADL_CODE_PATH.joinpath("adl.h"), "adl.h",),
-    (ADL_CODE_PATH.joinpath("adl-util.h"), "adl-util.h"),
+    (ADL_CODE_PATH.joinpath("utility", "adl-util.h"), "adl-util.h"),
     (ADL_CODE_PATH.joinpath("adl_defs.tpl"), "adl-defs.h"),
     (ADL_CODE_PATH.joinpath("logging", "adl_logging.tpl"), "adl-logging.cpp"),
     (ADL_CODE_PATH.joinpath("logging", "adl-logging.h"), "adl-logging.h"),

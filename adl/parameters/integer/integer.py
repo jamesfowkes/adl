@@ -39,14 +39,14 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
     @property
     def sources(self):
         return [
-            ADLSource("adl-util-limited-range-int.cpp"),
+            ADLSource("utility", "adl-util-limited-range-int.cpp"),
             ParameterSource(THIS_PATH, "integer-param.cpp")
         ]
 
     @property
     def includes(self):
         return [
-            ADLInclude("adl-util-limited-range-int.h"),
+            ADLInclude("utility", "adl-util-limited-range-int.h"),
             ParameterInclude(THIS_PATH, "integer-param.h")
         ]
 
