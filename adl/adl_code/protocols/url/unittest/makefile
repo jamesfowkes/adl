@@ -15,11 +15,16 @@ OBJ = url.unittest.o ../url.o ../../../adl.o \
 	../../../../unittest/adl-mock-parameter.o \
 	../../../adl-callbacks.o
 
-INC = -I../../../../unittest/ -I../ -I../../ -I../../../ -I../../../../devices -I../../../../parameters
+INC = -I../../../../unittest/ \
+	-I../ -I../../ \
+	-I../../../ \
+	-I../../../messages \
+	-I../../../../devices \
+	-I../../../../parameters
 
 TARGET = url.unittest.$(TARGET_EXTENSION)
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -DUNITTEST
 
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
