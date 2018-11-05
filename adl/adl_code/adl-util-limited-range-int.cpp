@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <stdlib.h>
+
 #include "adl.h"
 #include "adl-util-limited-range-int.h"
 
