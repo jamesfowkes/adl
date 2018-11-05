@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Binary Output">
+    <info>
+        An example sketch for the binary output device
+    </info>
+    
+    <devices>
+        <device name="Binary Output" type="Binary Output">
+            <setting id="pins" value="6, 7, 8, 9"/>
+        </device>
+    </devices>
+</board>

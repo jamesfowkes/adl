@@ -1,0 +1,9 @@
+[Core]
+Name = Binary Output
+Module = binary_output
+
+[Documentation]
+Description = Allows control of multiple digital outputs by giving them a binary value
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
