@@ -136,7 +136,12 @@ void setup()
     // Setup for {{device.name}}
     {{ device.setup }}
     // END {{device.name}} setup
+    {% endfor %}
 
+    {% for param in board.parameters %}
+    // Setup for {{param.name}}
+    {{param.cname()}}.setup();
+    // END {{param.name}} setup
     {% endfor %}
 
     adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);

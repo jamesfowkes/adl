@@ -29,6 +29,16 @@ static uint16_t s_next_nonvolatile_address = 0;
 static uint8_t * last_write_addr;
 static uint8_t * last_read_addr;
 
+void adl_mock_nonvolatile_reset()
+{
+    s_next_nonvolatile_address = 0;
+}
+
+void adl_mock_nonvolatile_set(uint32_t location, uint32_t size, void * data)
+{
+    memcpy(&_nonvolatile[location], data, size);
+}
+
 uint8_t * adl_mock_nonvolatile_get_last_write()
 {
     return last_write_addr;

@@ -25,8 +25,10 @@ class RGBParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testRGBParameterResetsToResetValue);
     CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithNonvolatile);
     CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithMultipleNonvolatiles);
+    CPPUNIT_TEST(testRGBParameterCorrectlyLoadsFromNonvolatile);
 
     CPPUNIT_TEST_SUITE_END();
+
     void testRGBParameterInitsToResetValue()
     {
         RGBParam param = RGBParam(255, 10, 20, 30, false, false);
@@ -101,6 +103,27 @@ class RGBParameterTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL((int16_t)250, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
         CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+2));
     }
+
+    void testRGBParameterCorrectlyLoadsFromNonvolatile()
+    {
+        int16_t data = 50;
+        data = 50; adl_mock_nonvolatile_set(0, sizeof(int16_t), &data);
+        data = 100; adl_mock_nonvolatile_set(sizeof(int16_t), sizeof(int16_t), &data);
+        data = 150; adl_mock_nonvolatile_set(sizeof(int16_t)*2, sizeof(int16_t), &data);
+        RGBParam param = RGBParam(255, 255, 255, 255, true, true);
+        param.setup();
+        CPPUNIT_ASSERT_EQUAL((uint16_t)50, param.get(eR));
+        CPPUNIT_ASSERT_EQUAL((uint16_t)100, param.get(eG));
+        CPPUNIT_ASSERT_EQUAL((uint16_t)150, param.get(eB));
+    }
+
+public:
+    void setUp()
+    {
+        adl_mock_nonvolatile_reset();
+    }
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(RGBParameterTest);
+
