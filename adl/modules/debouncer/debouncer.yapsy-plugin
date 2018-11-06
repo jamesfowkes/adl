@@ -1,0 +1,9 @@
+[Core]
+Name = Debouncer
+Module = debouncer
+
+[Documentation]
+Description = Implements a button debouncer
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

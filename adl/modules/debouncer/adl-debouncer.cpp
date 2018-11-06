@@ -1,9 +1,9 @@
 #include "adl.h"
 
-#include "adl-util-debouncer.h"
+#include "adl-debouncer.h"
 
-ADLDebouncer::ADLDebouncer(DebounceReader& reader, uint16_t debounce_time) : 
-    m_count_max((debounce_time + 5)/10),
+ADLDebouncer::ADLDebouncer(DebounceReader& reader, uint16_t debounce_ticks) : 
+    m_count_max(debounce_ticks),
     m_count(0),
     m_just_high(false),
     m_just_low(false),
@@ -70,4 +70,9 @@ void ADLDebouncer::tick()
 
         if (m_count == 0) { m_state = false; }
     }
+}
+
+uint16_t ADLDebouncer::count()
+{
+    return m_count;
 }

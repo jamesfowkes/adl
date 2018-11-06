@@ -10,14 +10,15 @@ public:
 class ADLDebouncer
 {
 public:
-    ADLDebouncer(DebounceReader& reader, uint16_t debounce_time);
+    ADLDebouncer(DebounceReader& reader, uint16_t debounce_ticks);
     void setup();
     void reset();
     void tick();
     bool check_high_and_clear();
     bool check_low_and_clear();
     bool state();
-    
+    uint16_t count();
+
 private:
     uint16_t m_count_max;
     uint16_t m_count;
