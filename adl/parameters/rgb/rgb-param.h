@@ -1,6 +1,8 @@
 #ifndef _INTEGER_PARAM_H_
 #define _INTEGER_PARAM_H_
 
+#include "adl-util-limited-range-int.h"
+
 typedef enum _eRGB
 {
     eR, eG, eB

@@ -20,7 +20,7 @@
 #include "adl-util-limited-range-int.h"
 #include "rgb-param.h"
 
-#define RGB_FORMAT "%" PRIu16 ",%" PRIu16 ",%" PRIu16
+#define RGB_FORMAT "%" PRIi32 ",%" PRIi32 ",%" PRIi32
 
 RGBParam::RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default,
     bool clip_on_out_of_range, bool use_eeprom) :
@@ -45,6 +45,7 @@ void RGBParam::reset()
 void RGBParam::setup()
 {
     this->reset();
+    this->load();
 }
 
 uint16_t RGBParam::get(eRGB index)
@@ -62,7 +63,9 @@ void RGBParam::get(uint16_t rgb[3])
 bool RGBParam::set(uint16_t r, uint16_t g, uint16_t b)
 {
     uint16_t rgb[3] = {r,g,b};
-    return this->set(rgb);
+    bool success = this->set(rgb);
+    this->save();
+    return success;
 }
 
 bool RGBParam::set(uint16_t rgb[3])
@@ -71,6 +74,7 @@ bool RGBParam::set(uint16_t rgb[3])
     ok &= m_rgb[0].set(rgb[0]);
     ok &= m_rgb[1].set(rgb[1]);
     ok &= m_rgb[2].set(rgb[2]);
+    this->save();
     return ok;
 }
 
@@ -115,16 +119,24 @@ int RGBParam::command_handler(char const * const command, char * reply)
 
 void RGBParam::save()
 {
+    int16_t rgb[3];
     if (m_use_eeprom)
     {
-        adl_nv_save(m_rgb, m_eeprom_location);
+        rgb[0] = m_rgb[0].value();
+        rgb[1] = m_rgb[1].value();
+        rgb[2] = m_rgb[2].value();
+        adl_nv_save(rgb, m_eeprom_location);
     }
 }
 
 void RGBParam::load()
 {
+    int16_t rgb[3];
     if (m_use_eeprom)
     {
-        adl_nv_load(m_rgb, m_eeprom_location);
+        adl_nv_load(rgb, m_eeprom_location);
+        m_rgb[0].set(rgb[0]);
+        m_rgb[1].set(rgb[1]);
+        m_rgb[2].set(rgb[2]);
     }
 }
