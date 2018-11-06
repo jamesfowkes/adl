@@ -1,6 +1,6 @@
 #include "adl.h"
 
-#include "adl-util-debouncer.h"
+#include "adl-debouncer.h"
 #include "debounced-input.h"
 
 DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup) :

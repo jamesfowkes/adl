@@ -1,7 +1,7 @@
 #ifndef _DEBOUNCED_INPUT_
 #define _DEBOUNCED_INPUT_
 
-#include "adl-util-debouncer.h"
+#include "adl-debouncer.h"
 
 class DebouncedInput : public DeviceBase, public DebounceReader
 {
