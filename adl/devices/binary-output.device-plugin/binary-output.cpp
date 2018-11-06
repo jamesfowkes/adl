@@ -47,6 +47,7 @@ int BinaryOutput::command_handler(char const * const command, char * reply)
     {
         if ((value >= 0) && (value <= m_max_value))
         {
+            this->set(value);
             strcpy(reply, "OK");
             reply_length = strlen(reply);
         }
