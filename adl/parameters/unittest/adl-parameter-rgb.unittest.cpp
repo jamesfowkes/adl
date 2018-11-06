@@ -12,6 +12,8 @@
 #include "adl-util-limited-range-int.h"
 #include "rgb-param.h"
 
+#include "adl-mock.h"
+
 class RGBParameterTest : public CppUnit::TestFixture { 
 
     CPPUNIT_TEST_SUITE(RGBParameterTest);
@@ -21,6 +23,8 @@ class RGBParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testClippedRGBParameterWithLimitsClipsOnOutOfRangeSet);
     CPPUNIT_TEST(testUnclippedRGBParameterWithLimitsDoesNotAllowSetOutsideRange);
     CPPUNIT_TEST(testRGBParameterResetsToResetValue);
+    CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithNonvolatile);
+    CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithMultipleNonvolatiles);
 
     CPPUNIT_TEST_SUITE_END();
     void testRGBParameterInitsToResetValue()
@@ -73,6 +77,29 @@ class RGBParameterTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL((uint16_t)0, param.get(eR));
         CPPUNIT_ASSERT_EQUAL((uint16_t)128, param.get(eG));
         CPPUNIT_ASSERT_EQUAL((uint16_t)255, param.get(eB));
+    }
+
+    void testRGBParameterCorrectlyWorksWithNonvolatile()
+    {
+        RGBParam param = RGBParam(255, 0, 128, 255, true, true);
+        param.set(100, 150, 50);
+        CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)adl_mock_nonvolatile_get_last_write());
+        CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
+        CPPUNIT_ASSERT_EQUAL((int16_t)50, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+2));
+    }
+
+    void testRGBParameterCorrectlyWorksWithMultipleNonvolatiles()
+    {
+        RGBParam param1 = RGBParam(255, 0, 128, 255, true, true);
+        RGBParam param2 = RGBParam(255, 0, 128, 255, true, true);
+        param1.set(100, 150, 50);
+        CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)adl_mock_nonvolatile_get_last_write());
+        CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
+        CPPUNIT_ASSERT_EQUAL((int16_t)50, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+2));
+        param2.set(200, 250, 150);
+        CPPUNIT_ASSERT_EQUAL((int16_t)200, *(int16_t*)adl_mock_nonvolatile_get_last_write());
+        CPPUNIT_ASSERT_EQUAL((int16_t)250, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
+        CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+2));
     }
 };
 
