@@ -25,6 +25,7 @@ class TLC5973  : public DeviceBase
     void writeZero();
     void writeNone();
     void writeOne();
+    void waitEOS();
     void waitGSLAT();
     void writeWord(uint16_t word);
     void writePixel(uint16_t r, uint16_t g, uint16_t b);
