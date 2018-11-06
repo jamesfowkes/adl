@@ -55,16 +55,6 @@ static void print_prefix(ADL_LOG_MODULES module)
     s_p_log_stream->print(": ");
 }
 
-static void p(char const * const fmt, va_list args)
-{   
-
-}
-
-static void pln(char const * const fmt, va_list args)
-{
-
-}
-
 /*
  * Public Functions
  */
@@ -84,7 +74,6 @@ void adl_log(ADL_LOG_MODULES module, char const * const fmt, ...)
     va_end(args);
 }
 
-static uint8_t call_count=0;
 void adl_logln(ADL_LOG_MODULES module, char const * const fmt, ...)
 {
     print_prefix(module);
