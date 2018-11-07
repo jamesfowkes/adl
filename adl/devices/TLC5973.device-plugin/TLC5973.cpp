@@ -48,10 +48,8 @@ void TLC5973::set_pixels(uint8_t range_min, uint8_t range_max, uint16_t r, uint1
 {
     for (uint8_t i=range_min; i<range_max+1; i++)
     {
-        adl_logln(LOG_ADL, "Setting %u, (%u,%u,%u)", i, r, g, b);
         this->setPixelColor(i, r, g, b);
     }
-    this->dump_pixels();
     this->show();
 }
 
@@ -85,8 +83,6 @@ void TLC5973::setup(void)
     mp_port = portOutputRegister(digitalPinToPort(m_pin));
     m_pinMask = digitalPinToBitMask(m_pin);
     this->reset();
-    adl_logln(LOG_ADL, "%u pixels",m_npixels);
-    adl_logln(LOG_ADL, "%u words",m_numWords);
 }
 
 void TLC5973::reset()
