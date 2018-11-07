@@ -18,6 +18,10 @@ static bool valid_rgb_values(int32_t(&rgb)[3])
     return valid_rgb_value(rgb[0]) && valid_rgb_value(rgb[1]) && valid_rgb_value(rgb[2]);
 }
 
+/*
+ * Class ADL Functions
+ */
+
 void AdafruitNeoPixelADL::set_pixels(uint8_t range_min, uint8_t range_max, uint8_t r, uint8_t g, uint8_t b)
 {
     if (range_min < range_max)
@@ -78,8 +82,28 @@ int AdafruitNeoPixelADL::handle_command(char const * const command, char * reply
     }
 }
 
+void AdafruitNeoPixelADL::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
+{
+    m_pixels.setPixelColor(n, r, g, b);
+}
+
+void AdafruitNeoPixelADL::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w)
+{
+    m_pixels.setPixelColor(n, r, g, b, w);
+}
+
+void AdafruitNeoPixelADL::setPixelColor(uint16_t n, uint32_t c)
+{
+    m_pixels.setPixelColor(n, c);
+}
+
+void AdafruitNeoPixelADL::show()
+{
+    m_pixels.show();   
+}
+
 /*
- * Class Public Functions
+ * Class ADL Functions
  */
 
 AdafruitNeoPixelADL::AdafruitNeoPixelADL(uint8_t pin, uint16_t npixels, uint16_t type) : 
