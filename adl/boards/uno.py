@@ -17,7 +17,7 @@ THIS_PATH = Path(__file__).parent
 
 class UnoBaseType(GenericBoard, namedtuple("UnoBaseType", 
     ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
-    "custom_code", "settings", "info", "log_modules", "fqbn"])):
+    "custom_code", "settings", "info", "log_modules", "defines", "fqbn"])):
 
     __slots__ = ()
 
@@ -62,7 +62,7 @@ class UnoPlugin(IPlugin):
         return Uno(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
-            fqbn=board.attrs.get("fqbn", None)
+            board.defines, fqbn=board.attrs.get("fqbn", None)
         )
 
     def set_log_level(self, level):

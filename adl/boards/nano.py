@@ -42,4 +42,5 @@ class NanoPlugin(UnoPlugin):
         return Nano(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
-            fqbn=board.attrs.get("fqbn", None))
+            board.defines, fqbn=board.attrs.get("fqbn", None)
+        )
