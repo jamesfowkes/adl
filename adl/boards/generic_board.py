@@ -39,11 +39,17 @@ def get_paths(dependencies, use_full_path):
 
     return paths
 
-def dependencies_by_type(component_list, dependency, use_full_path):
+def dependencies_by_type(component_list, dependencies, use_full_path):
     all_paths = []
-    for component in component_list:
-        incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
-        all_paths.extend(get_paths(incs_and_srcs, use_full_path))
+    try:
+        _ = iter(dependencies)
+    except TypeError:
+        dependencies = [dependencies]
+
+    for dependency in dependencies:
+        for component in component_list:
+            incs_and_srcs = component.get_sources(dependency) + component.get_includes(dependency)
+            all_paths.extend(get_paths(incs_and_srcs, use_full_path))
 
     return OrderedSet(all_paths)
 
@@ -92,10 +98,10 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.parameters, ParameterSource, use_full_path)
 
     def device_includes(self, use_full_path):
-        return dependencies_by_type(self.devices, DeviceInclude, use_full_path)
+        return dependencies_by_type(self.devices, (DeviceInclude, ModuleInclude), use_full_path)
 
     def device_sources(self, use_full_path):
-        return dependencies_by_type(self.devices, DeviceSource, use_full_path)
+        return dependencies_by_type(self.devices, (DeviceSource, ModuleSource), use_full_path)
 
     def module_includes(self, use_full_path):
         return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
@@ -110,8 +116,8 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.bsp_components(), LocalSource, use_full_path)
         
     def required_libraries(self):
-        required_libraries = [d.required_libraries for d in self.devices]
-        return list(itertools.chain.from_iterable(required_libraries))
+        required_libraries = [self.arduino_libs] + [d.required_libraries for d in self.devices]
+        return set(list(itertools.chain.from_iterable(required_libraries)))
         
     def custom_code_paths(self, path=None):
         

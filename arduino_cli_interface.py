@@ -21,12 +21,10 @@ class ArduinoCLIInterface:
         return self.location
 
     def lib_is_installed(self, library):
-        args = [self.location, "lib", "search", library]
+        args = [self.location, "lib", "list"]
         result = subprocess.run(args, stdout=subprocess.PIPE)
-        expected_if_installed = 'Name: "{}"'.format(library)
         for l in result.stdout.splitlines():
-            if l.decode("utf-8").strip() == expected_if_installed:
-                get_module_logger().info("Library {} is installed".format(library))
+            if l.decode("utf-8").strip().startswith(library):
                 return True
         return False
 
