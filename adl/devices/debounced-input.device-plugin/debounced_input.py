@@ -30,15 +30,16 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
 
     @property
     def sources(self):
-        _sources = DebouncerModule().sources()
+        _sources = DebouncerModule().sources
         _sources.append(DeviceSource(THIS_PATH, "debounced-input.cpp"))
         return _sources
 
     @property
     def includes(self):
-        _includes = DebouncerModule().includes()
+        _includes = DebouncerModule().includes
         _includes.append(DeviceInclude(THIS_PATH, "debounced-input.h"))
         return _includes
+
 
     @property
     def declarations(self):
