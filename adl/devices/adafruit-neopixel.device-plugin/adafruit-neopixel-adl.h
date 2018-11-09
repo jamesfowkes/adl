@@ -17,7 +17,7 @@ public:
     void setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w);
     void setPixelColor(uint16_t n, uint32_t c);
     void show();
-    
+    void clear();
 private:
     int handle_command(char const * const command, char * reply);
     Adafruit_NeoPixel m_pixels;

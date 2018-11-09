@@ -102,6 +102,11 @@ void AdafruitNeoPixelADL::show()
     m_pixels.show();   
 }
 
+void AdafruitNeoPixelADL::clear()
+{
+    m_pixels.clear();   
+}
+
 /*
  * Class ADL Functions
  */
