@@ -116,8 +116,8 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.bsp_components(), LocalSource, use_full_path)
         
     def required_libraries(self):
-        required_libraries = [d.required_libraries for d in self.devices]
-        return list(itertools.chain.from_iterable(required_libraries))
+        required_libraries = [self.arduino_libs] + [d.required_libraries for d in self.devices]
+        return set(list(itertools.chain.from_iterable(required_libraries)))
         
     def custom_code_paths(self, path=None):
         
