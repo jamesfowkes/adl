@@ -28,10 +28,6 @@ ADL_UTIL_LIMITED_RANGE_INT_OBJS = ../utility/adl-util-limited-range-int.o \
 	adl-util-limited-range-int.unclipped-behaviour.unittest.o \
 	adl-util.unittest.runner.o
 
-ADL_GRID_INDEXING_OBJS = ../utility/adl-util-grid-indexing.o \
-	adl-util-grid-indexing.unittest.runner.o \
-	adl-util.unittest.runner.o
-
 ALL_TARGETS = \
 	adl-util.$(TARGET_EXTENSION) \
 	adl-util-delimited-stream-parser.$(TARGET_EXTENSION) \
