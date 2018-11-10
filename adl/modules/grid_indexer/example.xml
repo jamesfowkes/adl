@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Grid Indexer Example">
+    <info>
+        An example sketch for grid indexer module
+        This module reverses the direction of every other
+        row of a grid of (for example) NeoPixels
+        to allow easy coding and installation
+    </info>
+    
+    <devices>
+        <device name="NeoPixels" type="Adafruit NeoPixel">
+            <setting id="pin" value="2"/>
+            <setting id="npixels" value="9"/>
+        </device>
+    </devices>
+    
+    <modules>
+        <module>Grid Indexer</module>
+    </modules>
+
+    <custom_code>
+        <file>custom_code.cpp</file>
+    </custom_code>
+</board>
