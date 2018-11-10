@@ -8,14 +8,13 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "adl-util.h"
-#include "adl-util-grid-indexing.h"
+#include "grid-indexer.h"
 
-class GridIndexingTest : public CppUnit::TestFixture { 
+class GridIndexerTest : public CppUnit::TestFixture { 
 
     int32_t numbers[16];
 
-    CPPUNIT_TEST_SUITE(GridIndexingTest);
+    CPPUNIT_TEST_SUITE(GridIndexerTest);
 
     CPPUNIT_TEST(testLength1);
     CPPUNIT_TEST(testLength2);
@@ -59,4 +58,4 @@ class GridIndexingTest : public CppUnit::TestFixture {
     }
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(GridIndexingTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(GridIndexerTest);

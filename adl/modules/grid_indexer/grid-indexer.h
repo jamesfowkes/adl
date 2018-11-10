@@ -1,5 +1,5 @@
-#ifndef _ADL_UTIL_GRID_INDEXING_H_
-#define _ADL_UTIL_GRID_INDEXING_H_
+#ifndef _GRID_INDEXER_H_
+#define _GRID_INDEXER_H_
 
 class GridIndexer
 {

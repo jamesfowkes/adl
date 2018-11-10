@@ -6,7 +6,7 @@
 /* ADL Includes */
 
 #include "adl.h"
-#include "adl-util-grid-indexing.h"
+#include "grid-indexer.h"
 
 GridIndexer::GridIndexer(uint8_t length) : 
 	m_length(length)

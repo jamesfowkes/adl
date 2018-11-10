@@ -9,7 +9,15 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../oneshot_timer -I../oneshot_task -I../task -I../../unittest -I../../adl_code -I../../devices -I../../parameters
+INC = -I../ \
+	-I../../unittest -I../../adl_code \
+	-I../../adl_code/utility \
+	-I../../adl_code/messages \
+	-I../../devices -I../../parameters \
+	-I../task \
+	-I../oneshot_timer \
+	-I../oneshot_task \
+	-I../grid_indexer
 
 CFLAGS = -Wall -Wextra
 
@@ -31,6 +39,11 @@ TASK_OBJS = ../task/adl-task.o \
 	adl-module-task.unittest.o \
 	$(GLOBAL_OBJS)
 
+
+GRID_INDEXER_OBJS = ../grid_indexer/grid-indexer.o \
+	adl-module-grid-indexer.unittest.o \
+	$(GLOBAL_OBJS)
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -46,9 +59,14 @@ adl-module-task.$(TARGET_EXTENSION): $(TASK_OBJS)
 	$(CC) -o adl-module-task.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-module-task.$(TARGET_EXTENSION)
 
-all: clean adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION) adl-module-task.$(TARGET_EXTENSION)
+adl-module-grid-indexer.$(TARGET_EXTENSION): $(GRID_INDEXER_OBJS)
+	$(CC) -o adl-module-grid-indexer.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-module-grid-indexer.$(TARGET_EXTENSION)
+
+all: clean adl-module-oneshot-timer.$(TARGET_EXTENSION) adl-module-oneshot-task.$(TARGET_EXTENSION) adl-module-task.$(TARGET_EXTENSION) adl-module-grid-indexer.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
 	$(DEL) $(ONESHOT_TIMER_OBJS)
 	$(DEL) $(ONESHOT_TASK_OBJS)
+	$(DEL) $(GRID_INDEXER_OBJS)
