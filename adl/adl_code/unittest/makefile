@@ -28,6 +28,15 @@ ADL_UTIL_LIMITED_RANGE_INT_OBJS = ../utility/adl-util-limited-range-int.o \
 	adl-util-limited-range-int.unclipped-behaviour.unittest.o \
 	adl-util.unittest.runner.o
 
+ADL_GRID_INDEXING_OBJS = ../utility/adl-util-grid-indexing.o \
+	adl-util-grid-indexing.unittest.runner.o \
+	adl-util.unittest.runner.o
+
+ALL_TARGETS = \
+	adl-util.$(TARGET_EXTENSION) \
+	adl-util-delimited-stream-parser.$(TARGET_EXTENSION) \
+	adl-util-limited-range-int.$(TARGET_EXTENSION) \
+	adl-util-grid-indexing.$(TARGET_EXTENSION)
 
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
@@ -47,8 +56,11 @@ adl-util-limited-range-int.$(TARGET_EXTENSION): $(ADL_UTIL_LIMITED_RANGE_INT_OBJ
 	$(CC) -o adl-util-limited-range-int.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-util-limited-range-int.$(TARGET_EXTENSION)
 
-all: adl-util.$(TARGET_EXTENSION) adl-util-delimited-stream-parser.$(TARGET_EXTENSION) adl-util-limited-range-int.$(TARGET_EXTENSION)
-	
+adl-util-grid-indexing.$(TARGET_EXTENSION): $(ADL_GRID_INDEXING_OBJS)
+	$(CC) -o adl-util-grid-indexing.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-util-grid-indexing.$(TARGET_EXTENSION)
+
+all: 
 clean:
 	rm -f *.o
 	rm -f ../*.o
