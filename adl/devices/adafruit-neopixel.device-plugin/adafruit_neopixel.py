@@ -38,6 +38,10 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
         ]
 
     @property
+    def required_libraries(self):
+        return ["Adafruit NeoPixel"]
+
+    @property
     def declarations(self):
         return "static AdafruitNeoPixelADL {name} = AdafruitNeoPixelADL({pin}, {npixels}, {pixel_type});".format(
             name=self.cname(), pin=self.pin.value, npixels=self.npixels.value, pixel_type=self.pixel_type.value)
