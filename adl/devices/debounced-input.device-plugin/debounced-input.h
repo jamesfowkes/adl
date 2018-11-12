@@ -6,7 +6,7 @@
 class DebouncedInput : public DeviceBase, public DebounceReader
 {
 public:
-    DebouncedInput(int pin, uint16_t debounce_time, bool pullup);
+    DebouncedInput(int pin, uint16_t debounce_time, bool pullup, bool invert);
     void setup();
     void reset();
     int command_handler(char const * const command, char * reply);
@@ -19,6 +19,7 @@ public:
 private:
     int m_pin;
     bool m_pullup;
+    bool m_invert;
     ADLDebouncer m_debouncer;
 };
 
