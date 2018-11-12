@@ -16,7 +16,7 @@ from adl.modules.debouncer.debouncer import DebouncerModule
 
 THIS_PATH = Path(__file__).parent
 
-class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin", "debounce_time", "pullup"])):
+class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin", "debounce_time", "pullup", "invert"])):
 
     __slots__ = ()
 
@@ -43,10 +43,12 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
 
     @property
     def declarations(self):
-        return "static DebouncedInput {name} = DebouncedInput({pin}, {debounce_time}, {pullup});".format(
-            name=self.cname(), pin=self.pin.value, debounce_time=self.debounce_time.value, pullup=self.pullup.value)
+        return "static DebouncedInput {name} = DebouncedInput({pin}, {debounce_time}, {pullup}, {invert});".format(
+            name=self.cname(), pin=self.pin.value, debounce_time=self.debounce_time.value,
+            pullup=self.pullup.value, invert=self.invert.value
+        )
 
-class TimedOnOffPlugin(IPlugin):
+class DebouncedInputPlugin(IPlugin):
 
     REQUIRED_SETTINGS = ["pin"]
 
@@ -60,9 +62,10 @@ class TimedOnOffPlugin(IPlugin):
 
         debounce_time = device.settings.get("debounce_time", Setting("debounce_time","","50"))
         pullup = device.settings.get("pullup", Setting("pullup","","true"))
+        invert = device.settings.get("invert", Setting("invert","","true"))
 
         return DebouncedInput(device.name, 
-            device.settings["pin"], debounce_time, pullup)
+            device.settings["pin"], debounce_time, pullup, invert)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

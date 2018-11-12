@@ -3,9 +3,10 @@
 #include "adl-debouncer.h"
 #include "debounced-input.h"
 
-DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup) :
+DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup, bool invert) :
     m_pin(pin),
     m_pullup(pullup),
+    m_invert(invert),
     m_debouncer(*this, debounce_time)
 {
 }
@@ -73,5 +74,5 @@ void DebouncedInput::tick()
 
 bool DebouncedInput::read()
 {
-    return digitalRead(m_pin) == LOW;
+    return m_invert ? digitalRead(m_pin) == LOW : digitalRead(m_pin) == HIGH;
 }
