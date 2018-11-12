@@ -7,7 +7,7 @@ DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup, boo
     m_pin(pin),
     m_pullup(pullup),
     m_invert(invert),
-    m_debouncer(*this, debounce_time)
+    m_debouncer(*this, debounce_time / ADL_TICK_MS)
 {
 }
 
