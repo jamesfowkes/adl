@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="RFID RC522">
+	<info>
+		An example sketch for the RC522 RFID
+	</info>
+	<devices>
+		<device name="RFID" type="RFID RC522">
+			<setting id="ss" value="10"/>
+			<setting id="rst" value="9"/>
+		</device>
+	</devices>
+	<adl protocol="simple" buffer_size="64">
+	</adl>
+</board>
