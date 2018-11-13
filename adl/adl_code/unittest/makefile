@@ -16,6 +16,7 @@ CFLAGS = -Wall -Wextra
 ADL_UTIL_OBJS = adl-util-numeric-range.unittest.o \
 	adl-util-single-numeric.unittest.o \
 	adl-util-csv-numerics.unittest.o \
+	adl-util-nibbleandbyte.unittest.o \
 	adl-util.unittest.runner.o \
 	../utility/adl-util.o
 

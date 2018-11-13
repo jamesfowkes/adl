@@ -98,3 +98,18 @@ uint8_t adl_parse_comma_separated_numerics(char const * const s, int32_t * presu
 
     return count;
 }
+
+char nibble_to_hex(uint8_t b)
+{
+    b = b & 0x0F;
+    return (b < 10) ? ('0' + b) : ('A' + (b-10));
+}
+
+void byte_to_hex(char * buffer, uint8_t b)
+{
+    uint8_t upper = (b & 0xF0) >> 4;
+    uint8_t lower = (b & 0x0F);
+
+    buffer[0] = nibble_to_hex(upper);
+    buffer[1] = nibble_to_hex(lower);
+}

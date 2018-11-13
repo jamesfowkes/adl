@@ -10,6 +10,6 @@
 			<setting id="rst" value="9"/>
 		</device>
 	</devices>
-	<adl protocol="simple" buffer_size="64">
+	<adl protocol="url" buffer_size="64">
 	</adl>
 </board>
