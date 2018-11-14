@@ -9,6 +9,7 @@ from yapsy.IPlugin import IPlugin
 
 from adl.types import LibraryInclude, DeviceSource, DeviceInclude
 
+from adl.parameters.rgb.rgb import RGBParam
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 from adl.types import Setting
 
@@ -28,14 +29,15 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     @property
     def sources(self):
-        return [DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp")]
+        sources = [DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp")]
+        sources.append(RGBParam.sources)
+        return sources
 
     @property
     def includes(self):
-        return [
-            DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
-            LibraryInclude("Adafruit_NeoPixel.h")
-        ]
+        includes = [DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h")]
+        includes.append(RGBParam.includes)
+        return includes
 
     @property
     def required_libraries(self):
