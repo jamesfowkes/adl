@@ -9,7 +9,7 @@ endif
 
 LIBS = -lcppunit
 
-INC = -I../ -I../boolean -I../integer -I../rgb \
+INC = -I../ -I../boolean -I../integer -I../rgb -I../string \
 	-I../../adl_code -I../../adl_code/utility \
 	-I../../unittest -I../../devices \
 	-I../../adl_code/messages
@@ -35,6 +35,13 @@ RGB_OBJS = ../rgb/rgb-param.o \
 	../../adl_code/utility/adl-util.o \
 	$(GLOBAL_OBJS)
 
+STRING_OBJS = ../string/string-param.o \
+	adl-parameter-string.unittest.o \
+	$(GLOBAL_OBJS)
+
+ALL_TESTS = adl-integer-param adl-boolean-param adl-rgb-param adl-string-param
+ALL_TEST_EXECTUABLES = $(addsuffix .$(TARGET_EXTENSION), $(ALL_TESTS))
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -50,11 +57,12 @@ adl-rgb-param.$(TARGET_EXTENSION): $(RGB_OBJS)
 	$(CC) -o adl-rgb-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./adl-rgb-param.$(TARGET_EXTENSION)
 
-all: adl-integer-param.$(TARGET_EXTENSION) adl-boolean-param.$(TARGET_EXTENSION) adl-rgb-param.$(TARGET_EXTENSION)
+adl-string-param.$(TARGET_EXTENSION): $(STRING_OBJS)
+	$(CC) -o adl-string-param.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./adl-string-param.$(TARGET_EXTENSION)
+
+all: $(ALL_TEST_EXECTUABLES)
 
 clean:
-	$(DEL) $(GLOBAL_OBJS)
-	$(DEL) $(INTEGER_OBJS)
-	$(DEL) $(BOOLEAN_OBJS)
-	$(DEL) $(RGB_OBJS)
+	$(DEL) $(ALL_TEST_EXECTUABLES)
 	
