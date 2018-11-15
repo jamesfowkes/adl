@@ -28,7 +28,7 @@ StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, 
     if (p_reset_value)
     {
         m_pResetValue = (char*)malloc(strlen(p_reset_value)+1);
-        strncpy(m_pResetValue, p_reset_value, strlen(p_reset_value));
+        strncpy(m_pResetValue, p_reset_value, strlen(p_reset_value)+1);
         this->reset();
     }
 }
