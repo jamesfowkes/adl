@@ -14,4 +14,11 @@
 #include "adl-messages.h"
 #include "protocol.h"
 
+#define inrange(n, lo, hi) ((lo <= n) && (hi >= n))
+
+#define lastinloop(i, loopmax) ((i == (loopmax - 1)))
+
+#define incrementwithrollover(var, max) (var = (var < max) ? var + 1 : 0)
+#define decrementwithrollover(var, max) (var = (var > 0) ? var - 1 : max)
+
 #endif

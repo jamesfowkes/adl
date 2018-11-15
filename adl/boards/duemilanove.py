@@ -32,5 +32,5 @@ class DuemilanovePlugin(UnoPlugin):
         return Duemilanove(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
-            fqbn=board.attrs.get("fqbn", None)
+            board.defines, board.arduino_libs, fqbn=board.attrs.get("fqbn", None)
         )

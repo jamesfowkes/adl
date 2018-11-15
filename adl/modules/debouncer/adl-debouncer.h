@@ -7,10 +7,13 @@ public:
 	virtual bool read() = 0;
 };
 
+typedef bool (*debounce_read_fn)(void);
+
 class ADLDebouncer
 {
 public:
     ADLDebouncer(DebounceReader& reader, uint16_t debounce_ticks);
+    ADLDebouncer(debounce_read_fn readfn, uint16_t debounce_ticks);
     void setup();
     void reset();
     void tick();
@@ -26,5 +29,6 @@ private:
     bool m_just_low;
     bool m_state;
     DebounceReader * mp_reader;
+    debounce_read_fn mp_read_fn;
 };
 #endif

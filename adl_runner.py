@@ -1,7 +1,7 @@
 """ adl.py
 
 Usage:
-    adl.py (--make|--build|--upload)... [--override=<target:value>]... [--port=<port>] <input_file> [--sketchbook=<parent_directory>]
+    adl.py (--make|--build|--upload)... [--override=<target:value>]... [--port=<port>] <input_file> [--use_sketchbook] [--sketchbook=<parent_directory>]
 
 """
 
@@ -76,10 +76,18 @@ if __name__ == "__main__":
     adl.parameters.activate_all()
     adl.modules.activate_all()
 
-    input_file = args["<input_file>"]
-    sketchbook_path = Path(args["--sketchbook"]).expanduser()
+    input_file = Path(args["<input_file>"])
+    
+    if args["--sketchbook"] is not None:
+        sketchbook_path = Path(args["--sketchbook"]).expanduser()
+    elif args["--use_sketchbook"]:
+        sketchbook_path = os.getenv("ADL_ARDUINO_SKETCHBOOK")
+        if sketchbook_path is None:
+            raise Exception("ADL_ARDUINO_SKETCHBOOK environment variable must be set to use --use_sketchbook option")
+    else:
+        sketchbook_path = input_file.parent
 
-    board, adl_config = adl.parser.parse_file(Path(input_file), None, args.get("--override", None))
+    board, adl_config = adl.parser.parse_file(input_file, None, args.get("--override", None))
 
     get_module_logger().info("Custom code directory: {}".format(adl_config.source_path))
 

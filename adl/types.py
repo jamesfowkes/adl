@@ -4,6 +4,45 @@ from collections import namedtuple, Counter
 
 import adl
 
+class IncludeFile(Path):
+    _flavour = Path('.')._flavour
+
+class SourceFile(Path):
+    _flavour = Path('.')._flavour
+
+class ADLSource(SourceFile):
+    pass
+
+class ADLInclude(IncludeFile):
+    pass
+
+class LocalSource(SourceFile):
+    pass
+
+class LocalInclude(IncludeFile):
+    pass
+
+class LibraryInclude(IncludeFile):
+    pass
+
+class ParameterSource(SourceFile):
+    pass
+
+class ParameterInclude(IncludeFile):
+    pass
+
+class DeviceSource(SourceFile):
+    pass
+
+class DeviceInclude(IncludeFile):
+    pass
+    
+class ModuleSource(SourceFile):
+    pass
+
+class ModuleInclude(IncludeFile):
+    pass
+
 class SourceFileProvider:
 
     def get_sources(self, target_type):
@@ -118,7 +157,12 @@ def get_unique_log_modules(nodes):
     return [LoggingModule(node.text, prefix) for (node, prefix) in zip(nodes, unique_prefixes)]
 
 
-class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "modules", "settings", "info", "adl", "custom_code", "attrs", "log_modules"])):
+
+class Board(namedtuple("Board", [
+    "type", "name", "devices", "parameters", "modules",
+    "settings", "info", "adl", "custom_code",
+    "attrs", "log_modules", "defines", "arduino_libs"])
+):
     __slots__ = ()
 
     @classmethod
@@ -126,35 +170,49 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "modul
         board_node = node.find(".")
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
-        info = board_node.find("info").text
         
         devices = node.find("devices") or []
         devices = [Device.from_xml(node) for node in devices]
         
-        settings = node.findall("setting") or []
-        settings = [Setting.from_xml(node) for node in settings]
-        settings_dict = {setting.id : setting for setting in settings}
-
         parameters = node.find("parameters") or []
         parameters = [Parameter.from_xml(node) for node in parameters]
 
         modules = node.find("modules") or []
         modules = [Module.from_xml(node) for node in modules]
 
-        log_modules = get_unique_log_modules(node.find("logging") or [])
+        settings = node.findall("setting") or []
+        settings = [Setting.from_xml(node) for node in settings]
+        settings_dict = {setting.id : setting for setting in settings}
+
+        info = board_node.find("info").text
+
+        adl = board_node.find("adl")
+        if adl is None:
+            adl = {}
 
         custom_code = board_node.find("custom_code")
         if custom_code:
             custom_code_filenames = [f.text for f in custom_code.findall("file")]
         else:
             custom_code_filenames = []
+        
+        log_modules = get_unique_log_modules(node.find("logging") or [])
 
-        adl = board_node.find("adl")
-        if adl is None:
-            adl = {}
+        defines = board_node.find("defines")
+        if defines:
+            defines = [d.text for d in defines.findall("define")]
+        else:
+            defines = []
+
+        arduino_libs = board_node.find("libraries")
+        if arduino_libs:
+            arduino_libs = [d.text for d in arduino_libs.findall("library")]
+        else:
+            arduino_libs = []
 
         return cls(board_type, name, devices, parameters, modules, settings_dict, info, adl,
-            custom_code_filenames, board_node.attrib, log_modules)
+        custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs)
+
 
     @classmethod
     def from_yaml(cls, board_dict):
@@ -173,46 +231,21 @@ class Board(namedtuple("Board", ["type", "name", "devices", "parameters", "modul
         else:
             filenames = []
 
+        if "defines" in board_dict["board"]:
+            defines = board_dict["board"]["defines"]
+        else:
+            defines = []
+
+        if "libraries" in board_dict["board"]:
+            arduino_libs = board_dict["board"]["libraries"]
+        else:
+            arduino_libs = []
+
         info = board_dict["board"].get("info", "")
         adl = board_dict["board"].get("adl", {})
-        return cls(board_type, name, devices, settings_dict, info, adl, filenames, board_dict["board"])
 
-class IncludeFile(Path):
-    _flavour = Path('.')._flavour
+        log_modules = get_unique_log_modules(board_dict["board"].get("logging", []))
 
-class SourceFile(Path):
-    _flavour = Path('.')._flavour
-
-class ADLSource(SourceFile):
-    pass
-
-class ADLInclude(IncludeFile):
-    pass
-
-class LocalSource(SourceFile):
-    pass
-
-class LocalInclude(IncludeFile):
-    pass
-
-class LibraryInclude(IncludeFile):
-    pass
-
-class ParameterSource(SourceFile):
-    pass
-
-class ParameterInclude(IncludeFile):
-    pass
-
-class DeviceSource(SourceFile):
-    pass
-
-class DeviceInclude(IncludeFile):
-    pass
-    
-class ModuleSource(SourceFile):
-    pass
-
-class ModuleInclude(IncludeFile):
-    pass
+        return cls(board_type, name, devices, settings_dict, info, adl, 
+            filenames, board_dict["board"], log_modules, defines, arduino_libs)
     

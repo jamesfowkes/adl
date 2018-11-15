@@ -8,7 +8,20 @@ ADLDebouncer::ADLDebouncer(DebounceReader& reader, uint16_t debounce_ticks) :
     m_just_high(false),
     m_just_low(false),
     m_state(false),
-    mp_reader(&reader)
+    mp_reader(&reader),
+    mp_read_fn(NULL)
+{
+
+}
+
+ADLDebouncer::ADLDebouncer(debounce_read_fn readfn, uint16_t debounce_ticks) :
+    m_count_max(debounce_ticks),
+    m_count(0),
+    m_just_high(false),
+    m_just_low(false),
+    m_state(false),
+    mp_reader(NULL),
+    mp_read_fn(readfn)
 {
 
 }
@@ -45,7 +58,21 @@ bool ADLDebouncer::state()
 
 void ADLDebouncer::tick()
 {
-    bool high = this->mp_reader->read();
+    bool high;
+
+    if (this->mp_reader)
+    {
+        high= this->mp_reader->read();
+    }
+    else if (this->mp_read_fn)
+    {
+        high = this->mp_read_fn();
+    }
+    else
+    {
+        return; 
+    }
+
     if (high)
     {
         m_count = (m_count < m_count_max) ? m_count+1 : m_count;

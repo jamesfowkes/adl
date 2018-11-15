@@ -1,6 +1,10 @@
 #ifndef _ADL_DEFS_H_
 #define _ADL_DEFS_H_
 
+{% for define in board.defines %}
+#define {{define}}
+{% endfor %}
+
 enum adl_devices
 {
     ADL_DEVICE_BOARD,

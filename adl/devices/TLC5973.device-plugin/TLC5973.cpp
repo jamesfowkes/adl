@@ -2,7 +2,7 @@
 
 #include "TLC5973.h"
 
-#define NOP *port&=~pinMask;
+#define NOP *mp_port&=~m_pinMask;
 
 #define writeAA()  writeOne(); writeZero(); writeOne(); writeZero();
 #define write03AA() writeZero(); writeZero(); writeOne();writeOne(); writeAA(); writeAA();
@@ -48,14 +48,12 @@ void TLC5973::set_pixels(uint8_t range_min, uint8_t range_max, uint16_t r, uint1
 {
     for (uint8_t i=range_min; i<range_max+1; i++)
     {
-        adl_logln(LOG_ADL, "Setting %u, (%u,%u,%u)", i, r, g, b);
         this->setPixelColor(i, r, g, b);
     }
-    this->dump_pixels();
     this->show();
 }
 
-TLC5973::TLC5973(uint16_t n, uint8_t p) : m_npixels(n), m_pin(p), mp_pixels(NULL)
+TLC5973::TLC5973(uint16_t n, uint8_t p) : m_npixels(n), mp_pixels(NULL), m_pin(p)
 {
     updateLength();
 }
@@ -85,8 +83,6 @@ void TLC5973::setup(void)
     mp_port = portOutputRegister(digitalPinToPort(m_pin));
     m_pinMask = digitalPinToBitMask(m_pin);
     this->reset();
-    adl_logln(LOG_ADL, "%u pixels",m_npixels);
-    adl_logln(LOG_ADL, "%u words",m_numWords);
 }
 
 void TLC5973::reset()
@@ -185,8 +181,8 @@ void TLC5973::clear()
 
 void TLC5973::pulse() 
 {
-    *port|=pinMask;
-    *port&=~pinMask;
+    *mp_port|=m_pinMask;
+    *mp_port&=~m_pinMask;
 }
 
 void TLC5973::writeZero(){
@@ -257,8 +253,8 @@ void TLC5973::writeWord(uint16_t word){
 
 void TLC5973::show(){
    noInterrupts(); // Need 100% focus on instruction timing
-   for(uint16_t i = 0; i < numWords; i=i+3){
-      writePixel(pixels[i], pixels[i+1], pixels[i+2]);
+   for(uint16_t i = 0; i < m_numWords; i=i+3){
+      writePixel(mp_pixels[i], mp_pixels[i+1], mp_pixels[i+2]);
       waitEOS();
   }
   waitGSLAT();
