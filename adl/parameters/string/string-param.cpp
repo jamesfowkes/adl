@@ -94,6 +94,15 @@ int StringParam::command_handler(char const * const command, char * reply)
         strcpy(reply, "ROK");
         reply_length = strlen(reply);
     }
+    else if (command[0] == '?' && m_pValue)
+    {
+        reply[0]='\'';
+        this->get(&reply[1]);
+        reply_length = strlen(reply);
+        reply[reply_length++]='\'';
+        reply[reply_length]='\0';
+        
+    }
     else
     {
         reply[0] = '?';
