@@ -8,6 +8,7 @@ public:
 	void setup();
 	void reset();
 	void tick();
+	uint8_t get(char * buffer);
 	
 	int command_handler(char const * const command, char * reply);
 
