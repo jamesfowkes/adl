@@ -188,6 +188,7 @@ char adl_get_char_from_address_type(ADDRESS_TYPE t)
 void adl_handle_any_pending_commands()
 {
     int reply_length = 0;
+    bool valid_address_type = true;
 
     if (s_command_pending)
     {
@@ -207,17 +208,30 @@ void adl_handle_any_pending_commands()
                 s_protocol_handler.last_address,
                 s_protocol_handler.command,
                 s_adl_reply_buffer);
+            break;
+        case ADDRESS_TYPE_MODULE:
+            break;
+        case ADDRESS_TYPE_NONE:
         default:
+            valid_address_type = false;
             break;
         }
 
-        if(reply_length)
+        if(valid_address_type && reply_length)
         {
             s_protocol_handler.write_reply(s_adl_tx_buffer, s_adl_reply_buffer, reply_length);
         }
-        else
+        else if (!valid_address_type)
         {
             strcpy(s_adl_tx_buffer, "ADDR?");
+        }
+        else if (reply_length == 0)
+        {
+            strcpy(s_adl_tx_buffer, "CMD?");
+        }
+        else
+        {
+            strcpy(s_adl_tx_buffer, "ERR");
         }
 
         adl_board_send(s_adl_tx_buffer);
