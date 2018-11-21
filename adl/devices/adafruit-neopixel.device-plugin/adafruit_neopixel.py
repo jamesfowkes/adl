@@ -35,7 +35,10 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     @property
     def includes(self):
-        includes = [DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h")]
+        includes = [
+            DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
+            LibraryInclude("Adafruit_NeoPixel.h")
+        ]
         includes.append(RGBParam.includes)
         return includes
 
