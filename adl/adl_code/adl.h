@@ -21,4 +21,7 @@
 #define incrementwithrollover(var, max) (var = (var < max) ? var + 1 : 0)
 #define decrementwithrollover(var, max) (var = (var > 0) ? var - 1 : max)
 
+#define incrementwithlimit(var, lim) (var = (var < lim) ? var + 1 : lim)
+#define decrementwithlimit(var, lim) (var = (var > lim) ? var - 1 : lim)
+
 #endif
