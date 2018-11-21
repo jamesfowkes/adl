@@ -42,25 +42,33 @@ bool BooleanParam::set(bool setting)
 int BooleanParam::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
-    if ((command[0] == '1') || (command[0] == 'T') || (command[0] == 't') || (command[0] == 'y'))
+    if (command[0] == 'S')
     {
-        m_state = true;
-        strcpy(reply, " OK");
-        reply[0] = command[0];
-        reply_length = strlen(reply);
-    }
-    else if ((command[0] == '0') || (command[0] == 'F') || (command[0] == 'f') || (command[0] == 'n'))
-    {
-        m_state = false;
-        strcpy(reply, " OK");
-        reply[0] = command[0];
-        reply_length = strlen(reply);
+        if ((command[1] == '1') || (command[1] == 'T') || (command[1] == 't') || (command[1] == 'y'))
+        {
+            m_state = true;
+            strcpy(reply, " OK");
+            reply[0] = command[1];
+            reply_length = strlen(reply);
+        }
+        else if ((command[1] == '0') || (command[1] == 'F') || (command[1] == 'f') || (command[1] == 'n'))
+        {
+            m_state = false;
+            strcpy(reply, " OK");
+            reply[0] = command[1];
+            reply_length = strlen(reply);
+        }
     }
     else if (command[0] == 'R')
     {
         this->reset();
         strcpy(reply, "ROK");
         reply_length = strlen(reply);
+    }
+    else if (command[0] == '?')
+    {
+        reply[0] = m_state ? '1' : '0';
+        reply_length = 1;
     }
     else
     {
