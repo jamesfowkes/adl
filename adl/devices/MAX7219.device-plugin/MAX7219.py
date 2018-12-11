@@ -14,7 +14,7 @@ from adl.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin", "dclk_pin"])):
+class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin", "dclk_pin", "device_count"])):
 
     __slots__ = ()
 
@@ -33,13 +33,14 @@ class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin"
 
     @property
     def declarations(self):
-        return "static MAX7219 {name} = MAX7219({cs_pin}, {data_pin}, {dclk_pin});".format(
-            name=self.cname(), cs_pin=self.cs_pin.value, data_pin=self.data_pin.value, dclk_pin=self.dclk_pin.value,
+        return "static MAX7219 {name} = MAX7219({cs_pin}, {data_pin}, {dclk_pin}, {device_count});".format(
+            name=self.cname(), cs_pin=self.cs_pin.value, data_pin=self.data_pin.value,
+            dclk_pin=self.dclk_pin.value, device_count=self.device_count.value
         )
 
 class MAX7219Plugin(IPlugin, GenericDevicePlugin):
 
-    REQUIRED_SETTINGS = ["cs_pin", "data_pin", "dclk_pin"]
+    REQUIRED_SETTINGS = ["cs_pin", "data_pin", "dclk_pin", "device_count"]
 
     device_class = MAX7219
 
@@ -50,11 +51,15 @@ class MAX7219Plugin(IPlugin, GenericDevicePlugin):
         pass
 
     def get(self, device):
+
+        self.verify_settings(device)
+
         cs_pin = device.settings.get("cs_pin")
         data_pin = device.settings.get("data_pin")
         dclk_pin = device.settings.get("dclk_pin")
+        device_count = device.settings.get("device_count")
        
-        return MAX7219(device.name, cs_pin, data_pin, dclk_pin)
+        return MAX7219(device.name, cs_pin, data_pin, dclk_pin, device_count)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
