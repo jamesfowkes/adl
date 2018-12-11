@@ -29,3 +29,15 @@ class Serial0(SourceFileProvider):
     @property
     def includes(self):
         return []
+
+class Serial0DueMicro(Serial0):
+
+    def read(self, adl_read_fn):
+        return """
+        void serialEventRun()
+        {{
+            while (Serial.available())
+            {{
+                {}((char)Serial.read());
+            }}
+        }}""".format(adl_read_fn)
