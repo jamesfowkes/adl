@@ -49,6 +49,8 @@ class Adafruit_NeopixelPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin", "npixels"]
 
+    device_class = Adafruit_Neopixel
+    
     def activate(self):
         pass
 

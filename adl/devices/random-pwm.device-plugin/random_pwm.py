@@ -37,6 +37,9 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
             name=self.cname(), pin=self.pin.value, interval=self.interval.value, low_limit=self.low_limit.value, high_limit=self.high_limit.value)
 
 class RandomPWMPlugin(IPlugin):
+
+    device_class = RandomPWM
+
     def activate(self):
         pass
 

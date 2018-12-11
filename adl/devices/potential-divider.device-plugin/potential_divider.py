@@ -36,7 +36,8 @@ class PotentialDivider(GenericDevice, namedtuple("PotentialDivider", ["name", "p
 class PotentialDividerPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin", "divider_type", "other_resistance"]
-    
+    device_class = PotentialDivider
+
     def activate(self):
         pass
 

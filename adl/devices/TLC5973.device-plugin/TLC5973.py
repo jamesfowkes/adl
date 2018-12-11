@@ -35,6 +35,9 @@ class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"]))
             name=self.cname(), num_leds=self.num_leds.value, pin=self.pin.value)
 
 class TLC5973Plugin(IPlugin):
+
+    device_class = TLC5973
+
     def activate(self):
         pass
 

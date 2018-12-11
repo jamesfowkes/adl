@@ -43,8 +43,6 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
     def col_count(self):
         return len(self.buttons.value[0])
 
-
-
     @property
     def declarations(self):
         pin_lines = [
@@ -75,6 +73,9 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
         return os.linesep.join(all_lines)
 
 class KeypadPlugin(IPlugin):
+
+    device_class = Keypad
+
     def activate(self):
         pass
 

@@ -51,6 +51,8 @@ class BinaryOutputPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pins"]
 
+    device_class = BinaryOutput
+
     def activate(self):
         pass
 

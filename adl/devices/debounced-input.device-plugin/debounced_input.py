@@ -45,6 +45,8 @@ class DebouncedInputPlugin(IPlugin):
 
     REQUIRED_SETTINGS = ["pin"]
 
+    device_class = DebouncedInput
+
     def activate(self):
         pass
 

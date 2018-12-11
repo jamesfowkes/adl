@@ -35,6 +35,9 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
             name=self.cname(), pin=self.pin.value, ontime=self.ontime.value, offtime=self.offtime.value)
 
 class TimedOnOffPlugin(IPlugin):
+
+    device_class = TimedOnOff
+
     def activate(self):
         pass
 

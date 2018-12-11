@@ -39,6 +39,9 @@ class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"]))
         return ["MFRC522"]
 
 class RFID_RC522Plugin(IPlugin):
+
+    device_class = RFID_RC522
+
     def activate(self):
         pass
 

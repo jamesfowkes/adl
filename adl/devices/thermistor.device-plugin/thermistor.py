@@ -1,6 +1,7 @@
 import os
 import logging
 import importlib.util
+import pprint
 
 from pathlib import Path
 
@@ -12,24 +13,18 @@ from adl.types import LibraryInclude, DeviceSource, DeviceInclude
 
 from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 
+from adl.devices import device_utils
+
 THIS_PATH = Path(__file__).parent
-
-spec = importlib.util.spec_from_file_location(
-    "potential_divider",
-    str(THIS_PATH.joinpath("../potential-divider.device-plugin/potential_divider.py"))
-)
-
-potential_divider = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(potential_divider)
 
 class Thermistor(GenericDevice, namedtuple("Thermistor", ["name", "pin", "R25", "beta", "divider_type", "other_resistance"])):
 
     __slots__ = ()
 
-    sources = potential_divider.PotentialDivider.sources
+    sources = device_utils.get_device_class("Potential Divider").sources
     sources += (DeviceSource(THIS_PATH, "thermistor.cpp"), )
 
-    includes = potential_divider.PotentialDivider.includes
+    includes = device_utils.get_device_class("Potential Divider").includes
     includes += (DeviceInclude(THIS_PATH, "thermistor.h"), )
 
     @property
@@ -48,6 +43,8 @@ class Thermistor(GenericDevice, namedtuple("Thermistor", ["name", "pin", "R25", 
 class ThermistorPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin", "divider_type", "other_resistance", "R25", "beta"]
+
+    device_class = Thermistor
 
     def activate(self):
         pass

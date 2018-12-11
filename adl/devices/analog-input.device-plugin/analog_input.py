@@ -35,6 +35,9 @@ class AnalogInput(GenericDevice, namedtuple("AnalogInput", ["name", "pin"])):
             name=self.cname(), pin=self.pin.value)
 
 class AnalogInputPlugin(IPlugin):
+
+    device_class = AnalogInput
+
     def activate(self):
         pass
 

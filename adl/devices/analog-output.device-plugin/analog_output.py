@@ -36,6 +36,9 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
             name=self.cname(), pin=self.pin.value, llow=self.low_limit.value, lhigh=self.high_limit.value, reset_level=self.reset_level.value)
 
 class AnalogOutputPlugin(IPlugin):
+
+    device_class = AnalogOutput
+
     def activate(self):
         pass
 

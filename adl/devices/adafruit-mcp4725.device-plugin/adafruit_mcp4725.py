@@ -44,7 +44,8 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
 class Adafruit_MCP4725Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = []
-
+    device_class = Adafruit_MCP4725
+    
     def activate(self):
         pass
 

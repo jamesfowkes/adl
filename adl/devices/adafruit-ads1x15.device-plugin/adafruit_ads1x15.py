@@ -41,6 +41,7 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
 class Adafruit_ADS1x15Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["ads_type"]
+    device_class = Adafruit_ADS1x15
 
     def activate(self):
         pass

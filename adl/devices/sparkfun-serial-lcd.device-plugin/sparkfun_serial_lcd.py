@@ -34,6 +34,9 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
             name=self.cname(), pin=self.pin.value, width=self.width.value, lines=self.lines.value)
 
 class SparkfunSerialLCDPlugin(IPlugin):
+
+    device_class = SparkfunSerialLCD
+
     def activate(self):
         pass
 

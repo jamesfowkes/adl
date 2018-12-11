@@ -41,6 +41,8 @@ class MAX7219Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["cs_pin", "data_pin", "dclk_pin"]
 
+    device_class = MAX7219
+
     def activate(self):
         pass
 

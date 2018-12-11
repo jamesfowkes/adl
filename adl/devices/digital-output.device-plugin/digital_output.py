@@ -39,6 +39,9 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
             name=self.cname(), pin=self.pin.value)
 
 class DigitalOutputPlugin(IPlugin):
+
+    device_class = DigitalOutput
+
     def activate(self):
         pass
 

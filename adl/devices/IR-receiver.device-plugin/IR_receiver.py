@@ -46,6 +46,8 @@ class IR_ReceiverPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin"]
 
+    device_class = IR_Receiver
+
     def activate(self):
         pass
 
