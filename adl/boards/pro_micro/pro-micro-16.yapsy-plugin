@@ -1,0 +1,9 @@
+[Core]
+Name = Pro Micro 16MHz
+Module = pro_micro_16MHz
+
+[Documentation]
+Description = Board plugin for the Sparun Pro Micro
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
