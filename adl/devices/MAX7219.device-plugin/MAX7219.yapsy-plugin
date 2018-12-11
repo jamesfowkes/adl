@@ -1,0 +1,9 @@
+[Core]
+Name = MAX7219
+Module = MAX7219
+
+[Documentation]
+Description = Allows control of a MAX7219 seven-segment driver
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

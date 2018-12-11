@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="MAX7219">
+    <info>
+        An example sketch for the MAX7219 device
+    </info>
+    
+    <devices>
+        <device name="MAX7219 Example" type="MAX7219">
+            <setting id="cs_pin" value="6"/>
+            <setting id="data_pin" value="7"/>
+            <setting id="dclk_pin" value="5"/>
+        </device>
+    </devices>
+
+    <custom_code>
+        <file>example.cpp</file>
+    </custom_code>
+
+    <adl protocol="simple"></adl>
+</board>
