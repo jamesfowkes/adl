@@ -34,6 +34,7 @@ MAX7219::MAX7219(uint8_t cs, uint8_t din, uint8_t dclk, uint8_t device_count) :
   pinMode(m_CS, OUTPUT);
   pinMode(m_DATA, OUTPUT);
   pinMode(m_DCLK, OUTPUT);
+  mp_data = (uint8_t*)malloc(m_device_count * 8);
   this->ClearAll();
 }
 
@@ -59,6 +60,17 @@ int MAX7219::command_handler(char const * const command, char * reply)
     return reply_length;
 }
 
+void MAX7219::Set(uint8_t device, uint8_t digit, uint8_t data)
+{
+    if (device >= m_device_count) { return; }
+    if (digit >= 8) { return; }
+    if (!mp_data) { return; }
+
+    uint8_t index = (digit * m_device_count) + device;
+
+    mp_data[index] = data;
+}
+
 void MAX7219::ClockOut(uint8_t reg, uint8_t data)
 {
     digitalWrite(m_DCLK, LOW);
@@ -75,21 +87,21 @@ void MAX7219::writeRegister(uint8_t reg, uint8_t data)
     digitalWrite(m_CS, HIGH);
 }
 
-void MAX7219::Set(uint8_t * data)
+void MAX7219::Update()
 {
     uint8_t max_data_index;
 
-    if (data)
+    if (mp_data)
     {
         max_data_index  = (m_device_count*8)-1;
         
-        for (uint8_t digit=0; digit < 8; digit++)
+        for (uint8_t digit=0; digit<8; digit++)
         {
             digitalWrite(m_CS, LOW);
-            for (uint8_t dev=0; dev<m_device_count; dev++)
+            for (int8_t dev=(m_device_count-1); dev>=0; dev--)
             {
-                uint8_t index = max_data_index - ((dev*8)+digit);
-                this->ClockOut(eRegister_D0 + digit, data[index]);
+                uint8_t index = (digit * m_device_count) + dev;
+                this->ClockOut(eRegister_D0 + digit, mp_data[index]);
             }
             digitalWrite(m_CS, HIGH);
         }
@@ -98,22 +110,8 @@ void MAX7219::Set(uint8_t * data)
 
 void MAX7219::ClearAll()
 {
-    uint8_t max_data_index;
-    for (uint8_t digit=0; digit < 8; digit++)
-    {
-        max_data_index  = (m_device_count*8)-1;
-        
-        for (uint8_t digit=0; digit < 8; digit++)
-        {
-            digitalWrite(m_CS, LOW);
-            for (uint8_t dev=0; dev<m_device_count; dev++)
-            {
-                uint8_t index = max_data_index - ((dev*8)+digit);
-                this->ClockOut(eRegister_D0 + digit, 0x00);
-            }
-            digitalWrite(m_CS, HIGH);
-        }
-    }
+    memset(mp_data, 0, m_device_count*8);
+    this->Update();
 }
 
 void MAX7219::SetDecode(eDecodeMode eMode)

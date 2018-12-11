@@ -19,7 +19,8 @@ public:
     void tick();
     int command_handler(char const * const command, char * reply);
 
-    void Set(uint8_t * data);
+    void Set(uint8_t device, uint8_t digit, uint8_t data);
+    void Update();
     void SetDecode(eDecodeMode eMode);
     void SetIntensity(uint8_t intensity);
     void SetScanLimit(uint8_t limit);
@@ -35,6 +36,7 @@ private:
     uint8_t m_DATA;
     uint8_t m_DCLK;
     uint8_t m_device_count;
+    uint8_t *mp_data;
 };
 
 #endif
