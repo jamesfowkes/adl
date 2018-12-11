@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import LibraryInclude, LocalInclude, Setting
+from adl.types import LibraryInclude, DeviceSource, DeviceInclude, Setting
 from adl.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
@@ -16,11 +16,11 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
 
     __slots__ = ()
 
-    sources = ("adl_keypad.cpp", )
+    sources = (DeviceSource(THIS_PATH, "adl_keypad.cpp"), )
 
     includes = (
         LibraryInclude("Keypad.h"),
-        LocalInclude("adl_keypad.h")
+        DeviceInclude(THIS_PATH, "adl_keypad.h")
     )
 
     @property
