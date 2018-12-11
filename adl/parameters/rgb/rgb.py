@@ -22,6 +22,16 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit",
 
 	__slots__ = ()
 
+	includes = (
+		ADLInclude("utility", "adl-util-limited-range-int.h"),
+		ParameterInclude(THIS_PATH, "rgb-param.h")
+	)
+
+	sources = (
+		ADLSource("utility", "adl-util-limited-range-int.cpp"),
+		ParameterSource(THIS_PATH, "rgb-param.cpp")
+	)
+
 	@property
 	def setup(self):
 		return ""
@@ -37,21 +47,6 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit",
 	@property
 	def directory(self):
 		return THIS_PATH
-
-	@property
-	def sources(self):
-		return [
-			ADLSource("utility", "adl-util-limited-range-int.cpp"),
-			ParameterSource(THIS_PATH, "rgb-param.cpp")
-		]
-
-	@property
-	def includes(self):
-		return [
-			ADLInclude("utility", "adl-util-limited-range-int.h"),
-			ParameterInclude(THIS_PATH, "rgb-param.h")
-		]
-
 
 class IntegerPlugin(IPlugin):
 	def activate(self):

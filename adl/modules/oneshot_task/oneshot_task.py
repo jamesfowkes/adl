@@ -12,21 +12,15 @@ THIS_PATH = Path(__file__).parent
 
 class OneShotTaskModule(GenericModule):
     
+    sources = OneShotTimerModule().sources
+    sources += (ModuleSource(THIS_PATH, "adl-oneshot-task.cpp"),)
+
+    includes = OneShotTimerModule().includes
+    includes += (ModuleInclude(THIS_PATH, "adl-oneshot-task.h"),)
+
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        sources = OneShotTimerModule().sources
-        sources.append(ModuleSource(THIS_PATH, "adl-oneshot-task.cpp"))
-        return sources
-
-    @property
-    def includes(self):
-        includes = OneShotTimerModule().includes
-        includes.append(ModuleInclude(THIS_PATH, "adl-oneshot-task.h"))
-        return includes
 
 class OneShotTaskPlugin(IPlugin):
     def activate(self):

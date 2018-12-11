@@ -17,6 +17,10 @@ class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"]))
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "TLC5973.cpp"), )
+
+    includes = (DeviceInclude(THIS_PATH, "TLC5973.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -24,14 +28,6 @@ class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"]))
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "TLC5973.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "TLC5973.h")]
 
     @property
     def declarations(self):

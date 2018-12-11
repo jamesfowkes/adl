@@ -16,6 +16,10 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "sparkfun-serial-lcd.cpp"), )
+
+    includes = (DeviceInclude(THIS_PATH, "sparkfun-serial-lcd.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -23,14 +27,6 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "sparkfun-serial-lcd.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "sparkfun-serial-lcd.h")]
 
     @property
     def declarations(self):

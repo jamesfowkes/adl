@@ -16,6 +16,13 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
 
     __slots__ = ()
 
+    sources = ("adl_keypad.cpp", )
+
+    includes = (
+        LibraryInclude("Keypad.h"),
+        LocalInclude("adl_keypad.h")
+    )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -23,10 +30,6 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return ["adl_keypad.cpp"]
 
     @property
     def name_caps(self):
@@ -40,12 +43,7 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
     def col_count(self):
         return len(self.buttons.value[0])
 
-    @property
-    def includes(self):
-        return [
-            LibraryInclude("Keypad.h"),
-            LocalInclude("adl_keypad.h")
-        ]
+
 
     @property
     def declarations(self):

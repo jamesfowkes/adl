@@ -19,6 +19,15 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp"), )
+    sources += RGBParam.sources
+    
+    includes = (
+        DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
+        LibraryInclude("Adafruit_NeoPixel.h")
+    )
+    includes += RGBParam.includes
+    
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -26,21 +35,6 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        sources = [DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp")]
-        sources.extend(RGBParam.sources)
-        return sources
-
-    @property
-    def includes(self):
-        includes = [
-            DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
-            LibraryInclude("Adafruit_NeoPixel.h")
-        ]
-        includes.extend(RGBParam.includes)
-        return includes
 
     @property
     def required_libraries(self):

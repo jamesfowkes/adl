@@ -26,6 +26,10 @@ class BinaryOutput(GenericDevice, namedtuple("BinaryOutput", ["name", "pins"])):
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "binary-output.cpp"), )
+
+    includes = (DeviceInclude(THIS_PATH, "binary-output.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -38,14 +42,6 @@ class BinaryOutput(GenericDevice, namedtuple("BinaryOutput", ["name", "pins"])):
     def directory(self):
         return THIS_PATH
         
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "binary-output.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "binary-output.h")]
-
     @property
     def declarations(self):
         return "static BinaryOutput {name} = BinaryOutput({pins});".format(

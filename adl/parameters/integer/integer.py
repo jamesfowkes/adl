@@ -20,6 +20,16 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
 
     __slots__ = ()
 
+    sources = (
+        ADLSource("utility", "adl-util-limited-range-int.cpp"),
+        ParameterSource(THIS_PATH, "integer-param.cpp")
+    )
+
+    includes = (
+        ADLInclude("utility", "adl-util-limited-range-int.h"),
+        ParameterInclude(THIS_PATH, "integer-param.h")
+    )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -35,21 +45,6 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [
-            ADLSource("utility", "adl-util-limited-range-int.cpp"),
-            ParameterSource(THIS_PATH, "integer-param.cpp")
-        ]
-
-    @property
-    def includes(self):
-        return [
-            ADLInclude("utility", "adl-util-limited-range-int.h"),
-            ParameterInclude(THIS_PATH, "integer-param.h")
-        ]
-
 
 class IntegerPlugin(IPlugin):
     def activate(self):

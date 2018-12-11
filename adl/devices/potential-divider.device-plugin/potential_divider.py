@@ -17,6 +17,9 @@ class PotentialDivider(GenericDevice, namedtuple("PotentialDivider", ["name", "p
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "potential-divider.cpp"), )
+    includes = (DeviceInclude(THIS_PATH, "potential-divider.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -26,14 +29,6 @@ class PotentialDivider(GenericDevice, namedtuple("PotentialDivider", ["name", "p
         return THIS_PATH
 
     @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "potential-divider.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "potential-divider.h")]
-
-    @property
     def declarations(self):
         return "static PotentialDivider {name} = PotentialDivider({pin}, {other_r}, {divider_type});".format(
             name=self.cname(), pin=self.pin.value, other_r=self.other_resistance.value, divider_type=self.divider_type.value)
@@ -41,7 +36,7 @@ class PotentialDivider(GenericDevice, namedtuple("PotentialDivider", ["name", "p
 class PotentialDividerPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin", "divider_type", "other_resistance"]
-
+    
     def activate(self):
         pass
 

@@ -19,6 +19,10 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "random-pwm.cpp"), )
+
+    includes = (DeviceInclude(THIS_PATH, "random-pwm.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -26,14 +30,6 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "random-pwm.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "random-pwm.h")]
 
     @property
     def declarations(self):

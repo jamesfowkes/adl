@@ -14,6 +14,13 @@ class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"]))
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "rfid-rc522.cpp"), )
+
+    includes = (
+        LibraryInclude("MFRC522.h"),
+        DeviceInclude(THIS_PATH, "rfid-rc522.h")
+    )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -21,17 +28,6 @@ class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"]))
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "rfid-rc522.cpp")]
-
-    @property
-    def includes(self):
-        return [
-            LibraryInclude("MFRC522.h"),
-            DeviceInclude(THIS_PATH, "rfid-rc522.h")
-        ]
 
     @property
     def declarations(self):

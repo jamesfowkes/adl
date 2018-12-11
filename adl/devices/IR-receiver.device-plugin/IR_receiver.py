@@ -18,6 +18,13 @@ class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "IR-receiver.cpp"), )
+
+    includes = (
+        DeviceInclude(THIS_PATH, "IR-receiver.h"),
+        LibraryInclude("IRremote.h")
+    )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -25,17 +32,6 @@ class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "IR-receiver.cpp")]
-
-    @property
-    def includes(self):
-        return [
-            DeviceInclude(THIS_PATH, "IR-receiver.h"),
-            LibraryInclude("IRremote.h")
-        ]
 
     @property
     def required_libraries(self):

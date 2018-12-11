@@ -18,6 +18,13 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "adafruit-ads1x15.cpp"), )
+
+    includes = (
+        DeviceInclude(THIS_PATH, "adafruit-ads1x15.h"),
+        LibraryInclude("Adafruit_ADS1015.h")
+    )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -25,17 +32,6 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "adafruit-ads1x15.cpp")]
-
-    @property
-    def includes(self):
-        return [
-            DeviceInclude(THIS_PATH, "adafruit-ads1x15.h"),
-            LibraryInclude("Adafruit_ADS1015.h")
-        ]
 
     @property
     def declarations(self):

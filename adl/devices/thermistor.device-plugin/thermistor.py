@@ -1,5 +1,6 @@
 import os
 import logging
+import importlib.util
 
 from pathlib import Path
 
@@ -13,9 +14,23 @@ from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
 
+spec = importlib.util.spec_from_file_location(
+    "potential_divider",
+    str(THIS_PATH.joinpath("../potential-divider.device-plugin/potential_divider.py"))
+)
+
+potential_divider = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(potential_divider)
+
 class Thermistor(GenericDevice, namedtuple("Thermistor", ["name", "pin", "R25", "beta", "divider_type", "other_resistance"])):
 
     __slots__ = ()
+
+    sources = potential_divider.PotentialDivider.sources
+    sources += (DeviceSource(THIS_PATH, "thermistor.cpp"), )
+
+    includes = potential_divider.PotentialDivider.includes
+    includes += (DeviceInclude(THIS_PATH, "thermistor.h"), )
 
     @property
     def setup(self):
@@ -24,20 +39,6 @@ class Thermistor(GenericDevice, namedtuple("Thermistor", ["name", "pin", "R25", 
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [
-            DeviceSource(THIS_PATH, "../potential-divider.device-plugin/potential-divider.cpp"),
-            DeviceSource(THIS_PATH, "thermistor.cpp")
-        ]
-
-    @property
-    def includes(self):
-        return [
-            DeviceInclude(THIS_PATH, "../potential-divider.device-plugin/potential-divider.h"),
-            DeviceInclude(THIS_PATH, "thermistor.h")
-        ]
 
     @property
     def declarations(self):

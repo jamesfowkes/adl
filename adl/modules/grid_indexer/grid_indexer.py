@@ -11,19 +11,13 @@ THIS_PATH = Path(__file__).parent
 
 class GridIndexerModule(GenericModule):
     
+    sources = (ModuleSource(THIS_PATH, "grid-indexer.cpp"), )
+
+    includes = (ModuleInclude(THIS_PATH, "grid-indexer.h"), )
+
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [ModuleSource(THIS_PATH, "grid-indexer.cpp")]
-
-
-    @property
-    def includes(self):
-        return [ModuleInclude(THIS_PATH, "grid-indexer.h")]
-
 
 class GridIndexerPlugin(IPlugin):
     def activate(self):

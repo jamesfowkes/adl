@@ -7,6 +7,9 @@ THIS_PATH = Path(__file__).parent
 
 class EEPROM(SourceFileProvider):
 
+    sources = (LocalSource(THIS_PATH, "adl-nv-eeprom.cpp"), )
+    includes = (LibraryInclude("EEPROM.h"), )
+
     def __init__(self):
         pass
 
@@ -21,15 +24,3 @@ class EEPROM(SourceFileProvider):
     @property
     def address_type(self):
         return "uint16_t"
-
-    @property
-    def sources(self):
-        return [
-            LocalSource(THIS_PATH, "adl-nv-eeprom.cpp")
-        ]
-
-    @property
-    def includes(self):
-        return [
-            LibraryInclude("EEPROM.h")
-        ]
