@@ -30,7 +30,7 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
     @property
     def sources(self):
         sources = [DeviceSource(THIS_PATH, "adafruit-neopixel-adl.cpp")]
-        sources.append(RGBParam.sources)
+        sources.extend(RGBParam.sources)
         return sources
 
     @property
@@ -39,7 +39,7 @@ class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", 
             DeviceInclude(THIS_PATH, "adafruit-neopixel-adl.h"),
             LibraryInclude("Adafruit_NeoPixel.h")
         ]
-        includes.append(RGBParam.includes)
+        includes.extend(RGBParam.includes)
         return includes
 
     @property
