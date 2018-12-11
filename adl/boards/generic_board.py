@@ -98,10 +98,10 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.parameters, ParameterSource, use_full_path)
 
     def device_includes(self, use_full_path):
-        return dependencies_by_type(self.devices, (DeviceInclude, ModuleInclude), use_full_path)
+        return dependencies_by_type(self.devices, (DeviceInclude, ModuleInclude, ParameterInclude), use_full_path)
 
     def device_sources(self, use_full_path):
-        return dependencies_by_type(self.devices, (DeviceSource, ModuleSource), use_full_path)
+        return dependencies_by_type(self.devices, (DeviceSource, ModuleSource, ParameterSource), use_full_path)
 
     def module_includes(self, use_full_path):
         return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
