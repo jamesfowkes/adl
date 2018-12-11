@@ -17,6 +17,10 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
 
     __slots__ = ()
 
+    sources = (ParameterSource(THIS_PATH, "boolean-param.cpp"), )
+
+    includes = (ParameterInclude(THIS_PATH, "boolean-param.h"), )
+
     @property
     def setup(self):
         return ""
@@ -31,15 +35,6 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [ParameterSource(THIS_PATH, "boolean-param.cpp")]
-
-    @property
-    def includes(self):
-        return [ParameterInclude(THIS_PATH, "boolean-param.h")]
-
 
 class BooleanPlugin(IPlugin):
     def activate(self):

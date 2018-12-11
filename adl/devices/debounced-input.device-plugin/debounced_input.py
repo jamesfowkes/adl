@@ -20,6 +20,12 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
 
     __slots__ = ()
 
+    sources = DebouncerModule().sources
+    sources += (DeviceSource(THIS_PATH, "debounced-input.cpp"),)
+        
+    includes = DebouncerModule().includes
+    includes += (DeviceInclude(THIS_PATH, "debounced-input.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -27,19 +33,6 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        _sources = DebouncerModule().sources
-        _sources.append(DeviceSource(THIS_PATH, "debounced-input.cpp"))
-        return _sources
-
-    @property
-    def includes(self):
-        _includes = DebouncerModule().includes
-        _includes.append(DeviceInclude(THIS_PATH, "debounced-input.h"))
-        return _includes
-
 
     @property
     def declarations(self):

@@ -18,6 +18,10 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "analog-output.cpp"),)
+
+    includes = (DeviceInclude(THIS_PATH, "analog-output.h"),)
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -25,14 +29,6 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "analog-output.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "analog-output.h")]
 
     @property
     def declarations(self):

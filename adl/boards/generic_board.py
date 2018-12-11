@@ -55,6 +55,9 @@ def dependencies_by_type(component_list, dependencies, use_full_path):
 
 class GenericBoard(SourceFileProvider):
 
+    sources = []
+    includes = []
+
     def sketch_path(self, extension=".ino"):
         sketch_name = self.name
         if sketch_name[0].isdigit():
@@ -68,14 +71,6 @@ class GenericBoard(SourceFileProvider):
         full_sketch_name = sketch_name + extension
 
         return Path(sketch_name).joinpath(full_sketch_name)
-
-    @property
-    def sources(self):
-        return []
-
-    @property
-    def includes(self):
-        return []
 
     def all_components(self):
         return [self] + self.devices + self.parameters

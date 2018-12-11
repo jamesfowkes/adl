@@ -11,17 +11,13 @@ THIS_PATH = Path(__file__).parent
 
 class DebouncerModule(GenericModule):
     
+    sources = (ModuleSource(THIS_PATH, "adl-debouncer.cpp"), )
+
+    includes = (ModuleInclude(THIS_PATH, "adl-debouncer.h"), )
+
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [ModuleSource(THIS_PATH, "adl-debouncer.cpp")]
-
-    @property
-    def includes(self):
-        return [ModuleInclude(THIS_PATH, "adl-debouncer.h")]
 
 class DebouncerPlugin(IPlugin):
     def activate(self):

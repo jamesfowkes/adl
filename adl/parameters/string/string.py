@@ -20,6 +20,10 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
 
     __slots__ = ()
 
+    sources = (ParameterSource(THIS_PATH, "string-param.cpp"), )
+
+    includes = (ParameterInclude(THIS_PATH, "string-param.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -34,19 +38,6 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [
-            ParameterSource(THIS_PATH, "string-param.cpp")
-        ]
-
-    @property
-    def includes(self):
-        return [
-            ParameterInclude(THIS_PATH, "string-param.h")
-        ]
-
 
 class StringPlugin(IPlugin, GenericParamPlugin):
 

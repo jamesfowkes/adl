@@ -18,6 +18,14 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "adafruit-mcp4725.cpp"), )
+
+    includes = (
+        DeviceInclude(THIS_PATH, "adafruit-mcp4725.h"),
+        LibraryInclude("Adafruit_MCP4725.h")
+    )
+
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -25,17 +33,6 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "adafruit-mcp4725.cpp")]
-
-    @property
-    def includes(self):
-        return [
-            DeviceInclude(THIS_PATH, "adafruit-mcp4725.h"),
-            LibraryInclude("Adafruit_MCP4725.h")
-        ]
 
     @property
     def declarations(self):

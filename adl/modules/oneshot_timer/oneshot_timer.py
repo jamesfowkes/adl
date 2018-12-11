@@ -11,17 +11,12 @@ THIS_PATH = Path(__file__).parent
 
 class OneShotTimerModule(GenericModule):
 
+    sources = (ModuleSource(THIS_PATH, "adl-oneshot-timer.cpp"), )
+    includes = (ModuleInclude(THIS_PATH, "adl-oneshot-timer.h"), )
+
     @property
     def directory(self):
         return THIS_PATH
-
-    @property
-    def sources(self):
-        return [ModuleSource(THIS_PATH, "adl-oneshot-timer.cpp")]
-
-    @property
-    def includes(self):
-        return [ModuleInclude(THIS_PATH, "adl-oneshot-timer.h")]
 
 class OneShotTimerPlugin(IPlugin):
     def activate(self):

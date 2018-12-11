@@ -17,6 +17,10 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
 
     __slots__ = ()
 
+    sources = (DeviceSource(THIS_PATH, "digital-output.cpp"), )
+
+    includes = (DeviceInclude(THIS_PATH, "digital-output.h"), )
+
     @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
@@ -29,14 +33,6 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
     def directory(self):
         return THIS_PATH
         
-    @property
-    def sources(self):
-        return [DeviceSource(THIS_PATH, "digital-output.cpp")]
-
-    @property
-    def includes(self):
-        return [DeviceInclude(THIS_PATH, "digital-output.h")]
-
     @property
     def declarations(self):
         return "static DigitalOutput {name} = DigitalOutput({pin});".format(
