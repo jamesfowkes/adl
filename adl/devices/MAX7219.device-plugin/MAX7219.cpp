@@ -35,7 +35,7 @@ MAX7219::MAX7219(uint8_t cs, uint8_t din, uint8_t dclk, uint8_t device_count) :
   pinMode(m_DATA, OUTPUT);
   pinMode(m_DCLK, OUTPUT);
   mp_data = (uint8_t*)malloc(m_device_count * 8);
-  this->ClearAll();
+  this->clear_all();
 }
 
 void MAX7219::reset()
@@ -60,7 +60,7 @@ int MAX7219::command_handler(char const * const command, char * reply)
     return reply_length;
 }
 
-void MAX7219::Set(uint8_t device, uint8_t digit, uint8_t data)
+void MAX7219::set(uint8_t device, uint8_t digit, uint8_t data)
 {
     if (device >= m_device_count) { return; }
     if (digit >= 8) { return; }
@@ -71,7 +71,17 @@ void MAX7219::Set(uint8_t device, uint8_t digit, uint8_t data)
     mp_data[index] = data;
 }
 
-void MAX7219::ClockOut(uint8_t reg, uint8_t data)
+uint8_t MAX7219::get(uint8_t device, uint8_t digit)
+{
+    if (device >= m_device_count) { return 0; }
+    if (digit >= 8) { return 0; }
+    if (!mp_data) { return 0; }
+
+    uint8_t index = (digit * m_device_count) + device;
+    return mp_data[index];
+}
+
+void MAX7219::clock_out(uint8_t reg, uint8_t data)
 {
     digitalWrite(m_DCLK, LOW);
     shiftOut(m_DATA, m_DCLK, MSBFIRST, reg);
@@ -80,69 +90,65 @@ void MAX7219::ClockOut(uint8_t reg, uint8_t data)
     digitalWrite(m_CS, LOW);
     
 }
-void MAX7219::writeRegister(uint8_t reg, uint8_t data)
+void MAX7219::write_register(uint8_t reg, uint8_t data)
 {
     digitalWrite(m_CS, LOW);
-    this->ClockOut(reg, data);
+    this->clock_out(reg, data);
     digitalWrite(m_CS, HIGH);
 }
 
-void MAX7219::Update()
+void MAX7219::update()
 {
-    uint8_t max_data_index;
-
     if (mp_data)
     {
-        max_data_index  = (m_device_count*8)-1;
-        
         for (uint8_t digit=0; digit<8; digit++)
         {
             digitalWrite(m_CS, LOW);
             for (int8_t dev=(m_device_count-1); dev>=0; dev--)
             {
                 uint8_t index = (digit * m_device_count) + dev;
-                this->ClockOut(eRegister_D0 + digit, mp_data[index]);
+                this->clock_out(eRegister_D0 + digit, mp_data[index]);
             }
             digitalWrite(m_CS, HIGH);
         }
     }
 }
 
-void MAX7219::ClearAll()
+void MAX7219::clear_all()
 {
     memset(mp_data, 0, m_device_count*8);
-    this->Update();
+    this->update();
 }
 
-void MAX7219::SetDecode(eDecodeMode eMode)
+void MAX7219::set_decode(eDecodeMode eMode)
 {
-    writeRegister(eRegister_DecodeMode, (uint8_t)eMode);
+    this->write_register(eRegister_DecodeMode, (uint8_t)eMode);
 }
 
-void MAX7219::SetIntensity(uint8_t intensity)
+void MAX7219::set_intensity(uint8_t intensity)
 {
     if (intensity > 15)
     {
         intensity = 15;
     }
-    writeRegister(eRegister_Intensity, intensity);
+    this->write_register(eRegister_Intensity, intensity);
 }
 
-void MAX7219::SetScanLimit(uint8_t limit)
+void MAX7219::set_scan_limit(uint8_t limit)
 {
     if (limit > 7)
     {
         limit = 7;
     }
-    writeRegister(eRegister_ScanLimit, limit);
+    this->write_register(eRegister_ScanLimit, limit);
 }
 
-void MAX7219::SetShutdown(bool shdn)
+void MAX7219::set_shutdown(bool shdn)
 {
-    writeRegister(eRegister_Shutdown, shdn ? 0x00 : 0x01);
+    this->write_register(eRegister_Shutdown, shdn ? 0x00 : 0x01);
 }
 
-void MAX7219::SetTest(bool test)
+void MAX7219::set_test(bool test)
 {
-    writeRegister(eRegister_Test, test ? 0x01 : 0x00);
+    this->write_register(eRegister_Test, test ? 0x01 : 0x00);
 }

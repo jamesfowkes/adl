@@ -19,18 +19,20 @@ public:
     void tick();
     int command_handler(char const * const command, char * reply);
 
-    void Set(uint8_t device, uint8_t digit, uint8_t data);
-    void Update();
-    void SetDecode(eDecodeMode eMode);
-    void SetIntensity(uint8_t intensity);
-    void SetScanLimit(uint8_t limit);
-    void SetShutdown(bool shdn);
-    void SetTest(bool test);
-    void ClearAll();
-    void ClockOut(uint8_t reg, uint8_t data);
+    void set(uint8_t device, uint8_t digit, uint8_t data);
+    uint8_t get(uint8_t device, uint8_t digit);
+
+    void update();
+    void set_decode(eDecodeMode eMode);
+    void set_intensity(uint8_t intensity);
+    void set_scan_limit(uint8_t limit);
+    void set_shutdown(bool shdn);
+    void set_test(bool test);
+    void clear_all();
+    void clock_out(uint8_t reg, uint8_t data);
 
 private:
-    void writeRegister(uint8_t reg, uint8_t data);
+    void write_register(uint8_t reg, uint8_t data);
 
     uint8_t m_CS;
     uint8_t m_DATA;

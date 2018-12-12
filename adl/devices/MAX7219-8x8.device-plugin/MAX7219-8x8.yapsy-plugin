@@ -1,0 +1,9 @@
+[Core]
+Name = MAX7219 8x8
+Module = MAX7219_8x8
+
+[Documentation]
+Description = Allows control of a 8x8 display using a MAX7219 seven-segment driver
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

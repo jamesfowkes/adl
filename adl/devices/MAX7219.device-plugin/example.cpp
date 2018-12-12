@@ -22,11 +22,11 @@ void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * ppa
 {
     (void)ndevices; (void)pparams; (void)nparams;
     sp_max7219 = (MAX7219*)pdevices[0];
-    sp_max7219->SetShutdown(false);
-    sp_max7219->SetIntensity(5);
-    sp_max7219->SetScanLimit(7);
-    sp_max7219->SetTest(false);
-    sp_max7219->ClearAll();
+    sp_max7219->set_shutdown(false);
+    sp_max7219->set_intensity(5);
+    sp_max7219->set_scan_limit(7);
+    sp_max7219->set_test(false);
+    sp_max7219->clear_all();
 }
 
 void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
@@ -37,8 +37,8 @@ void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * ppar
     uint8_t device = (s_count % 16) >= 8 ? 1 : 0;
     uint8_t data = s_count % 8;
 
-    sp_max7219->Set(device, row, OUTPUT_BYTES[data]);
-    sp_max7219->Update();
+    sp_max7219->set(device, row, OUTPUT_BYTES[data]);
+    sp_max7219->update();
 
     delay(100);
     
@@ -46,6 +46,6 @@ void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * ppar
     if (s_count == 128)
     {
       s_count = 0;
-      sp_max7219->ClearAll();
+      sp_max7219->clear_all();
     }
 }
