@@ -92,9 +92,12 @@ void MAX7219::clock_out(uint8_t reg, uint8_t data)
 }
 void MAX7219::write_register(uint8_t reg, uint8_t data)
 {
-    digitalWrite(m_CS, LOW);
-    this->clock_out(reg, data);
-    digitalWrite(m_CS, HIGH);
+  for (int8_t dev=0; dev<m_device_count; dev++)
+  {
+      digitalWrite(m_CS, LOW);
+      this->clock_out(reg, data);
+      digitalWrite(m_CS, HIGH);
+  }
 }
 
 void MAX7219::update()

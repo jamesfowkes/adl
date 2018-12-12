@@ -11,10 +11,12 @@
             <setting id="data_pin" value="7"/>
             <setting id="dclk_pin" value="5"/>
             <setting id="device_count" value="2"/>
-
         </device>
     </devices>
 
+    <modules>
+        <module>Task</module>
+    </modules>
     <custom_code>
         <file>example.cpp</file>
     </custom_code>
