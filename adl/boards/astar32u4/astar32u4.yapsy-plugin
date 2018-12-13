@@ -1,0 +1,9 @@
+[Core]
+Name = AStar32U4
+Module = astar32u4
+
+[Documentation]
+Description = Board plugin for the Pololu AStar32U4 board
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
