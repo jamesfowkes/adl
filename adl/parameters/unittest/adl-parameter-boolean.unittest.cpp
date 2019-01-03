@@ -11,6 +11,8 @@
 #include "adl.h"
 #include "boolean-param.h"
 
+#include "adl-mock.h"
+
 class BooleanParameterTest : public CppUnit::TestFixture { 
 
     CPPUNIT_TEST_SUITE(BooleanParameterTest);
@@ -18,6 +20,8 @@ class BooleanParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testBooleanParameterInitsToResetValue);
     CPPUNIT_TEST(testBooleanParameterSetReturnsTrueAndStateIsSet);
     CPPUNIT_TEST(testBooleanParameterResetsToResetValue);
+    CPPUNIT_TEST(testBooleanParameterCorrectlyWorksWithNonvolatile);
+    CPPUNIT_TEST(testBooleanParameterCorrectlyWorksWithMultipleNonvolatiles);
     CPPUNIT_TEST(testBooleanParameterChangeIsNotSetOnInit);
     CPPUNIT_TEST(testBooleanParameterChangeIsSetOnSetup);
     CPPUNIT_TEST(testBooleanParameterChangeIsSetOnSet);
@@ -48,6 +52,28 @@ class BooleanParameterTest : public CppUnit::TestFixture {
         param.set(true);
         param.reset();
         CPPUNIT_ASSERT_EQUAL(false, param.get());
+    }
+
+    void testBooleanParameterCorrectlyWorksWithNonvolatile()
+    {
+        BooleanParam param = BooleanParam(false, true);
+        param.setup();
+        param.set(true);
+        CPPUNIT_ASSERT_EQUAL(true, *(bool*)adl_mock_nonvolatile_get_last_write());
+    }
+
+    void testBooleanParameterCorrectlyWorksWithMultipleNonvolatiles()
+    {
+        BooleanParam param1 = BooleanParam(false, true);
+        BooleanParam param2 = BooleanParam(false, true);
+        
+        param1.set(true);
+
+        param2.set(true);
+
+        param1.set(false);
+
+        CPPUNIT_ASSERT_EQUAL(true, *(bool*)adl_mock_nonvolatile_get_last_write());
     }
 
     void testBooleanParameterChangeIsNotSetOnInit()

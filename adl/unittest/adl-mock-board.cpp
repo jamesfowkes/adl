@@ -66,13 +66,9 @@ void adl_nv_load(void * dst, ADL_NV_LOCATION& load_from)
 
 void adl_nv_save(void * src, ADL_NV_LOCATION& save_to)
 {
-    uint8_t i;
     if(src)
     {
         last_write_addr = &_nonvolatile[save_to.address];
-        for (i=0; i<save_to.size; i++)
-        {
-            _nonvolatile[save_to.address + i] = *((uint8_t*)(src)+i);
-        }
+        memcpy(last_write_addr, src, save_to.size);
     }
 }

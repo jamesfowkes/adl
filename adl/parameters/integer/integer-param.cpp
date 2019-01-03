@@ -29,13 +29,10 @@ IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_l
 
 void IntegerParam::reset() {
     m_value.set(m_reset_value);
+    this->on_change();
 }
 
-void IntegerParam::setup()
-{
-    this->reset();
-    this->load();
-}
+void IntegerParam::setup() { ParameterBase::setup(); }
 
 int32_t IntegerParam::get()
 {
@@ -45,7 +42,7 @@ int32_t IntegerParam::get()
 bool IntegerParam::set(int32_t setting)
 {
     bool success = m_value.set(setting);
-    this->save();
+    this->on_change();
     return success;
 }
 
@@ -101,6 +98,6 @@ void IntegerParam::load()
     {
         int32_t value;
         adl_nv_load(&value, m_eeprom_location);
-        this->set(value);
+        this->on_change();
     }
 }

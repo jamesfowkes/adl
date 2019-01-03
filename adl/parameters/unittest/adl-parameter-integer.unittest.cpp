@@ -27,6 +27,10 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testIntegerParameterResetsToResetValue);
     CPPUNIT_TEST(testIntegerParameterCorrectlyWorksWithNonvolatile);
     CPPUNIT_TEST(testIntegerParameterCorrectlyWorksWithMultipleNonvolatiles);
+    CPPUNIT_TEST(testIntegerParameterChangeIsNotSetOnInit);
+    CPPUNIT_TEST(testIntegerParameterChangeIsSetOnSetup);
+    CPPUNIT_TEST(testIntegerParameterChangeIsSetOnSet);
+    CPPUNIT_TEST(testIntegerParameterChangeIsSetOnReset);
 
     CPPUNIT_TEST_SUITE_END();
     void testIntegerParameterInitsToResetValue()
@@ -77,6 +81,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     void testIntegerParameterResetsToResetValue()
     {
         IntegerParam param = IntegerParam(10, INT32_MIN, INT32_MAX, true, true);
+        param.setup();
         param.set(0);
         param.reset();
         CPPUNIT_ASSERT_EQUAL(10, param.get());
@@ -85,6 +90,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     void testIntegerParameterCorrectlyWorksWithNonvolatile()
     {
         IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param.setup();
         param.set(100);
         CPPUNIT_ASSERT_EQUAL(100, *(int32_t*)adl_mock_nonvolatile_get_last_write());
     }
@@ -93,12 +99,45 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     {
         IntegerParam param1 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
         IntegerParam param2 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        
+        param1.setup();
+        param2.setup();
+
         param1.set(100);
         CPPUNIT_ASSERT_EQUAL(100, *(int32_t*)adl_mock_nonvolatile_get_last_write());
         param2.set(200);
         CPPUNIT_ASSERT_EQUAL(200, *(int32_t*)adl_mock_nonvolatile_get_last_write());
     }
 
+    void testIntegerParameterChangeIsNotSetOnInit()
+    {
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        CPPUNIT_ASSERT(!param.has_changed());
+    }
+
+    void testIntegerParameterChangeIsSetOnSetup()
+    {
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param.setup();
+        CPPUNIT_ASSERT(param.has_changed());
+    }
+
+    void testIntegerParameterChangeIsSetOnSet()
+    {
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param.set(100);
+        CPPUNIT_ASSERT(param.has_changed());
+        param.reset();
+    }
+
+    void testIntegerParameterChangeIsSetOnReset()
+    {
+        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        param.set(100);
+        (void)param.has_changed();
+        param.reset();
+        CPPUNIT_ASSERT(param.has_changed());
+    }
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(IntegerParameterTest);
