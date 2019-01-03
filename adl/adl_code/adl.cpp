@@ -257,13 +257,6 @@ void adl_service_timer()
                 adl_get_device(i).tick();
             }
         }
-        if (ADL_PARAM_COUNT)
-        {
-            for (i = 1; i <= ADL_PARAM_COUNT; i++)
-            {
-                adl_get_param(i).tick();
-            }
-        }
     }
 }
 
