@@ -111,22 +111,13 @@ ParameterBase& adl_get_param(PARAM_ADDRESS address)
 
 {% endmacro %}
 
-{% macro render_serial_send(board) -%}
-void adl_board_send(char * to_send)
-{
-    {{ board.serial.send("to_send") }}
-}
-{% endmacro %}
-
 {% macro render_setup(adl, board) -%}
-
-{{ render_serial_send(board) }}
 
 void setup()
 {
     adl_on_setup_start();
 
-    {{ board.serial.setup }}
+    adl_serial_setup({{board.serial.baudrate}}, adl_add_incoming_char);
     
     adl_nonvolatile_setup();
 
@@ -165,12 +156,6 @@ void loop()
 }
 {% endmacro %}
 
-{% macro render_serial_event(board) -%}
-
-{{ board.serial.read("adl_add_char") }}
-
-{% endmacro %}
-
 {% macro render_all(adl, board, context) -%}
 
 {{ render_comment_header(board, context) }}
@@ -182,8 +167,6 @@ void loop()
 {{ render_setup(adl, board)}}
 
 {{ render_loop(board)}}
-
-{{ render_serial_event(board) }}
 
 {% endmacro %}
 

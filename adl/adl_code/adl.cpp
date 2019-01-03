@@ -270,7 +270,7 @@ void adl_delay_start(uint8_t seconds)
     }
 }
 
-void adl_add_char(char c)
+void adl_add_incoming_char(char c)
 {
     s_command_pending = end_of_command(c);
     if (!s_command_pending)

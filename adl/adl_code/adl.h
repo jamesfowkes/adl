@@ -5,6 +5,7 @@
 
 #include "adl-defs.h"
 #include "adl-nv.h"
+#include "adl-serial.h"
 #include "adl-logging.h"
 #include "adl-util.h"
 #include "device.h"
