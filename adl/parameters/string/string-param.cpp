@@ -29,7 +29,7 @@ StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, 
     {
         m_pResetValue = (char*)malloc(strlen(p_reset_value)+1);
         strncpy(m_pResetValue, p_reset_value, strlen(p_reset_value)+1);
-        this->reset();
+        strncpy(m_pValue, m_pResetValue, m_length);
     }
 }
 
@@ -37,18 +37,16 @@ void StringParam::reset() {
     if (m_pValue && m_pResetValue)
     {
         strncpy(m_pValue, m_pResetValue, m_length);
+        this->on_change();
     }
     else if (m_pValue)
     {
         m_pValue[0] = '\0';
+        this->on_change();
     }
 }
 
-void StringParam::setup()
-{
-    this->reset();
-    this->load();
-}
+void StringParam::setup() { ParameterBase::setup(); }
 
 void StringParam::get(char * const dst)
 {
@@ -66,7 +64,7 @@ bool StringParam::set(char const * const src)
     if (ok_to_set)
     {
         strncpy(m_pValue, src, m_length);
-        this->save();
+        this->on_change();
     }
 
     return ok_to_set;
@@ -125,5 +123,6 @@ void StringParam::load()
     if (m_use_eeprom)
     {
         adl_nv_load(m_pValue, m_eeprom_location);
+        this->on_change();
     }
 }

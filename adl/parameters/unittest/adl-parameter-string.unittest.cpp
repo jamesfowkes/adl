@@ -26,6 +26,12 @@ class StringTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testStringParameterWillSetAtMaxLength);
     CPPUNIT_TEST(testStringParameterWillNotSetOverMaxLength);
     CPPUNIT_TEST(testStringParameterCorrectlyWorksWithNonvolatile);
+    CPPUNIT_TEST(testStringParameterCorrectlyWorksWithMultipleNonvolatiles);
+    CPPUNIT_TEST(testStringParameterCorrectlyLoadsFromNonvolatile);
+    CPPUNIT_TEST(testStringParameterChangeIsNotSetOnInit);
+    CPPUNIT_TEST(testStringParameterChangeIsSetOnSetup);
+    CPPUNIT_TEST(testStringParameterChangeIsSetOnSet);
+    CPPUNIT_TEST(testStringParameterChangeIsSetOnReset);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -81,14 +87,69 @@ class StringTest : public CppUnit::TestFixture {
     void testStringParameterCorrectlyWorksWithNonvolatile()
     {
         StringParam param = StringParam("RESET", 32, true);
+        param.setup();
         param.set("TEST");
         CPPUNIT_ASSERT_EQUAL(std::string("TEST"), std::string((char*)adl_mock_nonvolatile_get_last_write()));
+    }
+
+    void testStringParameterCorrectlyWorksWithMultipleNonvolatiles()
+    {
+        StringParam param1 = StringParam("RESET", 32, true);
+        param1.setup();
+        StringParam param2 = StringParam("RESET", 32, true);
+        param2.setup();
+        param1.set("TEST1");
+        CPPUNIT_ASSERT_EQUAL(std::string("TEST1"), std::string((char*)adl_mock_nonvolatile_get_last_write()));
+        param2.set("TEST2");
+        CPPUNIT_ASSERT_EQUAL(std::string("TEST2"), std::string((char*)adl_mock_nonvolatile_get_last_write()));
+    }
+
+    void testStringParameterCorrectlyLoadsFromNonvolatile()
+    {
+        char data[] = "TO LOAD";
+        adl_mock_nonvolatile_set(0, sizeof(data), &data);
+        
+        StringParam param = StringParam("RESET", 32, true);
+        param.setup();
+        param.get(scratchpad);
+        CPPUNIT_ASSERT_EQUAL(std::string("TO LOAD"), std::string(scratchpad));
+    }
+
+    void testStringParameterChangeIsNotSetOnInit()
+    {
+        StringParam param = StringParam("RESET", 32, true);
+        CPPUNIT_ASSERT(!param.has_changed());
+    }
+
+    void testStringParameterChangeIsSetOnSetup()
+    {
+        StringParam param = StringParam("RESET", 32, true);
+        param.setup();
+        CPPUNIT_ASSERT(param.has_changed());
+    }
+
+    void testStringParameterChangeIsSetOnSet()
+    {
+        StringParam param = StringParam("RESET", 32, true);
+        param.set("TEST");
+        CPPUNIT_ASSERT(param.has_changed());
+        param.reset();
+    }
+
+    void testStringParameterChangeIsSetOnReset()
+    {
+        StringParam param = StringParam("RESET", 32, true);
+        param.set("TEST");
+        (void)param.has_changed();
+        param.reset();
+        CPPUNIT_ASSERT(param.has_changed());
     }
 
 public:
     void setUp()
     {
         memset(scratchpad, 0, 64);
+        adl_mock_nonvolatile_reset();
     }
 };
 
