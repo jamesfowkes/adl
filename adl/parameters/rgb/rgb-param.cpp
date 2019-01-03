@@ -40,13 +40,10 @@ void RGBParam::reset()
     m_rgb[0].set(m_defaults[0]);
     m_rgb[1].set(m_defaults[1]);
     m_rgb[2].set(m_defaults[2]);
+    this->on_change();
 }
 
-void RGBParam::setup()
-{
-    this->reset();
-    this->load();
-}
+void RGBParam::setup() { ParameterBase::setup(); }
 
 uint16_t RGBParam::get(eRGB index)
 {
@@ -62,20 +59,17 @@ void RGBParam::get(uint16_t rgb[3])
 
 bool RGBParam::set(uint16_t r, uint16_t g, uint16_t b)
 {
-    uint16_t rgb[3] = {r,g,b};
-    bool success = this->set(rgb);
-    this->save();
-    return success;
+    bool ok = true;
+    ok &= m_rgb[0].set(r);
+    ok &= m_rgb[1].set(g);
+    ok &= m_rgb[2].set(b);
+    this->on_change();
+    return ok;
 }
 
 bool RGBParam::set(uint16_t rgb[3])
 {
-    bool ok = true;
-    ok &= m_rgb[0].set(rgb[0]);
-    ok &= m_rgb[1].set(rgb[1]);
-    ok &= m_rgb[2].set(rgb[2]);
-    this->save();
-    return ok;
+    return this->set(rgb[0], rgb[1], rgb[2]);
 }
 
 int RGBParam::command_handler(char const * const command, char * reply)
@@ -135,8 +129,6 @@ void RGBParam::load()
     if (m_use_eeprom)
     {
         adl_nv_load(rgb, m_eeprom_location);
-        m_rgb[0].set(rgb[0]);
-        m_rgb[1].set(rgb[1]);
-        m_rgb[2].set(rgb[2]);
+        (void)this->set(rgb[0], rgb[1], rgb[2]);
     }
 }

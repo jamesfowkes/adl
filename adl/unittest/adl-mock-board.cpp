@@ -57,14 +57,10 @@ void adl_nv_alloc(ADL_NV_LOCATION& to_alloc)
 
 void adl_nv_load(void * dst, ADL_NV_LOCATION& load_from)
 {
-    uint8_t i;
     if(dst)
     {
         last_read_addr = &_nonvolatile[load_from.address];
-        for (i=0; i<load_from.size; i++)
-        {
-            *((uint8_t*)(dst)+i) = _nonvolatile[load_from.address + i];
-        }
+        memcpy(dst, last_read_addr, load_from.size);
     }
 }
 

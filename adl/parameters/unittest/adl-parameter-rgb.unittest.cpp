@@ -26,6 +26,10 @@ class RGBParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithNonvolatile);
     CPPUNIT_TEST(testRGBParameterCorrectlyWorksWithMultipleNonvolatiles);
     CPPUNIT_TEST(testRGBParameterCorrectlyLoadsFromNonvolatile);
+    CPPUNIT_TEST(testRGBParameterChangeIsNotSetOnInit);
+    CPPUNIT_TEST(testRGBParameterChangeIsSetOnSetup);
+    CPPUNIT_TEST(testRGBParameterChangeIsSetOnSet);
+    CPPUNIT_TEST(testRGBParameterChangeIsSetOnReset);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -84,6 +88,7 @@ class RGBParameterTest : public CppUnit::TestFixture {
     void testRGBParameterCorrectlyWorksWithNonvolatile()
     {
         RGBParam param = RGBParam(255, 0, 128, 255, true, true);
+        param.setup();
         param.set(100, 150, 50);
         CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)adl_mock_nonvolatile_get_last_write());
         CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
@@ -93,7 +98,9 @@ class RGBParameterTest : public CppUnit::TestFixture {
     void testRGBParameterCorrectlyWorksWithMultipleNonvolatiles()
     {
         RGBParam param1 = RGBParam(255, 0, 128, 255, true, true);
+        param1.setup();
         RGBParam param2 = RGBParam(255, 0, 128, 255, true, true);
+        param2.setup();
         param1.set(100, 150, 50);
         CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)adl_mock_nonvolatile_get_last_write());
         CPPUNIT_ASSERT_EQUAL((int16_t)150, *(((int16_t*)(adl_mock_nonvolatile_get_last_write()))+1));
@@ -115,6 +122,36 @@ class RGBParameterTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL((uint16_t)50, param.get(eR));
         CPPUNIT_ASSERT_EQUAL((uint16_t)100, param.get(eG));
         CPPUNIT_ASSERT_EQUAL((uint16_t)150, param.get(eB));
+    }
+
+    void testRGBParameterChangeIsNotSetOnInit()
+    {
+        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        CPPUNIT_ASSERT(!param.has_changed());
+    }
+
+    void testRGBParameterChangeIsSetOnSetup()
+    {
+        RGBParam param = RGBParam(255, 255, 255, 255, false, true);
+        param.setup();
+        CPPUNIT_ASSERT(param.has_changed());
+    }
+
+    void testRGBParameterChangeIsSetOnSet()
+    {
+        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        param.set(1,1,1);
+        CPPUNIT_ASSERT(param.has_changed());
+        param.reset();
+    }
+
+    void testRGBParameterChangeIsSetOnReset()
+    {
+        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        param.set(1,1,1);
+        (void)param.has_changed();
+        param.reset();
+        CPPUNIT_ASSERT(param.has_changed());
     }
 
 public:

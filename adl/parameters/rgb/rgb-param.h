@@ -27,6 +27,7 @@ public:
     void load();
 
 private:
+
     LimitedRangeInt m_rgb[3];
     int16_t m_defaults[3];
     bool m_clip;
