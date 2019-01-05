@@ -3,6 +3,6 @@
 
 typedef void (adl_serial_read_char_fn)(char c);
 
-void adl_serial_setup(int baudrate, adl_serial_read_char_fn& fn);
+void adl_serial_setup(long baudrate, adl_serial_read_char_fn& fn);
 
 #endif

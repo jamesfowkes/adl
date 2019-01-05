@@ -37,7 +37,7 @@ void adl_board_send(char * to_send)
     Serial.println(to_send);
 }
 
-void serialEvent()
+void serialEventRun()
 {
     while (Serial.available())
     {
