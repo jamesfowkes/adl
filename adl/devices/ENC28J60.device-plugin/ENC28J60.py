@@ -17,9 +17,9 @@ class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
 
     __slots__ = ()
 
-    sources = (DeviceSource(THIS_PATH, "ENC28J60.cpp"), )
+    sources = (DeviceSource(THIS_PATH, "ENC28J60ADL.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "ENC28J60.h"), )
+    includes = (DeviceInclude(THIS_PATH, "ENC28J60ADL.h"), )
 
     @property
     def setup(self):
@@ -35,7 +35,7 @@ class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
         
     @property
     def declarations(self):
-        return "static ENC28J60 {name} = ENC28J60();".format(
+        return "static ENC28J60ADL {name} = ENC28J60ADL();".format(
             name=self.cname())
 
 class ENC28J60Plugin(IPlugin):
