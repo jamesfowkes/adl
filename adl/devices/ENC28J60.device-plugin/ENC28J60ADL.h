@@ -11,7 +11,16 @@ public:
     int command_handler(char const * const command, char * reply);
     
 private:
-    int m_pin;
+
+	int handle_set_command(char const * const command, char * reply);
+
+	uint8_t m_mac_address[6];
+	uint8_t m_ip_address[4];
+	uint8_t m_gateway[4];
+
+    ADL_NV_LOCATION m_mac_eeprom_location;
+    ADL_NV_LOCATION m_ip_eeprom_location;
+    ADL_NV_LOCATION m_gateway_eeprom_location;
 };
 
 #endif
