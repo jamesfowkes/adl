@@ -21,6 +21,16 @@ void ENC28J60ADL::reset()
 
 }
 
+void ENC28J60ADL::print_settings()
+{
+    adl_logln(LOG_ADL, "IP: %d.%d.%d.%d",
+        m_ip_address[0], m_ip_address[1], m_ip_address[2], m_ip_address[3]);
+    adl_logln(LOG_ADL, "MAC: %02x:%02x:%02x:%02x:%02x:%02x",
+        m_mac_address[0], m_mac_address[1], m_mac_address[2], m_mac_address[3], m_mac_address[4], m_mac_address[5]);
+    adl_logln(LOG_ADL, "Gateway: %d.%d.%d.%d",
+        m_gateway[0], m_gateway[1], m_gateway[2], m_gateway[3]);
+}
+
 void ENC28J60ADL::setup()
 {
     this->reset();
@@ -29,12 +39,6 @@ void ENC28J60ADL::setup()
     adl_nv_load(m_ip_address, m_ip_eeprom_location);
     adl_nv_load(m_gateway, m_gateway_eeprom_location);
 
-    adl_logln(LOG_ADL, "IP: %d.%d.%d.%d",
-        m_ip_address[0], m_ip_address[1], m_ip_address[2], m_ip_address[3]);
-    adl_logln(LOG_ADL, "MAC: %02x:%02x:%02x:%02x:%02x:%02x",
-        m_mac_address[0], m_mac_address[1], m_mac_address[2], m_mac_address[3], m_mac_address[4], m_mac_address[5]);
-    adl_logln(LOG_ADL, "Gateway: %d.%d.%d.%d",
-        m_gateway[0], m_gateway[1], m_gateway[2], m_gateway[3]);
 }
 
 int ENC28J60ADL::handle_set_command(char const * const command, char * reply)
@@ -111,10 +115,16 @@ int ENC28J60ADL::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
 
-    if (command[0]=='S')
+    switch(command[0])
     {
+    case 'S':
         reply_length = this->handle_set_command(&command[1], reply);
+        break;
+    case '?':
+        this->print_settings();
+        strncpy(reply, "OK", 2);
+        reply_length = 2;
+        break;
     }
-
     return reply_length;
 }

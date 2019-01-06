@@ -10,6 +10,8 @@ public:
     void tick();
     int command_handler(char const * const command, char * reply);
     
+    void print_settings();
+    
 private:
 
 	int handle_set_command(char const * const command, char * reply);
