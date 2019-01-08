@@ -73,7 +73,7 @@ class GenericBoard(SourceFileProvider):
         return Path(sketch_name).joinpath(full_sketch_name)
 
     def all_components(self):
-        return [self] + self.devices + self.parameters
+        return [self] + self.devices + self.parameters + self.modules
 
     def bsp_components(self):
         return [self.nonvolatile, self.serial]

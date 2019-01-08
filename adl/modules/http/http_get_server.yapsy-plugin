@@ -1,0 +1,9 @@
+[Core]
+Name = HTTP Get Server
+Module = http_get_server
+
+[Documentation]
+Description = Implements a very simple HTTP GET server
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
