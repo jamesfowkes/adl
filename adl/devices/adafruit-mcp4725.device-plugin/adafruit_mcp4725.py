@@ -21,8 +21,8 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
     sources = (DeviceSource(THIS_PATH, "adafruit-mcp4725.cpp"), )
 
     includes = (
-        DeviceInclude(THIS_PATH, "adafruit-mcp4725.h"),
-        LibraryInclude("Adafruit_MCP4725.h")
+        LibraryInclude("Adafruit_MCP4725.h"),
+        DeviceInclude(THIS_PATH, "adafruit-mcp4725.h")
     )
 
 
@@ -40,6 +40,10 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
             name=self.cname(), i2c_address=self.i2c_address.value, default=self.default.value,
             min=self.min.value, max=self.max.value
         )
+
+    @property
+    def ctype(self):
+        return "Adafruit_MCP4725ADL"
 
 class Adafruit_MCP4725Plugin(IPlugin, GenericDevicePlugin):
 
