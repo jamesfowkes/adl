@@ -65,6 +65,8 @@ class ArduinoCLIInterface:
                 raise
 
     def verify(self, board, sketch_path):
+        success = False
+
         self.find()
         for library in board.required_libraries():
             self.install_lib(library)
@@ -74,10 +76,16 @@ class ArduinoCLIInterface:
         args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path)]
         try:
             result = subprocess.run(args)
-            get_module_logger().info("Verify Success: '{}'".format(" ".join(result.args)))
+            success = result.returncode == 0
+            if success:
+                get_module_logger().info("Verify Success: '{}'".format(" ".join(result.args)))
+            else:
+                get_module_logger().info("Verify Failed: '{}'".format(" ".join(args)))    
         except:
-            get_module_logger().info("Verify Failed: '{}'".format(" ".join(args)))
+            get_module_logger().info("Verify Command Exception: '{}'".format(" ".join(args)))
             raise
+
+        return success
 
     def upload(self, board, sketch_path, port):
         self.find()
