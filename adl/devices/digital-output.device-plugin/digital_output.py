@@ -38,6 +38,10 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
         return "static DigitalOutput {name} = DigitalOutput({pin});".format(
             name=self.cname(), pin=self.pin.value)
 
+    @property
+    def ctype(self):
+        return "DigitalOutput"
+
 class DigitalOutputPlugin(IPlugin):
 
     device_class = DigitalOutput

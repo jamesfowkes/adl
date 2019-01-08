@@ -2,12 +2,15 @@ from adl.types import SourceFileProvider
 
 class GenericDevice(SourceFileProvider):
 
+    @property
+    def sanitised_name(self):
+        return self.name.lower().replace(" ", "_")
+
     def cname(self, static=True):
-        sanitised_name = self.name.lower().replace(" ", "_")
         if static:
-            return "s_" + sanitised_name
+            return "s_" + self.sanitised_name
         else:
-            return sanitised_name
+            return self.sanitised_name
 
     @property
     def command_handler(self):

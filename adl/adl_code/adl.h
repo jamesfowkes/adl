@@ -14,6 +14,7 @@
 #include "adl-callbacks.h"
 #include "adl-messages.h"
 #include "protocol.h"
+#include "adl-application.h"
 
 #define inrange(n, lo, hi) ((lo <= n) && (hi >= n))
 
