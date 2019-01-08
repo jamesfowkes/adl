@@ -1,4 +1,8 @@
+#ifndef _TLC5973_H_
+#define _TLC5973_H_
+
 #include "Arduino.h"
+
 
 class TLC5973  : public DeviceBase
 {
@@ -40,3 +44,5 @@ class TLC5973  : public DeviceBase
     uint8_t m_pinMask;
     
 };
+
+#endif

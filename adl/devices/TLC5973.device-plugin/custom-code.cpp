@@ -39,7 +39,7 @@ void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams
 {
     (void)devices; (void)pparams; (void)nparams;
 
-    pTLC5973 = (TLC5973*)pdevices[0];
+    pTLC5973 = devices.pTLC5973;
 
     my_task.start();
 }

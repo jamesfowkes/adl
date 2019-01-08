@@ -6,7 +6,10 @@
     </info>
     
     <devices>
-        
+        <device name="TLC5973" type="TLC5973">
+            <setting id="num_leds" value="10"/>
+            <setting id="pin" value="2"/>
+        </device>
     </devices>
     <adl protocol="simple"></adl>
     <modules>
