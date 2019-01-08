@@ -34,6 +34,10 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
         return "static TimedOnOff {name} = TimedOnOff({pin}, {ontime}, {offtime});".format(
             name=self.cname(), pin=self.pin.value, ontime=self.ontime.value, offtime=self.offtime.value)
 
+    @property
+    def ctype(self):
+        return "TimedOnOff"
+        
 class TimedOnOffPlugin(IPlugin):
 
     device_class = TimedOnOff
