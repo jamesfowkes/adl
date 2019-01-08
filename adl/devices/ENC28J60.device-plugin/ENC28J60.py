@@ -7,9 +7,9 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from adl.types import DeviceSource, DeviceInclude
+from adl.types import Setting, DeviceSource, DeviceInclude, LibraryInclude
 
-from adl.devices.generic_device import GenericDevice
+from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
 
@@ -19,7 +19,10 @@ class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
 
     sources = (DeviceSource(THIS_PATH, "ENC28J60ADL.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "ENC28J60ADL.h"), )
+    includes = (
+        LibraryInclude("EtherCard.h"),
+        DeviceInclude(THIS_PATH, "ENC28J60ADL.h")
+    )
 
     @property
     def setup(self):
@@ -35,10 +38,9 @@ class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
         
     @property
     def declarations(self):
-        return "static ENC28J60ADL {name} = ENC28J60ADL();".format(
-            name=self.cname())
+        return "static ENC28J60ADL {name} = ENC28J60ADL();".format(name=self.cname())
 
-class ENC28J60Plugin(IPlugin):
+class ENC28J60Plugin(IPlugin, GenericDevicePlugin):
 
     device_class = ENC28J60
 

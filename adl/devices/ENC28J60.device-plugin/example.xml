@@ -9,4 +9,16 @@
         <device name="Ethernet" type="ENC28J60">
         </device>
     </devices>
+
+    <modules>
+    	<module>HTTP Get Server</module>
+    </modules>
+
+    <custom_code>
+    	<file>handler.cpp</file>
+    </custom_code>
+
+    <defines>
+        <define>ENC28J60_BUFFER_SIZE 256</define>
+    </defines>
 </board>

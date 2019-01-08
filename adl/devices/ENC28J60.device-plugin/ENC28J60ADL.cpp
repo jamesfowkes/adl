@@ -4,6 +4,8 @@
 
 #include "ENC28J60ADL.h"
 
+byte Ethernet::buffer[ENC28J60_BUFFER_SIZE];
+
 ENC28J60ADL::ENC28J60ADL()
 {
     m_mac_eeprom_location.size = 6;
@@ -14,7 +16,17 @@ ENC28J60ADL::ENC28J60ADL()
     adl_nv_alloc(m_gateway_eeprom_location);
 }
 
-void ENC28J60ADL::tick() {}
+void ENC28J60ADL::tick()
+{
+    word len = ether.packetReceive();
+    word pos = ether.packetLoop(len);
+
+    if (pos)
+    {
+        ethernet_packet_handler((char *) Ethernet::buffer + pos);
+        ether.httpServerReply(sendEthernet(ethernet_response_provider()));
+    }
+}
 
 void ENC28J60ADL::reset()
 {
@@ -39,6 +51,14 @@ void ENC28J60ADL::setup()
     adl_nv_load(m_ip_address, m_ip_eeprom_location);
     adl_nv_load(m_gateway, m_gateway_eeprom_location);
 
+    this->print_settings();
+
+    if (ether.begin(ENC28J60_BUFFER_SIZE, m_mac_address) == 0) 
+    {
+        adl_logln(LOG_ADL, "Failed to access Ethernet controller");
+    }
+
+    ether.staticSetup(m_ip_address, m_gateway);
 }
 
 int ENC28J60ADL::handle_set_command(char const * const command, char * reply)
@@ -127,4 +147,11 @@ int ENC28J60ADL::command_handler(char const * const command, char * reply)
         break;
     }
     return reply_length;
+}
+
+word ENC28J60ADL::sendEthernet(char * to_send)
+{
+    m_bfill = ether.tcpOffset();
+    m_bfill.emit_raw(to_send, strlen(to_send));
+    return m_bfill.position();
 }
