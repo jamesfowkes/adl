@@ -15,14 +15,14 @@ static void my_task_fn(void * pTaskData)
 
 static ADLTask my_task(1000, my_task_fn, &some_data);
 
-void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 }
 
-void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 
     my_task.run();
 }

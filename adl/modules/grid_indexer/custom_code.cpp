@@ -7,14 +7,14 @@
 
 static GridIndexer s_indexer = GridIndexer(3);
 
-void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 }
 
-void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 
 	AdafruitNeoPixelADL* pPixels = (AdafruitNeoPixelADL*)pparams[0];
 

@@ -43,6 +43,10 @@ class MAX7219_8x8(GenericDevice, namedtuple("MAX7219_8x8", ["name", "cs_pin", "d
             dclk_pin=self.dclk_pin.value, device_count=self.device_count.value
         )
 
+    @property
+    def ctype(self):
+        return "MAX7219_8x8"
+        
 class MAX7219_8x8Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["cs_pin", "data_pin", "dclk_pin", "device_count"]

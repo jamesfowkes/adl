@@ -35,7 +35,7 @@ By the Arduino Description Language tool.
 {{device.declarations}}
 {% endfor %}
 
-static DeviceBase * s_devices[] = 
+static DeviceBase * s_device_pointers[] = 
 {
     {% for device in board.devices %}
     &{{device.cname()}}
@@ -92,7 +92,7 @@ COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address)
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address)
 {
-    return *s_devices[address-1];
+    return *s_device_pointers[address-1];
 }
 
 {% for parameter in board.parameters %}
@@ -144,7 +144,7 @@ void setup()
     // END {{param.name}} setup
     {% endfor %}
 
-    adl_custom_setup(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
+    adl_custom_setup(adl_devices, s_params, ADL_PARAM_COUNT);
 
     adl_on_setup_complete();
     
@@ -161,7 +161,7 @@ void loop()
 {
     adl_handle_any_pending_commands();
     adl_service_timer();
-    adl_custom_loop(s_devices, ADL_DEVICE_COUNT, s_params, ADL_PARAM_COUNT);
+    adl_custom_loop(adl_devices, s_params, ADL_PARAM_COUNT);
 }
 {% endmacro %}
 

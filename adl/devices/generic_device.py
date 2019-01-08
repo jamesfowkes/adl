@@ -4,13 +4,13 @@ class GenericDevice(SourceFileProvider):
 
     @property
     def sanitised_name(self):
-        return self.name.lower().replace(" ", "_")
+        return self.name.replace(" ", "_")
 
     def cname(self, static=True):
         if static:
-            return "s_" + self.sanitised_name
+            return "s_" + self.sanitised_name.lower()
         else:
-            return self.sanitised_name
+            return self.sanitised_name.lower()
 
     @property
     def command_handler(self):

@@ -18,9 +18,9 @@ static const uint8_t OUTPUT_BYTES[] =
   0b11111111,
 };
 
-void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
     sp_max7219 = (MAX7219*)pdevices[0];
     sp_max7219->set_shutdown(false);
     sp_max7219->set_intensity(5);
@@ -29,9 +29,9 @@ void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * ppa
     sp_max7219->clear_all();
 }
 
-void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 
     uint8_t row = s_count / 16;
     uint8_t device = (s_count % 16) >= 8 ? 1 : 0;

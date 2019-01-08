@@ -2,22 +2,21 @@
 
 #include "debounced-input.h"
 
-void adl_custom_setup(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pdevices; (void)ndevices; (void)pparams; (void)nparams;
+    (void)devices; (void)pparams; (void)nparams;
 }
 
-void adl_custom_loop(DeviceBase * pdevices[], int ndevices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
-    (void)pparams; (void)ndevices; (void)nparams;
-    DebouncedInput * pInput = (DebouncedInput*)pdevices[0];
+    (void)devices; (void)pparams; (void)nparams;
 
-    if (pInput->check_high_and_clear())
+    if (devices.pDebounced_Input->check_high_and_clear())
     {
         Serial.println("Input asserted high!");
     }
 
-    if (pInput->check_low_and_clear())
+    if (devices.pDebounced_Input->check_low_and_clear())
     {
         Serial.println("Input asserted low!");
     }

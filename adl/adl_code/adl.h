@@ -11,10 +11,11 @@
 #include "device.h"
 #include "parameter.h"
 #include "adl-interface.h"
-#include "adl-callbacks.h"
 #include "adl-messages.h"
 #include "protocol.h"
 #include "adl-application.h"
+
+#include "adl-callbacks.h"
 
 #define inrange(n, lo, hi) ((lo <= n) && (hi >= n))
 
