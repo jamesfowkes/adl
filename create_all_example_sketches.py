@@ -72,4 +72,5 @@ if __name__ == "__main__":
 
         sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
         cli = arduino_cli_interface.ArduinoCLIInterface()
-        cli.verify(board, sketch_directory)
+        if not cli.verify(board, sketch_directory):
+            sys.exit(1)
