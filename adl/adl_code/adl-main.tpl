@@ -45,6 +45,15 @@ static DeviceBase * s_devices[] =
     {% endfor %}
 };
 
+static const adl_devices_struct adl_devices = {
+    {% for device in board.devices %}
+    .p{{device.sanitised_name}} =  &{{device.cname()}}
+    {% if not loop.last %}
+    ,
+    {% endif %}
+    {% endfor %}
+};
+
 {% for parameter in board.parameters %}
 {{parameter.declarations}}
 {% endfor %}
@@ -70,7 +79,7 @@ int handle_device{{loop.index}}_command(char const * const command, char * reply
 }
 {% endfor %}
 
-static COMMAND_HANDLER adl_devices[] = {
+static COMMAND_HANDLER adl_device_command_handlers[] = {
     {% for device in board.devices %}
     handle_device{{loop.index}}_command,
     {% endfor %}
@@ -78,7 +87,7 @@ static COMMAND_HANDLER adl_devices[] = {
 
 COMMAND_HANDLER& adl_get_device_cmd_handler(DEVICE_ADDRESS address)
 {
-    return adl_devices[address-1];
+    return adl_device_command_handlers[address-1];
 }
 
 DeviceBase& adl_get_device(DEVICE_ADDRESS address)

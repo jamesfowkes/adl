@@ -5,22 +5,22 @@
 #define {{define}}
 {% endfor %}
 
-enum adl_devices
+enum adl_devices_enum
 {
     ADL_DEVICE_BOARD,
 {% for device in board.devices %}
     ADL_DEVICE_{{ device.cname(False) | upper }},
 {% endfor %}
 };
-typedef enum adl_devices ADL_DEVICES;
+typedef enum adl_devices_enum ADL_DEVICES_ENUM;
 
-enum adl_parameters
+enum adl_parameters_enum
 {
 {% for param in board.parameters %}
     ADL_PARAM_{{ param.cname(False) | upper }},
 {% endfor %}
 };
-typedef enum adl_parameters ADL_PARAMETERS;
+typedef enum adl_parameters_enum ADL_PARAMETERS_ENUM;
 
 typedef {{ board.nonvolatile.address_type }} ADL_NV_ADDR;
 
