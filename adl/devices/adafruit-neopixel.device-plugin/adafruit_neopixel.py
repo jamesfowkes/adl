@@ -15,7 +15,7 @@ from adl.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class Adafruit_Neopixel(GenericDevice, namedtuple("Adafruit_Neopixel", ["name", "pin", "npixels", "pixel_type"])):
+class AdafruitNeoPixelADL(GenericDevice, namedtuple("AdafruitNeoPixelADL", ["name", "pin", "npixels", "pixel_type"])):
 
     __slots__ = ()
 
@@ -49,7 +49,7 @@ class Adafruit_NeopixelPlugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["pin", "npixels"]
 
-    device_class = Adafruit_Neopixel
+    device_class = AdafruitNeoPixelADL
     
     def activate(self):
         pass
@@ -62,7 +62,7 @@ class Adafruit_NeopixelPlugin(IPlugin, GenericDevicePlugin):
 
         type_setting = device.settings.get("type", Setting("type","","NEO_GRB + NEO_KHZ800"))
 
-        return Adafruit_Neopixel(device.name, 
+        return AdafruitNeoPixelADL(device.name, 
             device.settings["pin"],
             device.settings["npixels"],
             type_setting

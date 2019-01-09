@@ -11,12 +11,12 @@ void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[
 {
     (void)devices; (void)pparams; (void)nparams;
 
-    if (devices.pDebounced_Input->check_high_and_clear())
+    if (devices.pButton->check_high_and_clear())
     {
         Serial.println("Input asserted high!");
     }
 
-    if (devices.pDebounced_Input->check_low_and_clear())
+    if (devices.pButton->check_low_and_clear())
     {
         Serial.println("Input asserted low!");
     }

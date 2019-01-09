@@ -1,6 +1,8 @@
 #ifndef _ADAFRUIT_NEOPIXEL_ADL_H_
 #define _ADAFRUIT_NEOPIXEL_ADL_H_
 
+#include <Adafruit_NeoPixel.h>
+
 #include "rgb-param.h"
 
 class AdafruitNeoPixelADL : public DeviceBase

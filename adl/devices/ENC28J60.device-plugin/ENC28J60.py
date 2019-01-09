@@ -13,7 +13,7 @@ from adl.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
 
-class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
+class ENC28J60ADL(GenericDevice, namedtuple("ENC28J60ADL", ["name"])):
 
     __slots__ = ()
 
@@ -42,7 +42,7 @@ class ENC28J60(GenericDevice, namedtuple("ENC28J60", ["name"])):
 
 class ENC28J60Plugin(IPlugin, GenericDevicePlugin):
 
-    device_class = ENC28J60
+    device_class = ENC28J60ADL
 
     def activate(self):
         pass
@@ -51,7 +51,7 @@ class ENC28J60Plugin(IPlugin, GenericDevicePlugin):
         pass
 
     def get(self, device):
-        return ENC28J60(device.name)
+        return ENC28J60ADL(device.name)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

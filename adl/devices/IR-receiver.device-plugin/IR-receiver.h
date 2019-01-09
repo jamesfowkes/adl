@@ -1,6 +1,8 @@
 #ifndef _IR_RECEIVER_H_
 #define _IR_RECEIVER_H_
 
+#include <IRremote.h>
+
 class IR_Receiver : public DeviceBase
 {
 public:

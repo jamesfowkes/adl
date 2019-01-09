@@ -24,6 +24,10 @@ class GenericDevice(SourceFileProvider):
     def required_libraries(self):
         return []
 
+    @property
+    def ctype(self):
+        return type(self).__name__
+
 class GenericDevicePlugin:
 
     def verify_settings(self, device):

@@ -21,7 +21,7 @@ static const uint8_t OUTPUT_BYTES[] =
 void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
 {
     (void)devices; (void)pparams; (void)nparams;
-    sp_max7219 = (MAX7219*)pdevices[0];
+    sp_max7219 = devices.pMAX7219_Example;
     sp_max7219->set_shutdown(false);
     sp_max7219->set_intensity(5);
     sp_max7219->set_scan_limit(7);

@@ -37,11 +37,7 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
     def declarations(self):
         return "static Adafruit_ADS1x15 {name} = Adafruit_ADS1x15({ads_type}, {multiplier});".format(
             name=self.cname(), ads_type=self.ads_type.value, multiplier=self.multiplier.value)
-
-    @property
-    def ctype(self):
-        return "Adafruit_ADS1x15"
-        
+      
 class Adafruit_ADS1x15Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["ads_type"]

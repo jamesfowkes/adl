@@ -14,7 +14,7 @@ from adl.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i2c_address", "default", "min", "max"])):
+class Adafruit_MCP4725ADL(GenericDevice, namedtuple("Adafruit_MCP4725ADL", ["name", "i2c_address", "default", "min", "max"])):
 
     __slots__ = ()
 
@@ -41,14 +41,10 @@ class Adafruit_MCP4725(GenericDevice, namedtuple("Adafruit_MCP4725", ["name", "i
             min=self.min.value, max=self.max.value
         )
 
-    @property
-    def ctype(self):
-        return "Adafruit_MCP4725ADL"
-
 class Adafruit_MCP4725Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = []
-    device_class = Adafruit_MCP4725
+    device_class = Adafruit_MCP4725ADL
     
     def activate(self):
         pass
@@ -96,7 +92,7 @@ class Adafruit_MCP4725Plugin(IPlugin, GenericDevicePlugin):
         if default.value < min_setting.value:
             raise Exception("Default setting cannnot be lower than minimum")
 
-        return Adafruit_MCP4725(device.name, i2c_address, default, min_setting, max_setting)
+        return Adafruit_MCP4725ADL(device.name, i2c_address, default, min_setting, max_setting)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
