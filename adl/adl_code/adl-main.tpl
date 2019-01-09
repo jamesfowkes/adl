@@ -58,10 +58,19 @@ static const adl_devices_struct adl_devices = {
 {{parameter.declarations}}
 {% endfor %}
 
-static ParameterBase * s_params[] = 
+static ParameterBase * s_params_pointers[] = 
 {
     {% for parameter in board.parameters %}
     &{{parameter.cname()}}
+    {% if not loop.last %}
+    ,
+    {% endif %}
+    {% endfor %}
+};
+
+static const adl_params_struct adl_params = {
+    {% for param in board.parameters %}
+    .p{{param.sanitised_name}} =  &{{param.cname()}}
     {% if not loop.last %}
     ,
     {% endif %}
@@ -102,7 +111,7 @@ int handle_param{{loop.index}}_command(char const * const command, char * reply)
 }
 {% endfor %}
 
-static COMMAND_HANDLER adl_params[] = {
+static COMMAND_HANDLER adl_param_command_handlers[] = {
     {% for parameter in board.parameters %}
     handle_param{{loop.index}}_command,
     {% endfor %}
@@ -110,12 +119,12 @@ static COMMAND_HANDLER adl_params[] = {
 
 COMMAND_HANDLER& adl_get_param_cmd_handler(PARAM_ADDRESS address)
 {
-    return adl_params[address-1];
+    return adl_param_command_handlers[address-1];
 }
 
 ParameterBase& adl_get_param(PARAM_ADDRESS address)
 {
-    return *s_params[address-1];
+    return *s_params_pointers[address-1];
 }
 
 {% endmacro %}
@@ -144,7 +153,7 @@ void setup()
     // END {{param.name}} setup
     {% endfor %}
 
-    adl_custom_setup(adl_devices, s_params, ADL_PARAM_COUNT);
+    adl_custom_setup(adl_devices, adl_params);
 
     adl_on_setup_complete();
     
@@ -161,7 +170,7 @@ void loop()
 {
     adl_handle_any_pending_commands();
     adl_service_timer();
-    adl_custom_loop(adl_devices, s_params, ADL_PARAM_COUNT);
+    adl_custom_loop(adl_devices, adl_params);
 }
 {% endmacro %}
 

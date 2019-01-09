@@ -35,17 +35,17 @@ static void my_task_fn(ADLTask& pThisTask, void * pTaskData)
 }
 static ADLTask my_task(5000, my_task_fn, NULL);
 
-void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 
     pTLC5973 = devices.pTLC5973;
 
     my_task.start();
 }
 
-void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
     my_task.run();
 }

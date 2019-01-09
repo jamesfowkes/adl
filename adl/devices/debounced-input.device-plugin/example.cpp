@@ -2,14 +2,14 @@
 
 #include "debounced-input.h"
 
-void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 }
 
-void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 
     if (devices.pButton->check_high_and_clear())
     {

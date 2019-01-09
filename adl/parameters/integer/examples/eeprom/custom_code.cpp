@@ -3,21 +3,16 @@
 #include "adl-util-limited-range-int.h"
 #include "integer-param.h"
 
-void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 
-    IntegerParam * pInt = (IntegerParam*)pparams[0];
-
-    pInt->load();
-
-    adl_logln(LOG_APP, "Loaded integer setting %d", pInt->get());
+    params.pMy_Integer->load();
+    adl_logln(LOG_APP, "Loaded integer setting %d", params.pMy_Integer->get());
 }
 
-void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)nparams;
-    IntegerParam * pInt = (IntegerParam*)pparams[0];
-
-    pInt->save();
+    (void)devices;
+    params.pMy_Integer->save();
 }

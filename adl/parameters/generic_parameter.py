@@ -2,17 +2,24 @@ from adl.types import SourceFileProvider
 
 class GenericParameter(SourceFileProvider):
 
+    @property
+    def sanitised_name(self):
+        return self.name.replace(" ", "_")
+
     def cname(self, static=True):
-        sanitised_name = self.name.lower().replace(" ", "_")
         if static:
-            return "s_" + sanitised_name
+            return "s_" + self.sanitised_name.lower()
         else:
-            return sanitised_name
+            return self.sanitised_name.lower()
 
     @property
     def command_handler(self):
         return "return {name}.command_handler(command, reply);".format(name=self.cname())
 
+    @property
+    def ctype(self):
+        return type(self).__name__
+        
 class GenericParamPlugin:
 
     def verify_settings(self, param):

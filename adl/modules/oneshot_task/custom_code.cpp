@@ -15,16 +15,16 @@ static void my_task_fn(ADLOneShotTask * pThisTask, void * pTaskData)
 
 static ADLOneShotTask my_task(1000, my_task_fn, &some_data);
 
-void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 
     my_task.start();
 }
 
-void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
 
     my_task.run();
 }

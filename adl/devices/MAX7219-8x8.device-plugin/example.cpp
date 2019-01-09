@@ -39,9 +39,9 @@ void row_column_task_fn(ADLTask& this_task, void * pData)
 }
 static ADLTask s_row_column_task(100, row_column_task_fn, NULL);
 
-void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_setup(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
     sp_max7219_8x8 = devices.pMAX7219_Example;
     sp_max7219_8x8->set_shutdown(false);
     sp_max7219_8x8->set_intensity(5);
@@ -49,9 +49,9 @@ void adl_custom_setup(const adl_devices_struct& devices, ParameterBase * pparams
     sp_max7219_8x8->clear_all();
 }
 
-void adl_custom_loop(const adl_devices_struct& devices, ParameterBase * pparams[], int nparams)
+void adl_custom_loop(const adl_devices_struct& devices, const adl_params_struct& params)
 {
-    (void)devices; (void)pparams; (void)nparams;
+    (void)devices; (void)params;
     s_row_column_task.run();
 }
 
