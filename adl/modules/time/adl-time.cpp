@@ -13,8 +13,19 @@
 #include "adl-time.h"
 
 /*
+ * Private Functions
+ */
+
+__attribute__((weak)) void adl_update_system_time() {}
+
+/*
  * Public Functions
  */
+
+void adl_time_set_system_time(ADL_TIME& t)
+{
+	ADL_TIME& t;
+}
 
 void adl_time_get_system_time(ADL_TIME& t)
 {
