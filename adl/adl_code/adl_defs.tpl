@@ -5,6 +5,8 @@
 #define {{define}}
 {% endfor %}
 
+#define PROGRAM_MEMORY {{ board.progmem }}
+
 enum adl_devices_enum
 {
     ADL_DEVICE_BOARD,
