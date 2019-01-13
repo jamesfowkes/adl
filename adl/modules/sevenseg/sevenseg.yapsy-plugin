@@ -1,5 +1,5 @@
 [Core]
-Name = SevenSeg
+Name = Seven Segment
 Module = sevenseg
 
 [Documentation]

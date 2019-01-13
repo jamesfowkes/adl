@@ -1,7 +1,7 @@
 #ifndef _ADL_SEVENSEG_H_
 #define _ADL_SEVENSEG_H_
 
-typedef struct seven_segment_map
+typedef struct _seven_segment_map
 {
     uint8_t A;
     uint8_t B;
@@ -11,15 +11,7 @@ typedef struct seven_segment_map
     uint8_t F;
     uint8_t G;
     uint8_t DP;
-}
-
-class SevenSeg
-{
-public:
-	virtual bool read() = 0;
-};
-
-typedef bool (*debounce_read_fn)(void);
+} seven_segment_map;
 
 class SevenSeg
 {
@@ -29,5 +21,8 @@ public:
     void reset();
     
     uint8_t get_bitmap_for_digit(uint8_t digit, bool tails, bool dp);
+
+private:
+    seven_segment_map m_map;
 };
 #endif
