@@ -98,6 +98,6 @@ void IntegerParam::load()
     {
         int32_t value;
         adl_nv_load(&value, m_eeprom_location);
-        this->on_change();
+        this->set(value);
     }
 }

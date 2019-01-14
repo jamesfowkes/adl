@@ -10,14 +10,20 @@ public:
         if (m_use_eeprom)
         {
             m_eeprom_location.size = size;
-            adl_nv_alloc(m_eeprom_location);
         }
     }
     
     void setup()
     {
-        this->reset();
-        this->load();
+        if (!m_use_eeprom)
+        {
+            this->reset();
+        }
+        else
+        {
+            adl_nv_alloc(m_eeprom_location);
+            this->load();    
+        }
         m_setup_done = true;
     }
 
@@ -42,7 +48,7 @@ protected:
 
     void on_change()
     {
-        if (m_setup_done)
+        if (m_use_eeprom && m_setup_done)
         {
             this->save();
         }
