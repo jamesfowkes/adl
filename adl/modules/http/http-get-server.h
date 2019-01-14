@@ -12,7 +12,7 @@ typedef struct
 class HTTPGetServer
 {
 public:
-    HTTPGetServer();
+    HTTPGetServer(bool handle_adl_commands);
     void setup();
     void reset();
 
@@ -27,6 +27,8 @@ public:
 private:
     char m_response[256];
     ADLBuffer m_current_response;
+
+    bool m_handle_adl_commands;
 };
 
 #ifndef max

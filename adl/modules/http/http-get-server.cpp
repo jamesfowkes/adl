@@ -12,8 +12,17 @@ static void get_url(char * url, char const * req)
 	*url = '\0';
 }
 
-HTTPGetServer::HTTPGetServer() :
-	m_current_response(m_response, 256)
+static http_get_handler s_adl_handlers[] = 
+{
+    {"/device/", adl_add_incoming_command},
+    {"/param/", adl_add_incoming_command},
+    {"/module/", adl_add_incoming_command},
+    {"", NULL}
+};
+
+HTTPGetServer::HTTPGetServer(bool handle_adl_commands) :
+	m_current_response(m_response, 256),
+	m_handle_adl_commands(handle_adl_commands)
 {
 
 }
@@ -82,10 +91,23 @@ void HTTPGetServer::handle_req(http_get_handler * handlers, char const * const r
 	if ((recvd[0] == 'G') && (recvd[1] == 'E') && (recvd[2] == 'T'))
 	{
 		get_url(url, recvd);
-		if ((handler = HTTPGetServer::match_handler_url(url, handlers)))
+
+		if (m_handle_adl_commands)
 		{
-			handler->fn(url);
-			handled = true;
+			if ((handler = HTTPGetServer::match_handler_url(url, s_adl_handlers)))
+			{
+				handler->fn(url);
+				handled = true;
+			}
+		}
+
+		if (!handled)
+		{
+			if ((handler = HTTPGetServer::match_handler_url(url, handlers)))
+			{
+				handler->fn(url);
+				handled = true;
+			}
 		}
 	}
 
