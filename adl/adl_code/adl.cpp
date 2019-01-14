@@ -270,6 +270,16 @@ void adl_delay_start(uint8_t seconds)
     }
 }
 
+void adl_add_incoming_command(char const * cmd)
+{
+    if (cmd)
+    {
+        strncpy(s_adl_recv_buffer, cmd, ADL_BUFFER_SIZE-1);
+        s_adl_recv_buffer[ADL_BUFFER_SIZE-1] = '\0';
+        s_command_pending = true;
+    }
+}
+
 void adl_add_incoming_char(char c)
 {
     s_command_pending = end_of_command(c);

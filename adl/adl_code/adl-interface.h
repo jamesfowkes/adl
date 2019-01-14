@@ -30,6 +30,8 @@ char adl_get_char_from_address_type(ADDRESS_TYPE t);
 void adl_handle_any_pending_commands();
 
 void adl_add_incoming_char(char c);
+void adl_add_incoming_command(char const * cmd);
+
 void adl_board_send(char * to_send);
 
 void adl_service_timer();
