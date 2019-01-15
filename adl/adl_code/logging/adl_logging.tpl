@@ -50,7 +50,7 @@ static const char * get_prefix_ptr(ADL_LOG_MODULES module)
 
 static void print_prefix(ADL_LOG_MODULES module)
 {
-    adl_board_read_progmem(s_prefix_buf, get_prefix_ptr(module));
+    adl_board_strcpy_progmem(s_prefix_buf, get_prefix_ptr(module));
     s_p_log_stream->print(s_prefix_buf);
     s_p_log_stream->print(": ");
 }

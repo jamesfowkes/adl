@@ -12,12 +12,16 @@ static void get_url(char * url, char const * req)
 	*url = '\0';
 }
 
+static const char DEVICE_URL[] PROGRAM_MEMORY = "/device/";
+static const char PARAM_URL[] PROGRAM_MEMORY = "/param/";
+static const char MODULE_URL[] PROGRAM_MEMORY = "/module/";
+
 static http_get_handler s_adl_handlers[] = 
 {
-    {"/device/", adl_add_incoming_command},
-    {"/param/", adl_add_incoming_command},
-    {"/module/", adl_add_incoming_command},
-    {"", NULL}
+    {DEVICE_URL, adl_add_incoming_command},
+    {PARAM_URL, adl_add_incoming_command},
+    {MODULE_URL, adl_add_incoming_command},
+    {NULL, NULL}
 };
 
 HTTPGetServer::HTTPGetServer(bool handle_adl_commands) :
@@ -41,12 +45,13 @@ http_get_handler * HTTPGetServer::match_handler_url(char const * const url, http
 {
 	uint8_t i = 0;
 	uint16_t handler_url_len;
+
 	const uint16_t url_len = strlen(url);
 
 	while (handlers[i].fn)
 	{
-		handler_url_len = strlen(handlers[i].url);
-		if ((url_len >= handler_url_len) && (strncmp(url, handlers[i].url, handler_url_len) == 0))
+		handler_url_len = adl_board_strlen_progmem(handlers[i].url);
+		if ((url_len >= handler_url_len) && (adl_board_strncmp_progmem(url, handlers[i].url, handler_url_len) == 0))
 		{
 			return &handlers[i];
 		}
