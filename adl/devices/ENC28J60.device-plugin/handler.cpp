@@ -6,7 +6,7 @@
 
 #include "http-get-server.h"
 
-static HTTPGetServer s_server;
+static HTTPGetServer s_server(false);
 
 static void send_standard_erm_response()
 {

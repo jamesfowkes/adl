@@ -12,6 +12,7 @@ from adl.boards.serial.serial0 import Serial0DueMicro
 from adl.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 from adl.boards.generic_board import GenericBoard
 from adl.types import LibraryInclude
+from adl.boards.uno_etc import uno
 
 THIS_PATH = Path(__file__).parent
 
@@ -24,8 +25,7 @@ class ProMicroBaseType(GenericBoard, namedtuple("ProMicroBaseType",
 
     @property
     def template(self):
-        #return THIS_PATH.joinpath("uno.template")
-        return "uno.template"
+        return uno.template
 
     @property
     def log_printer(self):

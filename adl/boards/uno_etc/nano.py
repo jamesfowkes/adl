@@ -10,26 +10,36 @@ from adl.boards.serial.serial0 import Serial0
 from adl.boards.generic_board import GenericBoard
 from adl.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 
-from adl.boards.uno import UnoBaseType, UnoPlugin
+from adl.boards.uno_etc.uno import UnoBaseType, UnoPlugin
 
-class Duemilanove(UnoBaseType):
+class Nano168(UnoBaseType):
+
+    __slots__ = ()
+
+    def __new__(cls, *args, **kwargs):
+        if kwargs[ "fqbn"] is None:
+            kwargs["fqbn"] = "arduino:avr:nano:cpu=atmega168"
+        self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
+        return self
+
+class Nano(UnoBaseType):
 
     __slots__ = ()
 
     def __new__(cls, *args, **kwargs):
         if kwargs["fqbn"] is None:
-            kwargs["fqbn"] = "arduino:avr:diecimila:cpu=atmega328"
+            kwargs["fqbn"] = "arduino:avr:nano:cpu=atmega328"
         self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
         return self
 
-class DuemilanovePlugin(UnoPlugin):
+class NanoPlugin(UnoPlugin):
 
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0(baudrate)
         nonvolatile = EEPROM()
 
-        return Duemilanove(
+        return Nano(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
             board.defines, board.arduino_libs, fqbn=board.attrs.get("fqbn", None)

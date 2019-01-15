@@ -11,6 +11,7 @@ from adl.boards.generic_board import GenericBoard
 from adl.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 
 from adl.boards.pro_micro.pro_micro import ProMicroBaseType
+from adl.boards.uno_etc import uno
 
 class AStar32U4(GenericBoard, namedtuple("ProMicroBaseType", 
     ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
@@ -21,8 +22,7 @@ class AStar32U4(GenericBoard, namedtuple("ProMicroBaseType",
 
     @property
     def template(self):
-        #return THIS_PATH.joinpath("uno.template")
-        return "uno.template"
+        return uno.template
 
     @property
     def log_printer(self):

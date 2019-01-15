@@ -15,6 +15,8 @@ from adl.types import LibraryInclude
 
 THIS_PATH = Path(__file__).parent
 
+TEMPLATE = THIS_PATH.joinpath("uno.template")
+
 class UnoBaseType(GenericBoard, namedtuple("UnoBaseType", 
     ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
     "custom_code", "settings", "info", "log_modules", "defines", "arduino_libs",
@@ -24,8 +26,8 @@ class UnoBaseType(GenericBoard, namedtuple("UnoBaseType",
 
     @property
     def template(self):
-        #return THIS_PATH.joinpath("uno.template")
-        return "uno.template"
+        return TEMPLATE
+
     @property
     def log_printer(self):
         return "Serial";
