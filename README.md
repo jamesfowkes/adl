@@ -2,7 +2,7 @@
 
 RAAT stands for *Rapid Arduino Autogenerator Tool*
 
-It is code generator for Arduinos and other microcontrollers.
+It is a code generator for Arduinos and other microcontrollers.
 
 Describe your hardware in a simple XML or JSON file, run the tool and get a complete Arduino sketch, ready to deploy.
 
