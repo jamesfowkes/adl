@@ -25,6 +25,8 @@ Using RAAT, you can specifiy the hardware you are using and start using them str
 
 RAAT includes some C++ modules that can simplify your application development.
 
+Among other things:
+
  - Simple but powerful task management (one shot tasks, repeating timers, repeating tasks)
  - Switch debouncing
  - Seven segment display mapping
@@ -33,9 +35,11 @@ RAAT includes some C++ modules that can simplify your application development.
 
 Specify parameters for your application and read/set them over serial. Optionally, place them into non-volatile storage.
 
-Perfect for last-minute changes for the colour of LEDs, IP addresses, delay timings...
+Perfect for setting the colour of LEDs, IP addresses, delay timings. Also for reading variables from your application, like temperatures, counters, etc.
 
- - Support for integers, boolean, RGB triplets and strings
+Numeric parameters can be specified with min/max limits so you don't have to worry about that yourself. Limited parameters can either clip out of range values of ignore them.
+
+ - So far, there's support for integers, booleans, RGB triplets and strings
 
 ## Custom Code Support
 
@@ -82,3 +86,12 @@ Each device, module and parameter comes with an `example.xml` file. These are ex
 ## Unit Tests
 
 The hardware-independent bits of RAAT are unit-tested and one day the results will be integrated into this Github repository so I can have more confidence in what I'm doing.
+
+## Limitations
+
+Here's what RAAT *isn't*:
+
+ - Small: a RAAT sketch will use more RAM and FLASH than an "equivalent" non-RAAT sketch (maybe a lot more)
+ - Fast: RAAT is not designed for applications that need lightning fast responses. The background processing takes up CPU cycles that could be used for other things. It's designed for speed of development, not speed of code!
+ - Production Ready: because it can be driven by text files and command line programs, in theory it can be built into automated deployment pipelines - but as said above, it's experimental and liable to break!
+ - Super-beginner-friendly: while RAAT certainly can be used by beginners to Arduino, it's better to have some idea of the ecosystem and how to code before jumping in. 
