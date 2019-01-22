@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Duemilanove" name="String Parameter Example">
+    <info>
+        An example sketch for the boolean parameter
+    </info>
+    
+    <parameters>
+        <parameter name="My String" type="String">
+            <setting id="reset" value="RAAT String"/>
+            <setting id="length" value="16"/>
+            <setting id="use_eeprom" value="true"/>
+        </parameter>
+    </parameters>
+</board>

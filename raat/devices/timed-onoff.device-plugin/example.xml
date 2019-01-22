@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Timed OnOff">
+    <info>
+        An example sketch for the timed onoff device
+        Flashes the onboard LED every second
+    </info>
+    
+    <devices>
+        <device name="Onboard LED" type="Timed OnOff">
+            <setting id="pin" name="LED" value="13"/>
+            <setting id="ontime" value="500"/>
+            <setting id="offtime" value="500"/>
+        </device>
+    </devices>
+    <raat protocol="simple"></raat>
+</board>

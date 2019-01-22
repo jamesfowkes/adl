@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Duemilanove" name="IR Receiver Example">
+    <info>
+        An example sketch for the IR Receiver device
+    </info>
+    
+    <devices>
+        <device name="IR Receiver" type="IR Receiver">
+            <setting id="pin" value="11"/>
+        </device>
+    </devices>
+    <raat protocol="simple"></raat>
+</board>
