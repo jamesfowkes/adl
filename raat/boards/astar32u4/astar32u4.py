@@ -22,7 +22,7 @@ class AStar32U4(GenericBoard, namedtuple("ProMicroBaseType",
 
     @property
     def template(self):
-        return uno.template
+        return uno.TEMPLATE
 
     @property
     def log_printer(self):
