@@ -1,8 +1,21 @@
 from pathlib import Path
 
-from collections import namedtuple, Counter
+from collections import namedtuple, Counter, Iterable
 
 import raat
+
+def flatten(l):
+
+    flat = []
+    for el in l:
+        if type(el) is list:
+            flat.extend(el)
+        else:
+            flat.append(el)
+    return flat
+
+def GetNameRange(basename, count):
+    return ["{:s}{:02d}".format(basename, i) for i in range(1, count+1)]
 
 class IncludeFile(Path):
     _flavour = Path('.')._flavour
@@ -89,10 +102,19 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
     def from_xml(cls, device_node):
         name = device_node.attrib["name"]
         device_type = device_node.attrib["type"]
+        count = int(device_node.attrib.get("count", 1))
         settings = [Setting.from_xml(setting_node) for setting_node in device_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
 
-        return cls(name, device_type, settings_dict)
+        if count > 1:
+            return [cls(n, device_type, settings_dict) for n in GetNameRange(name, count)]
+        else:
+            return cls(name, device_type, settings_dict)
+
+    @classmethod
+    def from_xml_list(cls, device_xml_nodes):
+        devices = [cls.from_xml(node) for node in device_xml_nodes]
+        return flatten(devices)
 
     @classmethod
     def from_yaml(cls, device_dict):
@@ -103,6 +125,11 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
 
         return cls(name, device_type, settings_dict)
 
+    @classmethod
+    def from_yaml_list(cls, device_yaml_nodes):
+        devices = [cls.from_yaml(node) for node in device_yaml_nodes]
+        return flatten(devices)
+
 class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
     __slots__ = ()
@@ -111,10 +138,19 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
     def from_xml(cls, parameter_node):
         name = parameter_node.attrib["name"]
         parameter_type = parameter_node.attrib["type"]
+        count = int(parameter_node.attrib.get("count", 1))
         settings = [Setting.from_xml(setting_node) for setting_node in parameter_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
 
-        return cls(name, parameter_type, settings_dict)
+        if count > 1:
+            return [cls(n, parameter_type, settings_dict) for n in GetNameRange(name, count)]
+        else:
+            return cls(name, parameter_type, settings_dict)
+            
+    @classmethod
+    def from_xml_list(cls, param_xml_nodes):
+        params = [cls.from_xml(node) for node in param_xml_nodes]
+        return flatten(params)
 
 class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
 
@@ -171,11 +207,12 @@ class Board(namedtuple("Board", [
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
         
-        devices = node.find("devices") or []
-        devices = [Device.from_xml(node) for node in devices]
-        
-        parameters = node.find("parameters") or []
-        parameters = [Parameter.from_xml(node) for node in parameters]
+        devices = Device.from_xml_list(node.find("devices") or [])
+        #devices = node.find("devices") or []
+        #devices = [Device.from_xml(node) for node in devices]
+        parameters = Parameter.from_xml_list(node.find("parameters") or [])
+        #parameters = node.find("parameters") or []
+        #parameters = [Parameter.from_xml(node) for node in parameters]
 
         modules = node.find("modules") or []
         modules = [Module.from_xml(node) for node in modules]
