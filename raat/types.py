@@ -114,7 +114,8 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
     @classmethod
     def from_xml_list(cls, device_xml_nodes):
         devices = [cls.from_xml(node) for node in device_xml_nodes]
-        return flatten(devices)
+        device_groups =[d for d in devices if type(d) is list]
+        return flatten(devices), device_groups
 
     @classmethod
     def from_yaml(cls, device_dict):
@@ -143,14 +144,18 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
         settings_dict = {setting.id : setting for setting in settings}
 
         if count > 1:
-            return [cls(n, parameter_type, settings_dict) for n in GetNameRange(name, count)]
+            return ParameterGroup(name, parameter_type, settings_dict, count)
         else:
             return cls(name, parameter_type, settings_dict)
             
     @classmethod
     def from_xml_list(cls, param_xml_nodes):
         params = [cls.from_xml(node) for node in param_xml_nodes]
-        return flatten(params)
+        parameter_groups = [p for p in params if type(p) is list]
+        return flatten(params), parameter_groups
+
+class ParameterGroup(namedtuple("Parameter", ["name", "type", "settings", "count"])):
+    pass
 
 class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
 
@@ -195,8 +200,10 @@ def get_unique_log_modules(nodes):
 
 
 class Board(namedtuple("Board", [
-    "type", "name", "devices", "parameters", "modules",
-    "settings", "info", "raat", "custom_code",
+    "type", "name", 
+    "devices", "device_groups",
+    "parameters", "parameter_groups",
+    "modules", "settings", "info", "raat", "custom_code",
     "attrs", "log_modules", "defines", "arduino_libs"])
 ):
     __slots__ = ()
@@ -207,10 +214,10 @@ class Board(namedtuple("Board", [
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
         
-        devices = Device.from_xml_list(node.find("devices") or [])
+        devices, device_groups = Device.from_xml_list(node.find("devices") or [])
         #devices = node.find("devices") or []
         #devices = [Device.from_xml(node) for node in devices]
-        parameters = Parameter.from_xml_list(node.find("parameters") or [])
+        parameters, parameter_groups = Parameter.from_xml_list(node.find("parameters") or [])
         #parameters = node.find("parameters") or []
         #parameters = [Parameter.from_xml(node) for node in parameters]
 
@@ -247,7 +254,7 @@ class Board(namedtuple("Board", [
         else:
             arduino_libs = []
 
-        return cls(board_type, name, devices, parameters, modules, settings_dict, info, raat,
+        return cls(board_type, name, devices, device_groups, parameters, parameter_groups, modules, settings_dict, info, raat,
         custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs)
 
 
