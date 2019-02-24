@@ -18,7 +18,7 @@ typedef enum raat_devices_enum RAAT_DEVICES_ENUM;
 
 enum raat_parameters_enum
 {
-{% for param in board.parameters %}
+{% for param in board.parameters.single %}
     RAAT_PARAM_{{ param.cname(False) | upper }},
 {% endfor %}
 };

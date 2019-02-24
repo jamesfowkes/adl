@@ -54,13 +54,13 @@ static const raat_devices_struct raat_devices = {
     {% endfor %}
 };
 
-{% for parameter in board.parameters %}
+{% for parameter in board.parameters.all %}
 {{parameter.declarations}}
 {% endfor %}
 
 static ParameterBase * s_params_pointers[] = 
 {
-    {% for parameter in board.parameters %}
+    {% for parameter in board.parameters.all %}
     &{{parameter.cname()}}
     {% if not loop.last %}
     ,
@@ -69,7 +69,7 @@ static ParameterBase * s_params_pointers[] =
 };
 
 static const raat_params_struct raat_params = {
-    {% for param in board.parameters %}
+    {% for param in board.parameters.all %}
     .p{{param.sanitised_name}} =  &{{param.cname()}}
     {% if not loop.last %}
     ,
@@ -147,7 +147,7 @@ void setup()
     // END {{device.name}} setup
     {% endfor %}
 
-    {% for param in board.parameters %}
+    {% for param in board.parameters.all %}
     // Setup for {{param.name}}
     {{param.cname()}}.setup();
     // END {{param.name}} setup

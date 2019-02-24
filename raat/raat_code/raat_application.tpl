@@ -22,12 +22,12 @@ typedef struct _raat_devices_struct
 
 typedef struct _raat_params_struct
 {
-    {% for param in board.parameters %}
+    {% for param in board.parameters.all %}
     {{param.ctype}} * p{{param.sanitised_name}};
     {% endfor %}
 
-    {% for param_group in board.parameter_groups %}
-    {{param.ctype}} * p{{param_group.sanitised_name}}[];
+    {% for param_group in board.parameters.grouped %}
+    {{param_group.ctype}} * p{{param_group.sanitised_name}}[];
     {% endfor %}
 
 } raat_params_struct;

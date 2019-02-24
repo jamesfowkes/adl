@@ -131,6 +131,22 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
         devices = [cls.from_yaml(node) for node in device_yaml_nodes]
         return flatten(devices)
 
+class Parameters(namedtuple("Parameters", ["single", "grouped"])):
+
+    __slots__ = ()
+
+    @classmethod
+    def from_xml_list(cls, param_xml_nodes):
+        single_params = []
+        group_params = []
+        for node in param_xml_nodes:
+            if "count" in node.attrib:
+                group_params.append(ParameterGroup.from_xml(node, int(node.attrib["count"])))
+            else:
+                single_params.append(Parameter.from_xml(node))
+
+        return cls(single_params, group_params)
+
 class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
     __slots__ = ()
@@ -139,24 +155,17 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
     def from_xml(cls, parameter_node):
         name = parameter_node.attrib["name"]
         parameter_type = parameter_node.attrib["type"]
-        count = int(parameter_node.attrib.get("count", 1))
         settings = [Setting.from_xml(setting_node) for setting_node in parameter_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
-
-        if count > 1:
-            return ParameterGroup(name, parameter_type, settings_dict, count)
-        else:
-            return cls(name, parameter_type, settings_dict)
-            
-    @classmethod
-    def from_xml_list(cls, param_xml_nodes):
-        params = [cls.from_xml(node) for node in param_xml_nodes]
-        parameter_groups = [p for p in params if type(p) is list]
-        return flatten(params), parameter_groups
+        return cls(name, parameter_type, settings_dict)
 
 class ParameterGroup(namedtuple("Parameter", ["name", "type", "settings", "count"])):
-    pass
 
+    @classmethod
+    def from_xml(cls, parameter_node, count):
+        param = Parameter.from_xml(parameter_node)
+        return cls(param.name, param.type, param.settings, count)
+    
 class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
 
     __slots__ = ()
@@ -202,7 +211,7 @@ def get_unique_log_modules(nodes):
 class Board(namedtuple("Board", [
     "type", "name", 
     "devices", "device_groups",
-    "parameters", "parameter_groups",
+    "parameters",
     "modules", "settings", "info", "raat", "custom_code",
     "attrs", "log_modules", "defines", "arduino_libs"])
 ):
@@ -217,7 +226,7 @@ class Board(namedtuple("Board", [
         devices, device_groups = Device.from_xml_list(node.find("devices") or [])
         #devices = node.find("devices") or []
         #devices = [Device.from_xml(node) for node in devices]
-        parameters, parameter_groups = Parameter.from_xml_list(node.find("parameters") or [])
+        parameters = Parameters.from_xml_list(node.find("parameters") or [])
         #parameters = node.find("parameters") or []
         #parameters = [Parameter.from_xml(node) for node in parameters]
 
@@ -254,7 +263,7 @@ class Board(namedtuple("Board", [
         else:
             arduino_libs = []
 
-        return cls(board_type, name, devices, device_groups, parameters, parameter_groups, modules, settings_dict, info, raat,
+        return cls(board_type, name, devices, device_groups, parameters, modules, settings_dict, info, raat,
         custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs)
 
 
