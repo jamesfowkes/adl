@@ -75,6 +75,16 @@ static const raat_params_struct raat_params = {
     ,
     {% endif %}
     {% endfor %}
+
+    {
+    {% for param in board.parameters.grouped %}
+        &{{param.cname()}}
+    {% if not loop.last %}
+    ,
+    {% endif %}
+    {% endfor %}
+
+    }
 };
 
 {% endmacro %}

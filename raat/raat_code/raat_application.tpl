@@ -26,8 +26,8 @@ typedef struct _raat_params_struct
     {{param.ctype}} * p{{param.sanitised_name}};
     {% endfor %}
 
-    {% for param_group in board.parameters.grouped %}
-    {{param_group.ctype}} * p{{param_group.sanitised_name}}[];
+    {% for param_group in board.parameters.group_summary %}
+    {{param_group.param.ctype}} * p{{param_group.param.sanitised_name}}[{{param_group.count}}];
     {% endfor %}
 
 } raat_params_struct;

@@ -12,7 +12,8 @@ parameters_plugin_manager = PluginManager()
 parameters_plugin_manager.setPluginPlaces([str(THIS_PATH)])
 parameters_plugin_manager.collectPlugins()
 
-ParamsTuple = namedtuple("ParamsTuple", ["all", "single", "grouped"])
+ParamsTuple = namedtuple("ParamsTuple", ["all", "single", "grouped", "group_summary"])
+GroupSummary = namedtuple("GroupSummary", ["param", "count"])
 
 def get_module_logger():
     return logging.getLogger(__name__)
@@ -35,10 +36,15 @@ def get_grouped_parameter(parameter):
         params.append(parameters_plugin_manager.getPluginByName(parameter.type).plugin_object.get(copied))
     return params
 
+def get_group_summary(parameter):
+    param = parameters_plugin_manager.getPluginByName(parameter.type).plugin_object.get(parameter)
+    return GroupSummary(param, parameter.count)
+    
 def get(parameters):
     single_params = [get_single_parameter(parameter) for parameter in parameters.single]
     grouped_params = flatten([get_grouped_parameter(parameter) for parameter in parameters.grouped])
-    return ParamsTuple(single_params + grouped_params, single_params, grouped_params)
+    group_summary = [get_group_summary(parameter) for parameter in parameters.grouped]
+    return ParamsTuple(single_params + grouped_params, single_params, grouped_params, group_summary)
     
 def set_log_level(level):
     get_module_logger().setLevel(level)
