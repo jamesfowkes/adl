@@ -1,12 +1,19 @@
 import subprocess
 from pathlib import Path
+from shutil import copyfile
+
+from cppparser import ParsedFile
 
 from behave import given, when, then, step
 
 @given(u'the user runs RAAT with "{filename}"')
 def step_impl(context, filename):
     pathlib_file = Path(filename)
-    relative_file_path = Path("raat/behavetests/test_files", pathlib_file.stem, filename)
+    relative_folder = Path("raat/behavetests/test_files", pathlib_file.stem)
+    relative_file_path = relative_folder / filename
+
+    context.generated_file = Path("test_files") / pathlib_file.stem / pathlib_file.stem / (pathlib_file.stem + ".ino")
+
     context.completedprocess = subprocess.run(
         ["python3", "raat_runner.py", "--make", str(relative_file_path)],
         cwd="../../",
@@ -19,10 +26,15 @@ def step_impl(context):
         raise Exception("Process '{:s}'' returned error code {:d} (stderr '{:s}')".format(
             " ".join(context.completedprocess.args),
             context.completedprocess.returncode,
-            context.completedprocess.stderr or ""
+            context.completedprocess.stderr.decode("utf-8") or ""
             )
         )
 
-@then(u'a sketch should have been created with some parameters')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then a sketch should have been created with some parameters')
+@then(u'a sketch should have been created with {number} {param_type} parameters called "{name}"')
+def step_impl(context, number, param_type, name):
+    copy = context.generated_file.parent / (context.generated_file.stem + ".cpp")
+    copyfile(context.generated_file, copy)
+    parsed_output = ParsedFile(copy)
+    references = parsed_output.find_typerefs(param_type, name)
+    print(references)
+    assert (len(references) == int(number))

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="One Multiple Parameter">
+<board type="Arduino Uno" name="One Multiple Param">
     <info>
         BDD Test File
     </info>

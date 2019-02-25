@@ -6,6 +6,6 @@ Feature: Multiple parameters
   and have them automatically created.
 
   Scenario: Make a sketch with one type of multiple parameter
-    Given the user runs RAAT with "one-multiple-param.xml"
+    Given the user runs RAAT with "One_Multiple_Param.xml"
       Then the process should have run successfully
-      And a sketch should have been created with some parameters
+      And a sketch should have been created with 5 IntegerParam parameters called "Test Integer"
