@@ -60,31 +60,23 @@ static const raat_devices_struct raat_devices = {
 
 static ParameterBase * s_params_pointers[] = 
 {
-    {% for parameter in board.parameters.all %}
-    &{{parameter.cname()}}
-    {% if not loop.last %}
-    ,
-    {% endif %}
+    {% for parameter in board.parameters.all -%}
+        &{{parameter.cname()}}{% if not loop.last %},{% endif %}
     {% endfor %}
 };
 
 static const raat_params_struct raat_params = {
-    {% for param in board.parameters.all %}
-    .p{{param.sanitised_name}} =  &{{param.cname()}}
-    {% if not loop.last %}
-    ,
-    {% endif %}
+    {% for param in board.parameters.all -%}
+        .p{{param.sanitised_name}} = &{{param.cname()}},
     {% endfor %}
 
-    {
-    {% for param in board.parameters.grouped %}
-        &{{param.cname()}}
-    {% if not loop.last %}
-    ,
-    {% endif %}
+    {% for param_group in board.parameters.grouped -%}
+    .p{{param_group.base_param.sanitised_name}} = {
+    {% for param in param_group.parameters -%}
+        &{{param.cname()}},
     {% endfor %}
-
-    }
+    },
+    {% endfor %}
 };
 
 {% endmacro %}
@@ -114,7 +106,7 @@ DeviceBase& raat_get_device(DEVICE_ADDRESS address)
     return *s_device_pointers[address-1];
 }
 
-{% for parameter in board.parameters %}
+{% for parameter in board.parameters.all %}
 int handle_param{{loop.index}}_command(char const * const command, char * reply)
 {
     {{parameter.command_handler}}

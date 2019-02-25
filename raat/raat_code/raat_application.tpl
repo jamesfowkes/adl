@@ -15,21 +15,19 @@
 
 typedef struct _raat_devices_struct
 {
-    {% for device in board.devices %}
+    {% for device in board.devices -%}
     {{device.ctype}} * p{{device.sanitised_name}};
-    {% endfor %}
+    {%- endfor %}
 } raat_devices_struct;
 
 typedef struct _raat_params_struct
 {
-    {% for param in board.parameters.all %}
+    {% for param in board.parameters.all -%}
     {{param.ctype}} * p{{param.sanitised_name}};
     {% endfor %}
-
-    {% for param_group in board.parameters.group_summary %}
-    {{param_group.param.ctype}} * p{{param_group.param.sanitised_name}}[{{param_group.count}}];
+    {% for param_group in board.parameters.grouped -%}
+    {{param_group.base_param.ctype}} * p{{param_group.base_param.sanitised_name}}[{{param_group.count}}];
     {% endfor %}
-
 } raat_params_struct;
 
 #endif
