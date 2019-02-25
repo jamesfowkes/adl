@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="One Multiple Parameter">
+    <info>
+        BDD Test File
+    </info>
+    <parameters>
+        <parameter name="Test Integer" type="Integer" count="5">
+        </parameter>
+    </parameters>
+</board>
