@@ -27,7 +27,7 @@ typedef enum raat_parameters_enum RAAT_PARAMETERS_ENUM;
 typedef {{ board.nonvolatile.address_type }} RAAT_NV_ADDR;
 
 static const int RAAT_DEVICE_COUNT = {{ board.devices | length }};
-static const int RAAT_PARAM_COUNT = {{ board.parameters | length }};
+static const int RAAT_PARAM_COUNT = {{ board.parameters.all | length }};
 
 static const int RAAT_BUFFER_SIZE = {{raat.buffer_size}};
 

@@ -114,7 +114,7 @@ int handle_param{{loop.index}}_command(char const * const command, char * reply)
 {% endfor %}
 
 static COMMAND_HANDLER raat_param_command_handlers[] = {
-    {% for parameter in board.parameters %}
+    {% for parameter in board.parameters.all %}
     handle_param{{loop.index}}_command,
     {% endfor %}
 };
