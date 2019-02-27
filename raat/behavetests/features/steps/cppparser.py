@@ -32,10 +32,20 @@ class ParsedFile:
 
         return flatten([self._find_nodes_recurse(c, filter_func) for c in node.get_children()])
 
+    def find_varrefs(self, varname):
+        def filter_function(node):
+            return node.kind.is_reference() and node.displayname == varname
+
+        return self._find_nodes_recurse(self.tu.cursor, filter_function)
+
+
     def find_typerefs(self, typename, varname=None):
 
         def filter_function(node):
-            return node.kind.is_reference() and node.get_definition().spelling == typename
+            if varname is not None:
+                return node.kind.is_reference() and node.get_definition().spelling == typename
+            else:
+                return node.kind.is_reference() and node.get_definition().spelling == typename and node.displayname.startswith(varname)
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)
 

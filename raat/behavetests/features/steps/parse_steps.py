@@ -7,7 +7,7 @@ import cppparser
 from behave import given, when, then, step
 
 @given(u'the user runs RAAT with "{filename}"')
-def step_impl(context, filename):
+def the_user_runs_raat(context, filename):
     pathlib_file = Path(filename)
     relative_folder = Path("raat/behavetests/test_files", pathlib_file.stem)
     relative_file_path = relative_folder / filename
@@ -21,7 +21,7 @@ def step_impl(context, filename):
     )
 
 @then(u'the process should have run successfully')
-def step_impl(context):
+def the_process_runs_successfully(context):
     if context.completedprocess.returncode != 0:
         raise Exception("Process '{:s}'' returned error code {:d} (stderr '{:s}')".format(
             " ".join(context.completedprocess.args),
@@ -30,19 +30,33 @@ def step_impl(context):
             )
         )
 
-@then(u'a sketch should have been created with {number} {param_type} parameters called "{name}"')
-def step_impl(context, number, param_type, name):
+@then(u'the sketch should have been created')
+def the_sketch_has_been_created(context):
+    assert context.generated_file.exists()
+
+@then(u'the sketch should have 1 {param_type} parameter called "{name}"')
+def the_sketch_has_a_parameter(context, param_type, name):
+    pass
+
+@then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
+def the_sketch_has_array_parameters(context, number, param_type, name):
 
     cpp_filename = (context.generated_file.stem + ".cpp")
     
     def node_filter_function(n):
         return Path(str(n.location.file)).name == cpp_filename
 
+    expected_variable_name = "s_" + name.lower().replace(" ", "_")
+
     copy = context.generated_file.parent / cpp_filename
     copyfile(context.generated_file, copy)
     parsed_output = cppparser.ParsedFile(copy)
-    references = parsed_output.find_typerefs(param_type, name)
-    references = list(filter(node_filter_function, references))
-    references = cppparser.sort_by_line_number(references)
 
-    assert (len(references) == int(number))
+    type_references = parsed_output.find_typerefs(param_type, expected_variable_name)
+    type_references = list(filter(node_filter_function, type_references))
+    type_references = cppparser.sort_by_line_number(type_references)
+
+    assert (len(type_references) == int(number))
+
+    
+    
