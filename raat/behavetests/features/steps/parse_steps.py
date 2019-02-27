@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 from shutil import copyfile
 
-from cppparser import ParsedFile
+import cppparser
 
 from behave import given, when, then, step
 
@@ -32,9 +32,17 @@ def step_impl(context):
 
 @then(u'a sketch should have been created with {number} {param_type} parameters called "{name}"')
 def step_impl(context, number, param_type, name):
-    copy = context.generated_file.parent / (context.generated_file.stem + ".cpp")
+
+    cpp_filename = (context.generated_file.stem + ".cpp")
+    
+    def node_filter_function(n):
+        return Path(str(n.location.file)).name == cpp_filename
+
+    copy = context.generated_file.parent / cpp_filename
     copyfile(context.generated_file, copy)
-    parsed_output = ParsedFile(copy)
+    parsed_output = cppparser.ParsedFile(copy)
     references = parsed_output.find_typerefs(param_type, name)
-    print(references)
+    references = list(filter(node_filter_function, references))
+    references = cppparser.sort_by_line_number(references)
+
     assert (len(references) == int(number))
