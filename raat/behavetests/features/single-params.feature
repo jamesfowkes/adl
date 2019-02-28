@@ -5,14 +5,12 @@ Feature: Single parameters
   I want to specify parameters in the setup file
   and have them automatically created.
 
+  @wip
   Scenario: Make a sketch with a single parameter
     Given the user runs RAAT with "One_Single_Parameter.xml"
       Then the process should have run successfully
       And the sketch should have been created
       And the sketch should have 1 StringParam parameter called "Test String"
-      And the generated parameter data should have members
-        | pointer type  | name        |
-        | StringParam   | Test_String | 
 
   Scenario: Make a sketch with a many single parameters
     Given the user runs RAAT with "Many_Single_Parameters.xml"

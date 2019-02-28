@@ -9,9 +9,9 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "boolean-param.h"
+#include "boolean-param.hpp"
 
 BooleanParam::BooleanParam(bool reset_value, bool use_eeprom) : ParameterBase(use_eeprom, sizeof(bool))
 {

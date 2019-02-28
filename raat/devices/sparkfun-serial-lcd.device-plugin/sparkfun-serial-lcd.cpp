@@ -36,9 +36,9 @@ Version 1.7 - Completed the setType special command.
 
 #include <SoftwareSerial.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "sparkfun-serial-lcd.h"
+#include "sparkfun-serial-lcd.hpp"
 
 //  PUBLIC FUNCTIONS
 

@@ -20,7 +20,7 @@ class Keypad(GenericDevice, namedtuple("Keypad", ["name", "buttons", "row_pins",
 
     includes = (
         LibraryInclude("Keypad.h"),
-        DeviceInclude(THIS_PATH, "raat_keypad.h")
+        DeviceInclude(THIS_PATH, "raat_keypad.hpp")
     )
 
     @property

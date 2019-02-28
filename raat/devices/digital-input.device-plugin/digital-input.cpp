@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "digital-input.h"
+#include "digital-input.hpp"
 
 DigitalInput::DigitalInput(int pin)
 {

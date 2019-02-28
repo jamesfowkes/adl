@@ -8,7 +8,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat-util.h"
+#include "raat-util.hpp"
 
 char s_test_string[32];
 bool b_result;

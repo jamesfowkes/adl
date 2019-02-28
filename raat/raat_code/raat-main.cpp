@@ -9,7 +9,7 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
 __attribute__((weak)) void raat_on_setup_start() {}
 __attribute__((weak)) void raat_on_setup_complete() {}

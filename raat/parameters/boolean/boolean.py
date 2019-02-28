@@ -19,7 +19,7 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
 
     sources = (ParameterSource(THIS_PATH, "boolean-param.cpp"), )
 
-    includes = (ParameterInclude(THIS_PATH, "boolean-param.h"), )
+    includes = (ParameterInclude(THIS_PATH, "boolean-param.hpp"), )
 
     @property
     def setup(self):

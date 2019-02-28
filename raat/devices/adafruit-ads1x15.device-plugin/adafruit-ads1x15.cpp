@@ -1,9 +1,9 @@
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "adafruit-ads1x15.h"
+#include "adafruit-ads1x15.hpp"
 
 static const float READING_TO_MILLIVOLTS_MULTIPLIER = 0.1875f;
 

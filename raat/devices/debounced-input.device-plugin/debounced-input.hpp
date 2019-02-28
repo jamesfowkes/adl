@@ -1,7 +1,7 @@
 #ifndef _DEBOUNCED_INPUT_
 #define _DEBOUNCED_INPUT_
 
-#include "raat-debouncer.h"
+#include "raat-debouncer.hpp"
 
 class DebouncedInput : public DeviceBase, public DebounceReader
 {

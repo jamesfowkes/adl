@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "adafruit-neopixel-raat.h"
+#include "adafruit-neopixel-raat.hpp"
 
 /*
  * Class Private Functions

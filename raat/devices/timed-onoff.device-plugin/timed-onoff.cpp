@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "timed-onoff.h"
+#include "timed-onoff.hpp"
 
 TimedOnOff::TimedOnOff(int pin, unsigned long ontime, unsigned long offtime)
 {

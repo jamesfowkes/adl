@@ -13,7 +13,7 @@ class SevenSeg(GenericModule):
     
     sources = (ModuleSource(THIS_PATH, "sevenseg.cpp"), )
 
-    includes = (ModuleInclude(THIS_PATH, "sevenseg.h"), )
+    includes = (ModuleInclude(THIS_PATH, "sevenseg.hpp"), )
 
     @property
     def directory(self):

@@ -12,7 +12,7 @@ THIS_PATH = Path(__file__).parent
 class OneShotTimerModule(GenericModule):
 
     sources = (ModuleSource(THIS_PATH, "raat-oneshot-timer.cpp"), )
-    includes = (ModuleInclude(THIS_PATH, "raat-oneshot-timer.h"), )
+    includes = (ModuleInclude(THIS_PATH, "raat-oneshot-timer.hpp"), )
 
     @property
     def directory(self):

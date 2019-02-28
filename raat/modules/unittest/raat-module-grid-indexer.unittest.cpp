@@ -8,7 +8,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "grid-indexer.h"
+#include "grid-indexer.hpp"
 
 class GridIndexerTest : public CppUnit::TestFixture { 
 

@@ -1,7 +1,7 @@
 #ifndef _THERMISTOR_H_
 #define _THERMISTOR_H_
 
-#include "potential-divider.h"
+#include "potential-divider.hpp"
 
 class Thermistor : public DeviceBase
 {

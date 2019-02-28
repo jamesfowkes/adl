@@ -1,11 +1,11 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "MAX7219.h"
-#include "MAX7219-8x8.h"
+#include "MAX7219.hpp"
+#include "MAX7219-8x8.hpp"
 
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
-#include "raat-task.h"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
+#include "raat-task.hpp"
 
 static MAX7219_8x8 * sp_max7219_8x8;
 

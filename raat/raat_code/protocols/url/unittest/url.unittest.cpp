@@ -7,8 +7,8 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat.h"
-#include "protocol.h"
+#include "raat.hpp"
+#include "protocol.hpp"
 
 class URLProtocolTest : public CppUnit::TestFixture { 
 

@@ -22,7 +22,7 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
 
     sources = (ParameterSource(THIS_PATH, "string-param.cpp"), )
 
-    includes = (ParameterInclude(THIS_PATH, "string-param.h"), )
+    includes = (ParameterInclude(THIS_PATH, "string-param.hpp"), )
 
     @property
     def setup(self):

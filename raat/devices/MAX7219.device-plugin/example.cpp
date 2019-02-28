@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "MAX7219.h"
+#include "MAX7219.hpp"
 
 static MAX7219 * sp_max7219;
 

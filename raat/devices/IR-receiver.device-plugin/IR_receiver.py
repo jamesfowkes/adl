@@ -21,7 +21,7 @@ class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
     sources = (DeviceSource(THIS_PATH, "IR-receiver.cpp"), )
 
     includes = (
-        DeviceInclude(THIS_PATH, "IR-receiver.h"),
+        DeviceInclude(THIS_PATH, "IR-receiver.hpp"),
         LibraryInclude("IRremote.h")
     )
 

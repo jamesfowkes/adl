@@ -20,7 +20,7 @@ class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin"
 
     sources = (DeviceSource(THIS_PATH, "MAX7219.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "MAX7219.h"), )
+    includes = (DeviceInclude(THIS_PATH, "MAX7219.hpp"), )
 
 
     @property

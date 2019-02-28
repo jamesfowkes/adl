@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
 ProtocolHandler::ProtocolHandler() { this->last_address = INVALID_ADDRESS; }
 

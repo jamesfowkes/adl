@@ -10,7 +10,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "Arduino.h"
-#include "raat-oneshot-timer.h"
+#include "raat-oneshot-timer.hpp"
 
 class RAATModuleOneShotTimerTest : public CppUnit::TestFixture { 
 

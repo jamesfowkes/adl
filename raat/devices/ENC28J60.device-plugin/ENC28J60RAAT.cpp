@@ -1,8 +1,8 @@
 #include <EtherCard.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "ENC28J60RAAT.h"
+#include "ENC28J60RAAT.hpp"
 
 byte Ethernet::buffer[ENC28J60_BUFFER_SIZE];
 

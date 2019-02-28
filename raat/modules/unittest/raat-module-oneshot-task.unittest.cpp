@@ -9,11 +9,11 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
 #include "Arduino.h"
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
 
 static int s_call_count;
 

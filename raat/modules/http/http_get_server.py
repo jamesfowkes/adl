@@ -17,8 +17,8 @@ class HTTPGetServerModule(GenericModule):
     )
 
     includes = (
-        RAATSource("utility", "raat-buffer.h"),
-        ModuleInclude(THIS_PATH, "http-get-server.h")
+        RAATSource("utility", "raat-buffer.hpp"),
+        ModuleInclude(THIS_PATH, "http-get-server.hpp")
     )
 
     @property

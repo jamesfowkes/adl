@@ -9,10 +9,10 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "potential-divider.h"
-#include "thermistor.h"
+#include "potential-divider.hpp"
+#include "thermistor.hpp"
 
 static const float s_T0CinKelvin = 273.15f; 
 static const float s_T25CinKelvin = s_T0CinKelvin + 25.0f;

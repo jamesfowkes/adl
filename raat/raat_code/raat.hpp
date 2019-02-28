@@ -3,19 +3,19 @@
 
 #include <Arduino.h>
 
-#include "raat-defs.h"
-#include "raat-nv.h"
-#include "raat-serial.h"
-#include "raat-logging.h"
-#include "raat-util.h"
-#include "device.h"
-#include "parameter.h"
-#include "raat-interface.h"
-#include "raat-messages.h"
-#include "protocol.h"
-#include "raat-application.h"
+#include "raat-defs.hpp"
+#include "raat-nv.hpp"
+#include "raat-serial.hpp"
+#include "raat-logging.hpp"
+#include "raat-util.hpp"
+#include "device.hpp"
+#include "parameter.hpp"
+#include "raat-interface.hpp"
+#include "raat-messages.hpp"
+#include "protocol.hpp"
+#include "raat-application.hpp"
 
-#include "raat-callbacks.h"
+#include "raat-callbacks.hpp"
 
 #define inrange(n, lo, hi) ((lo <= n) && (hi >= n))
 

@@ -19,7 +19,7 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
 
     sources = (DeviceSource(THIS_PATH, "digital-output.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "digital-output.h"), )
+    includes = (DeviceInclude(THIS_PATH, "digital-output.hpp"), )
 
     @property
     def setup(self):

@@ -10,9 +10,9 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "string-param.h"
+#include "string-param.hpp"
 
 StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, bool use_eeprom) :
     ParameterBase(use_eeprom, max_length+1),

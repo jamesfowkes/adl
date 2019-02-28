@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "boolean-param.h"
+#include "boolean-param.hpp"
 
 void raat_custom_setup(const raat_devices_struct& devices, const raat_params_struct& params)
 {

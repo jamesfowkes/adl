@@ -3,8 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "raat.h"
-#include "protocol.h"
+#include "raat.hpp"
+#include "protocol.hpp"
 
 // RAAT receives into this buffer
 static char s_raat_recv_buffer[RAAT_BUFFER_SIZE];

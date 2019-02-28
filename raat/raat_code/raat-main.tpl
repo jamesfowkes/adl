@@ -13,7 +13,7 @@ By the Arduino Description Language tool.
 
 #include <stdint.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
 {% for include in board.library_includes(False) %}
 #include <{{include}}>

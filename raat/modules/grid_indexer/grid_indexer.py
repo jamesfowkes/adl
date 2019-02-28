@@ -13,7 +13,7 @@ class GridIndexerModule(GenericModule):
     
     sources = (ModuleSource(THIS_PATH, "grid-indexer.cpp"), )
 
-    includes = (ModuleInclude(THIS_PATH, "grid-indexer.h"), )
+    includes = (ModuleInclude(THIS_PATH, "grid-indexer.hpp"), )
 
     @property
     def directory(self):

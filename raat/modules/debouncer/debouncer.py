@@ -13,7 +13,7 @@ class DebouncerModule(GenericModule):
     
     sources = (ModuleSource(THIS_PATH, "raat-debouncer.cpp"), )
 
-    includes = (ModuleInclude(THIS_PATH, "raat-debouncer.h"), )
+    includes = (ModuleInclude(THIS_PATH, "raat-debouncer.hpp"), )
 
     @property
     def directory(self):

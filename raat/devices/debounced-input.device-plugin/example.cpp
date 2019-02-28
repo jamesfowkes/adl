@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "debounced-input.h"
+#include "debounced-input.hpp"
 
 void raat_custom_setup(const raat_devices_struct& devices, const raat_params_struct& params)
 {

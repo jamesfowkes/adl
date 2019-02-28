@@ -18,7 +18,7 @@ class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"]))
 
     includes = (
         LibraryInclude("MFRC522.h"),
-        DeviceInclude(THIS_PATH, "rfid-rc522.h")
+        DeviceInclude(THIS_PATH, "rfid-rc522.hpp")
     )
 
     @property

@@ -1,7 +1,7 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-util-limited-range-int.h"
-#include "rgb-param.h"
+#include "raat-util-limited-range-int.hpp"
+#include "rgb-param.hpp"
 
 void raat_custom_setup(const raat_devices_struct& devices, const raat_params_struct& params)
 {

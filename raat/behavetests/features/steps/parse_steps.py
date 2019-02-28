@@ -6,12 +6,30 @@ import cppparser
 
 from behave import given, when, then, step
 
-def copy_and_parse_ino(ino_file_path):
-    cpp_filename = (ino_file_path.stem + ".cpp")
-    copy = ino_file_path.parent / cpp_filename
-    copyfile(ino_file_path, copy)
-    parsed_output = cppparser.ParsedFile(copy)
-    return parsed_output, cpp_filename
+class GeneratedFile:
+
+    def __init__(self, sketch_filename):
+        pathlib_file = Path(sketch_filename)
+
+        self.ino_file_path = Path("test_files") / pathlib_file.stem / pathlib_file.stem / (pathlib_file.stem + ".ino")
+
+    def copy_and_parse_ino(self):
+        cpp_filename = (self.ino_file_path.stem + ".cpp")
+        copy = self.ino_file_path.parent / cpp_filename
+        copyfile(self.ino_file_path, copy)
+        parsed_output = cppparser.ParsedFile(copy)
+        return parsed_output, cpp_filename
+
+    def parse_generated_file(self, filename):
+        filepath = self.ino_file_path.parent / filename
+        parsed_output = cppparser.ParsedFile(filepath)
+        return parsed_output
+
+    def exists(self):
+        return self.ino_file_path.exists()
+
+    def xml_path(self):
+        return Path("raat/behavetests/test_files") / self.ino_file_path.stem / (self.ino_file_path.stem + ".xml")
 
 def get_filename_filter_function(filename):
     
@@ -22,14 +40,11 @@ def get_filename_filter_function(filename):
 
 @given(u'the user runs RAAT with "{filename}"')
 def the_user_runs_raat(context, filename):
-    pathlib_file = Path(filename)
-    relative_folder = Path("raat/behavetests/test_files", pathlib_file.stem)
-    relative_file_path = relative_folder / filename
 
-    context.generated_file = Path("test_files") / pathlib_file.stem / pathlib_file.stem / (pathlib_file.stem + ".ino")
+    context.generated_file =  GeneratedFile(filename)
 
     context.completedprocess = subprocess.run(
-        ["python3", "raat_runner.py", "--make", str(relative_file_path)],
+        ["python3", "raat_runner.py", "--make", str(context.generated_file.xml_path())],
         cwd="../../",
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
@@ -51,10 +66,11 @@ def the_sketch_has_been_created(context):
 @then(u'the sketch should have 1 {param_type} parameter called "{name}"')
 def the_sketch_has_a_parameter(context, param_type, name):
 
-    parsed_output, cpp_filename = copy_and_parse_ino(context.generated_file)
+    ## Assert that the parameter has been declared in the sketch
+    parsed_output, cpp_filename = context.generated_file.copy_and_parse_ino()
 
     expected_variable_name = "s_" + name.lower().replace(" ", "_")
- 
+    
     vardefs = parsed_output.find_vardefs(expected_variable_name, param_type,
         custom_filter_func=get_filename_filter_function(cpp_filename))
 
@@ -62,10 +78,22 @@ def the_sketch_has_a_parameter(context, param_type, name):
 
     assert (len(vardefs) == 1)
 
+    ## Assert that the parameter pointer has been declared in the struct
+    expected_pointer_name = "p" + name.replace(" ", "_")
+    typedefs = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl("_raat_params_struct")
+    #typedefs = context.generated_file.parse_generated_file("raat-application.hpp").find_typedefs("raat_params_struct")
+    struct_children = list(typedefs[0].get_children())
+
+    print("--")
+    print(struct_children)
+    matches = [child.type.spelling for child in struct_children]
+
+    assert False
+
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):
 
-    parsed_output, cpp_filename = copy_and_parse_ino(context.generated_file)
+    parsed_output, cpp_filename = context.generated_file.copy_and_parse_ino()
 
     all_references = {}
     for i in range(0, int(number)):
@@ -76,7 +104,3 @@ def the_sketch_has_array_parameters(context, number, param_type, name):
         all_references.update(cppparser.sort_by_line_number(vardefs))
 
     assert (len(all_references) == int(number))
-
-@then(u'the parameter struct should have members')
-def the_parameter_struct_should_have_members(context):
-    pass

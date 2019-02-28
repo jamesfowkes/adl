@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
 /* Mocking for 'millis' function */
 static unsigned long _millis;

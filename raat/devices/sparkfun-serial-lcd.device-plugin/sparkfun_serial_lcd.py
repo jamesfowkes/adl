@@ -18,7 +18,7 @@ class SparkfunSerialLCD(GenericDevice, namedtuple("SparkfunSerialLCD", ["name", 
 
     sources = (DeviceSource(THIS_PATH, "sparkfun-serial-lcd.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "sparkfun-serial-lcd.h"), )
+    includes = (DeviceInclude(THIS_PATH, "sparkfun-serial-lcd.hpp"), )
 
     @property
     def setup(self):

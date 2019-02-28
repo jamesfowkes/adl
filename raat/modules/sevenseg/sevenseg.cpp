@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "sevenseg.h"
+#include "sevenseg.hpp"
 
 static const uint16_t PROGMEM DIGIT_TO_SEGMENT_MAP[] = 
 {

@@ -26,8 +26,8 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "init_v
     )
 
     includes = (
-        RAATInclude("utility", "raat-util-limited-range-int.h"),
-        ParameterInclude(THIS_PATH, "integer-param.h")
+        RAATInclude("utility", "raat-util-limited-range-int.hpp"),
+        ParameterInclude(THIS_PATH, "integer-param.hpp")
     )
 
     @property

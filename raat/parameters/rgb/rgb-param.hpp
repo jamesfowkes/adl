@@ -1,7 +1,7 @@
 #ifndef _RGB_PARAM_H_
 #define _RGB_PARAM_H_
 
-#include "raat-util-limited-range-int.h"
+#include "raat-util-limited-range-int.hpp"
 
 typedef enum _eRGB
 {

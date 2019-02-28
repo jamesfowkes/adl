@@ -1,10 +1,10 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "sevenseg.h"
+#include "sevenseg.hpp"
 
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
-#include "raat-task.h"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
+#include "raat-task.hpp"
 
 static SevenSeg s_sevenseg = SevenSeg(
     0,1,2,3,4,5,6,7

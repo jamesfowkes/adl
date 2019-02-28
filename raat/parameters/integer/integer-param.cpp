@@ -15,10 +15,10 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-util-limited-range-int.h"
-#include "integer-param.h"
+#include "raat-util-limited-range-int.hpp"
+#include "integer-param.hpp"
 
 IntegerParam::IntegerParam(int32_t reset_value, int32_t min_limit, int32_t max_limit,
     bool clip_on_out_of_range, bool use_eeprom) :

@@ -21,7 +21,7 @@ class ENC28J60RAAT(GenericDevice, namedtuple("ENC28J60RAAT", ["name"])):
 
     includes = (
         LibraryInclude("EtherCard.h"),
-        DeviceInclude(THIS_PATH, "ENC28J60RAAT.h")
+        DeviceInclude(THIS_PATH, "ENC28J60RAAT.hpp")
     )
 
     @property

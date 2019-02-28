@@ -1,7 +1,7 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-debouncer.h"
-#include "debounced-input.h"
+#include "raat-debouncer.hpp"
+#include "debounced-input.hpp"
 
 DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup, bool invert) :
     m_pin(pin),

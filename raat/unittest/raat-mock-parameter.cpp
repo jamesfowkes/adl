@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "raat.h"
-#include "protocol.h"
+#include "raat.hpp"
+#include "protocol.hpp"
 
 TestParam::TestParam() : ParameterBase(true,sizeof(int32_t)) {}
 

@@ -1,7 +1,7 @@
-#include "raat.h"
-#include "raat-buffer.h"
+#include "raat.hpp"
+#include "raat-buffer.hpp"
 
-#include "http-get-server.h"
+#include "http-get-server.hpp"
 
 static void get_url(char * url, char const * req)
 {
