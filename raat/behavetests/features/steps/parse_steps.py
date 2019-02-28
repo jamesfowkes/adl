@@ -46,14 +46,11 @@ def the_sketch_has_a_parameter(context, param_type, name):
     copyfile(context.generated_file, copy)
     parsed_output = cppparser.ParsedFile(copy)
   
-    type_references = parsed_output.find_vardefs(expected_variable_name)
-    print(type_references)
-    type_references = list(filter(node_filter_function, type_references))
-    print(type_references)
-    type_references = cppparser.sort_by_line_number(type_references)
-    print(type_references)
+    vardefs = parsed_output.find_vardefs(expected_variable_name)
+    vardefs = list(filter(node_filter_function, vardefs))
+    vardefs = cppparser.sort_by_line_number(vardefs)
 
-    assert (len(type_references) == 1)
+    assert (len(vardefs) == 1)
 
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):
@@ -63,14 +60,17 @@ def the_sketch_has_array_parameters(context, number, param_type, name):
     def node_filter_function(n):
         return Path(str(n.location.file)).name == cpp_filename
 
-    expected_variable_name = "s_" + name.lower().replace(" ", "_")
-
     copy = context.generated_file.parent / cpp_filename
     copyfile(context.generated_file, copy)
     parsed_output = cppparser.ParsedFile(copy)
 
-    type_references = parsed_output.find_typerefs(param_type, expected_variable_name)
-    type_references = list(filter(node_filter_function, type_references))
-    type_references = cppparser.sort_by_line_number(type_references)
+    all_references = {}
+    for i in range(0, int(number)):
+        expected_variable_name = "s_{:s}{:02d}".format(name.lower().replace(" ", "_"), i)
+        print(expected_variable_name)
+        vardefs = parsed_output.find_vardefs(expected_variable_name)
+        vardefs = list(filter(node_filter_function, vardefs))
 
-    assert (len(type_references) == int(number))
+        all_references.update(cppparser.sort_by_line_number(vardefs))
+
+    assert (len(all_references) == int(number))
