@@ -32,12 +32,15 @@ class ParsedFile:
 
         return flatten([self._find_nodes_recurse(c, filter_func) for c in node.get_children()])
 
-    def find_vardefs(self, varname, typename=None):
+    def find_vardefs(self, varname, typename=None, custom_filter_func=None):
             
         def filter_function(node):
             match = node.is_definition() and node.get_definition().spelling == varname and node.kind.is_declaration()
             if typename is not None:
                 match = match and (node.type.spelling == typename)
+            if custom_filter_func is not None:
+                match = match and custom_filter_func(node)
+
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)

@@ -6,6 +6,20 @@ import cppparser
 
 from behave import given, when, then, step
 
+def copy_and_parse_ino(ino_file_path):
+    cpp_filename = (ino_file_path.stem + ".cpp")
+    copy = ino_file_path.parent / cpp_filename
+    copyfile(ino_file_path, copy)
+    parsed_output = cppparser.ParsedFile(copy)
+    return parsed_output, cpp_filename
+
+def get_filename_filter_function(filename):
+    
+    def node_filter_function(n):
+        return Path(str(n.location.file)).name == filename
+
+    return node_filter_function
+
 @given(u'the user runs RAAT with "{filename}"')
 def the_user_runs_raat(context, filename):
     pathlib_file = Path(filename)
@@ -37,17 +51,13 @@ def the_sketch_has_been_created(context):
 @then(u'the sketch should have 1 {param_type} parameter called "{name}"')
 def the_sketch_has_a_parameter(context, param_type, name):
 
-    def node_filter_function(n):
-        return Path(str(n.location.file)).name == cpp_filename
+    parsed_output, cpp_filename = copy_and_parse_ino(context.generated_file)
 
-    cpp_filename = (context.generated_file.stem + ".cpp")
     expected_variable_name = "s_" + name.lower().replace(" ", "_")
-    copy = context.generated_file.parent / cpp_filename
-    copyfile(context.generated_file, copy)
-    parsed_output = cppparser.ParsedFile(copy)
-  
-    vardefs = parsed_output.find_vardefs(expected_variable_name)
-    vardefs = list(filter(node_filter_function, vardefs))
+ 
+    vardefs = parsed_output.find_vardefs(expected_variable_name, param_type,
+        custom_filter_func=get_filename_filter_function(cpp_filename))
+
     vardefs = cppparser.sort_by_line_number(vardefs)
 
     assert (len(vardefs) == 1)
@@ -55,21 +65,13 @@ def the_sketch_has_a_parameter(context, param_type, name):
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):
 
-    cpp_filename = (context.generated_file.stem + ".cpp")
-    
-    def node_filter_function(n):
-        return Path(str(n.location.file)).name == cpp_filename
-
-    copy = context.generated_file.parent / cpp_filename
-    copyfile(context.generated_file, copy)
-    parsed_output = cppparser.ParsedFile(copy)
+    parsed_output, cpp_filename = copy_and_parse_ino(context.generated_file)
 
     all_references = {}
     for i in range(0, int(number)):
         expected_variable_name = "s_{:s}{:02d}".format(name.lower().replace(" ", "_"), i)
-        print(expected_variable_name)
-        vardefs = parsed_output.find_vardefs(expected_variable_name)
-        vardefs = list(filter(node_filter_function, vardefs))
+        vardefs = parsed_output.find_vardefs(expected_variable_name,
+            custom_filter_func=get_filename_filter_function(cpp_filename))
 
         all_references.update(cppparser.sort_by_line_number(vardefs))
 
