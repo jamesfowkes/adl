@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="One Single Parameter">
+    <info>
+        BDD Test File
+    </info>
+    <parameters>
+        <parameter name="Test String" type="String">
+            <setting id="length" value="10"></setting>
+        </parameter>
+    </parameters>
+</board>

@@ -95,3 +95,16 @@ Here's what RAAT *isn't*:
  - Fast: RAAT is not designed for applications that need lightning fast responses. The background processing takes up CPU cycles that could be used for other things. It's designed for speed of development, not speed of code!
  - Production Ready: because it can be driven by text files and command line programs, in theory it can be built into automated deployment pipelines - but as said above, it's experimental and liable to break!
  - Super-beginner-friendly: while RAAT certainly can be used by beginners to Arduino, it's better to have some idea of the ecosystem and how to code before jumping in. 
+
+## BDD Testing
+
+The RAAT code development is not exactly "behaviour driven", but it does have BDD tests supporting it!
+
+The tests use [`behave`](https://behave.readthedocs.io/en/latest/) to implement the tests. RAAT is run using `subprocess`, and the generated output parsed using [`clang`](https://clang.llvm.org/).
+
+The Python clang bindings are apparently not stable, so I've picked a version that works and I'm sticking with that. You will need:
+
+ - To install behave to your local python environment (`pip install behave` should be enough).
+ - clang version 5.0.1-2 - Try from the [LLVM download page](http://releases.llvm.org/download.html).
+ - Python clang bindings 5.0.1-2 - These come with the distribution at the [LLVM download page](http://releases.llvm.org/download.html) also.
+ 
