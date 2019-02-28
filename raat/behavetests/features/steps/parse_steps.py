@@ -76,3 +76,7 @@ def the_sketch_has_array_parameters(context, number, param_type, name):
         all_references.update(cppparser.sort_by_line_number(vardefs))
 
     assert (len(all_references) == int(number))
+
+@then(u'the parameter struct should have members')
+def the_parameter_struct_should_have_members(context):
+    pass
