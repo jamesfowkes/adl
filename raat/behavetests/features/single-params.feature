@@ -10,7 +10,9 @@ Feature: Single parameters
       Then the process should have run successfully
       And the sketch should have been created
       And the sketch should have 1 StringParam parameter called "Test String"
-      And the parameter struct should have members
+      And the generated parameter data should have members
+        | pointer type  | name        |
+        | StringParam   | Test_String | 
 
   Scenario: Make a sketch with a many single parameters
     Given the user runs RAAT with "Many_Single_Parameters.xml"
