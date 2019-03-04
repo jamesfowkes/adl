@@ -3,8 +3,7 @@ import shutil
 def after_scenario(context, scenario):
 
 	try:
-		pass
-		#shutil.rmtree(context.generated_file.parent)
+		shutil.rmtree(context.generated_file.ino_file_path.parent)
 	except AttributeError:
-		pass
+		raise
 
