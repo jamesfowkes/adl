@@ -62,6 +62,7 @@ class ParsedFile:
             
         def filter_function(node):
             match = node.is_definition() and node.get_definition().spelling == varname and node.kind.is_declaration()
+            #print_node(node)
             if typename is not None:
                 match = match and (node.type.spelling == typename)
             if custom_filter_func is not None:

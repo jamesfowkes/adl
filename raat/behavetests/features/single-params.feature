@@ -9,12 +9,14 @@ Feature: Single parameters
     Given the user runs RAAT with "One_Single_Parameter.xml"
       Then the process should have run successfully
       And the sketch should have been created
+      And the sketch should have 1 parameters in total
       And the sketch should have 1 StringParam parameter called "Test String"
 
   Scenario: Make a sketch with a many single parameters
     Given the user runs RAAT with "Many_Single_Parameters.xml"
       Then the process should have run successfully
       And the sketch should have been created
+      And the sketch should have 9 parameters in total
       And the sketch should have 1 StringParam parameter called "Test String"
       And the sketch should have 1 StringParam parameter called "Test String 2"
       And the sketch should have 1 StringParam parameter called "Test String 3"

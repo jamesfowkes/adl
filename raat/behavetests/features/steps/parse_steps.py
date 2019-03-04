@@ -51,6 +51,8 @@ def the_user_runs_raat(context, filename):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
+    context.parsed_cpp, context.cpp_filename = context.generated_file.copy_and_parse_ino()
+
 @then(u'the process should have run successfully')
 def the_process_runs_successfully(context):
     if context.completedprocess.returncode != 0:
@@ -68,18 +70,30 @@ def the_sketch_has_been_created(context):
 @then(u'the sketch should have 1 {param_type} parameter called "{name}"')
 def the_sketch_has_a_parameter(context, param_type, name):
 
-    print("------")
-    print(name)
     ## Assert that the parameter has been declared in the sketch
-    parsed_cpp, cpp_filename = context.generated_file.copy_and_parse_ino()
-
+    
     expected_variable_name = "s_" + name.lower().replace(" ", "_")
-    vardefs = parsed_cpp.find_vardefs(expected_variable_name, param_type,
-        custom_filter_func=get_filename_filter_function(cpp_filename))
+    vardefs = context.parsed_cpp.find_vardefs(expected_variable_name, param_type,
+        custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     vardefs = cppparser.sort_by_line_number(vardefs)
 
     assert (len(vardefs) == 1)
+
+    ## Assert that a pointer to the param is in the array
+
+    expected_array_name = "s_params_pointers"
+    expected_array_type = "ParameterBase *[{:d}]".format(context.nparams)
+    vardefs = context.parsed_cpp.find_vardefs(expected_array_name, expected_array_type,
+        custom_filter_func=get_filename_filter_function(context.cpp_filename))
+
+    array_def = cppparser.get_child(vardefs[0], 1)
+    array_members = cppparser.get_children(array_def)
+    array_members = [cppparser.get_child(m, 0) for m in array_members]
+
+    names = [m.displayname for m in array_members]
+
+    assert names.count(expected_variable_name) == 1
 
     ## Assert that the parameter pointer has been defined in the struct
     expected_pointer_name = "p" + name.replace(" ", "_")
@@ -92,17 +106,14 @@ def the_sketch_has_a_parameter(context, param_type, name):
 
     ## Assert that the param struct has been declared in the sketch
     expected_struct_name = "raat_params"
-    vardefs = parsed_cpp.find_vardefs(expected_struct_name, "const raat_params_struct",
-        custom_filter_func=get_filename_filter_function(cpp_filename))
+    vardefs = context.parsed_cpp.find_vardefs(expected_struct_name, "const raat_params_struct",
+        custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     assert len(vardefs) == 1
 
     struct_def = cppparser.get_child(vardefs[0], 1)
     struct_members = cppparser.get_children(struct_def)
     
-    for s in struct_members:
-        cppparser.print_node(s)
-
     struct_matches = []
 
     for s in struct_members:
@@ -119,14 +130,22 @@ def the_sketch_has_a_parameter(context, param_type, name):
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):
 
-    parsed_output, cpp_filename = context.generated_file.copy_and_parse_ino()
-
     all_references = {}
     for i in range(0, int(number)):
         expected_variable_name = "s_{:s}{:02d}".format(name.lower().replace(" ", "_"), i)
-        vardefs = parsed_output.find_vardefs(expected_variable_name,
-            custom_filter_func=get_filename_filter_function(cpp_filename))
+        vardefs = context.parsed_cpp.find_vardefs(expected_variable_name,
+            custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
         all_references.update(cppparser.sort_by_line_number(vardefs))
 
     assert (len(all_references) == int(number))
+
+@then(u'the sketch should have {num} parameters in total')
+def the_sketch_has_n_parameters(context, num):
+    context.nparams = int(num)
+    expected_array_name = "s_params_pointers"
+    expected_array_type = "ParameterBase *[{:d}]".format(context.nparams)
+    vardefs = context.parsed_cpp.find_vardefs(expected_array_name, expected_array_type,
+        custom_filter_func=get_filename_filter_function(context.cpp_filename))
+
+    assert (len(vardefs) == 1)
