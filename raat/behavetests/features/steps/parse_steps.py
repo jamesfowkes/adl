@@ -80,15 +80,12 @@ def the_sketch_has_a_parameter(context, param_type, name):
 
     ## Assert that the parameter pointer has been declared in the struct
     expected_pointer_name = "p" + name.replace(" ", "_")
-    typedefs = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl("_raat_params_struct")
-    #typedefs = context.generated_file.parse_generated_file("raat-application.hpp").find_typedefs("raat_params_struct")
-    struct_children = list(typedefs[0].get_children())
+    struct_decls = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl("_raat_params_struct")
+    assert len(struct_decls) == 1
 
-    print("--")
-    print(struct_children)
-    matches = [child.type.spelling for child in struct_children]
-
-    assert False
+    struct_children = list(struct_decls[0].get_children())
+    name_matches = [child.get_definition().spelling == expected_pointer_name for child in struct_children]
+    assert name_matches.count(True) == 1
 
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):

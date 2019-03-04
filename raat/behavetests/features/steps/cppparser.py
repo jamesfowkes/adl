@@ -28,12 +28,13 @@ def print_node(node):
     except:
         typename = None
 
-    print("@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}".format(
+    print("@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}, {:d} children".format(
         node.location.line,
         node.displayname, spelling,
         "def" if node.is_definition() else "not def",
         "decl" if node.kind.is_declaration() else "not decl",
-        typename if typename is not None else "no type"
+        typename if typename is not None else "no type",
+        len(list(node.get_children()))
     ))
 
 class ParsedFile:
@@ -67,8 +68,10 @@ class ParsedFile:
     def find_struct_decl(self, typename):
 
         def filter_function(node):
-            match = (node.type.spelling == typename) and (not node.is_definition()) and (not node.kind.is_declaration())
-            print_node(node)
+            match = (node.type.spelling == typename) and (node.is_definition())
+            match = match and (node.kind.is_declaration())
+            match = match and (node.get_definition().spelling == typename)
+            match = match and (node.displayname == typename)
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)
