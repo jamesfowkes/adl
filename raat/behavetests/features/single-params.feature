@@ -5,7 +5,6 @@ Feature: Single parameters
   I want to specify parameters in the setup file
   and have them automatically created.
 
-  @wip
   Scenario: Make a sketch with a single parameter
     Given the user runs RAAT with "One_Single_Parameter.xml"
       Then the process should have run successfully

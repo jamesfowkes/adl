@@ -37,6 +37,12 @@ def print_node(node):
         len(list(node.get_children()))
     ))
 
+def get_children(node):
+    return list(node.get_children())
+
+def get_child(node, n):
+    return list(node.get_children())[n]
+
 class ParsedFile:
 
     def __init__(self, filepath):
@@ -60,7 +66,6 @@ class ParsedFile:
                 match = match and (node.type.spelling == typename)
             if custom_filter_func is not None:
                 match = match and custom_filter_func(node)
-
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)
@@ -80,7 +85,6 @@ class ParsedFile:
 
         def filter_function(node):
             match = node.type.spelling == typename and node.is_definition() and node.kind.is_declaration()
-            print_node(node)
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)

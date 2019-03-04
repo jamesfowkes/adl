@@ -6,6 +6,8 @@ import cppparser
 
 from behave import given, when, then, step
 
+from util import pairwise
+
 class GeneratedFile:
 
     def __init__(self, sketch_filename):
@@ -66,26 +68,53 @@ def the_sketch_has_been_created(context):
 @then(u'the sketch should have 1 {param_type} parameter called "{name}"')
 def the_sketch_has_a_parameter(context, param_type, name):
 
+    print("------")
+    print(name)
     ## Assert that the parameter has been declared in the sketch
-    parsed_output, cpp_filename = context.generated_file.copy_and_parse_ino()
+    parsed_cpp, cpp_filename = context.generated_file.copy_and_parse_ino()
 
     expected_variable_name = "s_" + name.lower().replace(" ", "_")
-    
-    vardefs = parsed_output.find_vardefs(expected_variable_name, param_type,
+    vardefs = parsed_cpp.find_vardefs(expected_variable_name, param_type,
         custom_filter_func=get_filename_filter_function(cpp_filename))
 
     vardefs = cppparser.sort_by_line_number(vardefs)
 
     assert (len(vardefs) == 1)
 
-    ## Assert that the parameter pointer has been declared in the struct
+    ## Assert that the parameter pointer has been defined in the struct
     expected_pointer_name = "p" + name.replace(" ", "_")
     struct_decls = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl("_raat_params_struct")
     assert len(struct_decls) == 1
 
-    struct_children = list(struct_decls[0].get_children())
+    struct_children = cppparser.get_children(struct_decls[0])
     name_matches = [child.get_definition().spelling == expected_pointer_name for child in struct_children]
     assert name_matches.count(True) == 1
+
+    ## Assert that the param struct has been declared in the sketch
+    expected_struct_name = "raat_params"
+    vardefs = parsed_cpp.find_vardefs(expected_struct_name, "const raat_params_struct",
+        custom_filter_func=get_filename_filter_function(cpp_filename))
+
+    assert len(vardefs) == 1
+
+    struct_def = cppparser.get_child(vardefs[0], 1)
+    struct_members = cppparser.get_children(struct_def)
+    
+    for s in struct_members:
+        cppparser.print_node(s)
+
+    struct_matches = []
+
+    for s in struct_members:
+        struct_member1 = cppparser.get_child(s, 0)
+        struct_member2 = cppparser.get_child(s, 1)
+        match = struct_member1.displayname == expected_pointer_name
+        assigned_variable = cppparser.get_child(struct_member2, 0)
+
+        match = match and assigned_variable.displayname == expected_variable_name
+        struct_matches.append(match)
+
+    assert struct_matches.count(True) == 1
 
 @then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
 def the_sketch_has_array_parameters(context, number, param_type, name):
