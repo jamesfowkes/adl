@@ -98,13 +98,15 @@ Here's what RAAT *isn't*:
 
 ## BDD Testing
 
-The RAAT code development is not exactly "behaviour driven", but it does have BDD tests supporting it!
+The RAAT code development is not exactly "behaviour driven", but it does have "BDD-style" tests supporting it!
 
-The tests use [`behave`](https://behave.readthedocs.io/en/latest/) to implement the tests. RAAT is run using `subprocess`, and the generated output parsed using [`clang`](https://clang.llvm.org/).
+The tests use [`behave`](https://behave.readthedocs.io/en/latest/) to implement them. RAAT is run using `subprocess`, and the generated output parsed using [`clang`](https://clang.llvm.org/).
 
-The Python clang bindings are apparently not stable, so I've picked a version that works and I'm sticking with that. You will need:
+The Python clang bindings are apparently not stable, so I've picked a version that works and I'm sticking with that. As long your clang version is >= 5 you should be OK. Importantly, your clang version and the Python bindings version need to make.
 
- - To install behave to your local python environment (`pip install behave` should be enough).
- - clang version 5.0.1-2 - Try from the [LLVM download page](http://releases.llvm.org/download.html).
- - Python clang bindings 5.0.1-2 - These come with the distribution at the [LLVM download page](http://releases.llvm.org/download.html) also.
+To run the tests, you need to:
+
+ - Install behave to your local python environment (`pip install behave` should be enough).
+ - clang - Either from your OS packages or from the [LLVM download page](http://releases.llvm.org/download.html).
+ - Python clang bindings to match clang - you can force a matching version by using `pip install clang=X.x` where X.x is the version.
  
