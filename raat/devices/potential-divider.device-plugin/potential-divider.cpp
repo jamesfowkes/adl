@@ -1,8 +1,8 @@
 #include <float.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "potential-divider.h"
+#include "potential-divider.hpp"
 
 PotentialDivider::PotentialDivider(int pin, uint32_t rDivider, DIVIDER_TYPE eDividerType) : 
     m_pin(pin), m_rDivider(rDivider), m_eDividerType(eDividerType)

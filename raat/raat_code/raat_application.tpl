@@ -13,14 +13,15 @@
 #include "{{include}}"
 {% endfor %}
 
-typedef struct _raat_devices_struct
+struct _raat_devices_struct
 {
     {% for device in board.devices -%}
     {{device.ctype}} * p{{device.sanitised_name}};
     {%- endfor %}
-} raat_devices_struct;
+};
+typedef struct _raat_devices_struct raat_devices_struct;
 
-typedef struct _raat_params_struct
+struct _raat_params_struct
 {
     {% for param in board.parameters.all -%}
     {{param.ctype}} * p{{param.sanitised_name}};
@@ -28,6 +29,7 @@ typedef struct _raat_params_struct
     {% for param_group in board.parameters.grouped -%}
     {{param_group.base_param.ctype}} * p{{param_group.base_param.sanitised_name}}[{{param_group.count}}];
     {% endfor %}
-} raat_params_struct;
+};
+typedef struct _raat_params_struct raat_params_struct;
 
 #endif

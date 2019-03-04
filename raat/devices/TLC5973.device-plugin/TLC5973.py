@@ -19,7 +19,7 @@ class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"]))
 
     sources = (DeviceSource(THIS_PATH, "TLC5973.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "TLC5973.h"), )
+    includes = (DeviceInclude(THIS_PATH, "TLC5973.hpp"), )
 
     @property
     def setup(self):

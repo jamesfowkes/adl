@@ -19,7 +19,7 @@ class AnalogInput(GenericDevice, namedtuple("AnalogInput", ["name", "pin"])):
 
     sources = (DeviceSource(THIS_PATH, "analog-input.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "analog-input.h"), )
+    includes = (DeviceInclude(THIS_PATH, "analog-input.hpp"), )
 
     @property
     def setup(self):

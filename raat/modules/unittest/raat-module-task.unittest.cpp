@@ -11,11 +11,11 @@
 
 #include "Arduino.h"
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
-#include "raat-task.h"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
+#include "raat-task.hpp"
 
 static int s_call_count;
 

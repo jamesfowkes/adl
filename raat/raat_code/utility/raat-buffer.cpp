@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "raat-buffer.h"
+#include "raat-buffer.hpp"
 
 /* RAATBuffer class */
 

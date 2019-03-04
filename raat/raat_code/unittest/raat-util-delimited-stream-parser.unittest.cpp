@@ -8,8 +8,8 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat-util.h"
-#include "raat-util-delimited-stream-parser.h"
+#include "raat-util.hpp"
+#include "raat-util-delimited-stream-parser.hpp"
 
 static char buffer[9];
 static raat_string_buffer s_raat_buffer = {buffer, 9};

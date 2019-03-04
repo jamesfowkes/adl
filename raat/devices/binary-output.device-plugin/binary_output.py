@@ -28,7 +28,7 @@ class BinaryOutput(GenericDevice, namedtuple("BinaryOutput", ["name", "pins"])):
 
     sources = (DeviceSource(THIS_PATH, "binary-output.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "binary-output.h"), )
+    includes = (DeviceInclude(THIS_PATH, "binary-output.hpp"), )
 
     @property
     def setup(self):

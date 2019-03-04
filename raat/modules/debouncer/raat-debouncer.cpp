@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-debouncer.h"
+#include "raat-debouncer.hpp"
 
 RAATDebouncer::RAATDebouncer(DebounceReader& reader, uint16_t debounce_ticks) : 
     m_count_max(debounce_ticks),

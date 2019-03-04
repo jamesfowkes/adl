@@ -3,7 +3,7 @@
 
 #include <Adafruit_NeoPixel.h>
 
-#include "rgb-param.h"
+#include "rgb-param.hpp"
 
 class AdafruitNeoPixelRAAT : public DeviceBase
 {

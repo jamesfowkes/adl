@@ -22,7 +22,7 @@ class Adafruit_MCP4725RAAT(GenericDevice, namedtuple("Adafruit_MCP4725RAAT", ["n
 
     includes = (
         LibraryInclude("Adafruit_MCP4725.h"),
-        DeviceInclude(THIS_PATH, "adafruit-mcp4725.h")
+        DeviceInclude(THIS_PATH, "adafruit-mcp4725.hpp")
     )
 
 

@@ -8,9 +8,9 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-time.h"
+#include "raat-time.hpp"
 
 /*
  * Private Functions

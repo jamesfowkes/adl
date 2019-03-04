@@ -10,7 +10,7 @@
  * RAAT Includes
  */
 
-#include "raat-messages.h"
+#include "raat-messages.hpp"
 
 int raat_msg_invalid_range(char * reply)
 {

@@ -1,9 +1,9 @@
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "adafruit-mcp4725.h"
+#include "adafruit-mcp4725.hpp"
 
 /*
  * Class Private Functions

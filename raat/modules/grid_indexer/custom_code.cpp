@@ -1,9 +1,9 @@
 #include <Adafruit_NeoPixel.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "adafruit-neopixel-raat.h"
-#include "grid-indexer.h"
+#include "adafruit-neopixel-raat.hpp"
+#include "grid-indexer.hpp"
 
 static GridIndexer s_indexer = GridIndexer(3);
 

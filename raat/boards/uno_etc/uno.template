@@ -1,6 +1,6 @@
 #include <EEPROM.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
 {% for dep in board.raat_includes(False) %}
     #include "{{dep}}"

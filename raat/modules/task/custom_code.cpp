@@ -1,8 +1,8 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
-#include "raat-task.h"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
+#include "raat-task.hpp"
 
 static int some_data;
 static void my_task_fn(void * pTaskData)

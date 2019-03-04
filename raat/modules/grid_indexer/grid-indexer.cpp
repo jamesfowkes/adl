@@ -5,8 +5,8 @@
 
 /* RAAT Includes */
 
-#include "raat.h"
-#include "grid-indexer.h"
+#include "raat.hpp"
+#include "grid-indexer.hpp"
 
 GridIndexer::GridIndexer(uint8_t length) : 
 	m_length(length)

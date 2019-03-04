@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "analog-output.h"
+#include "analog-output.hpp"
 
 AnalogOutput::AnalogOutput(int pin, int limit_min, int limit_max, int reset_level)
 {

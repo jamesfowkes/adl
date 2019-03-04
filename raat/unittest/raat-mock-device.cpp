@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "raat.h"
-#include "protocol.h"
+#include "raat.hpp"
+#include "protocol.hpp"
 
 class MockDevice : public DeviceBase
 {

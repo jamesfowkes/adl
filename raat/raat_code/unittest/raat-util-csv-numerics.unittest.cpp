@@ -8,7 +8,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat-util.h"
+#include "raat-util.hpp"
 
 static const int32_t EMPTY_ARRAY[16] = {INT16_MAX};
 

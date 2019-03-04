@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Many Multiple Params">
+    <info>
+        BDD Test File
+    </info>
+    <parameters>
+        <parameter name="Test String" type="String" count="2">
+        	<setting id="length" value="10"></setting>
+        </parameter>
+        <parameter name="Test Boolean" type="Boolean" count="3"></parameter>
+        <parameter name="Test Integer" type="Integer" count="5"></parameter>
+    </parameters>
+</board>

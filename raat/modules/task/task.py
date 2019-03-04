@@ -16,7 +16,7 @@ class TaskModule(GenericModule):
     sources += (ModuleSource(THIS_PATH, "raat-task.cpp"),)
     
     includes = OneShotTaskModule().includes
-    includes += (ModuleInclude(THIS_PATH, "raat-task.h"),)
+    includes += (ModuleInclude(THIS_PATH, "raat-task.hpp"),)
     
     @property
     def directory(self):

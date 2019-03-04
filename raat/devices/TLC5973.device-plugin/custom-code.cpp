@@ -1,9 +1,9 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "TLC5973.h"
-#include "raat-oneshot-timer.h"
-#include "raat-oneshot-task.h"
-#include "raat-task.h"
+#include "TLC5973.hpp"
+#include "raat-oneshot-timer.hpp"
+#include "raat-oneshot-task.hpp"
+#include "raat-task.hpp"
 
 TLC5973 * pTLC5973;
 

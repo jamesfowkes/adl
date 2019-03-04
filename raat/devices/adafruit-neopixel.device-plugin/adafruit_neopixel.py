@@ -23,7 +23,7 @@ class AdafruitNeoPixelRAAT(GenericDevice, namedtuple("AdafruitNeoPixelRAAT", ["n
     sources += RGBParam.sources
     
     includes = (
-        DeviceInclude(THIS_PATH, "adafruit-neopixel-raat.h"),
+        DeviceInclude(THIS_PATH, "adafruit-neopixel-raat.hpp"),
         LibraryInclude("Adafruit_NeoPixel.h")
     )
     includes += RGBParam.includes

@@ -21,7 +21,7 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
 
     sources = (DeviceSource(THIS_PATH, "random-pwm.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "random-pwm.h"), )
+    includes = (DeviceInclude(THIS_PATH, "random-pwm.hpp"), )
 
     @property
     def setup(self):

@@ -15,10 +15,10 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-util-limited-range-int.h"
-#include "rgb-param.h"
+#include "raat-util-limited-range-int.hpp"
+#include "rgb-param.hpp"
 
 #define RGB_FORMAT "%" PRIi32 ",%" PRIi32 ",%" PRIi32
 

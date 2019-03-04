@@ -8,10 +8,10 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat.h"
-#include "boolean-param.h"
+#include "raat.hpp"
+#include "boolean-param.hpp"
 
-#include "raat-mock.h"
+#include "raat-mock.hpp"
 
 class BooleanParameterTest : public CppUnit::TestFixture { 
 

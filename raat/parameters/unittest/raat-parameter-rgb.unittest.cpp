@@ -8,11 +8,11 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat.h"
-#include "raat-util-limited-range-int.h"
-#include "rgb-param.h"
+#include "raat.hpp"
+#include "raat-util-limited-range-int.hpp"
+#include "rgb-param.hpp"
 
-#include "raat-mock.h"
+#include "raat-mock.hpp"
 
 class RGBParameterTest : public CppUnit::TestFixture { 
 

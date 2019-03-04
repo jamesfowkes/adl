@@ -19,7 +19,7 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
 
     sources = (DeviceSource(THIS_PATH, "timed-onoff.cpp"), )
 
-    includes = (DeviceInclude(THIS_PATH, "timed-onoff.h"), )
+    includes = (DeviceInclude(THIS_PATH, "timed-onoff.hpp"), )
 
     @property
     def setup(self):

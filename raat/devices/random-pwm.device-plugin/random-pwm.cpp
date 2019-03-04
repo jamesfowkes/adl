@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "random-pwm.h"
+#include "random-pwm.hpp"
 
 RandomPWM::RandomPWM(int pin, unsigned long interval, int low_limit, int high_limit)
 {

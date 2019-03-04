@@ -1,9 +1,9 @@
 #include <Wire.h>
 #include <IRremote.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "IR-receiver.h"
+#include "IR-receiver.hpp"
 
 static bool command_is_query(char const * const command)
 {

@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat_keypad.h"
+#include "raat_keypad.hpp"
 
 RAATKeypad::RAATKeypad(Keypad& keypad)
 {

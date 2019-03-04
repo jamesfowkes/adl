@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "TLC5973.h"
+#include "TLC5973.hpp"
 
 #define NOP *mp_port&=~m_pinMask;
 

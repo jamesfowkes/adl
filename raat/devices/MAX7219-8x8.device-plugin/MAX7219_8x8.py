@@ -26,7 +26,7 @@ class MAX7219_8x8(GenericDevice, namedtuple("MAX7219_8x8", ["name", "cs_pin", "d
 
     @property
     def includes(self):
-        return device_utils.get_device_class("MAX7219").includes + (DeviceInclude(THIS_PATH, "MAX7219-8x8.h"), )
+        return device_utils.get_device_class("MAX7219").includes + (DeviceInclude(THIS_PATH, "MAX7219-8x8.hpp"), )
 
     @property
     def setup(self):

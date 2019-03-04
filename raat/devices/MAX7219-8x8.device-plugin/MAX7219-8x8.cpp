@@ -1,7 +1,7 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "MAX7219.h"
-#include "MAX7219-8x8.h"
+#include "MAX7219.hpp"
+#include "MAX7219-8x8.hpp"
 
 /*
  * Class Private Functions

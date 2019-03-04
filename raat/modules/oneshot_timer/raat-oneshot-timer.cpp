@@ -9,9 +9,9 @@
  * RAAT Includes
  */
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "raat-oneshot-timer.h"
+#include "raat-oneshot-timer.hpp"
 
 /*
  * Class Functions

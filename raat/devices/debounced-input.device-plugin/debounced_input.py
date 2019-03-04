@@ -24,7 +24,7 @@ class DebouncedInput(GenericDevice, namedtuple("DebouncedInput", ["name", "pin",
     sources += (DeviceSource(THIS_PATH, "debounced-input.cpp"),)
         
     includes = DebouncerModule().includes
-    includes += (DeviceInclude(THIS_PATH, "debounced-input.h"), )
+    includes += (DeviceInclude(THIS_PATH, "debounced-input.hpp"), )
 
     @property
     def setup(self):

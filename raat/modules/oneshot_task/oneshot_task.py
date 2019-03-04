@@ -16,7 +16,7 @@ class OneShotTaskModule(GenericModule):
     sources += (ModuleSource(THIS_PATH, "raat-oneshot-task.cpp"),)
 
     includes = OneShotTimerModule().includes
-    includes += (ModuleInclude(THIS_PATH, "raat-oneshot-task.h"),)
+    includes += (ModuleInclude(THIS_PATH, "raat-oneshot-task.hpp"),)
 
     @property
     def directory(self):

@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "digital-output.h"
+#include "digital-output.hpp"
 
 DigitalOutput::DigitalOutput(int pin)
 {

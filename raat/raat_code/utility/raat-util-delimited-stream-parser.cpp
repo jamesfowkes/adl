@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
-#include "raat.h"
-#include "raat-util-delimited-stream-parser.h"
+#include "raat.hpp"
+#include "raat-util-delimited-stream-parser.hpp"
 
 DelimitedStreamParser::DelimitedStreamParser(char start, char end, raat_string_buffer& buffer, PARSER_CALLBACK on_parsed_cb):
 m_start(start), m_end(end), m_pbuffer(&buffer), m_on_parsed_cb(on_parsed_cb), m_write_index(0)

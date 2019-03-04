@@ -3,9 +3,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#include "raat.h"
+#include "raat.hpp"
 
-#include "rfid-rc522.h"
+#include "rfid-rc522.hpp"
 
 RFID_RC522::RFID_RC522(int ss_pin, int rst_pin)
 {

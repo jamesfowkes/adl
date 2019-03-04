@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "raat.h"
-#include "protocol.h"
+#include "raat.hpp"
+#include "protocol.hpp"
 
 /*
 * Example command and reply:

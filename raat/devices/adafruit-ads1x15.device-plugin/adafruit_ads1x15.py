@@ -21,7 +21,7 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
     sources = (DeviceSource(THIS_PATH, "adafruit-ads1x15.cpp"), )
 
     includes = (
-        DeviceInclude(THIS_PATH, "adafruit-ads1x15.h"),
+        DeviceInclude(THIS_PATH, "adafruit-ads1x15.hpp"),
         LibraryInclude("Adafruit_ADS1015.h")
     )
 

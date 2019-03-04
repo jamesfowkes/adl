@@ -1,6 +1,6 @@
-#include "raat.h"
+#include "raat.hpp"
 
-#include "analog-input.h"
+#include "analog-input.hpp"
 
 AnalogInput::AnalogInput(int pin)
 {

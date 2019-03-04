@@ -18,7 +18,7 @@ class PotentialDivider(GenericDevice, namedtuple("PotentialDivider", ["name", "p
     __slots__ = ()
 
     sources = (DeviceSource(THIS_PATH, "potential-divider.cpp"), )
-    includes = (DeviceInclude(THIS_PATH, "potential-divider.h"), )
+    includes = (DeviceInclude(THIS_PATH, "potential-divider.hpp"), )
 
     @property
     def setup(self):

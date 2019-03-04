@@ -8,8 +8,8 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat-util-limited-range-int.h"
-#include "raat-util.h"
+#include "raat-util-limited-range-int.hpp"
+#include "raat-util.hpp"
 
 class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture { 
 

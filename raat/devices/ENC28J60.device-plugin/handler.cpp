@@ -1,10 +1,10 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "raat.h"
-#include "raat-buffer.h"
+#include "raat.hpp"
+#include "raat-buffer.hpp"
 
-#include "http-get-server.h"
+#include "http-get-server.hpp"
 
 static HTTPGetServer s_server(false);
 

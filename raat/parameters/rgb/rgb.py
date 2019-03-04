@@ -23,8 +23,8 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit",
 	__slots__ = ()
 
 	includes = (
-		RAATInclude("utility", "raat-util-limited-range-int.h"),
-		ParameterInclude(THIS_PATH, "rgb-param.h")
+		RAATInclude("utility", "raat-util-limited-range-int.hpp"),
+		ParameterInclude(THIS_PATH, "rgb-param.hpp")
 	)
 
 	sources = (

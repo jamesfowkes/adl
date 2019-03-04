@@ -8,10 +8,10 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "raat.h"
-#include "string-param.h"
+#include "raat.hpp"
+#include "string-param.hpp"
 
-#include "raat-mock.h"
+#include "raat-mock.hpp"
 
 static char scratchpad[64];
 
