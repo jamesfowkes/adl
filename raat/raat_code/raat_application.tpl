@@ -15,9 +15,12 @@
 
 struct _raat_devices_struct
 {
-    {% for device in board.devices.all %}
+    {% for device in board.devices.all -%}
     {{device.ctype}} * p{{device.sanitised_name}};
-    {%- endfor %}
+    {% endfor %}
+    {% for device_group in board.devices.grouped -%}
+    {{device_group.base_device.ctype}} * p{{device_group.base_device.sanitised_name}}[{{device_group.count}}];
+    {% endfor %}
 };
 typedef struct _raat_devices_struct raat_devices_struct;
 

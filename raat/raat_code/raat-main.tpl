@@ -47,10 +47,15 @@ static DeviceBase * s_device_pointers[] =
 
 static const raat_devices_struct raat_devices = {
     {% for device in board.devices.all %}
-    .p{{device.sanitised_name}} =  &{{device.cname()}}
-    {% if not loop.last %}
-    ,
-    {% endif %}
+    .p{{device.sanitised_name}} =  &{{device.cname()}},
+    {% endfor %}
+    
+    {% for device_group in board.devices.grouped -%}
+    .p{{device_group.base_device.sanitised_name}} = {
+    {% for device in device_group.devices -%}
+        &{{device.cname()}},
+    {% endfor %}
+    },
     {% endfor %}
 };
 
@@ -71,7 +76,7 @@ static const raat_params_struct raat_params = {
     {% endfor %}
 
     {% for param_group in board.parameters.grouped -%}
-    .p{{param_group.base_param.sanitised_name}} = {
+    .p{{param_group.base_device.sanitised_name}} = {
     {% for param in param_group.parameters -%}
         &{{param.cname()}},
     {% endfor %}
