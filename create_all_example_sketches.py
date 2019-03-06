@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     sketchbook_path = None
 
-    if "--sketchbook" in args:
+    if "--sketchbook" in args and args["--sketchbook"] is not None:
         sketchbook_path = Path(args["--sketchbook"]).expanduser()
     else:
         sketchbook_path = find_sketchbook_path()
