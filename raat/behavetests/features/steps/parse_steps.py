@@ -1,4 +1,6 @@
 import subprocess
+
+from collections import namedtuple
 from pathlib import Path
 from shutil import copyfile
 
@@ -7,6 +9,25 @@ import cppparser
 from behave import given, when, then, step
 
 from util import pairwise
+
+class Expected(namedtuple("Expected", ["array_name", "array_type", "struct_name", "struct_type", "const_struct_type"])):
+
+    @classmethod
+    def get(cls, context, parameter_or_device):
+        if parameter_or_device.startswith("parameter"):
+            expected_array_name = "s_params_pointers"
+            expected_array_type = "ParameterBase *[{:d}]".format(context.n_devices_or_params)
+            expected_struct_name = "raat_params"
+            expected_struct_type = "_raat_params_struct"
+            const_struct_type = "const raat_params_struct"
+        elif parameter_or_device.startswith("device"):
+            expected_array_name = "s_device_pointers"
+            expected_array_type = "DeviceBase *[{:d}]".format(context.n_devices_or_params)
+            expected_struct_name = "raat_devices"
+            expected_struct_type = "_raat_devices_struct"
+            const_struct_type = "const raat_devices_struct"
+
+        return cls(expected_array_name, expected_array_type, expected_struct_name, expected_struct_type, const_struct_type)
 
 class GeneratedFile:
 
@@ -67,13 +88,16 @@ def the_process_runs_successfully(context):
 def the_sketch_has_been_created(context):
     assert context.generated_file.exists()
 
-@then(u'the sketch should have 1 {param_type} parameter called "{name}"')
-def the_sketch_has_a_parameter(context, param_type, name):
+@then(u'the sketch should have 1 {param_or_device_type} {parameter_or_device} called "{name}"')
+def the_sketch_has_a_parameter_or_device(context, param_or_device_type, parameter_or_device, name):
 
-    ## Assert that the parameter has been declared in the sketch
+    if parameter_or_device not in ["parameter", "device"]:
+        raise Exception("Expected 'parameter' or 'device' in Then/And step")
+
+    ## Assert that the object has been declared in the sketch
     
     expected_variable_name = "s_" + name.lower().replace(" ", "_")
-    vardefs = context.parsed_cpp.find_vardefs(expected_variable_name, param_type,
+    vardefs = context.parsed_cpp.find_vardefs(expected_variable_name, param_or_device_type,
         custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     vardefs = cppparser.sort_by_line_number(vardefs)
@@ -81,10 +105,16 @@ def the_sketch_has_a_parameter(context, param_type, name):
     assert (len(vardefs) == 1)
 
     ## Assert that a pointer to the param is in the array
+    expected = Expected.get(context, parameter_or_device)
 
-    expected_array_name = "s_params_pointers"
-    expected_array_type = "ParameterBase *[{:d}]".format(context.nparams)
-    vardefs = context.parsed_cpp.find_vardefs(expected_array_name, expected_array_type,
+    #if parameters_or_devices == "parameters":
+    #    expected_array_name = "s_params_pointers"
+    #    expected_array_type = "ParameterBase *[{:d}]".format(context.n_devices_or_params)
+    #elif parameters_or_devices == "devices":
+    #    expected_array_name = "s_device_pointers"
+    #    expected_array_type = "DeviceBase *[{:d}]".format(context.n_devices_or_params)
+
+    vardefs = context.parsed_cpp.find_vardefs(expected.array_name, expected.array_type,
         custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     array_def = cppparser.get_child(vardefs[0], 1)
@@ -95,18 +125,17 @@ def the_sketch_has_a_parameter(context, param_type, name):
 
     assert names.count(expected_variable_name) == 1
 
-    ## Assert that the parameter pointer has been defined in the struct
+    ## Assert that the parameter/device pointer has been defined in the struct
     expected_pointer_name = "p" + name.replace(" ", "_")
-    struct_decls = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl("_raat_params_struct")
+    struct_decls = context.generated_file.parse_generated_file("raat-application.hpp").find_struct_decl(expected.struct_type)
     assert len(struct_decls) == 1
 
     struct_children = cppparser.get_children(struct_decls[0])
     name_matches = [child.get_definition().spelling == expected_pointer_name for child in struct_children]
     assert name_matches.count(True) == 1
 
-    ## Assert that the param struct has been declared in the sketch
-    expected_struct_name = "raat_params"
-    vardefs = context.parsed_cpp.find_vardefs(expected_struct_name, "const raat_params_struct",
+    ## Assert that the parameter/device struct has been declared in the sketch
+    vardefs = context.parsed_cpp.find_vardefs(expected.struct_name, (expected.const_struct_type),
         custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     assert len(vardefs) == 1
@@ -127,8 +156,8 @@ def the_sketch_has_a_parameter(context, param_type, name):
 
     assert struct_matches.count(True) == 1
 
-@then(u'the sketch should have an array of {number} {param_type} parameters called "{name}"')
-def the_sketch_has_array_parameters(context, number, param_type, name):
+@then(u'the sketch should have an array of {number} {param_or_device_type} parameters called "{name}"')
+def the_sketch_has_array_parameters(context, number, param_or_device_type, name):
 
     all_references = {}
     for i in range(0, int(number)):
@@ -140,12 +169,24 @@ def the_sketch_has_array_parameters(context, number, param_type, name):
 
     assert (len(all_references) == int(number))
 
-@then(u'the sketch should have {num} parameters in total')
-def the_sketch_has_n_parameters(context, num):
-    context.nparams = int(num)
-    expected_array_name = "s_params_pointers"
-    expected_array_type = "ParameterBase *[{:d}]".format(context.nparams)
-    vardefs = context.parsed_cpp.find_vardefs(expected_array_name, expected_array_type,
+@then(u'the sketch should have {num} {parameters_or_devices} in total')
+def the_sketch_has_n_parameters_or_devices(context, parameters_or_devices, num):
+
+    if parameters_or_devices not in ["parameters", "devices"]:
+        raise Exception("Expected 'parameters' or 'devices' in Then/And step")
+
+    context.n_devices_or_params = int(num)
+
+    expected = Expected.get(context, parameters_or_devices)
+
+    #if parameters_or_devices == "parameters":
+    #    expected_array_name = "s_params_pointers"
+    #    expected_array_type = "ParameterBase *[{:d}]".format(context.n_devices_or_params)
+    #elif parameters_or_devices == "devices":
+    #    expected_array_name = "s_device_pointers"
+    #    expected_array_type = "DeviceBase *[{:d}]".format(context.n_devices_or_params)
+
+    vardefs = context.parsed_cpp.find_vardefs(expected.array_name, expected.array_type,
         custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     assert (len(vardefs) == 1)

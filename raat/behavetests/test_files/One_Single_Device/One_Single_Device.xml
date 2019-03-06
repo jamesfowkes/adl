@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="One Single Device">
+    <info>
+        BDD Test File
+    </info>
+    <devices>
+        <device name="Test DigOut" type="Digital Output">
+            <setting id="pin" value="13"></setting>
+        </device>
+    </devices>
+</board>
