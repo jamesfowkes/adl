@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Multiple Parameters">
+    <info>
+        An example sketch that has multiple string, integer and boolean parameters
+    </info>
+    
+    <parameters>
+        <parameter name="Test Integer" type="Integer" count="5">
+        </parameter>
+        <parameter name="Test String" type="String" count="5">
+        	<setting id="length" value="10"/>
+        </parameter>
+        <parameter name="Test Boolean" type="Boolean" count="5">
+        </parameter>
+    </parameters>
+    <raat protocol="simple"></raat>
+</board>

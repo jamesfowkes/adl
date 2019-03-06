@@ -76,7 +76,7 @@ static const raat_params_struct raat_params = {
     {% endfor %}
 
     {% for param_group in board.parameters.grouped -%}
-    .p{{param_group.base_device.sanitised_name}} = {
+    .p{{param_group.base_param.sanitised_name}} = {
     {% for param in param_group.parameters -%}
         &{{param.cname()}},
     {% endfor %}
