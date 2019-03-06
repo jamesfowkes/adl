@@ -156,9 +156,12 @@ def the_sketch_has_a_parameter_or_device(context, param_or_device_type, paramete
 
     assert struct_matches.count(True) == 1
 
-@then(u'the sketch should have an array of {number} {param_or_device_type} parameters called "{name}"')
-def the_sketch_has_array_parameters(context, number, param_or_device_type, name):
+@then(u'the sketch should have an array of {number} {param_or_device_type} {parameters_or_devices} called "{name}"')
+def the_sketch_has_array_of_parameters_or_devices(context, number, param_or_device_type, parameters_or_devices, name):
 
+    if parameters_or_devices not in ["parameters", "devices"]:
+        raise Exception("Expected 'parameters' or 'devices' in Then/And step")
+        
     all_references = {}
     for i in range(0, int(number)):
         expected_variable_name = "s_{:s}{:02d}".format(name.lower().replace(" ", "_"), i)
