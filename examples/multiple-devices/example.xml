@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Multiple Devices">
+    <info>
+        An example sketch that has multiple analog output devices
+    </info>
+    
+    <devices>
+        <device name="LED" type="Analog Output" count="5">
+            <setting id="pin" name="LED_PIN" values="3,5,6,9,10"></setting>
+        </device>
+    </devices>
+    <raat protocol="simple"></raat>
+</board>

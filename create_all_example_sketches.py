@@ -5,6 +5,7 @@ Usage:
     create_all_example_sketches.py devices [-v] [--sketchbook=<sketchbook_path>]
     create_all_example_sketches.py parameters [-v] [--sketchbook=<sketchbook_path>]
     create_all_example_sketches.py modules [-v] [--sketchbook=<sketchbook_path>]
+    create_all_example_sketches.py general [-v] [--sketchbook=<sketchbook_path>]
 
 Options:
     -v, --verbose  Output extra logging information
@@ -31,6 +32,13 @@ def find_sketchbook_path():
     
     return None
 
+POSSIBLE_TARGETS = {
+    "devices" : Path("raat", "devices"),
+    "parameters" : Path("raat", "parameters"),
+    "modules" : Path("raat", "modules"),
+    "general" : Path("examples")
+}
+
 if __name__ == "__main__":
 
     args = docopt.docopt(__doc__)
@@ -54,13 +62,14 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.WARNING)
 
     if args["all"]:
-        targets = ["devices", "parameters", "modules"]
+        targets = POSSIBLE_TARGETS.keys()
     else:
-        targets = [next(x for x in args if x in ["devices", "parameters", "modules"] and args[x])]
+        targets = [next(x for x in args if (x in POSSIBLE_TARGETS) and args[x])]
 
     for target in targets:
         xml_files = []
-        for root, directories, files in os.walk("raat/{}".format(target)):
+        target_path = POSSIBLE_TARGETS[target]
+        for root, directories, files in os.walk("{}".format(target_path)):
             xml_files += [Path.joinpath(Path(root), Path(f)) for f in files if f == "example.xml"]
         print("Found {} {}".format(len(xml_files), target))
         example_files += xml_files
