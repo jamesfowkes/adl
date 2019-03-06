@@ -14,9 +14,6 @@ def flatten(l):
             flat.append(el)
     return flat
 
-def GetNameRange(basename, count):
-    return ["{:s}{:02d}".format(basename, i) for i in range(1, count+1)]
-
 class IncludeFile(Path):
     _flavour = Path('.')._flavour
 
@@ -69,10 +66,13 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
     __slots__ = ()
 
     @classmethod
-    def from_xml(cls, setting_node):
+    def from_xml(cls, setting_node, multiple=False):
         dev_id = setting_node.attrib["id"]
         name = setting_node.attrib.get("name", "")
-        value = setting_node.attrib["value"]
+        if multiple is False:
+            value = setting_node.attrib["value"]
+        else:
+            value = setting_node.attrib["values"].split(",")
 
         return cls(dev_id, name, value)
 
@@ -94,6 +94,39 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
         if not check_function(self.value):
             raise Exception(error_msg)
 
+    @staticmethod
+    def make_group(settings_dict):
+        counts = [len(setting.value) for setting in settings_dict.values()]
+        if not len(set(counts)) == 1:
+            raise Exception("Expected all setting lengths to be equal!")
+
+        count = counts[0]
+
+        settings_list = []
+        for i in range(0, count):
+            new_settings_dict = {}
+            for setting in settings_dict.values():
+                new_settings_dict[setting.id] = Setting(setting.id, setting.name, setting.value[i])
+            settings_list.append(new_settings_dict)
+
+        return settings_list
+
+class Devices(namedtuple("Devices", ["single", "grouped"])):
+
+    __slots__ = ()
+
+    @classmethod
+    def from_xml_list(cls, device_xml_nodes):
+        single_devices = []
+        group_devices = []
+        for node in device_xml_nodes:
+            if "count" in node.attrib:
+                group_devices.append(DeviceGroup.from_xml(node, int(node.attrib["count"])))
+            else:
+                single_devices.append(Device.from_xml(node))
+
+        return cls(single_devices, group_devices)
+
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
     __slots__ = ()
@@ -102,20 +135,10 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
     def from_xml(cls, device_node):
         name = device_node.attrib["name"]
         device_type = device_node.attrib["type"]
-        count = int(device_node.attrib.get("count", 1))
-        settings = [Setting.from_xml(setting_node) for setting_node in device_node.findall("setting")]
+        is_device_group = "count" in device_node.attrib
+        settings = [Setting.from_xml(setting_node, is_device_group) for setting_node in device_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
-
-        if count > 1:
-            return [cls(n, device_type, settings_dict) for n in GetNameRange(name, count)]
-        else:
-            return cls(name, device_type, settings_dict)
-
-    @classmethod
-    def from_xml_list(cls, device_xml_nodes):
-        devices = [cls.from_xml(node) for node in device_xml_nodes]
-        device_groups =[d for d in devices if type(d) is list]
-        return flatten(devices), device_groups
+        return cls(name, device_type, settings_dict)
 
     @classmethod
     def from_yaml(cls, device_dict):
@@ -126,10 +149,12 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
 
         return cls(name, device_type, settings_dict)
 
+class DeviceGroup(namedtuple("Device", ["name", "type", "settings", "count"])):
+
     @classmethod
-    def from_yaml_list(cls, device_yaml_nodes):
-        devices = [cls.from_yaml(node) for node in device_yaml_nodes]
-        return flatten(devices)
+    def from_xml(cls, device_node, count):
+        device = Device.from_xml(device_node)
+        return cls(device.name, device.type, device.settings, count)
 
 class Parameters(namedtuple("Parameters", ["single", "grouped"])):
 
@@ -210,8 +235,7 @@ def get_unique_log_modules(nodes):
 
 class Board(namedtuple("Board", [
     "type", "name", 
-    "devices", "device_groups",
-    "parameters",
+    "devices", "parameters",
     "modules", "settings", "info", "raat", "custom_code",
     "attrs", "log_modules", "defines", "arduino_libs"])
 ):
@@ -223,7 +247,7 @@ class Board(namedtuple("Board", [
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
         
-        devices, device_groups = Device.from_xml_list(node.find("devices") or [])
+        devices = Devices.from_xml_list(node.find("devices") or [])
         #devices = node.find("devices") or []
         #devices = [Device.from_xml(node) for node in devices]
         parameters = Parameters.from_xml_list(node.find("parameters") or [])
@@ -263,7 +287,7 @@ class Board(namedtuple("Board", [
         else:
             arduino_libs = []
 
-        return cls(board_type, name, devices, device_groups, parameters, modules, settings_dict, info, raat,
+        return cls(board_type, name, devices, parameters, modules, settings_dict, info, raat,
         custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs)
 
 

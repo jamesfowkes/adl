@@ -43,8 +43,6 @@ def get_named_grouped_parameters(parameter_def):
         params.append(parameters_plugin_manager.getPluginByName(parameter_def.type).plugin_object.get(copied))
     return params
 
-
-
 def get(parameter_defs):
     single_params = [get_single_parameter(parameter_def) for parameter_def in parameter_defs.single]
     grouped_param_objects = [

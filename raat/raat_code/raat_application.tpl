@@ -15,7 +15,7 @@
 
 struct _raat_devices_struct
 {
-    {% for device in board.devices -%}
+    {% for device in board.devices.all %}
     {{device.ctype}} * p{{device.sanitised_name}};
     {%- endfor %}
 };

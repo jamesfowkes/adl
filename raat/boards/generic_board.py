@@ -73,7 +73,7 @@ class GenericBoard(SourceFileProvider):
         return Path(sketch_name).joinpath(full_sketch_name)
 
     def all_components(self):
-        return [self] + self.devices + self.parameters.all + self.modules
+        return [self] + self.devices.all + self.parameters.all + self.modules
 
     def bsp_components(self):
         return [self.nonvolatile, self.serial]
@@ -93,10 +93,10 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.parameters.all, ParameterSource, use_full_path)
 
     def device_includes(self, use_full_path):
-        return dependencies_by_type(self.devices, (DeviceInclude, ModuleInclude, ParameterInclude), use_full_path)
+        return dependencies_by_type(self.devices.all, (DeviceInclude, ModuleInclude, ParameterInclude), use_full_path)
 
     def device_sources(self, use_full_path):
-        return dependencies_by_type(self.devices, (DeviceSource, ModuleSource, ParameterSource), use_full_path)
+        return dependencies_by_type(self.devices.all, (DeviceSource, ModuleSource, ParameterSource), use_full_path)
 
     def module_includes(self, use_full_path):
         return dependencies_by_type(self.modules, ModuleInclude, use_full_path)
@@ -111,7 +111,7 @@ class GenericBoard(SourceFileProvider):
         return dependencies_by_type(self.bsp_components(), LocalSource, use_full_path)
         
     def required_libraries(self):
-        required_libraries = [self.arduino_libs] + [d.required_libraries for d in self.devices]
+        required_libraries = [self.arduino_libs] + [d.required_libraries for d in self.devices.all]
         return set(list(itertools.chain.from_iterable(required_libraries)))
         
     def custom_code_paths(self, path=None):

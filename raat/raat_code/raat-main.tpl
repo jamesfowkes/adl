@@ -31,13 +31,13 @@ By the Arduino Description Language tool.
 #include "{{include}}"
 {% endfor %}
 
-{% for device in board.devices %}
+{% for device in board.devices.all %}
 {{device.declarations}}
 {% endfor %}
 
 static DeviceBase * s_device_pointers[] = 
 {
-    {% for device in board.devices %}
+    {% for device in board.devices.all %}
     &{{device.cname()}}
     {% if not loop.last %}
     ,
@@ -46,7 +46,7 @@ static DeviceBase * s_device_pointers[] =
 };
 
 static const raat_devices_struct raat_devices = {
-    {% for device in board.devices %}
+    {% for device in board.devices.all %}
     .p{{device.sanitised_name}} =  &{{device.cname()}}
     {% if not loop.last %}
     ,
