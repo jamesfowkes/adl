@@ -32,6 +32,7 @@ class StringTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testStringParameterChangeIsSetOnSetup);
     CPPUNIT_TEST(testStringParameterChangeIsSetOnSet);
     CPPUNIT_TEST(testStringParameterChangeIsSetOnReset);
+    CPPUNIT_TEST(testStringParameterStrncmp);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -145,6 +146,17 @@ class StringTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT(param.has_changed());
     }
 
+    void testStringParameterStrncmp()
+    {
+        StringParam param = StringParam("RESET", 32, true);
+        CPPUNIT_ASSERT(param.strncmp(NULL, 0) == 0);
+        CPPUNIT_ASSERT(param.strncmp(NULL, sizeof("RESET")) == 0);
+        CPPUNIT_ASSERT(param.strncmp("RESET", 0) == 0);
+        CPPUNIT_ASSERT(param.strncmp("RESETAAAAA", sizeof("RESET")) != 0);
+        CPPUNIT_ASSERT(param.strncmp("RE", sizeof("RESET")) != 0);
+        CPPUNIT_ASSERT(param.strncmp("RESET", sizeof("RESET")) == 0);
+    }
+
 public:
     void setUp()
     {
@@ -154,3 +166,4 @@ public:
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(StringTest);
+
