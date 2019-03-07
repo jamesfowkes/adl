@@ -72,7 +72,7 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
         if multiple is False:
             value = setting_node.attrib["value"]
         else:
-            value = setting_node.attrib["values"].split(",")
+            value = setting_node.attrib["values"].split("|")
 
         return cls(dev_id, name, value)
 

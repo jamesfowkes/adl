@@ -7,7 +7,7 @@
     
     <devices>
         <device name="LED" type="Analog Output" count="5">
-            <setting id="pin" name="LED_PIN" values="3,5,6,9,10"></setting>
+            <setting id="pin" name="LED_PIN" values="3|5|6|9|10"></setting>
         </device>
     </devices>
     <raat protocol="simple"></raat>
