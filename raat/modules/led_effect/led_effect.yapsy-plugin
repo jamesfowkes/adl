@@ -1,0 +1,9 @@
+[Core]
+Name = Led Effect
+Module = led_effect
+
+[Documentation]
+Description = Implements a range of LED effects
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
