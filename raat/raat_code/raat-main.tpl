@@ -148,7 +148,7 @@ void setup()
 
     raat_logging_setup({{ board.log_printer }});
 
-    {% for device in board.devices %}
+    {% for device in board.devices.all %}
     // Setup for {{device.name}}
     {{ device.setup }}
     // END {{device.name}} setup
