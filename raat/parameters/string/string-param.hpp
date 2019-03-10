@@ -15,6 +15,7 @@ public:
     void save();
     void load();
 
+    int strncmp(char const * const to_compare, int n);
 private:
     char * m_pValue;
     char * m_pResetValue;

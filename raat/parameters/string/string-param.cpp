@@ -110,6 +110,18 @@ int StringParam::command_handler(char const * const command, char * reply)
     return reply_length;
 }
 
+int StringParam::strncmp(char const * const to_compare, int n)
+{
+    int diff = 0;
+
+    if (to_compare)
+    {
+        diff = ::strncmp(m_pValue, to_compare, n);
+    }
+
+    return diff;
+}
+
 void StringParam::save()
 {
     if (m_use_eeprom)
