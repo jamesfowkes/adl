@@ -10,23 +10,6 @@
 
 #include "led-effect.hpp"
 
-static void shiftRightOnce(uint8_t * p, uint8_t n)
-{
-    int8_t max_index = (n*3)-1;
-    for (int8_t i=max_index; i>=0; i--)
-    {
-        p[i] = p[i-1];
-    }
-    p[0] = 0;
-}
-
-static void shiftRightValues(uint8_t * p, uint8_t n)
-{
-    shiftRightOnce(p,n);
-    shiftRightOnce(p,n);
-    shiftRightOnce(p,n);
-}
-
 class LEDEffectTest : public CppUnit::TestFixture { 
 
     int32_t numbers[16];
@@ -37,6 +20,8 @@ class LEDEffectTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testLarsonScannerMoveOnce);
     CPPUNIT_TEST(testLarsonScannerMoveToEnd);
     CPPUNIT_TEST(testLarsonScannerBounceAtRight);
+    CPPUNIT_TEST(testLarsonScannerReturnToLeft);
+    CPPUNIT_TEST(testLarsonScannerBounceAtLeft);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -135,12 +120,57 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0xFF, 0xFF, 0xFF},
             {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
             {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
-            {0, 0, 0}
+            {0, 0, 0},
         };
 
         LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
         s_larson.start(255,255,255);
         for (uint8_t i=0; i<16; i++)
+        {
+            s_larson.update();
+        }
+
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLarsonScannerReturnToLeft()
+    {
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF, 0xFF, 0xFF},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0, 0, 0}
+        };
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        s_larson.start(255,255,255);
+        for (uint8_t i=0; i<30; i++)
+        {
+            s_larson.update();
+        }
+
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLarsonScannerBounceAtLeft()
+    {
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {
+            {0, 0, 0},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF, 0xFF, 0xFF},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0, 0, 0}
+        };
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        s_larson.start(255,255,255);
+        for (uint8_t i=0; i<31; i++)
         {
             s_larson.update();
         }
