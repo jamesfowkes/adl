@@ -33,11 +33,12 @@ class LEDEffectTest : public CppUnit::TestFixture {
 
     CPPUNIT_TEST_SUITE(LEDEffectTest);
 
-    CPPUNIT_TEST(testLarsonScanner);
+    CPPUNIT_TEST(testLarsonScannerStart);
+    CPPUNIT_TEST(testLarsonScannerMoveOnce);
     
     CPPUNIT_TEST_SUITE_END();
 
-    void testLarsonScanner()
+    void testLarsonScannerStart()
     {
         uint8_t actual[20][3] = {0xFF};
         uint8_t expected[20][3] = {
@@ -52,12 +53,27 @@ class LEDEffectTest : public CppUnit::TestFixture {
         LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
         s_larson.start(255,255,255);
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
 
-        shiftRightValues((uint8_t*)expected, 20);
-        s_larson.print((uint8_t*)expected, 0, 6);
+    void testLarsonScannerMoveOnce()
+    {
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {
+            {0, 0, 0},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF, 0xFF, 0xFF},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0, 0, 0}
+        };
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        s_larson.start(255,255,255);
         s_larson.update();
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
     }
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(LEDEffectTest);

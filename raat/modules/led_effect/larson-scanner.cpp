@@ -61,7 +61,6 @@ void LarsonScanner::start(uint8_t r, uint8_t g, uint8_t b)
 
 	uint8_t * pDst = &mp_leds[(m_location - m_half_width)*3];
 	memcpy(pDst, mp_values, m_n_larson_leds*3);
-	this->print(mp_leds);
 }
 
 void LarsonScanner::clear_last_pixel()
@@ -115,6 +114,4 @@ void LarsonScanner::update()
 
 	uint8_t * pDst = &mp_leds[(m_location - m_half_width)*3];
 	memcpy(pDst, mp_values, m_n_larson_leds*3);
-	std::cout << "--> ";
-	this->print(mp_leds);
 }
