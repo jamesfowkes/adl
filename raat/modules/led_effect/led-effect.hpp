@@ -16,20 +16,21 @@ public:
     void reset();
     void tick();
 
-    void print(uint8_t * p, uint8_t n);
+    void print(uint8_t * pleds);
+    void print(uint8_t * pleds, uint8_t min_index, uint8_t max_index);
 
     void start(uint8_t r, uint8_t g, uint8_t b);
     void update();
 private:
 
 	void set_next();
-	void clear_previous_pixel();
+	void clear_last_pixel();
 	uint8_t * mp_leds;
 	uint8_t * mp_values;
     uint8_t m_n_strip_leds;
     uint8_t m_n_larson_leds;
     uint8_t m_half_width;
-    uint8_t m_middle;
+    uint8_t m_location;
     uint8_t m_top;
     uint8_t m_bottom;
     enum direction m_direction;

@@ -14,17 +14,29 @@
 
 LarsonScanner::LarsonScanner(uint8_t * dst, uint8_t n_strip_leds, uint8_t n_larson_leds) :
 	mp_leds(dst), m_n_strip_leds(n_strip_leds), m_n_larson_leds(n_larson_leds),
-	m_half_width(n_larson_leds/2), m_middle(n_larson_leds/2), m_top(n_strip_leds - n_larson_leds/2),
+	m_half_width(n_larson_leds/2), m_location(n_larson_leds/2), m_top(n_strip_leds - n_larson_leds/2),
 	m_bottom(n_larson_leds/2)
 {
 	mp_values = (uint8_t*)malloc(n_larson_leds * 3);
 }
 
-void LarsonScanner::print(uint8_t * p, uint8_t n)
+void LarsonScanner::print(uint8_t * pleds)
 {
-	for (uint8_t i=0; i< n*3; i++)
+	uint8_t min_index = m_location-m_half_width;
+	if (min_index > 0)
 	{
-		std::cout << (int)p[i] << ",";
+		min_index--;	
+	}
+	uint8_t max_index = m_location+m_half_width+1;
+	this->print(pleds, min_index, max_index);
+}
+
+void LarsonScanner::print(uint8_t * pleds, uint8_t min_index, uint8_t max_index)
+{
+	std::cout << "LED values " << (int)min_index << "-" << (int)max_index << ":" << std::endl;
+	for (uint8_t i=min_index; i<=max_index; i++)
+	{
+		std::cout << (int)pleds[i*3] << ","<< (int)pleds[i*3+1] << ","<< (int)pleds[i*3+2] << ",";
 	}
 	std::cout << std::endl;
 }
@@ -45,23 +57,23 @@ void LarsonScanner::start(uint8_t r, uint8_t g, uint8_t b)
 		mp_values[high_index*3+1] = (g*multiplier)/divisor;
 		mp_values[high_index*3+2] = (b*multiplier)/divisor;
 	}
-	for (uint8_t i=0; i< m_n_larson_leds*3; i++)
-	{
-		std::cout << (int)mp_values[i] << ",";
-	}
-	std::cout << std::endl;
+	m_direction = DIR_POS;
+
+	uint8_t * pDst = &mp_leds[(m_location - m_half_width)*3];
+	memcpy(pDst, mp_values, m_n_larson_leds*3);
+	this->print(mp_leds);
 }
 
-void LarsonScanner::clear_previous_pixel()
+void LarsonScanner::clear_last_pixel()
 {
 	uint8_t idx = 0;
 	if (m_direction == DIR_POS)
 	{
-		idx = m_middle-m_half_width;
+		idx = m_location-m_half_width;
 	}
 	else
 	{
-		idx = m_middle+m_half_width;		
+		idx = m_location+m_half_width;		
 	}
 	mp_leds[idx*3] = 0;
 	mp_leds[idx*3+1] = 0;
@@ -72,24 +84,24 @@ void LarsonScanner::set_next()
 {
 	if (m_direction == DIR_POS)
 	{
-		if (m_middle < m_top)
+		if (m_location < m_top)
 		{
-			m_middle++;
+			m_location++;
 		}
 
-		if (m_middle == m_top)
+		if (m_location == m_top)
 		{
 			m_direction = DIR_NEG;
 		}
 	}
 	else
 	{
-		if (m_middle > m_bottom)
+		if (m_location > m_bottom)
 		{
-			m_middle--;
+			m_location--;
 		}
 
-		if (m_middle == m_bottom)
+		if (m_location == m_bottom)
 		{
 			m_direction = DIR_POS;
 		}
@@ -98,13 +110,11 @@ void LarsonScanner::set_next()
 
 void LarsonScanner::update()
 {
-	this->clear_previous_pixel();
-
-	uint8_t * pSrc = &mp_values[m_middle - m_half_width];
-
-	memcpy(mp_leds, pSrc, m_n_larson_leds*3);
-
-	this->print(mp_leds, 5);
-
+	this->clear_last_pixel();
 	this->set_next();
+
+	uint8_t * pDst = &mp_leds[(m_location - m_half_width)*3];
+	memcpy(pDst, mp_values, m_n_larson_leds*3);
+	std::cout << "--> ";
+	this->print(mp_leds);
 }
