@@ -16,6 +16,7 @@ public:
     void reset();
     void tick();
 
+    void print();
     void print(uint8_t * pleds);
     void print(uint8_t * pleds, uint8_t min_index, uint8_t max_index);
 

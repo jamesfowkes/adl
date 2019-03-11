@@ -14,10 +14,15 @@
 
 LarsonScanner::LarsonScanner(uint8_t * dst, uint8_t n_strip_leds, uint8_t n_larson_leds) :
 	mp_leds(dst), m_n_strip_leds(n_strip_leds), m_n_larson_leds(n_larson_leds),
-	m_half_width(n_larson_leds/2), m_location(n_larson_leds/2), m_top(n_strip_leds - n_larson_leds/2),
+	m_half_width(n_larson_leds/2), m_location(n_larson_leds/2), m_top(n_strip_leds - 1 - n_larson_leds/2),
 	m_bottom(n_larson_leds/2)
 {
 	mp_values = (uint8_t*)malloc(n_larson_leds * 3);
+}
+
+void LarsonScanner::print()
+{
+	this->print(mp_leds);
 }
 
 void LarsonScanner::print(uint8_t * pleds)
@@ -27,7 +32,14 @@ void LarsonScanner::print(uint8_t * pleds)
 	{
 		min_index--;	
 	}
-	uint8_t max_index = m_location+m_half_width+1;
+
+	uint8_t max_index = m_location+m_half_width;
+
+	if (max_index < m_n_strip_leds)
+	{
+		max_index++;	
+	}
+
 	this->print(pleds, min_index, max_index);
 }
 
