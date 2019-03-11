@@ -22,13 +22,20 @@ class LEDEffectTest : public CppUnit::TestFixture {
 
     void testLarsonScanner()
     {
-        uint8_t actual[20] = {0xFF};
-        uint8_t expected[20] = {0};
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF, 0xFF, 0xFF},
+            {0xFF*2/3, 0xFF*2/3, 0xFF*2/3},
+            {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
+            {0, 0, 0}
+        };
 
-        LarsonScanner s_larson = LarsonScanner(20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
         s_larson.start(255,255,255);
-        s_larson.get(actual);
-        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 20));
+        s_larson.update();
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
     }
 };
 
