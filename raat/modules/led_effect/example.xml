@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Duemilanove" name="LED Effect Example">
+    <info>
+        An example sketch for the LED effect module
+    </info>
+    
+    <defines>
+        <define>NLEDS 12</define>
+    </defines>
+    <devices>
+        <device name="NeoPixels" type="Adafruit NeoPixel">
+            <setting id="pin" value="2"/>
+            <setting id="npixels" value="48"/>
+        </device>
+    </devices>
+    
+    <modules>
+        <module>LED Effect</module>
+    </modules>
+
+    <custom_code>
+        <file>custom-code.cpp</file>
+    </custom_code>
+</board>

@@ -1,5 +1,5 @@
 [Core]
-Name = Led Effect
+Name = LED Effect
 Module = led_effect
 
 [Documentation]

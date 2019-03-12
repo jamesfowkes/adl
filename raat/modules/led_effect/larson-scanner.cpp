@@ -8,8 +8,6 @@
 
 #include "led-effect.hpp"
 
-#include <iostream>
-
 /* Public Member Functions */
 
 LarsonScanner::LarsonScanner(uint8_t * dst, uint8_t n_strip_leds, uint8_t n_larson_leds) :
@@ -20,6 +18,7 @@ LarsonScanner::LarsonScanner(uint8_t * dst, uint8_t n_strip_leds, uint8_t n_lars
 	mp_values = (uint8_t*)malloc(n_larson_leds * 3);
 }
 
+#ifndef ARDUINO
 void LarsonScanner::print()
 {
 	this->print(mp_leds);
@@ -52,15 +51,18 @@ void LarsonScanner::print(uint8_t * pleds, uint8_t min_index, uint8_t max_index)
 	}
 	std::cout << std::endl;
 }
+#endif
 
 void LarsonScanner::start(uint8_t r, uint8_t g, uint8_t b)
 {
 	uint8_t middle_led_index = m_n_larson_leds/2;
 	uint8_t divisor = (m_n_larson_leds + 1) / 2;
+	divisor = divisor * divisor * divisor;
 	for (uint8_t low_index=0; low_index<=middle_led_index; low_index++)
 	{
 		uint8_t high_index = m_n_larson_leds - low_index - 1;
 		uint8_t multiplier = low_index+1;
+		multiplier = multiplier * multiplier * multiplier;
 		mp_values[low_index*3] = (r*multiplier)/divisor;
 		mp_values[low_index*3+1] = (g*multiplier)/divisor;
 		mp_values[low_index*3+2] = (b*multiplier)/divisor;

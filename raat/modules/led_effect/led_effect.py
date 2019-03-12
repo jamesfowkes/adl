@@ -11,9 +11,9 @@ THIS_PATH = Path(__file__).parent
 
 class LEDEffectModule(GenericModule):
     
-    sources = (ModuleSource(THIS_PATH, "raat-larson-scanner.cpp"), )
+    sources = (ModuleSource(THIS_PATH, "larson-scanner.cpp"), )
 
-    includes = (ModuleInclude(THIS_PATH, "raat-led-effect.hpp"), )
+    includes = (ModuleInclude(THIS_PATH, "led-effect.hpp"), )
 
     @property
     def directory(self):
