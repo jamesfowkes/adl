@@ -20,7 +20,7 @@ void raat_custom_loop(const raat_devices_struct& devices, const raat_params_stru
 
     for (uint8_t i=0;i<NLEDS;i++)
     {
-        devices.pNeoPixels->setPixelColor(i+36, s_led_values[i][0], s_led_values[i][1], s_led_values[i][2]);
+        devices.pNeoPixels->setPixelColor(i, s_led_values[i][0], s_led_values[i][1], s_led_values[i][2]);
     }
     devices.pNeoPixels->show();
     s_larson.update();

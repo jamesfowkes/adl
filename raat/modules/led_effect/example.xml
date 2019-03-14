@@ -6,12 +6,12 @@
     </info>
     
     <defines>
-        <define>NLEDS 12</define>
+        <define>NLEDS 10</define>
     </defines>
     <devices>
         <device name="NeoPixels" type="Adafruit NeoPixel">
             <setting id="pin" value="2"/>
-            <setting id="npixels" value="48"/>
+            <setting id="npixels" value="10"/>
         </device>
     </devices>
     
