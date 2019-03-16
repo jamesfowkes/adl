@@ -12,11 +12,14 @@
 
 #define N_LARSON_LEDS 5
 
+static uint8_t s_callback_count = 0;
+
 void larson_value_callback(uint8_t index, uint8_t * pMultiplier, uint8_t * pDivisor)
 {
     uint8_t multiplier = index+1;
     *pMultiplier = multiplier;
     *pDivisor = (N_LARSON_LEDS + 1) / 2;
+    s_callback_count++;
 }
 
 class LEDEffectTest : public CppUnit::TestFixture { 
@@ -31,6 +34,9 @@ class LEDEffectTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testLarsonScannerBounceAtRight);
     CPPUNIT_TEST(testLarsonScannerReturnToLeft);
     CPPUNIT_TEST(testLarsonScannerBounceAtLeft);
+    CPPUNIT_TEST(testLarsonScannerRunOnce);
+    CPPUNIT_TEST(testLarsonScannerRunSeveralTimes);
+    CPPUNIT_TEST(testLarsonScannerRunForever);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -185,6 +191,61 @@ class LEDEffectTest : public CppUnit::TestFixture {
         }
 
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLarsonScannerRunOnce()
+    {
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {0};
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
+        s_larson.start(255,255,255, 1);
+        for (uint8_t i=0; i<29; i++)
+        {
+            CPPUNIT_ASSERT(s_larson.update());
+        }
+
+        CPPUNIT_ASSERT(!s_larson.update());
+
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+        CPPUNIT_ASSERT(s_callback_count > 0);
+    }
+
+    void testLarsonScannerRunSeveralTimes()
+    {
+        uint8_t actual[20][3] = {0xFF};
+        uint8_t expected[20][3] = {0};
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
+        s_larson.start(255,255,255, 3);
+        for (uint8_t i=0; i<89; i++)
+        {
+            CPPUNIT_ASSERT(s_larson.update());
+        }
+
+        CPPUNIT_ASSERT(!s_larson.update());
+
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+        CPPUNIT_ASSERT(s_callback_count > 0);
+    }
+
+    void testLarsonScannerRunForever()
+    {
+        uint8_t actual[20][3] = {0xFF};
+
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
+        s_larson.start(255,255,255);
+        for (uint32_t i=0; i<999999; i++)
+        {
+            CPPUNIT_ASSERT(s_larson.update());
+        }
+        CPPUNIT_ASSERT(s_callback_count > 0);
+    }
+
+public:
+    void setUp()
+    {
+        s_callback_count = 0;
     }
 };
 
