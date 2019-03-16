@@ -29,6 +29,7 @@ static raat_serial_read_char_fn * sp_raat_serial_read_char_fn;
 void raat_serial_setup(long baudrate, raat_serial_read_char_fn& fn)
 {
     Serial.begin(baudrate);
+    while (!Serial);
     sp_raat_serial_read_char_fn = &fn;
 }
 

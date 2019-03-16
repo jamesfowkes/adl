@@ -30,7 +30,7 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
 
     @property
     def declarations(self):
-        return "static StringParam {name} = StringParam({reset_value}, {length}, {use_eeprom});".format(
+        return "static StringParam {name} = StringParam(\"{reset_value}\", {length}, {use_eeprom});".format(
             name=self.cname(), reset_value=self.reset_value.value, length=self.length.value,
             use_eeprom=self.use_eeprom.value
         )

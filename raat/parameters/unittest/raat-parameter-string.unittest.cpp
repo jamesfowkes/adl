@@ -38,14 +38,14 @@ class StringTest : public CppUnit::TestFixture {
 
     void testStringParameterInitsToResetValue()
     {
-        StringParam param = StringParam("RESET", 32, false);
+        StringParam param = StringParam("RESET", 5, false);
         param.get(scratchpad);
         CPPUNIT_ASSERT_EQUAL(std::string("RESET"), std::string(scratchpad));
     }
 
     void testStringParameterValidSetCorrectlySetsValue()
     {
-        StringParam param = StringParam("RESET", 32, false);
+        StringParam param = StringParam("RESET", 5, false);
         CPPUNIT_ASSERT(param.set("TEST"));
         param.get(scratchpad);
         CPPUNIT_ASSERT_EQUAL(std::string("TEST"), std::string(scratchpad));
@@ -53,7 +53,7 @@ class StringTest : public CppUnit::TestFixture {
 
     void testStringParameterInitWithNullResetResetsToBlankString()
     {
-        StringParam param = StringParam(NULL, 32, false);
+        StringParam param = StringParam(NULL, 5, false);
         CPPUNIT_ASSERT(param.set("TEST"));
         param.reset();
         param.get(scratchpad);
@@ -62,7 +62,7 @@ class StringTest : public CppUnit::TestFixture {
 
     void testStringParameterResetsToResetValue()
     {
-        StringParam param = StringParam("RESET", 32, false);
+        StringParam param = StringParam("RESET", 5, false);
         CPPUNIT_ASSERT(param.set("TEST"));
         param.reset();
         param.get(scratchpad);
@@ -160,7 +160,7 @@ class StringTest : public CppUnit::TestFixture {
 public:
     void setUp()
     {
-        memset(scratchpad, 0, 64);
+        memset(scratchpad, 'X', 64);
         raat_mock_nonvolatile_reset();
     }
 };
