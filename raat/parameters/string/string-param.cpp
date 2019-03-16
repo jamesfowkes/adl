@@ -53,6 +53,7 @@ void StringParam::get(char * const dst)
     if (dst && m_pValue)
     {
         strncpy(dst, m_pValue, m_length);
+        dst[m_length] = '\0';
     }
 }
 
