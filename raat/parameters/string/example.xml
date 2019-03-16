@@ -7,7 +7,7 @@
     
     <parameters>
         <parameter name="My String" type="String">
-            <setting id="reset" value="RAAT String"/>
+            <setting id="reset_value" value="RAAT String"/>
             <setting id="length" value="16"/>
             <setting id="use_eeprom" value="true"/>
         </parameter>
