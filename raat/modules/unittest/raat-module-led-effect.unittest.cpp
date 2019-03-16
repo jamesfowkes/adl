@@ -10,6 +10,15 @@
 
 #include "led-effect.hpp"
 
+#define N_LARSON_LEDS 5
+
+void larson_value_callback(uint8_t index, uint8_t * pMultiplier, uint8_t * pDivisor)
+{
+    uint8_t multiplier = index+1;
+    *pMultiplier = multiplier;
+    *pDivisor = (N_LARSON_LEDS + 1) / 2;
+}
+
 class LEDEffectTest : public CppUnit::TestFixture { 
 
     int32_t numbers[16];
@@ -37,7 +46,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0, 0, 0}
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
     }
@@ -55,7 +64,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0, 0, 0}
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         s_larson.update();
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
@@ -87,7 +96,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0xFF*1/3, 0xFF*1/3, 0xFF*1/3},
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         for (uint8_t i=0; i<15; i++)
         {
@@ -123,7 +132,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0, 0, 0},
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         for (uint8_t i=0; i<16; i++)
         {
@@ -145,7 +154,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0, 0, 0}
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         for (uint8_t i=0; i<30; i++)
         {
@@ -168,7 +177,7 @@ class LEDEffectTest : public CppUnit::TestFixture {
             {0, 0, 0}
         };
 
-        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5);
+        LarsonScanner s_larson = LarsonScanner((uint8_t*)actual, 20, 5, larson_value_callback);
         s_larson.start(255,255,255);
         for (uint8_t i=0; i<31; i++)
         {
