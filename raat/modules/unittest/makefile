@@ -17,7 +17,8 @@ INC = -I../ \
 	-I../task \
 	-I../oneshot_timer \
 	-I../oneshot_task \
-	-I../grid_indexer
+	-I../grid_indexer \
+	-I../led_effect
 
 CFLAGS = -Wall -Wextra
 
@@ -44,6 +45,10 @@ GRID_INDEXER_OBJS = ../grid_indexer/grid-indexer.o \
 	raat-module-grid-indexer.unittest.o \
 	$(GLOBAL_OBJS)
 
+LED_EFFECT_OBJS = ../led_effect/larson-scanner.o \
+	raat-module-led-effect.unittest.o \
+	$(GLOBAL_OBJS)
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -63,10 +68,15 @@ raat-module-grid-indexer.$(TARGET_EXTENSION): $(GRID_INDEXER_OBJS)
 	$(CC) -o raat-module-grid-indexer.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./raat-module-grid-indexer.$(TARGET_EXTENSION)
 
-all: clean raat-module-oneshot-timer.$(TARGET_EXTENSION) raat-module-oneshot-task.$(TARGET_EXTENSION) raat-module-task.$(TARGET_EXTENSION) raat-module-grid-indexer.$(TARGET_EXTENSION)
+raat-module-led-effect.$(TARGET_EXTENSION): $(LED_EFFECT_OBJS)
+	$(CC) -o raat-module-led-effect.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./raat-module-led-effect.$(TARGET_EXTENSION)
+
+all: clean raat-module-oneshot-timer.$(TARGET_EXTENSION) raat-module-oneshot-task.$(TARGET_EXTENSION) raat-module-task.$(TARGET_EXTENSION) raat-module-grid-indexer.$(TARGET_EXTENSION) raat-module-led-effect.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
 	$(DEL) $(ONESHOT_TIMER_OBJS)
 	$(DEL) $(ONESHOT_TASK_OBJS)
 	$(DEL) $(GRID_INDEXER_OBJS)
+	$(DEL) $(LED_EFFECT_OBJS)

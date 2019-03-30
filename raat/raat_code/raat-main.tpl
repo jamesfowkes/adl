@@ -88,7 +88,7 @@ static const raat_params_struct raat_params = {
 
 {% macro render_functions(board) %}
 
-{% for device in board.devices %}
+{% for device in board.devices.all %}
 int handle_device{{loop.index}}_command(char const * const command, char * reply)
 {
     {{device.command_handler}}
@@ -96,7 +96,7 @@ int handle_device{{loop.index}}_command(char const * const command, char * reply
 {% endfor %}
 
 static COMMAND_HANDLER raat_device_command_handlers[] = {
-    {% for device in board.devices %}
+    {% for device in board.devices.all %}
     handle_device{{loop.index}}_command,
     {% endfor %}
 };
@@ -148,7 +148,7 @@ void setup()
 
     raat_logging_setup({{ board.log_printer }});
 
-    {% for device in board.devices %}
+    {% for device in board.devices.all %}
     // Setup for {{device.name}}
     {{ device.setup }}
     // END {{device.name}} setup
