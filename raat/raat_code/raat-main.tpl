@@ -2,7 +2,9 @@
 /*
 {{board.name}}
 Created on {{context.time("{:%Y-%m-%d}")}}
-By the Arduino Description Language tool.
+By the Rapid Arduino Application Tool.
+
+RAAT Repo Info: {{context.raat_version()}}
  
 {{board.info}}
 */

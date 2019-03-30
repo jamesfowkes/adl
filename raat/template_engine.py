@@ -7,6 +7,18 @@ from pathlib import Path, PurePosixPath
 
 THIS_PATH = Path(__file__).parent
 
+try:
+    from git import Repo
+    REPO_PATH = THIS_PATH.joinpath("..")
+    repo = Repo(REPO_PATH)
+    GIT_VERSION_INFO = "Branch: " + repo.active_branch.name
+    GIT_VERSION_INFO += ", SHA: " + repo.head.object.hexsha[:8]
+    if repo.is_dirty():
+        GIT_VERSION_INFO += " (repo is dirty)"
+
+except Exception as e:
+    GIT_VERSION_INFO = "No repo information found: " + str(e)
+
 BOARDS_PATH = THIS_PATH.joinpath("boards")
 LIBRARY_PATH = THIS_PATH.joinpath("raat_code")
 
@@ -23,6 +35,9 @@ class Context:
 
     def time(self, fmt):
         return fmt.format(self._time)
+
+    def raat_version(self):
+        return GIT_VERSION_INFO
 
 def jinja2_path(p):
     #jinja2 paths are NOT filesystem path! Always use forward slashes!
