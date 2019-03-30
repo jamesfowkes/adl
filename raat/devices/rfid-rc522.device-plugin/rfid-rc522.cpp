@@ -32,8 +32,15 @@ uint8_t RFID_RC522::get(char * buffer)
 		}
 		buffer[m_mfrc522->uid.size*2] = '\0';
 		length = m_mfrc522->uid.size*2;
-	}	
+	}
 	return length;
+}
+
+void RFID_RC522::forget()
+{
+	m_mfrc522->PICC_HaltA();
+	m_mfrc522->PCD_StopCrypto1();
+	m_mfrc522->PCD_Init();
 }
 
 int RFID_RC522::command_handler(char const * const command, char * reply)

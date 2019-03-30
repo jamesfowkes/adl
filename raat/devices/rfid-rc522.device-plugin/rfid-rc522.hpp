@@ -10,6 +10,8 @@ public:
 	void tick();
 	uint8_t get(char * buffer);
 	
+	void forget();
+
 	int command_handler(char const * const command, char * reply);
 
 private:
