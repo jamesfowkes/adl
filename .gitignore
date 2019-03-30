@@ -99,3 +99,10 @@ presentation/
 *.exe
 *.stackdump
 *.a
+
+# Examples
+raat/behavetests/test_files/Many_Multiple_Params/Many_Multiple_Params/
+raat/behavetests/test_files/Many_Params/Many_Params/
+raat/behavetests/test_files/Many_Single_Parameters/Many_Single_Parameters/
+raat/behavetests/test_files/One_Multiple_Param/One_Multiple_Param/
+raat/behavetests/test_files/One_Single_Parameter/One_Single_Parameter/
