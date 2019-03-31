@@ -66,13 +66,16 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
     __slots__ = ()
 
     @classmethod
-    def from_xml(cls, setting_node, multiple=False):
+    def from_xml(cls, setting_node, count):
         dev_id = setting_node.attrib["id"]
         name = setting_node.attrib.get("name", "")
-        if multiple is False:
+        if count == 0:
             value = setting_node.attrib["value"]
         else:
-            value = setting_node.attrib["values"].split("|")
+            if "values" in setting_node.attrib:
+                value = setting_node.attrib["values"].split("|")
+            elif "all_values" in setting_node.attrib:
+                value = [setting_node.attrib["all_values"]] * count
 
         return cls(dev_id, name, value)
 
@@ -95,10 +98,10 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
             raise Exception(error_msg)
 
     @staticmethod
-    def make_group(settings_dict):
+    def make_group(settings_dict, expected_count):
         counts = [len(setting.value) for setting in settings_dict.values()]
-        if not len(set(counts)) == 1:
-            raise Exception("Expected all setting lengths to be equal!")
+        if not len(set(counts)) == 1 or counts[0] != expected_count:
+            raise Exception("Expected all setting lengths to be {}!".format(expected_count))
 
         count = counts[0]
 
@@ -135,8 +138,8 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
     def from_xml(cls, device_node):
         name = device_node.attrib["name"]
         device_type = device_node.attrib["type"]
-        is_device_group = "count" in device_node.attrib
-        settings = [Setting.from_xml(setting_node, is_device_group) for setting_node in device_node.findall("setting")]
+        device_count = int(device_node.attrib.get("count", 0))
+        settings = [Setting.from_xml(setting_node, device_count) for setting_node in device_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
         return cls(name, device_type, settings_dict)
 
@@ -180,7 +183,7 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
     def from_xml(cls, parameter_node):
         name = parameter_node.attrib["name"]
         parameter_type = parameter_node.attrib["type"]
-        settings = [Setting.from_xml(setting_node) for setting_node in parameter_node.findall("setting")]
+        settings = [Setting.from_xml(setting_node, 0) for setting_node in parameter_node.findall("setting")]
         settings_dict = {setting.id : setting for setting in settings}
         return cls(name, parameter_type, settings_dict)
 

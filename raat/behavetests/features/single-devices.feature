@@ -13,7 +13,7 @@ Feature: Single devices
       And the sketch should have 1 DigitalOutput device called "Test DigOut"
 
   Scenario: Make a sketch with a many single devices
-    Given the user runs RAAT with "Many_Single_devices.xml"
+    Given the user runs RAAT with "Many_Single_Devices.xml"
       Then the process should have run successfully
       And the sketch should have been created
       And the sketch should have 9 devices in total

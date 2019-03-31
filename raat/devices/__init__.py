@@ -49,7 +49,7 @@ def get_single_device(device_def):
 def get_named_grouped_devices(device_def):
     devices = []
     count = device_def.count
-    settings = Setting.make_group(device_def.settings)
+    settings = Setting.make_group(device_def.settings, count)
 
     for i in range(0, count):
         copied = device_def._replace(name="{:s}{:02d}".format(device_def.name, i))
