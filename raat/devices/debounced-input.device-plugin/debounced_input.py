@@ -57,7 +57,7 @@ class DebouncedInputPlugin(IPlugin):
 
         debounce_time = device.settings.get("debounce_time", Setting("debounce_time","","50"))
         pullup = device.settings.get("pullup", Setting("pullup","","true"))
-        invert = device.settings.get("invert", Setting("invert","","true"))
+        invert = device.settings.get("invert", Setting("invert","","false"))
 
         return DebouncedInput(device.name, 
             device.settings["pin"], debounce_time, pullup, invert)
