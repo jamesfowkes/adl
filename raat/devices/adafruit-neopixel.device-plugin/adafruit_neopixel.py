@@ -9,7 +9,7 @@ from yapsy.IPlugin import IPlugin
 
 from raat.types import LibraryInclude, DeviceSource, DeviceInclude
 
-from raat.parameters.rgb.rgb import RGBParam
+from raat.parameters.eight_bit_rgb.eight_bit_rgb import EightBitRGBParam
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 from raat.types import Setting
 
@@ -20,13 +20,13 @@ class AdafruitNeoPixelRAAT(GenericDevice, namedtuple("AdafruitNeoPixelRAAT", ["n
     __slots__ = ()
 
     sources = (DeviceSource(THIS_PATH, "adafruit-neopixel-raat.cpp"), )
-    sources += RGBParam.sources
+    sources += EightBitRGBParam.sources
     
     includes = (
         DeviceInclude(THIS_PATH, "adafruit-neopixel-raat.hpp"),
         LibraryInclude("Adafruit_NeoPixel.h")
     )
-    includes += RGBParam.includes
+    includes += EightBitRGBParam.includes
     
     @property
     def setup(self):

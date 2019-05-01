@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Adafruit NeoPixel">
+<board type="Arduino Duemilanove" name="Adafruit NeoPixel">
     <info>
         An example sketch for the Adafruit Neopixel device
     </info>
@@ -8,7 +8,7 @@
     <devices>
         <device name="NeoPixels" type="Adafruit NeoPixel">
             <setting id="pin" value="2"/>
-            <setting id="npixels" value="21"/>
+            <setting id="npixels" value="30"/>
         </device>
     </devices>
     <raat protocol="simple"></raat>

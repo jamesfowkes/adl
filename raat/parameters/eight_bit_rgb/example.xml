@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="RGB Parameter Example">
+	<info>
+		An example sketch for the RGB parameter
+	</info>
+	
+	<parameters>
+		<parameter name="My 8Bit RGB Param" type="EightBitRGB">
+			<setting id="limit" value="255"/>
+			<setting id="clip" value="true"/>
+			<setting id="r_default" value="0"/>
+			<setting id="g_default" value="0"/>
+			<setting id="b_default" value="0"/>
+		</parameter>
+	</parameters>
+
+	<custom_code>
+		<file>custom_code.cpp</file>
+	</custom_code>
+</board>
