@@ -22,9 +22,9 @@
 
 #define RGB_FORMAT "%" PRIi32 ",%" PRIi32 ",%" PRIi32
 
-RGBParam::RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default,
+RGBParam::RGBParam(uint16_t limit, uint16_t r_default, uint16_t g_default, uint16_t b_default,
     bool clip_on_out_of_range, bool use_eeprom) :
-    ParameterBase(use_eeprom, sizeof(int16_t)*3),
+    ParameterBase(use_eeprom, sizeof(uint16_t)*3),
     m_rgb{
         {r_default, 0, limit, clip_on_out_of_range},
         {g_default, 0, limit, clip_on_out_of_range},
@@ -113,7 +113,7 @@ int RGBParam::command_handler(char const * const command, char * reply)
 
 void RGBParam::save()
 {
-    int16_t rgb[3];
+    uint16_t rgb[3];
     if (m_use_eeprom)
     {
         rgb[0] = m_rgb[0].value();
@@ -125,7 +125,7 @@ void RGBParam::save()
 
 void RGBParam::load()
 {
-    int16_t rgb[3];
+    uint16_t rgb[3];
     if (m_use_eeprom)
     {
         raat_nv_load(rgb, m_eeprom_location);

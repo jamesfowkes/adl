@@ -35,26 +35,26 @@ class IntegerParameterTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE_END();
     void testIntegerParameterInitsToResetValue()
     {
-        IntegerParam param = IntegerParam(10, INT32_MIN, INT32_MAX, true, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(10, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT_EQUAL(10, param.get());
     }
 
     void testIntegerParameterSetReturnsTrueAndStateIsSet()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT(param.set(10));
     }
 
     void testIntegerParameterWithoutLimitsAllowIntegerMinMax()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, false);
         CPPUNIT_ASSERT(param.set(INT32_MAX));
         CPPUNIT_ASSERT(param.set(INT32_MIN));
     }
 
     void testClippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10, true, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, -10, 10, true, false);
         CPPUNIT_ASSERT(!param.set(-11));
         CPPUNIT_ASSERT_EQUAL(-10, param.get());
         CPPUNIT_ASSERT(!param.set(11));
@@ -63,7 +63,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testUnclippedIntegerParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10, false, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, -10, 10, false, false);
         CPPUNIT_ASSERT(!param.set(-11));
         CPPUNIT_ASSERT(!param.set(11));
         CPPUNIT_ASSERT_EQUAL(0, param.get());
@@ -71,7 +71,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterWithLimitsAllowSetInsideRange()
     {
-        IntegerParam param = IntegerParam(0, -10, 10, false, false);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, -10, 10, false, false);
         CPPUNIT_ASSERT(param.set(-10));
         CPPUNIT_ASSERT_EQUAL(-10, param.get());
         CPPUNIT_ASSERT(param.set(10));
@@ -80,7 +80,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterResetsToResetValue()
     {
-        IntegerParam param = IntegerParam(10, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(10, INT32_MIN, INT32_MAX, true, true);
         param.setup();
         param.set(0);
         param.reset();
@@ -89,7 +89,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterCorrectlyWorksWithNonvolatile()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         param.setup();
         param.set(100);
         CPPUNIT_ASSERT_EQUAL(100, *(int32_t*)raat_mock_nonvolatile_get_last_write());
@@ -97,8 +97,8 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterCorrectlyWorksWithMultipleNonvolatiles()
     {
-        IntegerParam param1 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
-        IntegerParam param2 = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param1 = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param2 = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         
         param1.setup();
         param2.setup();
@@ -111,20 +111,20 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterChangeIsNotSetOnInit()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         CPPUNIT_ASSERT(!param.has_changed());
     }
 
     void testIntegerParameterChangeIsSetOnSetup()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         param.setup();
         CPPUNIT_ASSERT(param.has_changed());
     }
 
     void testIntegerParameterChangeIsSetOnSet()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         param.set(100);
         CPPUNIT_ASSERT(param.has_changed());
         param.reset();
@@ -132,7 +132,7 @@ class IntegerParameterTest : public CppUnit::TestFixture {
 
     void testIntegerParameterChangeIsSetOnReset()
     {
-        IntegerParam param = IntegerParam(0, INT32_MIN, INT32_MAX, true, true);
+        IntegerParam<int32_t> param = IntegerParam<int32_t>(0, INT32_MIN, INT32_MAX, true, true);
         param.set(100);
         (void)param.has_changed();
         param.reset();

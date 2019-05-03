@@ -1,5 +1,5 @@
 CC = g++
-DEL = @rm -f
+DEL = rm -f
 
 ifeq ($(OS),Windows_NT)
 	TARGET_EXTENSION = exe
@@ -32,8 +32,7 @@ RAAT_UTIL_LIMITED_RANGE_INT_OBJS = ../utility/raat-util-limited-range-int.o \
 ALL_TARGETS = \
 	raat-util.$(TARGET_EXTENSION) \
 	raat-util-delimited-stream-parser.$(TARGET_EXTENSION) \
-	raat-util-limited-range-int.$(TARGET_EXTENSION) \
-	raat-util-grid-indexing.$(TARGET_EXTENSION)
+	raat-util-limited-range-int.$(TARGET_EXTENSION)
 
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
@@ -53,11 +52,8 @@ raat-util-limited-range-int.$(TARGET_EXTENSION): $(RAAT_UTIL_LIMITED_RANGE_INT_O
 	$(CC) -o raat-util-limited-range-int.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./raat-util-limited-range-int.$(TARGET_EXTENSION)
 
-raat-util-grid-indexing.$(TARGET_EXTENSION): $(RAAT_GRID_INDEXING_OBJS)
-	$(CC) -o raat-util-grid-indexing.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
-	./raat-util-grid-indexing.$(TARGET_EXTENSION)
+all: $(ALL_TARGETS)
 
-all: 
 clean:
-	rm -f *.o
-	rm -f ../*.o
+	$(DEL) *.o
+	$(DEL) ../*.o

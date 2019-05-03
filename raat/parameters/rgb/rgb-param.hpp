@@ -12,7 +12,7 @@ typedef enum _eRGB
 class RGBParam : public ParameterBase
 {
 public:
-    RGBParam(int16_t limit, int16_t r_default, int16_t g_default, int16_t b_default,
+    RGBParam(uint16_t limit, uint16_t r_default, uint16_t g_default, uint16_t b_default,
         bool clip_on_out_of_range, bool use_eeprom);
     void setup();
     void reset();
@@ -28,8 +28,8 @@ public:
 
 private:
 
-    LimitedRangeInt m_rgb[3];
-    int16_t m_defaults[3];
+    LimitedRangeInt<uint16_t> m_rgb[3];
+    uint16_t m_defaults[3];
     bool m_clip;
 };
 

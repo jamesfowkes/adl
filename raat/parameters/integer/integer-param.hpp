@@ -1,6 +1,9 @@
 #ifndef _INTEGER_PARAM_H_
 #define _INTEGER_PARAM_H_
 
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+
 #include "raat-util-limited-range-int.hpp"
 
 template <class INT_TYPE>

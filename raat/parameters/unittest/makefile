@@ -1,5 +1,5 @@
 CC = g++
-DEL = @rm -f
+DEL = rm -f
 
 ifeq ($(OS),Windows_NT)
 	TARGET_EXTENSION = exe
@@ -65,4 +65,8 @@ all: $(ALL_TEST_EXECTUABLES)
 
 clean:
 	$(DEL) $(ALL_TEST_EXECTUABLES)
-	
+	$(DEL) $(GLOBAL_OBJS)
+	$(DEL) $(INTEGER_OBJS)
+	$(DEL) $(BOOLEAN_OBJS)
+	$(DEL) $(RGB_OBJS)
+	$(DEL) $(STRING_OBJS)

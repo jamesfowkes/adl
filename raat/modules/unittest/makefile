@@ -1,5 +1,5 @@
 CC = g++
-DEL = @rm -f
+DEL = rm -f
 
 ifeq ($(OS),Windows_NT)
 	TARGET_EXTENSION = exe

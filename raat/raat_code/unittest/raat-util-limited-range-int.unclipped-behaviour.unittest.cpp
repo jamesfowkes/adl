@@ -34,25 +34,25 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntInitsIfInRange()
     {
-        LimitedRangeInt limited1(-100,-100,100,false);
+        LimitedRangeInt<int32_t> limited1(-100,-100,100,false);
         CPPUNIT_ASSERT_EQUAL(-100, limited1.value());
 
-        LimitedRangeInt limited2(100,-100,100,false);
+        LimitedRangeInt<int32_t> limited2(100,-100,100,false);
         CPPUNIT_ASSERT_EQUAL(100, limited2.value());
     }
 
     void testLimitedRangeIntInitSetsZeroIfOutOfRange()
     {
-        LimitedRangeInt limited1(-101,-100,100,false);
+        LimitedRangeInt<int32_t> limited1(-101,-100,100,false);
         CPPUNIT_ASSERT_EQUAL(0, limited1.value());
 
-        LimitedRangeInt limited2(101,-100,100,false);
+        LimitedRangeInt<int32_t> limited2(101,-100,100,false);
         CPPUNIT_ASSERT_EQUAL(0, limited2.value());
     }
 
     void testLimitedRangeIntSetReturnsTrueForInRangeValuesAndSetsValue()
     {
-        LimitedRangeInt limited(0,-100,100,false);
+        LimitedRangeInt<int32_t> limited(0,-100,100,false);
         CPPUNIT_ASSERT(limited.set(-100));
         CPPUNIT_ASSERT_EQUAL(-100, limited.value());
     
@@ -62,7 +62,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntSetReturnsFalseForOutOfRangeValuesAndDoesNotSetValue()
     {
-        LimitedRangeInt limited(0,-100,100,false);
+        LimitedRangeInt<int32_t> limited(0,-100,100,false);
         CPPUNIT_ASSERT(!limited.set(-101));
         CPPUNIT_ASSERT_EQUAL(0, limited.value());
     
@@ -72,7 +72,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntIncrementGoesUpToMaxValue()
     {
-        LimitedRangeInt limited(99,-100,100,false);
+        LimitedRangeInt<int32_t> limited(99,-100,100,false);
         limited++;
         CPPUNIT_ASSERT_EQUAL(100, limited.value());
         limited++;
@@ -81,7 +81,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntAdditionGoesUpToMaxValue()
     {
-        LimitedRangeInt limited(95,-100,100,false);
+        LimitedRangeInt<int32_t> limited(95,-100,100,false);
         limited += 5;
         CPPUNIT_ASSERT_EQUAL(100, limited.value());
         limited += 1;
@@ -96,7 +96,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntAdditionDoesNotOverflow()
     {
-        LimitedRangeInt limited(INT32_MAX,0,INT32_MAX,false);
+        LimitedRangeInt<int32_t> limited(INT32_MAX,0,INT32_MAX,false);
         limited++;
         CPPUNIT_ASSERT_EQUAL(INT32_MAX, limited.value());
         limited += 1;
@@ -107,7 +107,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntDecrementGoesDownToMinValue()
     {
-        LimitedRangeInt limited(-99,-100,100,false);
+        LimitedRangeInt<int32_t> limited(-99,-100,100,false);
         limited--;
         CPPUNIT_ASSERT_EQUAL(-100, limited.value());
         limited--;
@@ -116,7 +116,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntSubtractionGoesDownToMinValue()
     {
-        LimitedRangeInt limited(-95,-100,100,false);
+        LimitedRangeInt<int32_t> limited(-95,-100,100,false);
         limited -= 5;
         CPPUNIT_ASSERT_EQUAL(-100, limited.value());
         limited -= 1;
@@ -131,7 +131,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeIntSubtractionDoesNotUnderflow()
     {
-        LimitedRangeInt limited(INT32_MIN,INT32_MIN,0,false);
+        LimitedRangeInt<int32_t> limited(INT32_MIN,INT32_MIN,0,false);
         limited--;
         CPPUNIT_ASSERT_EQUAL(INT32_MIN, limited.value());
         limited -= 1;
@@ -142,7 +142,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeCheckReturnsTrueForValuesInsideRange()
     {
-        LimitedRangeInt limited(0, -10, 10,false);
+        LimitedRangeInt<int32_t> limited(0, -10, 10,false);
         CPPUNIT_ASSERT(limited.check(-10));
         CPPUNIT_ASSERT(limited.check(-9));
         CPPUNIT_ASSERT(limited.check(0));
@@ -152,7 +152,7 @@ class UnclippedLimitedRangeIntTest : public CppUnit::TestFixture {
 
     void testLimitedRangeCheckReturnsFalseForValuesOutsideRange()
     {
-        LimitedRangeInt limited(0, -10, 10,false);
+        LimitedRangeInt<int32_t> limited(0, -10, 10,false);
         CPPUNIT_ASSERT(!limited.check(-11));
         CPPUNIT_ASSERT(!limited.check(11));
         CPPUNIT_ASSERT(!limited.check(INT32_MIN));
