@@ -5,7 +5,7 @@ Created on {{context.time("{:%Y-%m-%d}")}}
 By the Rapid Arduino Application Tool.
 
 RAAT Repo Info: {{context.raat_version()}}
- 
+
 {{board.info}}
 */
 
@@ -37,13 +37,10 @@ RAAT Repo Info: {{context.raat_version()}}
 {{device.declarations}}
 {% endfor %}
 
-static DeviceBase * s_device_pointers[] = 
+static DeviceBase * s_device_pointers[{{ board.devices.all | length }}] =
 {
-    {% for device in board.devices.all %}
-    &{{device.cname()}}
-    {% if not loop.last %}
-    ,
-    {% endif %}
+    {% for device in board.devices.all -%}
+        &{{device.cname()}}{% if not loop.last %},{% endif %}
     {% endfor %}
 };
 
@@ -51,7 +48,7 @@ static const raat_devices_struct raat_devices = {
     {% for device in board.devices.all %}
     .p{{device.sanitised_name}} =  &{{device.cname()}},
     {% endfor %}
-    
+
     {% for device_group in board.devices.grouped -%}
     .p{{device_group.base_device.sanitised_name}} = {
     {% for device in device_group.devices -%}
@@ -65,7 +62,7 @@ static const raat_devices_struct raat_devices = {
 {{parameter.declarations}}
 {% endfor %}
 
-static ParameterBase * s_params_pointers[] = 
+static ParameterBase * s_params_pointers[{{ board.parameters.all | length }}] =
 {
     {% for parameter in board.parameters.all -%}
         &{{parameter.cname()}}{% if not loop.last %},{% endif %}
@@ -145,7 +142,7 @@ void setup()
     raat_on_setup_start();
 
     raat_serial_setup({{board.serial.baudrate}}, raat_add_incoming_char);
-    
+
     raat_nonvolatile_setup();
 
     raat_logging_setup({{ board.log_printer }});
@@ -165,7 +162,7 @@ void setup()
     raat_custom_setup(raat_devices, raat_params);
 
     raat_on_setup_complete();
-    
+
     if ({{raat.delay_start_time}})
     {
         raat_delay_start( {{raat.delay_start_time}} );

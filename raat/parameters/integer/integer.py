@@ -22,7 +22,6 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "type",
 
     sources = (
         RAATSource("utility", "raat-util-limited-range-int.cpp"),
-        ParameterSource(THIS_PATH, "integer-param.cpp")
     )
 
     includes = (

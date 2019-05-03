@@ -1,6 +1,8 @@
 #ifndef _PARAMETER_H_
 #define _PARAMETER_H_
 
+#include <stddef.h>
+
 class ParameterBase
 {
 public:

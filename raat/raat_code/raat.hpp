@@ -1,7 +1,9 @@
 #ifndef _RAAT_H_
 #define _RAAT_H_
 
+#ifndef BEHAVETESTS
 #include <Arduino.h>
+#endif
 
 #include "raat-defs.hpp"
 #include "raat-nv.hpp"

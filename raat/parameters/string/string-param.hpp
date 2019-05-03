@@ -1,6 +1,14 @@
 #ifndef _STRING_PARAM_H_
 #define _STRING_PARAM_H_
 
+/*
+ * C/C++ Includes
+ */
+
+#include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+
 class StringParam : public ParameterBase
 {
 public:

@@ -17,7 +17,7 @@ def sort_by_line_number(refs):
 
     return by_line_number
 
-def print_node(node):
+def node_string(node):
     try:
         spelling = node.get_definition().spelling
     except:
@@ -28,26 +28,59 @@ def print_node(node):
     except:
         typename = None
 
-    print("@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}, {:d} children".format(
+    return "@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}, {:d} children".format(
         node.location.line,
         node.displayname, spelling,
         "def" if node.is_definition() else "not def",
         "decl" if node.kind.is_declaration() else "not decl",
         typename if typename is not None else "no type",
         len(list(node.get_children()))
-    ))
+    )
+
+def print_node(node):
+    print(node_string(node))
 
 def get_children(node):
     return list(node.get_children())
 
 def get_child(node, n):
-    return list(node.get_children())[n]
+    children = []
+    try:
+        children = list(node.get_children())
+        return children[n]
+    except:
+        print("Expected node {} to have child {})".format(node_string(node), n))
+        raise
+
+def print_tu(tu):
+
+    print ("  \t" * print_tu.tabs, end='')
+    print_node(tu)
+
+    try:
+        print_tu.tabs = print_tu.tabs + 1
+        for c in tu.get_children():
+            print_tu(c)
+        print_tu.tabs = print_tu.tabs - 1
+    except:
+        pass
 
 class ParsedFile:
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, include_paths=[]):
+        arguments = ['-x', 'c++', '-std=c++14', "-D", "BEHAVETESTS"]
+
+        for include_path in include_paths:
+            arguments.append("-I")
+            arguments.append(include_path)
+
         self.index = clang.cindex.Index.create()
-        self.tu = self.index.parse(str(filepath))
+        self.tu = self.index.parse(str(filepath), args=arguments)
+
+        #for d in self.tu.diagnostics:
+        #    print(d)
+        #print_tu.tabs = 0
+        #print_tu(self.tu.cursor)
 
     def _find_nodes_recurse(self, node, filter_func=None):
         if filter_func is None:
@@ -59,14 +92,16 @@ class ParsedFile:
         return flatten([self._find_nodes_recurse(c, filter_func) for c in node.get_children()])
 
     def find_vardefs(self, varname, typename=None, custom_filter_func=None):
-            
+
         def filter_function(node):
             match = node.is_definition() and node.get_definition().spelling == varname and node.kind.is_declaration()
-            #print_node(node)
-            if typename is not None:
-                match = match and (node.type.spelling == typename)
-            if custom_filter_func is not None:
-                match = match and custom_filter_func(node)
+
+            if match and typename is not None:
+                match = (node.type.spelling == typename)
+
+            if match and custom_filter_func is not None:
+                match = custom_filter_func(node)
+
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)
