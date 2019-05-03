@@ -28,8 +28,7 @@ class EightBitRGBParam(GenericParameter, namedtuple("EightBitRGBParam", ["name",
 	)
 
 	sources = (
-		RAATSource("utility", "raat-util-limited-range-int.cpp"),
-		ParameterSource(THIS_PATH, "eight-bit-rgb-param.cpp")
+		ParameterSource(THIS_PATH, "eight-bit-rgb-param.cpp"),
 	)
 
 	@property

@@ -28,8 +28,7 @@ class RGBParam(GenericParameter, namedtuple("RGBParam", ["name", "limit",
 	)
 
 	sources = (
-		RAATSource("utility", "raat-util-limited-range-int.cpp"),
-		ParameterSource(THIS_PATH, "rgb-param.cpp")
+		ParameterSource(THIS_PATH, "rgb-param.cpp"),
 	)
 
 	@property

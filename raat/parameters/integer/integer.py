@@ -20,9 +20,7 @@ class IntegerParam(GenericParameter, namedtuple("IntegerParam", ["name", "type",
 
     __slots__ = ()
 
-    sources = (
-        RAATSource("utility", "raat-util-limited-range-int.cpp"),
-    )
+    sources = ()
 
     includes = (
         RAATInclude("utility", "raat-util-limited-range-int.hpp"),
