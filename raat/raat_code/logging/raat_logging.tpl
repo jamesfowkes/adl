@@ -84,3 +84,23 @@ void raat_logln(RAAT_LOG_MODULES module, char const * const fmt, ...)
     va_end(args);
 }
 
+void raat_log_P(RAAT_LOG_MODULES module, char const * const fmt, ...)
+{
+    print_prefix(module);
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf_P(s_buf, LOG_BUFFER_SIZE, fmt, args);
+    s_p_log_stream->print(s_buf);
+    va_end(args);
+}
+
+void raat_logln_P(RAAT_LOG_MODULES module, char const * const fmt, ...)
+{
+    print_prefix(module);
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf_P(s_buf, LOG_BUFFER_SIZE, fmt, args);
+    s_p_log_stream->println(s_buf);
+    va_end(args);
+}
+

@@ -67,11 +67,26 @@ void HTTPGetServer::set_response_code(char const * const code)
 	m_current_response.writeStringP(PSTR("\r\n"));
 }
 
+void HTTPGetServer::set_response_code_P(char const * const code)
+{
+	m_current_response.writeStringP(PSTR("HTTP/1.1 "));
+	m_current_response.writeStringP(code);
+	m_current_response.writeStringP(PSTR("\r\n"));
+}
+
 void HTTPGetServer::set_header(char const * const field, char const * const value)
 {
 	m_current_response.writeString(field);
 	m_current_response.writeStringP(PSTR(": "));
 	m_current_response.writeString(value);
+	m_current_response.writeStringP(PSTR("\r\n"));
+}
+
+void HTTPGetServer::set_header_P(char const * const field, char const * const value)
+{
+	m_current_response.writeStringP(field);
+	m_current_response.writeStringP(PSTR(": "));
+	m_current_response.writeStringP(value);
 	m_current_response.writeStringP(PSTR("\r\n"));
 }
 

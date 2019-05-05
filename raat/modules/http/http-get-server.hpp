@@ -17,8 +17,13 @@ public:
     void reset();
 
     void handle_req(http_get_handler * handlers, char const * const recvd);
+
     void set_response_code(char const * const code);
+    void set_response_code_P(char const * const code);
+
     void set_header(char const * const field, char const * const value);
+    void set_header_P(char const * const field, char const * const value);
+
     void finish_headers();
     void add_body(char const * const body);
     http_get_handler * match_handler_url(char const * const url, http_get_handler * handlers);
