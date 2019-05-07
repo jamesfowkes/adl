@@ -6,6 +6,11 @@
 
 byte Ethernet::buffer[ENC28J60_BUFFER_SIZE];
 
+static const char IP_FORMAT[] PROGRAM_MEMORY = "IP: %d.%d.%d.%d";
+static const char MAC_FORMAT[] PROGRAM_MEMORY = "MAC: %02x:%02x:%02x:%02x:%02x:%02x";
+static const char GATEWAY_FORMAT[] PROGRAM_MEMORY = "Gateway: %d.%d.%d.%d";
+static const char FAIL_STRING[] PROGRAM_MEMORY = "Failed to access Ethernet controller";
+
 ENC28J60RAAT::ENC28J60RAAT()
 {
     m_mac_eeprom_location.size = 6;
@@ -35,11 +40,11 @@ void ENC28J60RAAT::reset()
 
 void ENC28J60RAAT::print_settings()
 {
-    raat_logln(LOG_RAAT, "IP: %d.%d.%d.%d",
+    raat_logln_P(LOG_RAAT, IP_FORMAT,
         m_ip_address[0], m_ip_address[1], m_ip_address[2], m_ip_address[3]);
-    raat_logln(LOG_RAAT, "MAC: %02x:%02x:%02x:%02x:%02x:%02x",
+    raat_logln_P(LOG_RAAT, MAC_FORMAT,
         m_mac_address[0], m_mac_address[1], m_mac_address[2], m_mac_address[3], m_mac_address[4], m_mac_address[5]);
-    raat_logln(LOG_RAAT, "Gateway: %d.%d.%d.%d",
+    raat_logln_P(LOG_RAAT, GATEWAY_FORMAT,
         m_gateway[0], m_gateway[1], m_gateway[2], m_gateway[3]);
 }
 
@@ -55,7 +60,7 @@ void ENC28J60RAAT::setup()
 
     if (ether.begin(ENC28J60_BUFFER_SIZE, m_mac_address) == 0) 
     {
-        raat_logln(LOG_RAAT, "Failed to access Ethernet controller");
+        raat_logln_P(LOG_RAAT, FAIL_STRING);
     }
 
     ether.staticSetup(m_ip_address, m_gateway);
