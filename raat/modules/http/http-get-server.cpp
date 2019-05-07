@@ -100,6 +100,11 @@ void HTTPGetServer::add_body(char const * const body)
 	m_current_response.writeString(body);
 }
 
+void HTTPGetServer::add_body_P(char const * const body)
+{
+	m_current_response.writeStringP(body);
+}
+
 void HTTPGetServer::handle_req(http_get_handler * handlers, char const * const recvd)
 {
 	char url[64];

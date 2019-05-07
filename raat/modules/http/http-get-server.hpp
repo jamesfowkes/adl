@@ -25,7 +25,10 @@ public:
     void set_header_P(char const * const field, char const * const value);
 
     void finish_headers();
+    
     void add_body(char const * const body);
+    void add_body_P(char const * const body);
+
     http_get_handler * match_handler_url(char const * const url, http_get_handler * handlers);
     char * get_response();
 
