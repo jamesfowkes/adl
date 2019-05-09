@@ -191,6 +191,7 @@ bool RAATBuffer::writeStringP(const char * s)
             memcpy_P(&m_buffer[m_writeIndex], s, len);
         }
         m_writeIndex += len;
+        m_buffer[m_writeIndex] = '\0';
     }
     return success;
 }
