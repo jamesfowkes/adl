@@ -56,6 +56,11 @@ void DigitalOutput::set(bool on)
     pinMode(m_pin, OUTPUT);
 }
 
+bool DigitalOutput::state()
+{
+    return digitalRead(m_pin) == HIGH;
+}
+
 void DigitalOutput::tristate()
 {
     pinMode(m_pin, INPUT);

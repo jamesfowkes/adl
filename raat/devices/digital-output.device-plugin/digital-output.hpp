@@ -11,6 +11,7 @@ public:
     int command_handler(char const * const command, char * reply);
     
     void set(bool on);
+    bool state(void);
     void tristate();
 
 private:
