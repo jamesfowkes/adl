@@ -1,7 +1,7 @@
 """ raat.py
 
 Usage:
-    raat.py (--make|--build|--upload)... [--override=<target:value>]... [--port=<port>] <input_file> [--use_sketchbook] [--sketchbook=<parent_directory>]
+    raat.py (--make|--build|--upload)... [--override=<target:value>]... [--port=<port>] <input_file> [--use_sketchbook] [--sketchbook=<parent_directory>] [--profile-size]
 
 """
 
@@ -17,6 +17,8 @@ import raat.boards
 import raat.parameters
 
 import arduino_cli_interface
+
+import subprocess
 
 THIS_PATH = Path(__file__).parent
 
@@ -40,6 +42,12 @@ def create_sketch_directory(parent_directory, sketch_directory):
             os.unlink(str(file))
 
     return target_directory
+
+def profile_sketch(board, sketch_directory):
+    with open(sketch_directory / (board.sanitised_name() + ".prof"), "w") as f:
+        args = ["avr-nm", "--print-size", "--reverse-sort", "--size-sort", str(sketch_directory / (board.sanitised_name() + ".elf"))]
+        result = subprocess.run(args, stdout=f)
+
 
 def make(board, raat_config, sketchbook):
 
@@ -99,6 +107,8 @@ if __name__ == "__main__":
     if args["--build"]:
         sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
         cli.verify(board, sketch_directory)
+        if args["--profile-size"]:
+            profile_sketch(board, sketch_directory)
 
     if args["--upload"]:
         port = args.get("--port", None)

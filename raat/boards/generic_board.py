@@ -59,6 +59,11 @@ class GenericBoard(SourceFileProvider):
     includes = []
 
     def sketch_path(self, extension=".ino"):
+        sketch_name = self.sketch_name()
+        full_sketch_name = sketch_name + extension
+        return Path(sketch_name).joinpath(full_sketch_name)
+
+    def sketch_name(self):
         sketch_name = self.name
         if sketch_name[0].isdigit():
             get_module_logger().warning("Name starts with numeric value. Prefixing with underscore.")
@@ -68,9 +73,10 @@ class GenericBoard(SourceFileProvider):
             get_module_logger().warning("Name contains spaces. Replacing with underscores.")
             sketch_name = sketch_name.replace(" ", "_")
 
-        full_sketch_name = sketch_name + extension
-
-        return Path(sketch_name).joinpath(full_sketch_name)
+        return sketch_name
+        
+    def sanitised_name(self):
+        return self.name.replace(" ", "_")
 
     def all_components(self):
         return [self] + self.devices.all + self.parameters.all + self.modules

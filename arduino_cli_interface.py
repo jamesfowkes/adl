@@ -80,7 +80,8 @@ class ArduinoCLIInterface:
 
         self.install_core(board.required_core)
 
-        args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path)]
+        args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
+
         try:
             result = subprocess.run(args)
             success = result.returncode == 0
