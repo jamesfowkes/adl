@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="MT8870 Example">
+    <info>
+        An example sketch for the MT8870 device
+    </info>
+    
+    <devices>
+        <device name="MT8870" type="MT8870">
+            <setting id="code_pins" name="" value="3,4,5,6"/>
+            <setting id="trigger_pin" name="" value="7"/>
+        </device>
+    </devices>
+</board>
