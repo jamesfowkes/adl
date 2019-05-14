@@ -2,13 +2,13 @@
 
 RAAT stands for *Rapid Arduino Autogenerator Tool*
 
-It is a code generator for Arduinos and other microcontrollers.
+It is a code generator for Arduinos and other similar microcontroller systems.
 
 Describe your hardware in a simple XML or JSON file, run the tool and get a complete Arduino sketch, ready to deploy.
 
 RAAT is designed to take you away from worrying about writing boilerplate code for common devices and programming patterns.
 
-Much of the code is designed around the YAPSY plugin system, making adding new functionality easy.
+Much of the code is designed around the [YAPSY plugin system](http://yapsy.sourceforge.net/), making adding new functionality easy.
 
 **Note: RAAT is still under development, a bit experimental, and is liable to break or be broken, especially around the edges.**
 
@@ -20,6 +20,7 @@ Using RAAT, you can specifiy the hardware you are using and start using them str
 
 ## Serial Interface
  - When you create a sketch using RAAT, you get a serial protocol included that lets you talk to and control your hardware. This makes prototyping, testing and configuration quick and easy.
+ - There is a really simple serial, efficient protocol that's useful for memory-constrained applications, or a "URL" style protocol to make things a bit easier on your brain.
 
 ## Helpful Code Modules
 
@@ -37,7 +38,7 @@ Specify parameters for your application and read/set them over serial. Optionall
 
 Perfect for setting the colour of LEDs, IP addresses, delay timings. Also for reading variables from your application, like temperatures, counters, etc.
 
-Numeric parameters can be specified with min/max limits so you don't have to worry about that yourself. Limited parameters can either clip out of range values of ignore them.
+Numeric parameters can be specified with min/max limits so you don't have to worry about that yourself. Limited parameters can either clip out of range values or ignore them.
 
  - So far, there's support for integers, booleans, RGB triplets and strings
 
@@ -49,7 +50,7 @@ By writing your own code and implement two functions (`raat_custom_setup` and `r
 
 ## Arduino CLI Support (Even More Experimental)
 
-You can open the generated sketch in the Arduino IDE, but if you like, RAAT is capable of using the (Arduino command line interface tool)[https://github.com/arduino/arduino-cli] to compile and download your sketches. It will also install any required Arduino libraries and board support packages.
+You can open the generated sketch in the Arduino IDE, but if you like, RAAT is capable of using the [Arduino command line interface tool](https://github.com/arduino/arduino-cli) to compile and download your sketches. It will also install any required Arduino libraries and board support packages.
 
 ## Some Simple Examples
 
@@ -70,7 +71,6 @@ Implementing a "Hello, world!" blinking LED is as simple as creating the followi
                 <setting id="offtime" value="500"/>
             </device>
         </devices>
-        <raat protocol="simple"></raat>
     </board>
 
 And then running:
@@ -102,7 +102,7 @@ The RAAT code development is not exactly "behaviour driven", but it does have "B
 
 The tests use [`behave`](https://behave.readthedocs.io/en/latest/) to implement them. RAAT is run using `subprocess`, and the generated output parsed using [`clang`](https://clang.llvm.org/).
 
-The Python clang bindings are apparently not stable, so I've picked a version that works and I'm sticking with that. As long your clang version is >= 5 you should be OK. Importantly, your clang version and the Python bindings version need to make.
+The Python clang bindings are apparently not stable, so I've picked a version that works and I'm sticking with that. As long your clang version is >= 5 you should be OK. Importantly, your clang version and the Python bindings version need to match.
 
 To run the tests, you need to:
 
