@@ -95,7 +95,11 @@ if __name__ == "__main__":
     else:
         sketchbook_path = input_file.parent
 
-    board, raat_config = raat.parser.parse_file(input_file, None, args.get("--override", None))
+    try:
+        board, raat_config = raat.parser.parse_file(input_file, None, args.get("--override", None))
+    except:
+        get_module_logger().error("Error parsing {}".format(str(input_file)))
+        raise
 
     get_module_logger().info("Custom code directory: {}".format(raat_config.source_path))
 
