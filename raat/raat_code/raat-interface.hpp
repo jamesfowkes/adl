@@ -46,6 +46,7 @@ COMMAND_HANDLER& raat_get_param_cmd_handler(PARAM_ADDRESS address);
 
 void raat_delay_start(uint8_t seconds);
 
+int raat_board_sprintf_progmem(char * const pStr,char const * const fmt, ...);
 int raat_board_strcpy_progmem(char * const pMemory, char const * const pProgmem);
 int raat_board_memcmp_progmem(char * const pMemory, char const * const pProgmem, size_t len);
 int raat_board_strcmp_progmem(char * const pMemory, char const * const pProgmem);

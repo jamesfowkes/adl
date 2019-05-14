@@ -6,6 +6,15 @@
     #include "{{dep}}"
 {% endfor %}
 
+int raat_board_sprintf_progmem(char * const pStr,char const * const fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    vsprintf_P(pStr, fmt, args);
+    va_end(args);
+    return strlen(pStr);
+}
+
 int raat_board_strcpy_progmem(char * const pMemoryDst, char const * const pProgmemSrc)
 {
     return(strlen(strcpy_P(pMemoryDst, pProgmemSrc)));

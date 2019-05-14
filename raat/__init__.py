@@ -40,7 +40,7 @@ RAAT_SOURCE_FILES = [
     (RAAT_CODE_PATH.joinpath("raat_application.tpl"), "raat-application.hpp"),
     (RAAT_CODE_PATH.joinpath("logging", "raat_logging.tpl"), "raat-logging.cpp"),
     (RAAT_CODE_PATH.joinpath("logging", "raat-logging.hpp"), "raat-logging.hpp"),
-    (RAAT_CODE_PATH.joinpath("messages", "raat-messages.cpp"), "raat-messages.cpp"),
+    (RAAT_CODE_PATH.joinpath("messages", "raat-messages.tpl"), "raat-messages.cpp"),
     (RAAT_CODE_PATH.joinpath("messages", "raat-messages.hpp"), "raat-messages.hpp"),
     (RAAT_CODE_PATH.joinpath("raat-nv.hpp"), "raat-nv.hpp"),
     (RAAT_CODE_PATH.joinpath("raat-serial.hpp"), "raat-serial.hpp")
