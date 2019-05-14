@@ -76,6 +76,8 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
                 value = setting_node.attrib["values"].split("|")
             elif "all_values" in setting_node.attrib:
                 value = [setting_node.attrib["all_values"]] * count
+            else:
+                raise Exception("Expected 'values' or 'all_values' attribute for multiple settings")
 
         return cls(dev_id, name, value)
 

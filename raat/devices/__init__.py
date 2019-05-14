@@ -44,7 +44,11 @@ def get_single_device(device):
 
 def get_single_device(device_def):
     get_module_logger().info("Trying to load device '%s' (%s)", device_def.name, device_def.type)
-    return devices_plugin_manager.getPluginByName(device_def.type).plugin_object.get(device_def)
+    try:
+        return devices_plugin_manager.getPluginByName(device_def.type).plugin_object.get(device_def)
+    except:
+        raise Exception("Could not load '{}' - check spelling and existence of device.".format(device_def.name))
+
 
 def get_named_grouped_devices(device_def):
     devices = []
