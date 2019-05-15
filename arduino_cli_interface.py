@@ -1,29 +1,35 @@
 import subprocess
 import logging
 import shutil
-from pathlib import Path, PureWindowsPath
 import platform
+
+from pathlib import Path
 
 THIS_PATH = Path(__file__).parent
 
 def get_module_logger():
     return logging.getLogger(__name__)
 
-def detect_cygwin(path):
-    return str(path).startswith("/cygdrive/") and "CYGWIN" in platform.system()
+def modify_cygwin_path(sketch_path):
 
-def cygwin_to_windows_path(path):
-    path_parts = path.parts
-    drive_root = path_parts[2] + ":\\"
-    rest_of_path = path_parts[3:]
-    new_path_parts = (drive_root, *rest_of_path)
-    path = Path(*new_path_parts)
-    return path
-    
+    if (str(sketch_path).startswith("/cygdrive/")):
+
+        ## Pretty hacky way of fixing this, and probably fails under a lot of scenarios.
+        ## Replaces "/cygdrive/c" with "c:" in the path
+
+        drive = sketch_path.parts[2]
+        to_replace = "/cygdrive/" + drive
+        sketch_path = Path(drive + ":", *sketch_path.parts[3:])
+
+    return sketch_path
+
 class ArduinoCLIInterface:
 
     def __init__(self):
         self.location = None
+        self.cygwin = "CYGWIN" in platform.system()
+        if self.cygwin:
+            get_module_logger().info("Cygwin detected!")
 
     def find(self):
         if self.location is None:
@@ -85,15 +91,15 @@ class ArduinoCLIInterface:
 
     def verify(self, board, sketch_path):
         success = False
-
-        if detect_cygwin(sketch_path):
-            sketch_path = cygwin_to_windows_path(sketch_path)
             
         self.find()
         for library in board.required_libraries():
             self.install_lib(library)
 
         self.install_core(board.required_core)
+
+        if self.cygwin:
+            sketch_path = modify_cygwin_path(sketch_path)
 
         args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
 
