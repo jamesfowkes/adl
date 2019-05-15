@@ -15,8 +15,8 @@ import docopt
 
 from pathlib import Path
 
-from adl import parser
-from adl_runner import make, get_sketch_directory
+from raat import parser
+from raat_runner import make, get_sketch_directory
 import arduino_cli_interface
 
 def find_sketchbook_path():
@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     found_example = False
     for possible_target_type in ["devices", "parameters", "modules"]:
-        for root, directories, files in os.walk("adl/{}".format(possible_target_type)):
+        for root, directories, files in os.walk("raat/{}".format(possible_target_type)):
             if target_example_name in root:
                 for f in files:
                     if f == "example.xml":
@@ -62,8 +62,8 @@ if __name__ == "__main__":
 
     if found_example:
         print("Trying to build {}".format(found_example))
-        board, adl_config = parser.parse_file(Path(found_example))
-        make(board, adl_config, sketchbook_path)
+        board, raat_config = parser.parse_file(Path(found_example))
+        make(board, raat_config, sketchbook_path)
 
         sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
         cli = arduino_cli_interface.ArduinoCLIInterface()

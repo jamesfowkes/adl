@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Many Single Devices">
+    <info>
+        BDD Test File
+    </info>
+    <devices>
+        <device name="Test DigOut" type="Digital Output">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test DigOut 2" type="Digital Output">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test DigOut 3" type="Digital Output">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test DigIn" type="Digital Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test DigIn 2" type="Digital Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test DigIn 3" type="Digital Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test AnaIn" type="Analog Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test AnaIn 2" type="Analog Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+        <device name="Test AnaIn 3" type="Analog Input">
+            <setting id="pin" value="13"></setting>
+        </device>
+    </devices>
+</board>

@@ -1,0 +1,9 @@
+[Core]
+Name = Buffer
+Module = buffer
+
+[Documentation]
+Description = Implements a simple string buffer class
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

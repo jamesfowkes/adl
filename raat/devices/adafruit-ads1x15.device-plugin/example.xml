@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="ADS1115">
+    <info>
+        An example sketch for the ADS1115 device
+    </info>
+    
+    <devices>
+        <device name="i2c ADC" type="Adafruit ADS1x15">
+            <setting id="ads_type" value="ADS1115"/>
+            <setting id="multiplier" value="20.0f"/>
+        </device>
+    </devices>
+    <raat protocol="simple"></raat>
+</board>

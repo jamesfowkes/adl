@@ -29,8 +29,15 @@ class ArduinoCLIInterface:
         if self.location is None:
             self.location = shutil.which("arduino-cli") or shutil.which("arduino-cli.exe")
             get_module_logger().info("CLI Location: {}".format(self.location))
+            get_module_logger().info("CLI Version: {}".format(self.cli_version()))
 
         return self.location
+
+    def cli_version(self):
+        self.find()
+        args = [self.location, "version"]
+        result = subprocess.run(args, stdout=subprocess.PIPE)
+        return result.stdout.decode("utf-8").strip()
 
     def lib_is_installed(self, library):
         args = [self.location, "lib", "list"]
@@ -88,7 +95,8 @@ class ArduinoCLIInterface:
 
         self.install_core(board.required_core)
 
-        args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path)]
+        args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
+
         try:
             result = subprocess.run(args)
             success = result.returncode == 0

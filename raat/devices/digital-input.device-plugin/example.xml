@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Digital Input">
+    <info>
+        An example sketch for the digital input device
+    </info>
+    <devices>
+        <device name="Switch" type="Digital Input">
+            <setting id="pin" name="input" value="2"/>
+        </device>
+    </devices>
+    <raat protocol="simple" buffer_size="64">
+    </raat>
+</board>
