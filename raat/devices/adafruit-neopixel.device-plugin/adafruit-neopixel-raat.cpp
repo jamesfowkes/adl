@@ -22,7 +22,7 @@ static bool valid_rgb_values(int32_t(&rgb)[3])
  * Class RAAT Functions
  */
 
-void AdafruitNeoPixelRAAT::set_pixels(uint8_t range_min, uint8_t range_max, EightBitRGBParam& param)
+void AdafruitNeoPixelRAAT::set_pixels(uint8_t range_min, uint8_t range_max, RGBParam<uint8_t>& param)
 {
     uint8_t rgb[3];
     param.get(rgb);
@@ -88,7 +88,7 @@ int AdafruitNeoPixelRAAT::handle_command(char const * const command, char * repl
     }
 }
 
-void AdafruitNeoPixelRAAT::setPixelColor(uint16_t n, EightBitRGBParam& param)
+void AdafruitNeoPixelRAAT::setPixelColor(uint16_t n, RGBParam<uint8_t>& param)
 {
     uint8_t rgb[3];
     param.get(rgb);

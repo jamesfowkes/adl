@@ -19,7 +19,13 @@ class GenericParameter(SourceFileProvider):
     @property
     def ctype(self):
         return type(self).__name__
-        
+
+class TemplatedParameter(GenericParameter):
+
+    @property
+    def ctype(self):
+        return type(self).__name__ + "<" + self.type.value + ">"
+
 class GenericParamPlugin:
 
     def verify_settings(self, param):

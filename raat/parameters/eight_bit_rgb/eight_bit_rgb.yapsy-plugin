@@ -1,9 +1,0 @@
-[Core]
-Name = EightBitRGB
-Module = eight_bit_rgb
-
-[Documentation]
-Description = Allows read/write of an 8 bit RGB parameter
-Author = James Fowkes
-Version = 1.0
-Website = www.returnzero.co.uk
