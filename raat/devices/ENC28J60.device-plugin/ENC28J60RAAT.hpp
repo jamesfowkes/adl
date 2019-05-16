@@ -4,7 +4,7 @@
 class ENC28J60RAAT : public DeviceBase
 {
 public:
-    ENC28J60RAAT();
+    ENC28J60RAAT(uint8_t cs_pin);
     void setup();
     void reset();
     void tick();
@@ -21,6 +21,8 @@ private:
 	uint8_t m_ip_address[4];
 	uint8_t m_gateway[4];
 
+    uint8_t m_cs_pin;
+    
     RAAT_NV_LOCATION m_mac_eeprom_location;
     RAAT_NV_LOCATION m_ip_eeprom_location;
     RAAT_NV_LOCATION m_gateway_eeprom_location;
