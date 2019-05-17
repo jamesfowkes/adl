@@ -226,7 +226,7 @@ void SparkfunSerialLCD::reset(){
     this->clear();
 }
 
-int SparkfunSerialLCD::command_handler(char const * const command, char * reply){
+uint16_t SparkfunSerialLCD::command_handler(char const * const command, char * reply){
     if (command[0] == 'C')
     {
         return this->handle_config_command(&command[1], reply);

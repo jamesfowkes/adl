@@ -72,7 +72,7 @@ bool EightBitRGBParam::set(uint8_t rgb[3])
     return this->set(rgb[0], rgb[1], rgb[2]);
 }
 
-int EightBitRGBParam::command_handler(char const * const command, char * reply)
+uint16_t EightBitRGBParam::command_handler(char const * const command, char * reply)
 {
     int32_t rgb[3];
 

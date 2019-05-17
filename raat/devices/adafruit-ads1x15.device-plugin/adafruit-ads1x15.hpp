@@ -22,7 +22,7 @@ public:
     void setup();
     void reset();
     void tick();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     unsigned long get_reading(uint8_t channel, ADS_READING_TYPE type);
 

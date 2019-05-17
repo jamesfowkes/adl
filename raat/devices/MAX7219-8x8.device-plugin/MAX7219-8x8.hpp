@@ -8,7 +8,7 @@ public:
     void reset();
     void tick();
     void setup();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     void set(uint8_t row, uint8_t col, bool set);
     void update();
     void clear_all();

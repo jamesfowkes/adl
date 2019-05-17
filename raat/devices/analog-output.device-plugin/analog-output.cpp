@@ -27,7 +27,7 @@ void AnalogOutput::setup()
     this->reset();
 }
 
-int AnalogOutput::command_handler(char const * const command, char * reply)
+uint16_t AnalogOutput::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     if (is_digit_string(command))

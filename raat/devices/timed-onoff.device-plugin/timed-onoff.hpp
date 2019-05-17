@@ -7,7 +7,7 @@ public:
     TimedOnOff(int pin, unsigned long ontime, unsigned long offtime);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     void tick();
     
 private:

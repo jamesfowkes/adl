@@ -143,7 +143,7 @@ int ENC28J60RAAT::handle_set_command(char const * const command, char * reply)
     return reply_length;
 }
 
-int ENC28J60RAAT::command_handler(char const * const command, char * reply)
+uint16_t ENC28J60RAAT::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
 

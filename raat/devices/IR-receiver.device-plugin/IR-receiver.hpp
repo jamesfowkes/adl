@@ -10,7 +10,7 @@ public:
     void setup();
     void reset();
     void tick();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     bool get_code(unsigned long& code);
 

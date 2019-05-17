@@ -16,7 +16,7 @@ public:
         bool clip_on_out_of_range, bool use_eeprom);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     bool set(uint8_t rgb[3]);
     bool set(uint8_t r, uint8_t g, uint8_t b);

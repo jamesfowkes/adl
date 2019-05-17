@@ -71,7 +71,7 @@ void IR_Receiver::setup()
     m_irrecv.enableIRIn();
 }
 
-int IR_Receiver::command_handler(char const * const command, char * reply)
+uint16_t IR_Receiver::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
 

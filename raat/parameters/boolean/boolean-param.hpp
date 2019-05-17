@@ -7,7 +7,7 @@ public:
     BooleanParam(bool reset_value, bool use_eeprom);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     bool set(bool setting);
     bool get();

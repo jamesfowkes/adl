@@ -11,7 +11,7 @@ class MockDevice : public DeviceBase
     void reset() {};
     void setup() {};
     void tick() {};
-    int command_handler(char const * const command, char * reply) { (void)command; (void)reply; return 0;};
+    uint16_t command_handler(char const * const command, char * reply) { (void)command; (void)reply; return 0;};
 };
 static MockDevice s_mock_device;
 

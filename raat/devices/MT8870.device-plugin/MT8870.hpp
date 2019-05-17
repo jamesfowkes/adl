@@ -12,7 +12,7 @@ public:
     void setup();
     void reset();
     void tick();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     uint8_t get();
     uint8_t peek();
 

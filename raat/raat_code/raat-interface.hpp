@@ -10,17 +10,17 @@ enum address_type
 };
 typedef enum address_type ADDRESS_TYPE;
 
-typedef int DEVICE_ADDRESS;
-typedef int PARAM_ADDRESS;
+typedef int16_t RAAT_ADDRESS;
+typedef RAAT_ADDRESS DEVICE_ADDRESS;
+typedef RAAT_ADDRESS PARAM_ADDRESS;
 
 // RAAT addresses are all positive
-static const int INVALID_ADDRESS = -1;
-static const int RAAT_BOARD_ADDRESS = 0;
+static const DEVICE_ADDRESS INVALID_ADDRESS = -1;
+static const DEVICE_ADDRESS RAAT_BOARD_ADDRESS = 0;
 
-typedef int (*COMMAND_HANDLER)(char const * const command, char * reply);
+typedef uint16_t (*COMMAND_HANDLER)(char const * const command, char * reply);
 
-
-int raat_chars_to_address(char const * const buffer);
+RAAT_ADDRESS raat_chars_to_address(char const * const buffer);
 bool raat_validate_char_address(char const * const buffer);
 
 ADDRESS_TYPE raat_get_address_type_from_char(char c);
@@ -59,7 +59,7 @@ class ProtocolHandlerBase
 public:
     virtual ADDRESS_TYPE process(char *) = 0;
     virtual void write_reply(char * buffer, char const * const reply, uint8_t reply_length) = 0;
-    int last_address;
+    RAAT_ADDRESS last_address;
     ADDRESS_TYPE last_address_type;
     char const * command;
 };

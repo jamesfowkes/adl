@@ -141,7 +141,7 @@ int TLC5973::handle_command(char const * const command, char * reply)
     }
 }
 
-int TLC5973::command_handler(char const * const command, char * reply)
+uint16_t TLC5973::command_handler(char const * const command, char * reply)
 {
     int reply_length;
 

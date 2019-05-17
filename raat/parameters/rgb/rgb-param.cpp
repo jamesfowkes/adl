@@ -72,7 +72,7 @@ bool RGBParam::set(uint16_t rgb[3])
     return this->set(rgb[0], rgb[1], rgb[2]);
 }
 
-int RGBParam::command_handler(char const * const command, char * reply)
+uint16_t RGBParam::command_handler(char const * const command, char * reply)
 {
     int32_t rgb[3];
 

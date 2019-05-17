@@ -20,7 +20,7 @@ bool DigitalInput::state()
     return digitalRead(m_pin) == HIGH;
 }
 
-int DigitalInput::command_handler(char const * const command, char * reply)
+uint16_t DigitalInput::command_handler(char const * const command, char * reply)
 {
     (void)command;
     reply[0] = digitalRead(m_pin) == HIGH ? '1' : '0';

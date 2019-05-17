@@ -44,7 +44,7 @@ float Thermistor::reading()
     return t - s_T0CinKelvin;
 }
 
-int Thermistor::command_handler(char const * const command, char * reply)
+uint16_t Thermistor::command_handler(char const * const command, char * reply)
 {
     (void)command;
     float readingx100 = this->reading() * 100.0f;

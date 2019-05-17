@@ -20,7 +20,7 @@ public:
     	bool clip_on_out_of_range, bool use_eeprom);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     bool set(INT_TYPE setting);
     INT_TYPE get();
@@ -66,7 +66,7 @@ bool IntegerParam<INT_TYPE>::set(INT_TYPE setting)
 }
 
 template <class INT_TYPE>
-int IntegerParam<INT_TYPE>::command_handler(char const * const command, char * reply)
+uint16_t IntegerParam<INT_TYPE>::command_handler(char const * const command, char * reply)
 {
     long int value = 0;
     char * pEnd;

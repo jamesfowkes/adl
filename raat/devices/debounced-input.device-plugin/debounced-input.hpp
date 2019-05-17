@@ -9,7 +9,7 @@ public:
     DebouncedInput(int pin, uint16_t debounce_time, bool pullup, bool invert);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     void tick();
     bool check_high_and_clear();
     bool check_low_and_clear();

@@ -38,7 +38,7 @@ void BinaryOutput::setup()
     this->reset();
 }
 
-int BinaryOutput::command_handler(char const * const command, char * reply)
+uint16_t BinaryOutput::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
 

@@ -14,7 +14,7 @@ void RAATKeypad::setup()
     
 }
 
-int RAATKeypad::command_handler(char const * const command, char * reply)
+uint16_t RAATKeypad::command_handler(char const * const command, char * reply)
 {
     strcpy(reply, "CMD?");
     return 4;
