@@ -12,7 +12,7 @@ public:
 	
 	void forget();
 
-	int command_handler(char const * const command, char * reply);
+	uint16_t command_handler(char const * const command, char * reply);
 
 private:
 	MFRC522 * m_mfrc522;

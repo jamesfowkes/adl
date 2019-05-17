@@ -1,6 +1,15 @@
 #ifndef _RGB_PARAM_H_
 #define _RGB_PARAM_H_
 
+#define __STDC_LIMIT_MACROS
+#define __STDC_FORMAT_MACROS
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
+#include <inttypes.h>
+
 #include "raat-util-limited-range-int.hpp"
 
 #define RGB_FORMAT "%" PRIi32 ",%" PRIi32 ",%" PRIi32
@@ -18,7 +27,7 @@ public:
         bool clip_on_out_of_range, bool use_eeprom);
     void setup();
     void reset();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
     
     bool set(INT_TYPE rgb[3]);
     bool set(INT_TYPE r, INT_TYPE g, INT_TYPE b);
@@ -93,11 +102,11 @@ bool RGBParam<INT_TYPE>::set(INT_TYPE rgb[3])
 }
 
 template <class INT_TYPE>
-int RGBParam<INT_TYPE>::command_handler(char const * const command, char * reply)
+uint16_t RGBParam<INT_TYPE>::command_handler(char const * const command, char * reply)
 {
     int32_t rgb[3];
 
-    int reply_length = 0;
+    uint16_t reply_length = 0;
 
     if (command[0] == 'S')
     {

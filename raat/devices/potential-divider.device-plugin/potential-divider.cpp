@@ -46,7 +46,7 @@ float PotentialDivider::resistance()
     return resistance;
 }
 
-int PotentialDivider::command_handler(char const * const command, char * reply)
+uint16_t PotentialDivider::command_handler(char const * const command, char * reply)
 {
     (void)command;
     unsigned int value = analogRead(m_pin);

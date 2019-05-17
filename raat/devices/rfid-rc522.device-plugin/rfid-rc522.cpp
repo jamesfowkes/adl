@@ -43,7 +43,7 @@ void RFID_RC522::forget()
 	m_mfrc522->PCD_Init();
 }
 
-int RFID_RC522::command_handler(char const * const command, char * reply)
+uint16_t RFID_RC522::command_handler(char const * const command, char * reply)
 {
 	int reply_len = 0;
 

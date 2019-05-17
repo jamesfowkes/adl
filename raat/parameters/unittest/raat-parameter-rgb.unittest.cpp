@@ -35,7 +35,7 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testRGBParameterInitsToResetValue()
     {
-        RGBParam param = RGBParam(255, 10, 20, 30, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 10, 20, 30, false, false);
         CPPUNIT_ASSERT_EQUAL((uint16_t)10, param.get(eR));
         CPPUNIT_ASSERT_EQUAL((uint16_t)20, param.get(eG));
         CPPUNIT_ASSERT_EQUAL((uint16_t)30, param.get(eB));
@@ -46,13 +46,13 @@ class RGBParameterTest : public CppUnit::TestFixture {
         uint16_t set_values[3] = {10,20,30};
         uint16_t get_values[3];
 
-        RGBParam param1 = RGBParam(255, 0, 0, 0, false, false);
+        RGBParam<uint16_t> param1 = RGBParam<uint16_t>(255, 0, 0, 0, false, false);
         CPPUNIT_ASSERT(param1.set(10,20,30));
         CPPUNIT_ASSERT_EQUAL((uint16_t)10, param1.get(eR));
         CPPUNIT_ASSERT_EQUAL((uint16_t)20, param1.get(eG));
         CPPUNIT_ASSERT_EQUAL((uint16_t)30, param1.get(eB));
 
-        RGBParam param2 = RGBParam(255, 0, 0, 0, false, false);
+        RGBParam<uint16_t> param2 = RGBParam<uint16_t>(255, 0, 0, 0, false, false);
 
         CPPUNIT_ASSERT(param2.set(set_values));
         param2.get(get_values);
@@ -63,21 +63,21 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testClippedRGBParameterWithLimitsClipsOnOutOfRangeSet()
     {
-        RGBParam param = RGBParam(255, 0, 0, 0, true, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 0, 0, 0, true, false);
         CPPUNIT_ASSERT(!param.set(256, 0, 0));
         CPPUNIT_ASSERT_EQUAL((uint16_t)255, param.get(eR));
     }
 
     void testUnclippedRGBParameterWithLimitsDoesNotAllowSetOutsideRange()
     {
-        RGBParam param = RGBParam(255, 0, 0, 0, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 0, 0, 0, false, false);
         CPPUNIT_ASSERT(!param.set(256, 0, 0));
         CPPUNIT_ASSERT_EQUAL((uint16_t)0, param.get(eR));
     }
 
     void testRGBParameterResetsToResetValue()
     {
-        RGBParam param = RGBParam(255, 0, 128, 255, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 0, 128, 255, false, false);
         param.set(1,1,1);
         param.reset();
         CPPUNIT_ASSERT_EQUAL((uint16_t)0, param.get(eR));
@@ -87,7 +87,7 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testRGBParameterCorrectlyWorksWithNonvolatile()
     {
-        RGBParam param = RGBParam(255, 0, 128, 255, true, true);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 0, 128, 255, true, true);
         param.setup();
         param.set(100, 150, 50);
         CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)raat_mock_nonvolatile_get_last_write());
@@ -97,9 +97,9 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testRGBParameterCorrectlyWorksWithMultipleNonvolatiles()
     {
-        RGBParam param1 = RGBParam(255, 0, 128, 255, true, true);
+        RGBParam<uint16_t> param1 = RGBParam<uint16_t>(255, 0, 128, 255, true, true);
         param1.setup();
-        RGBParam param2 = RGBParam(255, 0, 128, 255, true, true);
+        RGBParam<uint16_t> param2 = RGBParam<uint16_t>(255, 0, 128, 255, true, true);
         param2.setup();
         param1.set(100, 150, 50);
         CPPUNIT_ASSERT_EQUAL((int16_t)100, *(int16_t*)raat_mock_nonvolatile_get_last_write());
@@ -117,7 +117,7 @@ class RGBParameterTest : public CppUnit::TestFixture {
         data = 50; raat_mock_nonvolatile_set(0, sizeof(int16_t), &data);
         data = 100; raat_mock_nonvolatile_set(sizeof(int16_t), sizeof(int16_t), &data);
         data = 150; raat_mock_nonvolatile_set(sizeof(int16_t)*2, sizeof(int16_t), &data);
-        RGBParam param = RGBParam(255, 255, 255, 255, true, true);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 255, 255, 255, true, true);
         param.setup();
         CPPUNIT_ASSERT_EQUAL((uint16_t)50, param.get(eR));
         CPPUNIT_ASSERT_EQUAL((uint16_t)100, param.get(eG));
@@ -126,20 +126,20 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testRGBParameterChangeIsNotSetOnInit()
     {
-        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 255, 255, 255, false, false);
         CPPUNIT_ASSERT(!param.has_changed());
     }
 
     void testRGBParameterChangeIsSetOnSetup()
     {
-        RGBParam param = RGBParam(255, 255, 255, 255, false, true);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 255, 255, 255, false, true);
         param.setup();
         CPPUNIT_ASSERT(param.has_changed());
     }
 
     void testRGBParameterChangeIsSetOnSet()
     {
-        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 255, 255, 255, false, false);
         param.set(1,1,1);
         CPPUNIT_ASSERT(param.has_changed());
         param.reset();
@@ -147,7 +147,7 @@ class RGBParameterTest : public CppUnit::TestFixture {
 
     void testRGBParameterChangeIsSetOnReset()
     {
-        RGBParam param = RGBParam(255, 255, 255, 255, false, false);
+        RGBParam<uint16_t> param = RGBParam<uint16_t>(255, 255, 255, 255, false, false);
         param.set(1,1,1);
         (void)param.has_changed();
         param.reset();

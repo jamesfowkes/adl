@@ -73,7 +73,7 @@ void Adafruit_MCP4725RAAT::setup()
     this->set_voltage(m_default, false);
 }
 
-int Adafruit_MCP4725RAAT::command_handler(char const * const command, char * reply)
+uint16_t Adafruit_MCP4725RAAT::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     switch(command[0])

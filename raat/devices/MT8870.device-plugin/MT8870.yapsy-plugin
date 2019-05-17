@@ -1,0 +1,9 @@
+[Core]
+Name = MT8870
+Module = MT8870
+
+[Documentation]
+Description = Allows reading of an MT8870 DTMF decoder
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

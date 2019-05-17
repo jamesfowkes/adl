@@ -20,7 +20,7 @@ void DigitalOutput::setup()
     this->reset();
 }
 
-int DigitalOutput::command_handler(char const * const command, char * reply)
+uint16_t DigitalOutput::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     if (command[0] == '1')

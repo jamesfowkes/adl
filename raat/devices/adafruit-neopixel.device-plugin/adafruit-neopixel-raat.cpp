@@ -146,7 +146,7 @@ void AdafruitNeoPixelRAAT::setup()
     this->reset();
 }
 
-int AdafruitNeoPixelRAAT::command_handler(char const * const command, char * reply)
+uint16_t AdafruitNeoPixelRAAT::command_handler(char const * const command, char * reply)
 {
     int reply_length;
 

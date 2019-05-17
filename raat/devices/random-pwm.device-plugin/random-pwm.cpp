@@ -26,7 +26,7 @@ void RandomPWM::setup()
     this->reset();
 }
 
-int RandomPWM::command_handler(char const * const command, char * reply)
+uint16_t RandomPWM::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     if (command[0] == 'R')

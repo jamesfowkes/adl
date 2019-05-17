@@ -37,7 +37,7 @@ public:
     }
 
     virtual void reset() = 0;
-    virtual int command_handler(char const * const command, char * reply) = 0;
+    virtual uint16_t command_handler(char const * const command, char * reply) = 0;
     virtual void save() = 0;
     virtual void load() = 0;
     
@@ -65,7 +65,7 @@ public:
     TestParam();
     void reset() {};
     void setup() {};
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
 
     void save() { raat_nv_save(&m_data, m_eeprom_location); }
     void load() { raat_nv_load(&m_data, m_eeprom_location); }

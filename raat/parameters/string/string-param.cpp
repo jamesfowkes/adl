@@ -71,7 +71,7 @@ bool StringParam::set(char const * const src)
     return ok_to_set;
 }
 
-int StringParam::command_handler(char const * const command, char * reply)
+uint16_t StringParam::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     if (command[0] == 'S')

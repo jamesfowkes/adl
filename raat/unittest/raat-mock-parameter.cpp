@@ -9,7 +9,7 @@
 
 TestParam::TestParam() : ParameterBase(true,sizeof(int32_t)) {}
 
-int TestParam::command_handler(char const * const command, char * reply)
+uint16_t TestParam::command_handler(char const * const command, char * reply)
 {
 	strncpy(m_last_command, command, 128);
 	printf("TestParam1 got command %s", reply);

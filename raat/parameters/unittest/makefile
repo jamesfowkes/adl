@@ -19,18 +19,14 @@ CFLAGS = -Wall -Wextra
 GLOBAL_OBJS = raat-parameter.unittest.runner.o \
 	../../unittest/raat-mock-board.o
 
-INTEGER_OBJS = ../integer/integer-param.o \
-	raat-parameter-integer.unittest.o \
-	../../raat_code/utility/raat-util-limited-range-int.o \
+INTEGER_OBJS = raat-parameter-integer.unittest.o \
 	$(GLOBAL_OBJS)
 
 BOOLEAN_OBJS = ../boolean/boolean-param.o \
 	raat-parameter-boolean.unittest.o \
 	$(GLOBAL_OBJS)
 
-RGB_OBJS = ../rgb/rgb-param.o \
-	raat-parameter-rgb.unittest.o \
-	../../raat_code/utility/raat-util-limited-range-int.o \
+RGB_OBJS = raat-parameter-rgb.unittest.o \
 	../../raat_code/messages/raat-messages.o \
 	../../raat_code/utility/raat-util.o \
 	$(GLOBAL_OBJS)

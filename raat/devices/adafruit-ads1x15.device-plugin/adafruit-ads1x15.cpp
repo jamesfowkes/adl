@@ -126,7 +126,7 @@ void Adafruit_ADS1x15::setup()
     }
 }
 
-int Adafruit_ADS1x15::command_handler(char const * const command, char * reply)
+uint16_t Adafruit_ADS1x15::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
 

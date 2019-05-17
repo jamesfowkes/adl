@@ -37,7 +37,7 @@ bool DebouncedInput::state()
     return m_debouncer.state();
 }
 
-int DebouncedInput::command_handler(char const * const command, char * reply)
+uint16_t DebouncedInput::command_handler(char const * const command, char * reply)
 {
     int reply_length = 0;
     if (command[0] == 'R')

@@ -17,7 +17,7 @@ public:
     void setup();
     void reset();
     void tick();
-    int command_handler(char const * const command, char * reply);
+    uint16_t command_handler(char const * const command, char * reply);
 
     void set(uint8_t device, uint8_t digit, uint8_t data);
     uint8_t get(uint8_t device, uint8_t digit);

@@ -20,7 +20,7 @@ unsigned int AnalogInput::reading()
     return analogRead(m_pin);
 }
 
-int AnalogInput::command_handler(char const * const command, char * reply)
+uint16_t AnalogInput::command_handler(char const * const command, char * reply)
 {
     (void)command;
     unsigned int value = analogRead(m_pin);

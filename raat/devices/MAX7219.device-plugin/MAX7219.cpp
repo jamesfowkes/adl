@@ -53,7 +53,7 @@ void MAX7219::setup()
     this->reset();
 }
 
-int MAX7219::command_handler(char const * const command, char * reply)
+uint16_t MAX7219::command_handler(char const * const command, char * reply)
 {
     (void)command; (void)reply;
     int reply_length = 0;
