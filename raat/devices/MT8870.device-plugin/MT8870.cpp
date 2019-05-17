@@ -4,6 +4,26 @@
 
 #include "MT8870.hpp"
 
+char press_to_char(uint8_t press)
+{
+    if (press == NO_PRESS)
+    {
+        return '-';
+    }
+    else if (press <= 9)
+    {
+        return '0' + press;
+    }
+    else if ((press >= 10) && (press <= 15))
+    {
+        return 'A' + press;
+    }
+    else
+    {
+        return '?';
+    }
+}
+
 MT8870::MT8870(uint8_t D0, uint8_t D1, uint8_t D2, uint8_t D3, uint8_t trig) :
     m_code_pins{D0, D1, D2, D3}, m_trig_pin(trig),
     m_triggered(false),
@@ -17,6 +37,14 @@ void MT8870::wait_for_release()
     if (digitalRead(m_trig_pin) == LOW)
     {
         m_triggered = false;
+    }
+}
+
+void MT8870::check_and_handle_press()
+{
+    if (digitalRead(m_trig_pin) == HIGH)
+    {
+        m_triggered = true;
         uint8_t press = 0;
         press |= (digitalRead(m_code_pins[0]) == HIGH) ? 1 : 0;
         press |= (digitalRead(m_code_pins[1]) == HIGH) ? 2 : 0;
@@ -27,15 +55,9 @@ void MT8870::wait_for_release()
         {
             press = 0;   
         }
-        store_press(press);
-    }
-}
 
-void MT8870::check_and_handle_press()
-{
-    if (digitalRead(m_trig_pin) == HIGH)
-    {
-        m_triggered = true;
+
+        this->store_press(press);
     }
 }
 
@@ -91,8 +113,22 @@ void MT8870::setup()
 
 int MT8870::command_handler(char const * const command, char * reply)
 {
-    (void)command;
-    (void)reply;
+    int reply_length = 0;
+    if (command[0] == 'R')
+    {
+        this->reset();
+        strcpy(reply, "ROK");
+        reply_length = strlen(reply);
+    }
+    else if (command[0] == '?')
+    {
+        for (uint8_t i = 0; i < 4; i++)
+        {
+            reply[i] = press_to_char(m_presses[i]);
+        }
+        reply[4] = '\0';
+        reply_length = strlen(reply);
+    }
 
-    return 0;
+    return reply_length;
 }

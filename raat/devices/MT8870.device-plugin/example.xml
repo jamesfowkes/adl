@@ -11,4 +11,16 @@
             <setting id="trigger_pin" name="" value="7"/>
         </device>
     </devices>
+
+    <logging>
+        <log_module>MT8870</log_module>
+        <log_module>APPLICATION</log_module>
+   </logging>
+
+   <custom_code>
+   		<file>example.cpp</file>
+   	</custom_code>
+   	
+    <raat protocol="simple"></raat>
+
 </board>

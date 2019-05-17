@@ -3,6 +3,8 @@
 
 #define NO_PRESS 0xFF
 
+char press_to_char(uint8_t press);
+
 class MT8870 : public DeviceBase
 {
 public:
