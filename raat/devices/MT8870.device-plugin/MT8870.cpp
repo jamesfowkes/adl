@@ -73,19 +73,19 @@ void MT8870::tick()
     }
 }
 
-uint8_t MT8870::peek()
+uint8_t MT8870::peek(bool asChar)
 {
-    return m_presses[0];
+    return asChar ? press_to_char(m_presses[0]) : m_presses[0];
 }
 
-uint8_t MT8870::get()
+uint8_t MT8870::get(bool asChar)
 {
     uint8_t most_recent = m_presses[0];
     m_presses[0] = m_presses[1];
     m_presses[1] = m_presses[2];
     m_presses[2] = m_presses[3];
     m_presses[3] = NO_PRESS;
-    return most_recent;
+    return asChar ? press_to_char(most_recent) : most_recent;
 }
 
 void MT8870::store_press(uint8_t press)

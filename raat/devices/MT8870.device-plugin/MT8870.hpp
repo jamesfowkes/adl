@@ -2,6 +2,7 @@
 #define _MT8870_H_
 
 #define NO_PRESS 0xFF
+#define NO_PRESS_CHAR '-'
 
 char press_to_char(uint8_t press);
 
@@ -13,8 +14,8 @@ public:
     void reset();
     void tick();
     uint16_t command_handler(char const * const command, char * reply);
-    uint8_t get();
-    uint8_t peek();
+    uint8_t get(bool asChar = false);
+    uint8_t peek(bool asChar = false);
 
 private:
     uint8_t m_code_pins[4];
