@@ -104,7 +104,7 @@ void RAATBuffer::reset(void)
  * Returns pointer to the actual buffer
  */
 
-char * RAATBuffer::c_str(void)
+char * RAATBuffer::c_str(void) const
 {
     return m_buffer;
 }
@@ -155,7 +155,7 @@ void RAATBuffer::detach(void)
  * Returns the current length of the written buffer based on write index
  */
 
-uint16_t RAATBuffer::length(void)
+uint16_t RAATBuffer::length(void) const
 {
     return m_writeIndex;
 }
