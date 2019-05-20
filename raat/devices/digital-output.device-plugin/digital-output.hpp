@@ -1,10 +1,17 @@
 #ifndef _DIGITAL_OUTPUT_H_
 #define _DIGITAL_OUTPUT_H_
 
+typedef enum startup_state
+{
+	STARTUP_STATE_LOW,
+	STARTUP_STATE_HIGH,
+	STARTUP_STATE_TRISTATE
+} estartup_state;
+
 class DigitalOutput : public DeviceBase
 {
 public:
-    DigitalOutput(int pin);
+    DigitalOutput(int pin, estartup_state startupState);
     void setup();
     void reset();
     void tick();
@@ -16,6 +23,7 @@ public:
 
 private:
     int m_pin;
+    estartup_state m_startup_state;
 };
 
 #endif

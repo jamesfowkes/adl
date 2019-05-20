@@ -2,9 +2,9 @@
 
 #include "digital-output.hpp"
 
-DigitalOutput::DigitalOutput(int pin)
+DigitalOutput::DigitalOutput(int pin, estartup_state startupState) :
+    m_pin(pin), m_startup_state(startupState)
 {
-    m_pin = pin;
 }
 
 void DigitalOutput::tick() {}
@@ -16,8 +16,18 @@ void DigitalOutput::reset()
 
 void DigitalOutput::setup()
 {
-    pinMode(m_pin, OUTPUT);
-    this->reset();
+    switch(m_startup_state)
+    {
+    case STARTUP_STATE_LOW:
+        this->set(true);
+        break;
+    case STARTUP_STATE_HIGH:
+        this->set(true);
+        break;
+    case STARTUP_STATE_TRISTATE:
+        this->tristate();
+        break;
+    }
 }
 
 uint16_t DigitalOutput::command_handler(char const * const command, char * reply)

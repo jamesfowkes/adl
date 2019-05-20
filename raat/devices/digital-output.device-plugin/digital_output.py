@@ -9,11 +9,13 @@ from yapsy.IPlugin import IPlugin
 
 from raat.types import DeviceSource, DeviceInclude
 
-from raat.devices.generic_device import GenericDevice
+from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
+
+from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"])):
+class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin", "startup_state"])):
 
     __slots__ = ()
 
@@ -35,10 +37,12 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin"]))
         
     @property
     def declarations(self):
-        return "static DigitalOutput {name} = DigitalOutput({pin});".format(
-            name=self.cname(), pin=self.pin.value)
+        return "static DigitalOutput {name} = DigitalOutput({pin}, STARTUP_STATE_{startup_state});".format(
+            name=self.cname(), pin=self.pin.value, startup_state=self.startup_state.value)
 
-class DigitalOutputPlugin(IPlugin):
+class DigitalOutputPlugin(IPlugin, GenericDevicePlugin):
+
+    REQUIRED_SETTINGS = ["pin"]
 
     device_class = DigitalOutput
 
@@ -49,7 +53,12 @@ class DigitalOutputPlugin(IPlugin):
         pass
 
     def get(self, device):
-        return DigitalOutput(device.name, device.settings["pin"])
+
+        self.verify_settings(device)
+
+        startup_state = device.settings.get("startup_state", Setting("startup_state", "", "LOW"))
+
+        return DigitalOutput(device.name, device.settings["pin"], startup_state)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
