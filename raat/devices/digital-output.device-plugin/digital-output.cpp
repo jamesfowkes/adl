@@ -35,20 +35,26 @@ uint16_t DigitalOutput::command_handler(char const * const command, char * reply
     int reply_length = 0;
     if (command[0] == '1')
     {
-        digitalWrite(m_pin, HIGH);
+        this->set(true);
         strcpy(reply, "1OK");
         reply_length = strlen(reply);
     }
     else if (command[0] == '0')
     {
-        digitalWrite(m_pin, LOW);
+        this->set(false);
         strcpy(reply, "0OK");
         reply_length = strlen(reply);
     }
     else if (command[0] == 'R')
     {
-        digitalWrite(m_pin, LOW);
+        this->reset();
         strcpy(reply, "ROK");
+        reply_length = strlen(reply);
+    }
+    else if (command[0] == 'T')
+    {
+        this->tristate();
+        strcpy(reply, "TOK");
         reply_length = strlen(reply);
     }
     else
