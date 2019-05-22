@@ -23,14 +23,15 @@ def get(board, devices, parameters, modules):
     get_module_logger().info("Trying to load board '%s'", board.type)
     board = boards_plugin_manager.getPluginByName(board.type).plugin_object.get(board, devices, parameters, modules)
     get_module_logger().info("Loaded board. Devices, parameters and modules:")
-    for device in board.devices:
+
+    for device in board.devices.all:
         get_module_logger().info(device)
 
-    for parameter in board.parameters:
+    for parameter in board.parameters.all:
         get_module_logger().info(parameter)
 
     for module in board.modules:
-        get_module_logger().info(module)
+        get_module_logger().info(type(module).__name__)
 
     return board
     

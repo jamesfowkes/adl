@@ -253,11 +253,7 @@ class Board(namedtuple("Board", [
         board_type = board_node.attrib["type"]
         
         devices = Devices.from_xml_list(node.find("devices") or [])
-        #devices = node.find("devices") or []
-        #devices = [Device.from_xml(node) for node in devices]
         parameters = Parameters.from_xml_list(node.find("parameters") or [])
-        #parameters = node.find("parameters") or []
-        #parameters = [Parameter.from_xml(node) for node in parameters]
 
         modules = node.find("modules") or []
         modules = [Module.from_xml(node) for node in modules]
