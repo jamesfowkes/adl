@@ -1,5 +1,5 @@
 import logging
-import os
+
 from pathlib import Path
 from collections import namedtuple
 
@@ -9,6 +9,7 @@ from raat.types import LibraryInclude, DeviceInclude, DeviceSource
 from raat.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
+
 
 class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"])):
 
@@ -37,6 +38,7 @@ class RFID_RC522(GenericDevice, namedtuple("RFID_RC522", ["name", "ss", "rst"]))
     @property
     def required_libraries(self):
         return ["MFRC522"]
+
 
 class RFID_RC522Plugin(IPlugin):
 

@@ -9,6 +9,7 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class OneShotTimerModule(GenericModule):
 
     sources = (ModuleSource(THIS_PATH, "raat-oneshot-timer.cpp"), )
@@ -17,6 +18,7 @@ class OneShotTimerModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class OneShotTimerPlugin(IPlugin):
     def activate(self):

@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -12,6 +11,7 @@ from raat.types import DeviceSource, DeviceInclude
 from raat.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
+
 
 class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
 
@@ -33,6 +33,7 @@ class DigitalInput(GenericDevice, namedtuple("DigitalInput", ["name", "pin"])):
     def declarations(self):
         return "static DigitalInput {name} = DigitalInput({pin});".format(
             name=self.cname(), pin=self.pin.value)
+
 
 class DigitalInputPlugin(IPlugin):
 

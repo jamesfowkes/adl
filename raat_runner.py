@@ -10,6 +10,8 @@ import logging
 import os
 from pathlib import Path
 
+import xml.etree.ElementTree as ET
+
 import raat
 import raat.parser
 import raat.devices
@@ -22,13 +24,16 @@ import subprocess
 
 THIS_PATH = Path(__file__).parent
 
+
 def get_module_logger():
     return logging.getLogger(__name__)
+
 
 def get_sketch_directory(parent_directory, sketch_directory):
     parent_directory = Path(parent_directory).expanduser()
     target_directory = Path.joinpath(parent_directory, sketch_directory)
     return target_directory
+
 
 def create_sketch_directory(parent_directory, sketch_directory):
     target_directory = get_sketch_directory(parent_directory, sketch_directory)
@@ -43,10 +48,13 @@ def create_sketch_directory(parent_directory, sketch_directory):
 
     return target_directory
 
+
 def profile_sketch(board, sketch_directory):
+    elf_file = str(sketch_directory / (board.sanitised_name() + ".elf"))
     with open(sketch_directory / (board.sanitised_name() + ".prof"), "w") as f:
-        args = ["avr-nm", "--print-size", "--reverse-sort", "--size-sort", str(sketch_directory / (board.sanitised_name() + ".elf"))]
+        args = ["avr-nm", "--print-size", "--reverse-sort", "--size-sort", elf_file]
         result = subprocess.run(args, stdout=f)
+    return result
 
 
 def make(board, raat_config, sketchbook):
@@ -73,6 +81,7 @@ def make(board, raat_config, sketchbook):
 
     return board, raat_config, sketch_directory
 
+
 if __name__ == "__main__":
 
     args = docopt.docopt(__doc__)
@@ -85,7 +94,7 @@ if __name__ == "__main__":
     raat.modules.activate_all()
 
     input_file = Path(args["<input_file>"])
-    
+
     if args["--sketchbook"] is not None:
         sketchbook_path = Path(args["--sketchbook"]).expanduser()
     elif args["--use_sketchbook"]:
@@ -97,7 +106,7 @@ if __name__ == "__main__":
 
     try:
         board, raat_config = raat.parser.parse_file(input_file, None, args.get("--override", None))
-    except:
+    except ET.ParseError:
         get_module_logger().error("Error parsing {}".format(str(input_file)))
         raise
 

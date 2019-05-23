@@ -5,6 +5,7 @@ from raat.types import SourceFileProvider
 
 THIS_PATH = Path(__file__).parent
 
+
 class EEPROM(SourceFileProvider):
 
     sources = (LocalSource(THIS_PATH, "raat-nv-eeprom.cpp"), )

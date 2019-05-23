@@ -1,16 +1,8 @@
-import os
-import logging
-
-from collections import namedtuple
-
-from yapsy.IPlugin import IPlugin
-
-from raat import template_engine
 from raat.boards.serial.serial0 import Serial0
-from raat.boards.generic_board import GenericBoard
 from raat.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 
 from raat.boards.uno_etc.uno import UnoBaseType, UnoPlugin
+
 
 class Duemilanove(UnoBaseType):
 
@@ -21,6 +13,7 @@ class Duemilanove(UnoBaseType):
             kwargs["fqbn"] = "arduino:avr:diecimila:cpu=atmega328"
         self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
         return self
+
 
 class DuemilanovePlugin(UnoPlugin):
 

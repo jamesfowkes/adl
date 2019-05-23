@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -14,6 +13,7 @@ from raat.devices.generic_device import GenericDevice
 from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
+
 
 class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval", "low_limit", "high_limit"])):
 
@@ -34,7 +34,10 @@ class RandomPWM(GenericDevice, namedtuple("RandomPWM", ["name", "pin", "interval
     @property
     def declarations(self):
         return "static RandomPWM {name} = RandomPWM({pin}, {interval}, {low_limit}, {high_limit});".format(
-            name=self.cname(), pin=self.pin.value, interval=self.interval.value, low_limit=self.low_limit.value, high_limit=self.high_limit.value)
+            name=self.cname(), pin=self.pin.value, interval=self.interval.value,
+            low_limit=self.low_limit.value, high_limit=self.high_limit.value
+        )
+
 
 class RandomPWMPlugin(IPlugin):
 

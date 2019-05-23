@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pathlib import Path
@@ -14,6 +13,7 @@ from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
+
 
 class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin", "startup_state"])):
 
@@ -34,11 +34,12 @@ class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin", "
     @property
     def directory(self):
         return THIS_PATH
-        
+
     @property
     def declarations(self):
         return "static DigitalOutput {name} = DigitalOutput({pin}, STARTUP_STATE_{startup_state});".format(
             name=self.cname(), pin=self.pin.value, startup_state=self.startup_state.value)
+
 
 class DigitalOutputPlugin(IPlugin, GenericDevicePlugin):
 
@@ -56,7 +57,8 @@ class DigitalOutputPlugin(IPlugin, GenericDevicePlugin):
 
         self.verify_settings(device)
 
-        startup_state = device.settings.get("startup_state", Setting("startup_state", "", "LOW"))
+        startup_state = device.settings.get(
+            "startup_state", Setting("startup_state", "", "LOW"))
 
         return DigitalOutput(device.name, device.settings["pin"], startup_state)
 

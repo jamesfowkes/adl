@@ -7,21 +7,23 @@ from pathlib import Path
 
 THIS_PATH = Path(__file__).parent
 
+
 def get_module_logger():
     return logging.getLogger(__name__)
+
 
 def modify_cygwin_path(sketch_path):
 
     if (str(sketch_path).startswith("/cygdrive/")):
 
-        ## Pretty hacky way of fixing this, and probably fails under a lot of scenarios.
-        ## Replaces "/cygdrive/c" with "c:" in the path
+        # Pretty hacky way of fixing this, and probably fails under a lot of scenarios.
+        # Replaces "/cygdrive/c" with "c:" in the path
 
         drive = sketch_path.parts[2]
-        to_replace = "/cygdrive/" + drive
         sketch_path = Path(drive + ":", *sketch_path.parts[3:])
 
     return sketch_path
+
 
 class ArduinoCLIInterface:
 
@@ -33,7 +35,8 @@ class ArduinoCLIInterface:
 
     def find(self):
         if self.location is None:
-            self.location = shutil.which("arduino-cli") or shutil.which("arduino-cli.exe")
+            self.location = shutil.which(
+                "arduino-cli") or shutil.which("arduino-cli.exe")
             get_module_logger().info("CLI Location: {}".format(self.location))
             get_module_logger().info("CLI Version: {}".format(self.cli_version()))
 
@@ -64,7 +67,7 @@ class ArduinoCLIInterface:
                     return True
             except:
                 pass
-            
+
         return False
 
     def install_lib(self, library):
@@ -74,7 +77,7 @@ class ArduinoCLIInterface:
             try:
                 result = subprocess.run(args)
                 get_module_logger().info("Lib Install Success: '{}'".format(" ".join(result.args)))
-            except:
+            except: # noqa: disable=bare-except
                 get_module_logger().info("Lib Install Failed: '{}'".format(" ".join(result.args)))
                 raise
 
@@ -85,13 +88,13 @@ class ArduinoCLIInterface:
             try:
                 result = subprocess.run(args)
                 get_module_logger().info("Core Install Success: '{}'".format(" ".join(result.args)))
-            except:
+            except: # noqa: disable=bare-except
                 get_module_logger().info("Core Install Failed: '{}'".format(" ".join(args)))
                 raise
 
     def verify(self, board, sketch_path):
         success = False
-            
+
         self.find()
         for library in board.required_libraries():
             self.install_lib(library)
@@ -101,7 +104,8 @@ class ArduinoCLIInterface:
         if self.cygwin:
             sketch_path = modify_cygwin_path(sketch_path)
 
-        args = [self.location, "compile", "--fqbn", board.fqbn, str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
+        args = [self.location, "compile", "--fqbn", board.fqbn,
+                str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
 
         try:
             result = subprocess.run(args)
@@ -109,8 +113,8 @@ class ArduinoCLIInterface:
             if success:
                 get_module_logger().info("Verify Success: '{}'".format(" ".join(result.args)))
             else:
-                get_module_logger().info("Verify Failed: '{}'".format(" ".join(args)))    
-        except:
+                get_module_logger().info("Verify Failed: '{}'".format(" ".join(args)))
+        except: # noqa: disable=bare-except
             get_module_logger().info("Verify Command Exception: '{}'".format(" ".join(args)))
             raise
 
@@ -118,10 +122,11 @@ class ArduinoCLIInterface:
 
     def upload(self, board, sketch_path, port):
         self.find()
-        args = [self.location, "upload", "-p", port, "--fqbn", board.fqbn, str(sketch_path)]
+        args = [self.location, "upload", "-p", port,
+                "--fqbn", board.fqbn, str(sketch_path)]
         try:
             result = subprocess.run(args)
             get_module_logger().info("Upload Success: '{}'".format(" ".join(result.args)))
-        except:
+        except: # noqa: disable=bare-except
             get_module_logger().info("Upload Failed: '{}'".format(" ".join(args)))
             raise

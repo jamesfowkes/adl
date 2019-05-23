@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -7,14 +6,17 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import LibraryInclude, DeviceSource, DeviceInclude
+from raat.types import DeviceSource, DeviceInclude
 
 from raat.devices.generic_device import GenericDevice
 from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
-class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "low_limit", "high_limit", "reset_level"])):
+
+class AnalogOutput(
+    GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "low_limit", "high_limit", "reset_level"])
+):
 
     __slots__ = ()
 
@@ -33,7 +35,11 @@ class AnalogOutput(GenericDevice, namedtuple("AnalogOutput", ["name", "pin", "lo
     @property
     def declarations(self):
         return "static AnalogOutput {name} = AnalogOutput({pin}, {llow}, {lhigh}, {reset_level});".format(
-            name=self.cname(), pin=self.pin.value, llow=self.low_limit.value, lhigh=self.high_limit.value, reset_level=self.reset_level.value)
+            name=self.cname(), pin=self.pin.value,
+            llow=self.low_limit.value, lhigh=self.high_limit.value,
+            reset_level=self.reset_level.value
+        )
+
 
 class AnalogOutputPlugin(IPlugin):
 
@@ -46,9 +52,12 @@ class AnalogOutputPlugin(IPlugin):
         pass
 
     def get(self, device):
-        low_limit = device.settings.get("low_limit", Setting("low_limit", "", 0))
-        high_limit = device.settings.get("high_limit", Setting("high_limit", "", 255))
-        reset_level = device.settings.get("reset_level", Setting("reset_level", "", 0))
+        low_limit = device.settings.get(
+            "low_limit", Setting("low_limit", "", 0))
+        high_limit = device.settings.get(
+            "high_limit", Setting("high_limit", "", 255))
+        reset_level = device.settings.get(
+            "reset_level", Setting("reset_level", "", 0))
         return AnalogOutput(device.name, device.settings["pin"], low_limit, high_limit, reset_level)
 
     def set_log_level(self, level):

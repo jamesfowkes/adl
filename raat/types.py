@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from collections import namedtuple, Counter, Iterable
+from collections import namedtuple, Counter
 
-import raat
 
 def flatten(l):
 
@@ -14,44 +13,58 @@ def flatten(l):
             flat.append(el)
     return flat
 
+
 class IncludeFile(Path):
     _flavour = Path('.')._flavour
+
 
 class SourceFile(Path):
     _flavour = Path('.')._flavour
 
+
 class RAATSource(SourceFile):
     pass
+
 
 class RAATInclude(IncludeFile):
     pass
 
+
 class LocalSource(SourceFile):
     pass
+
 
 class LocalInclude(IncludeFile):
     pass
 
+
 class LibraryInclude(IncludeFile):
     pass
+
 
 class ParameterSource(SourceFile):
     pass
 
+
 class ParameterInclude(IncludeFile):
     pass
+
 
 class DeviceSource(SourceFile):
     pass
 
+
 class DeviceInclude(IncludeFile):
     pass
-    
+
+
 class ModuleSource(SourceFile):
     pass
 
+
 class ModuleInclude(IncludeFile):
     pass
+
 
 class SourceFileProvider:
 
@@ -60,7 +73,8 @@ class SourceFileProvider:
 
     def get_includes(self, target_type):
         return [s for s in self.includes if isinstance(s, target_type)]
-        
+
+
 class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
     __slots__ = ()
@@ -86,7 +100,7 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
         dev_id = setting_dict["id"]
         name = setting_dict.get("name", "")
         value = setting_dict["value"]
-        
+
         return cls(dev_id, name, value)
 
     def update(self, new_value):
@@ -116,6 +130,7 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
 
         return settings_list
 
+
 class Devices(namedtuple("Devices", ["single", "grouped"])):
 
     __slots__ = ()
@@ -132,6 +147,7 @@ class Devices(namedtuple("Devices", ["single", "grouped"])):
 
         return cls(single_devices, group_devices)
 
+
 class Device(namedtuple("Device", ["name", "type", "settings"])):
 
     __slots__ = ()
@@ -142,7 +158,7 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
         device_type = device_node.attrib["type"]
         device_count = int(device_node.attrib.get("count", 0))
         settings = [Setting.from_xml(setting_node, device_count) for setting_node in device_node.findall("setting")]
-        settings_dict = {setting.id : setting for setting in settings}
+        settings_dict = {setting.id: setting for setting in settings}
         return cls(name, device_type, settings_dict)
 
     @classmethod
@@ -150,9 +166,10 @@ class Device(namedtuple("Device", ["name", "type", "settings"])):
         name = device_dict["name"]
         device_type = device_dict["type"]
         settings = [Setting.from_yaml(setting) for setting in device_dict["setting"]]
-        settings_dict = {setting.id : setting for setting in settings}
+        settings_dict = {setting.id: setting for setting in settings}
 
         return cls(name, device_type, settings_dict)
+
 
 class DeviceGroup(namedtuple("Device", ["name", "type", "settings", "count"])):
 
@@ -160,6 +177,7 @@ class DeviceGroup(namedtuple("Device", ["name", "type", "settings", "count"])):
     def from_xml(cls, device_node, count):
         device = Device.from_xml(device_node)
         return cls(device.name, device.type, device.settings, count)
+
 
 class Parameters(namedtuple("Parameters", ["single", "grouped"])):
 
@@ -177,6 +195,7 @@ class Parameters(namedtuple("Parameters", ["single", "grouped"])):
 
         return cls(single_params, group_params)
 
+
 class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
     __slots__ = ()
@@ -186,8 +205,9 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
         name = parameter_node.attrib["name"]
         parameter_type = parameter_node.attrib["type"]
         settings = [Setting.from_xml(setting_node, 0) for setting_node in parameter_node.findall("setting")]
-        settings_dict = {setting.id : setting for setting in settings}
+        settings_dict = {setting.id: setting for setting in settings}
         return cls(name, parameter_type, settings_dict)
+
 
 class ParameterGroup(namedtuple("Parameter", ["name", "type", "settings", "count"])):
 
@@ -195,7 +215,8 @@ class ParameterGroup(namedtuple("Parameter", ["name", "type", "settings", "count
     def from_xml(cls, parameter_node, count):
         param = Parameter.from_xml(parameter_node)
         return cls(param.name, param.type, param.settings, count)
-    
+
+
 class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
 
     __slots__ = ()
@@ -209,6 +230,7 @@ class LoggingModule(namedtuple("LoggingModule", ["name", "prefix"])):
     def c_name(self):
         return "s_%d".format(self.name.lower())
 
+
 class Module(namedtuple("Module", ["name"])):
 
     __slots__ = ()
@@ -217,10 +239,11 @@ class Module(namedtuple("Module", ["name"])):
     def from_xml(cls, module_node):
         return cls(module_node.text)
 
+
 def get_unique_log_modules(nodes):
 
     prefixes = [node.attrib.get("prefix", node.text[0:3]) for node in nodes]
-    
+
     if len(set(prefixes)) < len(prefixes):
         counter = Counter()
         unique_prefixes = []
@@ -233,13 +256,12 @@ def get_unique_log_modules(nodes):
             counter[prefix] += 1
     else:
         unique_prefixes = prefixes
-        
+
     return [LoggingModule(node.text, prefix) for (node, prefix) in zip(nodes, unique_prefixes)]
 
 
-
 class Board(namedtuple("Board", [
-    "type", "name", 
+    "type", "name",
     "devices", "parameters",
     "modules", "settings", "info", "raat", "custom_code",
     "attrs", "log_modules", "defines", "arduino_libs"])
@@ -251,16 +273,16 @@ class Board(namedtuple("Board", [
         board_node = node.find(".")
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
-        
+
         devices = Devices.from_xml_list(node.find("devices") or [])
         parameters = Parameters.from_xml_list(node.find("parameters") or [])
 
         modules = node.find("modules") or []
-        modules = [Module.from_xml(node) for node in modules]
+        modules = [Module.from_xml(module_node) for module_node in modules]
 
         settings = node.findall("setting") or []
-        settings = [Setting.from_xml(node) for node in settings]
-        settings_dict = {setting.id : setting for setting in settings}
+        settings = [Setting.from_xml(setting_node) for setting_node in settings]
+        settings_dict = {setting.id: setting for setting in settings}
 
         info = board_node.find("info").text
 
@@ -273,7 +295,7 @@ class Board(namedtuple("Board", [
             custom_code_filenames = [f.text for f in custom_code.findall("file")]
         else:
             custom_code_filenames = []
-        
+
         log_modules = get_unique_log_modules(node.find("logging") or [])
 
         defines = board_node.find("defines")
@@ -288,22 +310,23 @@ class Board(namedtuple("Board", [
         else:
             arduino_libs = []
 
-        return cls(board_type, name, devices, parameters, modules, settings_dict, info, raat,
-        custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs)
-
+        return cls(
+            board_type, name, devices, parameters, modules, settings_dict, info, raat,
+            custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs
+        )
 
     @classmethod
     def from_yaml(cls, board_dict):
         board_type = board_dict["board"]["type"]
         name = board_dict["board"]["name"]
         devices = [Device.from_yaml(dev) for dev in board_dict["board"]["devices"]]
-        
+
         if "settings" in board_dict["board"]:
             settings = [Setting.from_yaml(setting) for setting in board_dict["board"]["settings"]]
-            settings_dict = {setting.id : setting for setting in settings}
+            settings_dict = {setting.id: setting for setting in settings}
         else:
             settings_dict = {}
-        
+
         if "custom_code" in board_dict["board"]:
             filenames = board_dict["board"]["custom_code"]
         else:
@@ -324,6 +347,7 @@ class Board(namedtuple("Board", [
 
         log_modules = get_unique_log_modules(board_dict["board"].get("logging", []))
 
-        return cls(board_type, name, devices, settings_dict, info, raat, 
-            filenames, board_dict["board"], log_modules, defines, arduino_libs)
-    
+        return cls(
+            board_type, name, devices, settings_dict, info, raat,
+            filenames, board_dict["board"], log_modules, defines, arduino_libs
+        )

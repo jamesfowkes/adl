@@ -1,5 +1,6 @@
 from raat.types import SourceFileProvider
 
+
 class GenericParameter(SourceFileProvider):
 
     @property
@@ -20,11 +21,13 @@ class GenericParameter(SourceFileProvider):
     def ctype(self):
         return type(self).__name__
 
+
 class TemplatedParameter(GenericParameter):
 
     @property
     def ctype(self):
         return type(self).__name__ + "<" + self.type.value + ">"
+
 
 class GenericParamPlugin:
 
@@ -32,4 +35,5 @@ class GenericParamPlugin:
         if hasattr(self, "REQUIRED_SETTINGS"):
             for setting in self.REQUIRED_SETTINGS:
                 if setting not in param.settings:
-                    raise Exception("Expected setting {} in param '{}'".format(setting, param.name))
+                    raise Exception(
+                        "Expected setting {} in param '{}'".format(setting, param.name))

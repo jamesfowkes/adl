@@ -9,8 +9,9 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class GridIndexerModule(GenericModule):
-    
+
     sources = (ModuleSource(THIS_PATH, "grid-indexer.cpp"), )
 
     includes = (ModuleInclude(THIS_PATH, "grid-indexer.hpp"), )
@@ -18,6 +19,7 @@ class GridIndexerModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class GridIndexerPlugin(IPlugin):
     def activate(self):

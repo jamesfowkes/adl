@@ -1,22 +1,27 @@
-import os
 import logging
 
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat import template_engine
 from raat.boards.serial.serial0 import Serial0DueMicro
 from raat.boards.generic_board import GenericBoard
 from raat.boards.nonvolatile.EEPROM.EEPROM import EEPROM
 
-from raat.boards.pro_micro.pro_micro import ProMicroBaseType
 from raat.boards.uno_etc import uno
 
-class AStar32U4(GenericBoard, namedtuple("ProMicroBaseType", 
-    ["name", "serial", "nonvolatile", "devices", "parameters", "modules",
-    "custom_code", "settings", "info", "log_modules", "defines", "arduino_libs",
-    "fqbn"])):
+
+class AStar32U4(
+    GenericBoard,
+    namedtuple(
+        "AStar32U4",
+        [
+            "name", "serial", "nonvolatile", "devices", "parameters", "modules",
+            "custom_code", "settings", "info", "log_modules", "defines", "arduino_libs",
+            "fqbn"
+        ]
+    )
+):
 
     __slots__ = ()
 
@@ -26,11 +31,11 @@ class AStar32U4(GenericBoard, namedtuple("ProMicroBaseType",
 
     @property
     def log_printer(self):
-        return "Serial";
+        return "Serial"
 
     @property
     def progmem(self):
-        return "PROGMEM";
+        return "PROGMEM"
 
     @property
     def required_core(self):
@@ -43,7 +48,7 @@ class AStar32U4Plugin(IPlugin):
 
     def deactivate(self):
         pass
-        
+
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0DueMicro(baudrate)
