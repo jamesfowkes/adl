@@ -45,8 +45,7 @@ GRID_INDEXER_OBJS = ../grid_indexer/grid-indexer.o \
 	raat-module-grid-indexer.unittest.o \
 	$(GLOBAL_OBJS)
 
-LED_EFFECT_OBJS = ../led_effect/larson-scanner.o \
-	raat-module-led-effect.unittest.o \
+LED_EFFECT_OBJS = raat-module-led-effect.unittest.o \
 	$(GLOBAL_OBJS)
 
 %.o: %.cpp
