@@ -19,11 +19,17 @@ class Thermistor(GenericDevice, namedtuple("Thermistor", ["name", "pin", "R25", 
 
     __slots__ = ()
 
-    sources = device_utils.get_device_class("Potential Divider").sources
-    sources += (DeviceSource(THIS_PATH, "thermistor.cpp"), )
+    @property
+    def sources(self):
+        sources = device_utils.get_device_class("Potential Divider").sources
+        sources += (DeviceSource(THIS_PATH, "thermistor.cpp"), )
+        return sources
 
-    includes = device_utils.get_device_class("Potential Divider").includes
-    includes += (DeviceInclude(THIS_PATH, "thermistor.hpp"), )
+    @property
+    def includes(self):
+        includes = device_utils.get_device_class("Potential Divider").includes
+        includes += (DeviceInclude(THIS_PATH, "thermistor.hpp"), )
+        return includes
 
     @property
     def setup(self):
