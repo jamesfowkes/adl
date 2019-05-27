@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="HX711">
+    <info>
+        An example sketch for the HX711 device
+    </info>
+    
+    <devices>
+        <device name="Load Cell" type="HX711">
+        </device>
+    </devices>
+</board>

@@ -1,0 +1,9 @@
+[Core]
+Name = HX711
+Module = HX711
+
+[Documentation]
+Description = Allows readiing of HX711 load cell amplifier
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
