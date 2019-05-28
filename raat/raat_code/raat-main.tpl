@@ -88,7 +88,7 @@ static const raat_params_struct raat_params = {
 {% macro render_functions(board) %}
 
 {% for device in board.devices.all %}
-int handle_device{{loop.index}}_command(char const * const command, char * reply)
+uint16_t handle_device{{loop.index}}_command(char const * const command, char * reply)
 {
     {{device.command_handler}}
 }
@@ -111,7 +111,7 @@ DeviceBase& raat_get_device(DEVICE_ADDRESS address)
 }
 
 {% for parameter in board.parameters.all %}
-int handle_param{{loop.index}}_command(char const * const command, char * reply)
+uint16_t handle_param{{loop.index}}_command(char const * const command, char * reply)
 {
     {{parameter.command_handler}}
 }

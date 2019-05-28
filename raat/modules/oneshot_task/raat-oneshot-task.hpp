@@ -11,7 +11,7 @@ public:
     RAATOneShotTask(uint16_t period, OneShotTaskFn pfnTask);
     RAATOneShotTask(uint16_t period, OneShotTaskFn pfnTask, void * pData);
     void start();
-    bool run();
+    bool run(void * pData = NULL);
     bool is_running();
     void reset();
     void set_period(uint16_t period);

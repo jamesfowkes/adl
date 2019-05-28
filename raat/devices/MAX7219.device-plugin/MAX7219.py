@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -7,12 +6,12 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import DeviceSource, DeviceInclude, LibraryInclude
+from raat.types import DeviceSource, DeviceInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
-from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
+
 
 class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin", "dclk_pin", "device_count"])):
 
@@ -21,7 +20,6 @@ class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin"
     sources = (DeviceSource(THIS_PATH, "MAX7219.cpp"), )
 
     includes = (DeviceInclude(THIS_PATH, "MAX7219.hpp"), )
-
 
     @property
     def setup(self):
@@ -37,6 +35,7 @@ class MAX7219(GenericDevice, namedtuple("MAX7219", ["name", "cs_pin", "data_pin"
             name=self.cname(), cs_pin=self.cs_pin.value, data_pin=self.data_pin.value,
             dclk_pin=self.dclk_pin.value, device_count=self.device_count.value
         )
+
 
 class MAX7219Plugin(IPlugin, GenericDevicePlugin):
 
@@ -58,7 +57,7 @@ class MAX7219Plugin(IPlugin, GenericDevicePlugin):
         data_pin = device.settings.get("data_pin")
         dclk_pin = device.settings.get("dclk_pin")
         device_count = device.settings.get("device_count")
-       
+
         return MAX7219(device.name, cs_pin, data_pin, dclk_pin, device_count)
 
     def set_log_level(self, level):

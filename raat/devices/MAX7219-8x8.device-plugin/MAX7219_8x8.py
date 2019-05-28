@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -7,14 +6,14 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import DeviceSource, DeviceInclude, LibraryInclude
+from raat.types import DeviceSource, DeviceInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
-from raat.types import Setting
 
 from raat.devices import device_utils
 
 THIS_PATH = Path(__file__).parent
+
 
 class MAX7219_8x8(GenericDevice, namedtuple("MAX7219_8x8", ["name", "cs_pin", "data_pin", "dclk_pin", "device_count"])):
 
@@ -42,7 +41,8 @@ class MAX7219_8x8(GenericDevice, namedtuple("MAX7219_8x8", ["name", "cs_pin", "d
             name=self.cname(), cs_pin=self.cs_pin.value, data_pin=self.data_pin.value,
             dclk_pin=self.dclk_pin.value, device_count=self.device_count.value
         )
-        
+
+
 class MAX7219_8x8Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["cs_pin", "data_pin", "dclk_pin", "device_count"]
@@ -63,7 +63,7 @@ class MAX7219_8x8Plugin(IPlugin, GenericDevicePlugin):
         data_pin = device.settings.get("data_pin")
         dclk_pin = device.settings.get("dclk_pin")
         device_count = device.settings.get("device_count")
-       
+
         return MAX7219_8x8(device.name, cs_pin, data_pin, dclk_pin, device_count)
 
     def set_log_level(self, level):

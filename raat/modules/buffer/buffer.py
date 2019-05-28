@@ -9,8 +9,9 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class BufferModule(GenericModule):
-    
+
     sources = (ModuleSource(THIS_PATH, "raat-buffer.cpp"), )
 
     includes = (ModuleInclude(THIS_PATH, "raat-buffer.hpp"), )
@@ -18,6 +19,7 @@ class BufferModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class BufferPlugin(IPlugin):
     def activate(self):

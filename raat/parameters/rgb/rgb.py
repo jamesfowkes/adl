@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pathlib import Path
@@ -7,20 +6,21 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-import raat
 from raat.parameters.generic_parameter import TemplatedParameter
 
 from raat.types import Setting
-from raat.types import RAATSource, RAATInclude
-from raat.types import ParameterSource, ParameterInclude
-from raat.types import LocalSource, LocalInclude
+from raat.types import RAATInclude
+from raat.types import ParameterInclude
 
 from raat import ctypes
 
 THIS_PATH = Path(__file__).parent
 
-class RGBParam(TemplatedParameter, namedtuple("RGBParam", ["name", "type", "limit", 
-        "r_default", "g_default", "b_default", "clip", "use_eeprom"])):
+
+class RGBParam(
+    TemplatedParameter,
+    namedtuple("RGBParam", ["name", "type", "limit", "r_default", "g_default", "b_default", "clip", "use_eeprom"])
+):
 
     __slots__ = ()
 
@@ -37,11 +37,14 @@ class RGBParam(TemplatedParameter, namedtuple("RGBParam", ["name", "type", "limi
 
     @property
     def declarations(self):
-        return "static RGBParam<{type}> {name} = RGBParam<{type}>({limit}, {r_default}, {g_default}, {b_default}, {clip}, {use_eeprom});".format(
-            type=self.type.value,
-            name=self.cname(), limit=self.limit.value,
-            r_default=self.r_default.value, g_default=self.g_default.value, b_default=self.b_default.value,
-            clip=self.clip.value, use_eeprom=self.use_eeprom.value
+        return (
+                "static RGBParam<{type}> {name} = "
+                "RGBParam<{type}>({limit}, {r_default}, {g_default}, {b_default}, {clip}, {use_eeprom});"
+            ).format(
+                type=self.type.value,
+                name=self.cname(), limit=self.limit.value,
+                r_default=self.r_default.value, g_default=self.g_default.value, b_default=self.b_default.value,
+                clip=self.clip.value, use_eeprom=self.use_eeprom.value
         )
 
     @property
@@ -51,7 +54,8 @@ class RGBParam(TemplatedParameter, namedtuple("RGBParam", ["name", "type", "limi
     @property
     def ctype(self):
         return type(self).__name__ + "<" + self.type.value + ">"
-        
+
+
 class RGBPlugin(IPlugin):
     def activate(self):
         pass
@@ -67,15 +71,22 @@ class RGBPlugin(IPlugin):
         if _type.is_signed:
             raise Exception("RGB integer type cannot be signed!")
 
-        return RGBParam(param.name, 
-            param.settings.get("type", Setting("type", "", _type.name)),
-            param.settings.get("limit", Setting("limit", "", str(_type.max))),
-            param.settings.get("r_default", Setting("r_default", "", "0")),
-            param.settings.get("g_default", Setting("g_default", "", "0")),
-            param.settings.get("b_default", Setting("b_default", "", "0")),
-            param.settings.get("clip", Setting("clip", "", "true")),
-            param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))
-        )
+        return RGBParam(param.name,
+                        param.settings.get(
+                            "type", Setting("type", "", _type.name)),
+                        param.settings.get("limit", Setting(
+                            "limit", "", str(_type.max))),
+                        param.settings.get(
+                            "r_default", Setting("r_default", "", "0")),
+                        param.settings.get(
+                            "g_default", Setting("g_default", "", "0")),
+                        param.settings.get(
+                            "b_default", Setting("b_default", "", "0")),
+                        param.settings.get(
+                            "clip", Setting("clip", "", "true")),
+                        param.settings.get("use_eeprom", Setting(
+                            "use_eeprom", "", "false"))
+                        )
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

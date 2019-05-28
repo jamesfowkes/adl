@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -10,9 +9,9 @@ from yapsy.IPlugin import IPlugin
 from raat.types import DeviceSource, DeviceInclude, LibraryInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
-from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
+
 
 class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
 
@@ -41,6 +40,7 @@ class IR_Receiver(GenericDevice, namedtuple("IR_Receiver", ["name", "pin"])):
     def declarations(self):
         return "static IR_Receiver {name} = IR_Receiver({pin});".format(
             name=self.cname(), pin=self.pin.value)
+
 
 class IR_ReceiverPlugin(IPlugin, GenericDevicePlugin):
 

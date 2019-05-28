@@ -5,6 +5,7 @@ from raat.types import SourceFileProvider
 
 THIS_PATH = Path(__file__).parent
 
+
 class Serial0(SourceFileProvider):
 
     sources = (
@@ -15,7 +16,8 @@ class Serial0(SourceFileProvider):
 
     def __init__(self, baudrate):
         self.baudrate = baudrate
-        
+
+
 class Serial0DueMicro(Serial0):
 
     sources = (

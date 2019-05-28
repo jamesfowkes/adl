@@ -40,7 +40,7 @@ void RAATTask::start()
     m_task.start();
 }
 
-bool RAATTask::run()
+bool RAATTask::run(void * pData)
 {
     bool triggered = !m_task.run();
 
@@ -48,7 +48,7 @@ bool RAATTask::run()
     {
         if (m_pfn_task)
         {
-            m_pfn_task(*this, m_p_data) ;
+            m_pfn_task(*this, pData ? pData : m_p_data);
         }
         m_task.start();
     }

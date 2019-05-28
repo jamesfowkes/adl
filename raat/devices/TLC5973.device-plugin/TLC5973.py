@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -12,6 +11,7 @@ from raat.types import DeviceSource, DeviceInclude
 from raat.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
+
 
 class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"])):
 
@@ -33,7 +33,8 @@ class TLC5973(GenericDevice, namedtuple("TLC5973", ["name", "num_leds", "pin"]))
     def declarations(self):
         return "static TLC5973 {name} = TLC5973({num_leds}, {pin});".format(
             name=self.cname(), num_leds=self.num_leds.value, pin=self.pin.value)
-        
+
+
 class TLC5973Plugin(IPlugin):
 
     device_class = TLC5973
@@ -49,4 +50,3 @@ class TLC5973Plugin(IPlugin):
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
-

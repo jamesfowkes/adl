@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pathlib import Path
@@ -7,11 +6,12 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import LibraryInclude, DeviceSource, DeviceInclude
+from raat.types import DeviceSource, DeviceInclude
 
 from raat.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
+
 
 class AnalogInput(GenericDevice, namedtuple("AnalogInput", ["name", "pin"])):
 
@@ -33,6 +33,7 @@ class AnalogInput(GenericDevice, namedtuple("AnalogInput", ["name", "pin"])):
     def declarations(self):
         return "static AnalogInput {name} = AnalogInput({pin});".format(
             name=self.cname(), pin=self.pin.value)
+
 
 class AnalogInputPlugin(IPlugin):
 

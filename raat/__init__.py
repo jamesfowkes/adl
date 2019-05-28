@@ -1,10 +1,7 @@
 import logging
 import shutil
-import os
 
 from pathlib import Path
-
-from collections import namedtuple
 
 import raat.devices
 import raat.boards
@@ -15,18 +12,22 @@ import raat.template_engine
 THIS_PATH = Path(__file__).parent
 RAAT_CODE_PATH = THIS_PATH.joinpath("raat_code")
 
+
 def get_module_logger():
     return logging.getLogger(__name__)
 
+
 def codepath():
     return RAAT_CODE_PATH
-    
+
+
 def get_subfolders(path):
 
     def absolute_path(d):
         return RAAT_CODE_PATH.joinpath(d)
 
     return [d.name for d in path.iterdir() if absolute_path(d).is_dir()]
+
 
 RAAT_SOURCE_FILES = [
     (RAAT_CODE_PATH.joinpath("raat.cpp"), "raat.cpp"),
@@ -49,12 +50,15 @@ RAAT_SOURCE_FILES = [
 PROTOCOLS_PATH = RAAT_CODE_PATH.joinpath("protocols")
 VALID_PROTOCOLS = get_subfolders(PROTOCOLS_PATH)
 
+
 def write_file(template_file, target_directory, target_file, raat_config, board):
 
-    rendered_code = raat.template_engine.render_library(Path(template_file), raat_config, board)
+    rendered_code = raat.template_engine.render_library(
+        Path(template_file), raat_config, board)
     with target_directory.joinpath(target_file).open('w') as f:
         get_module_logger().info("Writing file %s to %s", target_file, f.name)
         f.write(rendered_code)
+
 
 def copy_file(relative_src_path, target_directory):
     get_module_logger().info("Copying from %s", relative_src_path)
@@ -62,6 +66,7 @@ def copy_file(relative_src_path, target_directory):
     src_path = THIS_PATH.joinpath(relative_src_path)
     dst_path = target_directory.joinpath(filename)
     shutil.copy(str(src_path), str(dst_path))
+
 
 def write_library(target_directory, raat_config, board):
     get_module_logger().info("Writing RAAT library to %s", str(target_directory))
@@ -76,22 +81,29 @@ def write_library(target_directory, raat_config, board):
     copy_file(Path("parameters/parameter.hpp"), target_directory)
 
     for template_file, target_file in RAAT_SOURCE_FILES:
-        write_file(template_file, target_directory, target_file, raat_config, board)
+        write_file(template_file, target_directory,
+                   target_file, raat_config, board)
+
 
 def write_main(directory, sketch_name, raat_config, board):
     target = directory.joinpath(sketch_name)
     get_module_logger().info("Writing sketch '%s'", target)
-    write_file(RAAT_CODE_PATH.joinpath("raat-main.tpl"), directory, sketch_name, raat_config, board)
+    write_file(RAAT_CODE_PATH.joinpath("raat-main.tpl"),
+               directory, sketch_name, raat_config, board)
+
 
 def write_board_support_package(target_directory, raat_config, board):
-    rendered_code = raat.template_engine.render_board(board.template, raat_config, board)
+    rendered_code = raat.template_engine.render_board(
+        board.template, raat_config, board)
     with target_directory.joinpath("raat-bsp.cpp").open('w') as f:
         get_module_logger().info("Writing file %s to %s", "raat-bsp.cpp", f.name)
         f.write(rendered_code)
 
+
 def write_sources(target_directory, sources):
     for src in sources:
         copy_file(src, target_directory)
+
 
 def set_log_level(level):
     logging.getLogger("parser").setLevel(level)

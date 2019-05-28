@@ -35,13 +35,13 @@ void RAATOneShotTask::start()
     m_timer.start();
 }
 
-bool RAATOneShotTask::run()
+bool RAATOneShotTask::run(void * pData)
 {
     if (m_timer.check_and_reset())
     {
         if (m_pfn_task)
         {
-            m_pfn_task(*this, m_p_data);
+            m_pfn_task(*this, pData ? pData : m_p_data);
         }
     }
     return m_timer.is_running();

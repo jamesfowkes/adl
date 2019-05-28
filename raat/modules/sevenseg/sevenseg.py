@@ -9,8 +9,9 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class SevenSeg(GenericModule):
-    
+
     sources = (ModuleSource(THIS_PATH, "sevenseg.cpp"), )
 
     includes = (ModuleInclude(THIS_PATH, "sevenseg.hpp"), )
@@ -18,6 +19,7 @@ class SevenSeg(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class SevenSegPlugin(IPlugin):
     def activate(self):

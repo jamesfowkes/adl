@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -12,6 +11,7 @@ from raat.types import DeviceSource, DeviceInclude
 from raat.devices.generic_device import GenericDevice
 
 THIS_PATH = Path(__file__).parent
+
 
 class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime", "offtime"])):
 
@@ -33,7 +33,8 @@ class TimedOnOff(GenericDevice, namedtuple("TimedOnOff", ["name", "pin", "ontime
     def declarations(self):
         return "static TimedOnOff {name} = TimedOnOff({pin}, {ontime}, {offtime});".format(
             name=self.cname(), pin=self.pin.value, ontime=self.ontime.value, offtime=self.offtime.value)
-        
+
+
 class TimedOnOffPlugin(IPlugin):
 
     device_class = TimedOnOff

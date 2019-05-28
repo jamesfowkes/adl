@@ -10,17 +10,19 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class TaskModule(GenericModule):
-    
+
     sources = OneShotTaskModule().sources
     sources += (ModuleSource(THIS_PATH, "raat-task.cpp"),)
-    
+
     includes = OneShotTaskModule().includes
     includes += (ModuleInclude(THIS_PATH, "raat-task.hpp"),)
-    
+
     @property
     def directory(self):
         return THIS_PATH
+
 
 class TaskPlugin(IPlugin):
     def activate(self):
