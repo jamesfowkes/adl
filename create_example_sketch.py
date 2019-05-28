@@ -19,14 +19,17 @@ from raat import parser
 from raat_runner import make, get_sketch_directory
 import arduino_cli_interface
 
+
 def find_sketchbook_path():
-    POSSIBLE_SKETCHBOOK_PATHS = ["~/sketchbook", "~/Arduino", "~/Documents/Arduino"]
+    POSSIBLE_SKETCHBOOK_PATHS = ["~/sketchbook",
+                                 "~/Arduino", "~/Documents/Arduino"]
     for possible_sketchbook_path in POSSIBLE_SKETCHBOOK_PATHS:
         candidate = Path(possible_sketchbook_path).expanduser()
         if candidate.exists():
             return candidate
-    
+
     return None
+
 
 if __name__ == "__main__":
 
@@ -65,7 +68,8 @@ if __name__ == "__main__":
         board, raat_config = parser.parse_file(Path(found_example))
         make(board, raat_config, sketchbook_path)
 
-        sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
+        sketch_directory = get_sketch_directory(
+            sketchbook_path, board.sketch_path().parent)
         cli = arduino_cli_interface.ArduinoCLIInterface()
         cli.verify(board, sketch_directory)
     else:

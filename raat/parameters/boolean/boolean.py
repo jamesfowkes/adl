@@ -1,4 +1,3 @@
-import os
 import logging
 from pathlib import Path
 
@@ -12,6 +11,7 @@ from raat.types import Setting
 from raat.types import ParameterSource, ParameterInclude
 
 THIS_PATH = Path(__file__).parent
+
 
 class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_value", "use_eeprom"])):
 
@@ -36,6 +36,7 @@ class BooleanParam(GenericParameter, namedtuple("BooleanParam", ["name", "init_v
     def directory(self):
         return THIS_PATH
 
+
 class BooleanPlugin(IPlugin):
     def activate(self):
         pass
@@ -45,9 +46,11 @@ class BooleanPlugin(IPlugin):
 
     def get(self, param):
         return BooleanParam(param.name,
-            param.settings.get("init_value", Setting("init_value", "", "false")),
-            param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))
-        )
-        
+                            param.settings.get("init_value", Setting(
+                                "init_value", "", "false")),
+                            param.settings.get("use_eeprom", Setting(
+                                "use_eeprom", "", "false"))
+                            )
+
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

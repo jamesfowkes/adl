@@ -9,8 +9,9 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class DebouncerModule(GenericModule):
-    
+
     sources = (ModuleSource(THIS_PATH, "raat-debouncer.cpp"), )
 
     includes = (ModuleInclude(THIS_PATH, "raat-debouncer.hpp"), )
@@ -18,6 +19,7 @@ class DebouncerModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class DebouncerPlugin(IPlugin):
     def activate(self):

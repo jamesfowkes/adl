@@ -19,7 +19,7 @@ void DigitalOutput::setup()
     switch(m_startup_state)
     {
     case STARTUP_STATE_LOW:
-        this->set(true);
+        this->set(false);
         break;
     case STARTUP_STATE_HIGH:
         this->set(true);

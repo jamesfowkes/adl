@@ -6,13 +6,13 @@ from yapsy.IPlugin import IPlugin
 from raat.modules.generic_module import GenericModule
 from raat.modules.buffer.buffer import BufferModule
 
-from raat.types import ModuleSource, ModuleInclude, RAATSource, RAATInclude
+from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class HTTPGetServerModule(GenericModule):
-    
-    
+
     sources = BufferModule().sources
     sources += (ModuleSource(THIS_PATH, "http-get-server.cpp"),)
 
@@ -22,6 +22,7 @@ class HTTPGetServerModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class DebouncerPlugin(IPlugin):
     def activate(self):

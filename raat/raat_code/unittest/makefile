@@ -24,8 +24,7 @@ RAAT_UTIL_DELIMITED_STREAM_PARSER_OBJS = ../utility/raat-util-delimited-stream-p
 	raat-util-delimited-stream-parser.unittest.o \
 	raat-util.unittest.runner.o
 
-RAAT_UTIL_LIMITED_RANGE_INT_OBJS = ../utility/raat-util-limited-range-int.o \
-	raat-util-limited-range-int.clipped-behaviour.unittest.o \
+RAAT_UTIL_LIMITED_RANGE_INT_OBJS = raat-util-limited-range-int.clipped-behaviour.unittest.o \
 	raat-util-limited-range-int.unclipped-behaviour.unittest.o \
 	raat-util.unittest.runner.o
 

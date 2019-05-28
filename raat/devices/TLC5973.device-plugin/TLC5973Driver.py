@@ -1,6 +1,7 @@
 from collections import namedtuple
 
-class TLC5973Driver(namedtuple("TLC5973Driver",["device_number"])):
+
+class TLC5973Driver(namedtuple("TLC5973Driver", ["device_number"])):
 
     @property
     def device_string(self):
@@ -18,7 +19,9 @@ class TLC5973Driver(namedtuple("TLC5973Driver",["device_number"])):
         stream.write(cmd.encode("utf-8"))
         return (cmd.strip(), stream.reraatine())
 
-DELTA=8
+
+DELTA = 8
+
 
 def doR(driver, p):
     for r in range(0, 256, DELTA):
@@ -31,6 +34,7 @@ def doR(driver, p):
         cmd, result = driver.send_command(p, 0, r, r, 0)
         print("Sent {}, got {}".format(cmd, result))
 
+
 def doG(driver, p):
     for g in range(0, 256, DELTA):
         time.sleep(0.1)
@@ -41,6 +45,7 @@ def doG(driver, p):
         time.sleep(0.1)
         cmd, result = driver.send_command(p, g, 0, g, 0)
         print("Sent {}, got {}".format(cmd, result))
+
 
 def doB(driver, p):
     for b in range(0, 256, DELTA):
@@ -53,12 +58,13 @@ def doB(driver, p):
         cmd, result = driver.send_command(p, b, b, 0, 0)
         print("Sent {}, got {}".format(cmd, result))
 
+
 if __name__ == "__main__":
 
     import serial
     import sys
     import time
-    import random
+
     port = sys.argv[1]
     device_number = int(sys.argv[2])
     n_leds = int(sys.argv[3])
@@ -71,4 +77,3 @@ if __name__ == "__main__":
             doR(driver, p)
             doB(driver, p)
             doG(driver, p)
-            

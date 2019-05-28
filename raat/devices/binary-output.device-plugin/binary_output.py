@@ -1,5 +1,4 @@
 import logging
-import os
 
 from pathlib import Path
 
@@ -14,6 +13,7 @@ from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
+
 def get_pins_from_string(s):
     pins = [int(p.strip()) for p in s.split(",")]
     if len(pins) > 8:
@@ -21,6 +21,7 @@ def get_pins_from_string(s):
 
     pins += ["PIN_NOT_USED"] * (8 - len(pins))
     return ", ". join([str(p) for p in pins])
+
 
 class BinaryOutput(GenericDevice, namedtuple("BinaryOutput", ["name", "pins"])):
 
@@ -41,11 +42,12 @@ class BinaryOutput(GenericDevice, namedtuple("BinaryOutput", ["name", "pins"])):
     @property
     def directory(self):
         return THIS_PATH
-        
+
     @property
     def declarations(self):
         return "static BinaryOutput {name} = BinaryOutput({pins});".format(
             name=self.cname(), pins=self.pins.value)
+
 
 class BinaryOutputPlugin(IPlugin, GenericDevicePlugin):
 

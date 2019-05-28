@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pathlib import Path
@@ -10,11 +9,10 @@ from yapsy.IPlugin import IPlugin
 from raat.parameters.generic_parameter import GenericParameter, GenericParamPlugin
 
 from raat.types import Setting
-from raat.types import RAATSource, RAATInclude
 from raat.types import ParameterSource, ParameterInclude
-from raat.types import LocalSource, LocalInclude
 
 THIS_PATH = Path(__file__).parent
+
 
 class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_value", "length", "use_eeprom"])):
 
@@ -39,6 +37,7 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
     def directory(self):
         return THIS_PATH
 
+
 class StringPlugin(IPlugin, GenericParamPlugin):
 
     REQUIRED_SETTINGS = ["length"]
@@ -53,7 +52,8 @@ class StringPlugin(IPlugin, GenericParamPlugin):
 
         self.verify_settings(param)
 
-        return StringParam(param.name, 
+        return StringParam(
+            param.name,
             param.settings.get("reset_value", Setting("reset_value", "", "NULL")),
             param.settings["length"],
             param.settings.get("use_eeprom", Setting("use_eeprom", "", "false"))

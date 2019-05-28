@@ -18,12 +18,12 @@ class RAATBuffer
         void remove(uint32_t chars);
                 
         void reset(void);
-        char * c_str(void);
+        char * c_str(void) const;
         
         bool isFull(void);
         void attach(char * buffer, uint16_t length);
         void detach(void);
-        uint16_t length(void);
+        uint16_t length(void) const;
 	
 	int strncmp(char * needle, int n);
     private:

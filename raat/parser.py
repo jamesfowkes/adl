@@ -1,10 +1,5 @@
-import os
-import sys
-
 import xml.etree.ElementTree as ET
 import yaml
-
-from collections import namedtuple
 
 import raat.config
 import raat.devices
@@ -14,11 +9,16 @@ import raat.overrides
 
 import logging
 
+VALID_FILETYPES = [".xml", ".yaml", ".json"]
+
+
+class ParseException(Exception):
+    pass
+
 
 def get_logger():
     return logging.getLogger(__name__)
 
-VALID_FILETYPES = [".xml", ".yaml", ".json"]
 
 def parse_file(filename, filetype=None, overrides=None):
 

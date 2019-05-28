@@ -9,8 +9,9 @@ from raat.types import ModuleSource, ModuleInclude
 
 THIS_PATH = Path(__file__).parent
 
+
 class LEDEffectModule(GenericModule):
-    
+
     sources = (ModuleSource(THIS_PATH, "larson-scanner.cpp"), )
 
     includes = (ModuleInclude(THIS_PATH, "led-effect.hpp"), )
@@ -18,6 +19,7 @@ class LEDEffectModule(GenericModule):
     @property
     def directory(self):
         return THIS_PATH
+
 
 class LEDEffectPlugin(IPlugin):
     def activate(self):

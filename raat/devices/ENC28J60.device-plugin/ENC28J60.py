@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pathlib import Path
@@ -7,11 +6,12 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import Setting, DeviceSource, DeviceInclude, LibraryInclude
+from raat.types import DeviceSource, DeviceInclude, LibraryInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
+
 
 class ENC28J60RAAT(GenericDevice, namedtuple("ENC28J60RAAT", ["name", "cs_pin"])):
 
@@ -35,10 +35,11 @@ class ENC28J60RAAT(GenericDevice, namedtuple("ENC28J60RAAT", ["name", "cs_pin"])
     @property
     def directory(self):
         return THIS_PATH
-        
+
     @property
     def declarations(self):
         return "static ENC28J60RAAT {name} = ENC28J60RAAT({cs_pin});".format(name=self.cname(), cs_pin=self.cs_pin)
+
 
 class ENC28J60Plugin(IPlugin, GenericDevicePlugin):
 

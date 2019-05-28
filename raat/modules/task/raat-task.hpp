@@ -12,7 +12,7 @@ public:
     RAATTask(uint16_t period, TaskFn pfnTask, void * pData);
     void start();
     void stop();
-    bool run();
+    bool run(void * pData = NULL);
     bool is_running();
     void reset();
     void set_period(uint16_t period);
