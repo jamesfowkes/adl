@@ -9,12 +9,11 @@ public:
     void reset();
     void tick();
     uint16_t command_handler(char const * const command, char * reply);
-    
+    bool get(long& reading);
+    long get(void);
 private:
 
-	int handle_set_command(char const * const command, char * reply);
-	word sendEthernet(char * to_send);
-
+	HX711 m_loadcell;
     uint8_t m_dout_pin;
     uint8_t m_sck_pin;
     
