@@ -12,7 +12,8 @@ from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
 
-class HX711(GenericDevice, namedtuple("HX711", ["name"])):
+
+class HX711RAAT(GenericDevice, namedtuple("HX711", ["name", "dout_pin", "sck_pin"])):
 
     __slots__ = ()
 
@@ -37,14 +38,15 @@ class HX711(GenericDevice, namedtuple("HX711", ["name"])):
 
     @property
     def declarations(self):
-        return "static HX711 {name} = HX711();".format(name=self.cname())
+        return "static HX711RAAT {name} = HX711RAAT({dout_pin}, {sck_pin});".format(
+            name=self.cname(), dout_pin=self.dout_pin, sck_pin=self.sck_pin)
 
 
 class HX711Plugin(IPlugin, GenericDevicePlugin):
 
     REQUIRED_SETTINGS = ["dout_pin", "sck_pin"]
 
-    device_class = HX711
+    device_class = HX711RAAT
 
     def activate(self):
         pass
@@ -54,7 +56,7 @@ class HX711Plugin(IPlugin, GenericDevicePlugin):
 
     def get(self, device):
         self.verify_settings(device)
-        return HX711(device.name)
+        return HX711RAAT(device.name, device.settings["dout_pin"].value, device.settings["sck_pin"].value)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
