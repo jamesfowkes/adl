@@ -253,20 +253,100 @@ class LEDFaderTest : public CppUnit::TestFixture {
 
     CPPUNIT_TEST_SUITE(LEDFaderTest);
 
-    CPPUNIT_TEST(testLEDFaderStart);
+    CPPUNIT_TEST(testLEDFaderZeroAfterDirectionUpStart);
+    CPPUNIT_TEST(testLEDFaderMaxAfterDirectionDownStart);
+    CPPUNIT_TEST(testLEDFaderMaxAfterDirectionDownStartWithDifferentRGBValues);
+    CPPUNIT_TEST(testLEDFaderLinearlyIncreasingUpdates);
+    CPPUNIT_TEST(testLEDFaderLinearlyDecreasingUpdates);
 
     CPPUNIT_TEST_SUITE_END();
 
-    void testLEDFaderStart()
+    void testLEDFaderZeroAfterDirectionUpStart()
     {
-        uint8_t actual[20][3] = {0xFF};
-        uint8_t expected[20][3] = {0};
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
 
+        uint8_t expected[20][3];
+        
         LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_Linear);
-        s_fader.start(255,255,255);
+        s_fader.start(true, 255, 255, 255, 255);
+        memset(expected, 0x00, 60);
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
     }
 
+    void testLEDFaderMaxAfterDirectionDownStart()
+    {
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
+
+        uint8_t expected[20][3];
+        
+        LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_Linear);
+        s_fader.start(false, 50, 100, 200, 255);
+        for (uint8_t i = 0; i < 20; i++)
+        {
+            expected[i][0] = 50;
+            expected[i][1] = 100;
+            expected[i][2] = 200;
+        }
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLEDFaderMaxAfterDirectionDownStartWithDifferentRGBValues()
+    {
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
+
+        uint8_t expected[20][3];
+        
+        LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_Linear);
+        s_fader.start(false, 255, 255, 255, 255);
+        memset(expected, 255, 60);
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+
+    void testLEDFaderLinearlyIncreasingUpdates()
+    {
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
+
+        uint8_t expected[20][3];
+
+        LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_Linear);
+        s_fader.start(true, 255, 255, 255, 255);
+
+        for (uint16_t i = 0; i<254; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+            memset(expected, i+1, 60);
+            CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+        }
+        CPPUNIT_ASSERT(!s_fader.update());
+        memset(expected, 255, 60);
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLEDFaderLinearlyDecreasingUpdates()
+    {
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
+
+        uint8_t expected[20][3];
+
+        LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_Linear);
+        s_fader.start(false, 255, 255, 255, 255);
+
+        for (uint16_t i = 0; i<254; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+            memset(expected, 255-i-1, 60);
+            CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+        }
+        CPPUNIT_ASSERT(!s_fader.update());
+        memset(expected, 0, 60);
+        CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
 
 public:
     void setUp()
