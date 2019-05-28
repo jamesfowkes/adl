@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="HX711">
+<board type="Arduino Uno" name="HX711 Example">
     <info>
         An example sketch for the HX711 device
     </info>
     
     <devices>
         <device name="Load Cell" type="HX711">
+            <setting id="dout_pin" value="5"></setting>
+            <setting id="sck_pin" value="6"></setting>
         </device>
     </devices>
 </board>

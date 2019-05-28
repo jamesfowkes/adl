@@ -9,7 +9,6 @@ from yapsy.IPlugin import IPlugin
 from raat.types import LibraryInclude, DeviceSource, DeviceInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
-from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
 
@@ -43,7 +42,7 @@ class HX711(GenericDevice, namedtuple("HX711", ["name"])):
 
 class HX711Plugin(IPlugin, GenericDevicePlugin):
 
-    REQUIRED_SETTINGS = []
+    REQUIRED_SETTINGS = ["dout_pin", "sck_pin"]
 
     device_class = HX711
 
@@ -55,7 +54,6 @@ class HX711Plugin(IPlugin, GenericDevicePlugin):
 
     def get(self, device):
         self.verify_settings(device)
-
         return HX711(device.name)
 
     def set_log_level(self, level):
