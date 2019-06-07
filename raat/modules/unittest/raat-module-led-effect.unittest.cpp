@@ -13,6 +13,7 @@
 #define N_LARSON_LEDS 5
 
 static uint8_t s_callback_count = 0;
+static char s_message_buffer[128];
 
 void larson_value_callback(uint8_t index, uint8_t * pMultiplier, uint8_t * pDivisor)
 {
@@ -258,6 +259,7 @@ class LEDFaderTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testLEDFaderMaxAfterDirectionDownStartWithDifferentRGBValues);
     CPPUNIT_TEST(testLEDFaderLinearlyIncreasingUpdates);
     CPPUNIT_TEST(testLEDFaderLinearlyDecreasingUpdates);
+    CPPUNIT_TEST(testLEDFaderSquaredAdjustIncreasingUpdates);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -346,6 +348,54 @@ class LEDFaderTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT(!s_fader.update());
         memset(expected, 0, 60);
         CPPUNIT_ASSERT_EQUAL(0, memcmp(actual, expected, 60));
+    }
+
+    void testLEDFaderSquaredAdjustIncreasingUpdates()
+    {
+        uint8_t actual[20][3];
+        memset(actual, 0xFF, 60);
+
+        uint8_t expected[20][3];
+
+        LEDFader<uint8_t> s_fader = LEDFader<uint8_t>((uint8_t*)actual, 20, LEDFaderType_SquaredAdjust);
+        s_fader.start(true, 255, 255, 255, 255);
+
+        for (uint16_t i = 0; i<64; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+        }
+        
+        memset(expected, (64*64*255)/(255*255), 60);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE(s_message_buffer, 0, memcmp(actual, expected, 60));
+
+        for (uint16_t i = 0; i<64; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+        }
+
+        memset(expected, (128*128*255)/(255*255), 60);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE(s_message_buffer, 0, memcmp(actual, expected, 60));
+
+        for (uint16_t i = 0; i<64; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+        }
+
+        memset(expected, (192*192*255)/(255*255), 60);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE(s_message_buffer, 0, memcmp(actual, expected, 60));
+
+        for (uint16_t i = 0; i<62; i++)
+        {
+            CPPUNIT_ASSERT(s_fader.update());
+        }
+
+        memset(expected, (254*254*255)/(255*255), 60);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE(s_message_buffer, 0, memcmp(actual, expected, 60));
+
+        CPPUNIT_ASSERT(!s_fader.update());
+
+        memset(expected, 255, 60);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE(s_message_buffer, 0, memcmp(actual, expected, 60));
     }
 
 public:

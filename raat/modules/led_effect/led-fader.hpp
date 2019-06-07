@@ -6,7 +6,7 @@
 enum LEDFaderType
 {
     LEDFaderType_Linear,
-    LEDFaderType_Exponential,
+    LEDFaderType_SquaredAdjust,
     LEDFaderType_Custom
 };
 
@@ -25,13 +25,25 @@ static void linearvalue_getter(INT_TYPE *pLEDS, const uint8_t nleds, const INT_T
 }
 
 template <class INT_TYPE>
-static void expvalue_getter(INT_TYPE *pLEDS, const uint8_t nleds, const INT_TYPE * m_p_max_values, const uint16_t stepnumber, const uint16_t max_stepnumber)
+static void squarevalue_getter(INT_TYPE *pLEDS, const uint8_t nleds, const INT_TYPE * m_p_max_values, const uint16_t stepnumber, const uint16_t max_stepnumber)
 {
-    (void)pLEDS;
-    (void)nleds;
-    (void)m_p_max_values;
-    (void)stepnumber;
-    (void)max_stepnumber;
+    const uint32_t multiplier = (uint32_t)stepnumber * (uint32_t)stepnumber;
+
+    static uint16_t cached_max_stepnumber = 0;
+    static uint32_t divisor = 0;
+
+    if (max_stepnumber != cached_max_stepnumber)
+    {
+        cached_max_stepnumber = max_stepnumber;   
+        divisor = cached_max_stepnumber * cached_max_stepnumber;
+    }
+
+    for (uint8_t i = 0; i < nleds; i++)
+    {
+        pLEDS[i*3+0] = (multiplier * (uint32_t)m_p_max_values[0])/divisor;
+        pLEDS[i*3+1] = (multiplier * (uint32_t)m_p_max_values[1])/divisor;
+        pLEDS[i*3+2] = (multiplier * (uint32_t)m_p_max_values[2])/divisor;
+    }
 }
 
 
@@ -91,8 +103,8 @@ LEDFader<INT_TYPE>::LEDFader(INT_TYPE * dst, uint8_t n_leds, enum LEDFaderType f
     case LEDFaderType_Linear:
         m_pfn_value_getter = linearvalue_getter;
         break;
-    case LEDFaderType_Exponential:
-        m_pfn_value_getter = expvalue_getter;
+    case LEDFaderType_SquaredAdjust:
+        m_pfn_value_getter = squarevalue_getter;
         break;
     default:
     case LEDFaderType_Custom:
