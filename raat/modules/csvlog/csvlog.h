@@ -22,8 +22,41 @@ typedef enum _eCSVDataType
 
 typedef int (*print_function)(const char * format, ... );
 
-void CSVLog_Init(print_function pfn_printer);
-void CSVLog_AddField(void * pField, eCSVDataType CSVDataType, char const * formatter);
-void CSVLog_PrintNow();
+typedef struct _field
+{
+	void * pFieldValue;
+	eCSVDataType eType;
+	char const * pFormatter;
+} Field;
+
+class CSVLog
+{
+public:
+	CSVLog(print_function pfn_printer);
+	void AddField(void * pField, eCSVDataType CSVDataType, char const * formatter);
+	void PrintNow(void);
+
+private:
+
+	void print_char(char const * pFmt, void * pToPrint);
+	void print_u8(char const * pFmt, void * pToPrint);
+	void print_u16(char const * pFmt, void * pToPrint);
+	void print_u32(char const * pFmt, void * pToPrint);
+	void print_u64(char const * pFmt, void * pToPrint);
+	void print_s8(char const * pFmt, void * pToPrint);
+	void print_s16(char const * pFmt, void * pToPrint);
+	void print_s32(char const * pFmt, void * pToPrint);
+	void print_s64(char const * pFmt, void * pToPrint);
+	void print_str(char const * pFmt, void * pToPrint);
+	void print_float(char const * pFmt, void * pToPrint);
+	void print_double(char const * pFmt, void * pToPrint);
+	void print_ptr(char const * pFmt, void * pToPrint);
+	void print_now(void);
+
+	Field m_fields[N_FIELDS];
+	uint8_t m_num_fields = 0;
+	print_function m_pfn_printer = NULL;
+
+};
 
 #endif
