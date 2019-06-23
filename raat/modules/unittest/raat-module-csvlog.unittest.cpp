@@ -40,6 +40,9 @@ class CSVLogTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testCSVLogPrintsS16WithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsS32WithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsS64WithDefaultFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsStringWithDefaultFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsFloatWithDefaultFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsDoubleWithDefaultFormatter);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -130,6 +133,33 @@ class CSVLogTest : public CppUnit::TestFixture {
         testLogger.AddField(&s64Value, eCSVDataType_s64, NULL);
         testLogger.PrintNow();
         CPPUNIT_ASSERT_EQUAL(std::string("-9223372036854775808\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogPrintsStringWithDefaultFormatter()
+    {
+        char cString[] = "Test String";
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(cString, eCSVDataType_str, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("Test String\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogPrintsFloatWithDefaultFormatter()
+    {
+        float fFloat = 3.141592f;
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(&fFloat, eCSVDataType_float, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("3.141592\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogPrintsDoubleWithDefaultFormatter()
+    {
+        double fDouble = 3.141592f;
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(&fDouble, eCSVDataType_double, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("3.141592\n"), std::string(s_test_buffer));
     }
 
 public:
