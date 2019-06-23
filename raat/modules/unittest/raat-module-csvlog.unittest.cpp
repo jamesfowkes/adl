@@ -43,6 +43,9 @@ class CSVLogTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testCSVLogPrintsStringWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsFloatWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsDoubleWithDefaultFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsPointerWithDefaultFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsIntegerWithCustomFormatter);
+    CPPUNIT_TEST(testCSVLogPrintsStringWithLeadingSpaces);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -160,6 +163,33 @@ class CSVLogTest : public CppUnit::TestFixture {
         testLogger.AddField(&fDouble, eCSVDataType_double, NULL);
         testLogger.PrintNow();
         CPPUNIT_ASSERT_EQUAL(std::string("3.141592\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogPrintsPointerWithDefaultFormatter()
+    {
+        void * pPointer = (void*)0xDEADBEEF;
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(pPointer, eCSVDataType_ptr, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("0xdeadbeef\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogPrintsIntegerWithCustomFormatter()
+    {
+        uint32_t toPrintWithHexFormat = 0x3141;
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(&toPrintWithHexFormat, eCSVDataType_u32, "0x%08X");
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("0x00003141\n"), std::string(s_test_buffer));   
+    }
+
+    void testCSVLogPrintsStringWithLeadingSpaces()
+    {
+        char toPrintWithLeadingSpaces[] = "ABC";
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(toPrintWithLeadingSpaces, eCSVDataType_str, "%06s");
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("   ABC\n"), std::string(s_test_buffer));   
     }
 
 public:
