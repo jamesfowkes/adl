@@ -18,7 +18,8 @@ INC = -I../ \
 	-I../oneshot_timer \
 	-I../oneshot_task \
 	-I../grid_indexer \
-	-I../led_effect
+	-I../led_effect \
+	-I../csvlog
 
 CFLAGS = -Wall -Wextra
 
@@ -49,6 +50,10 @@ LED_EFFECT_OBJS = ../led_effect/larson-scanner.o \
 	raat-module-led-effect.unittest.o \
 	$(GLOBAL_OBJS)
 
+CSVLOG_OBJS = ../csvlog/csvlog.o \
+	raat-module-csvlog.unittest.o \
+	$(GLOBAL_OBJS)
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -72,7 +77,11 @@ raat-module-led-effect.$(TARGET_EXTENSION): $(LED_EFFECT_OBJS)
 	$(CC) -o raat-module-led-effect.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./raat-module-led-effect.$(TARGET_EXTENSION)
 
-all: clean raat-module-oneshot-timer.$(TARGET_EXTENSION) raat-module-oneshot-task.$(TARGET_EXTENSION) raat-module-task.$(TARGET_EXTENSION) raat-module-grid-indexer.$(TARGET_EXTENSION) raat-module-led-effect.$(TARGET_EXTENSION)
+raat-module-csvlog.$(TARGET_EXTENSION): $(CSVLOG_OBJS)
+	$(CC) -o raat-module-csvlog.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./raat-module-csvlog.$(TARGET_EXTENSION)
+
+all: clean raat-module-oneshot-timer.$(TARGET_EXTENSION) raat-module-oneshot-task.$(TARGET_EXTENSION) raat-module-task.$(TARGET_EXTENSION) raat-module-grid-indexer.$(TARGET_EXTENSION) raat-module-led-effect.$(TARGET_EXTENSION) raat-module-csvlog.$(TARGET_EXTENSION)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)
@@ -80,3 +89,4 @@ clean:
 	$(DEL) $(ONESHOT_TASK_OBJS)
 	$(DEL) $(GRID_INDEXER_OBJS)
 	$(DEL) $(LED_EFFECT_OBJS)
+	$(DEL) $(CSVLOG_OBJS)
