@@ -17,7 +17,7 @@
 
 void CSVLog::print_char(char const * pFmt, void * pToPrint)
 {
-	m_pfn_printer(pFmt ? pFmt : "c", *(char*)pToPrint);
+	m_pfn_printer(pFmt ? pFmt : "%c", *(char*)pToPrint);
 }
 
 void CSVLog::print_u8(char const * pFmt, void * pToPrint)

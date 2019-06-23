@@ -31,6 +31,7 @@ class CSVLogTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(CSVLogTest);
 
     CPPUNIT_TEST(testCSVLogDoesNotPrintWithNoFields);
+    CPPUNIT_TEST(testCSVLogPrintsCharWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsU8WithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsU16WithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsU32WithDefaultFormatter);
@@ -48,6 +49,15 @@ class CSVLogTest : public CppUnit::TestFixture {
         testLogger.PrintNow();
         CPPUNIT_ASSERT_EQUAL(std::string(""), std::string(s_test_buffer));
         CPPUNIT_ASSERT_EQUAL(s_call_count, 0U);
+    }
+
+    void testCSVLogPrintsCharWithDefaultFormatter()
+    {
+        char cValue = 'a';
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(&cValue, eCSVDataType_char, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("a\n"), std::string(s_test_buffer));
     }
 
     void testCSVLogPrintsU8WithDefaultFormatter()
