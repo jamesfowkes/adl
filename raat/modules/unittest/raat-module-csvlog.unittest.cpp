@@ -46,7 +46,8 @@ class CSVLogTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testCSVLogPrintsPointerWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsIntegerWithCustomFormatter);
     CPPUNIT_TEST(testCSVLogPrintsStringWithLeadingSpaces);
-
+    CPPUNIT_TEST(testCSVLogPrintsMultipleFields);
+    
     CPPUNIT_TEST_SUITE_END();
 
     void testCSVLogDoesNotPrintWithNoFields()
@@ -190,6 +191,24 @@ class CSVLogTest : public CppUnit::TestFixture {
         testLogger.AddField(toPrintWithLeadingSpaces, eCSVDataType_str, "%06s");
         testLogger.PrintNow();
         CPPUNIT_ASSERT_EQUAL(std::string("   ABC\n"), std::string(s_test_buffer));   
+    }
+
+    void testCSVLogPrintsMultipleFields()
+    {
+        char field1 = 'Z';
+        uint8_t field2 = 100;
+        int32_t field3 = -12345678;
+        float field4 = 1.141f;
+        char field5[] = "Hello!";
+
+        CSVLog testLogger(test_printer);
+        testLogger.AddField(&field1, eCSVDataType_char, NULL);
+        testLogger.AddField(&field2, eCSVDataType_u8, NULL);
+        testLogger.AddField(&field3, eCSVDataType_s32, NULL);
+        testLogger.AddField(&field4, eCSVDataType_float, NULL);
+        testLogger.AddField(field5, eCSVDataType_str, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("Z,100,-12345678,1.141000,Hello!\n"), std::string(s_test_buffer));      
     }
 
 public:

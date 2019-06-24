@@ -155,7 +155,7 @@ CSVLog::CSVLog(print_function pfn_printer) : m_pfn_printer(pfn_printer)
 
 void CSVLog::AddField(void * pFieldValue, eCSVDataType CSVDataType, char const * pFormatter)
 {
-	if (m_num_fields < (N_FIELDS-1))
+	if (m_num_fields < N_FIELDS)
 	{
 		m_fields[m_num_fields].pFieldValue = pFieldValue;
 		m_fields[m_num_fields].eType = CSVDataType;	
