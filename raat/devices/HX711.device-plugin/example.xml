@@ -7,8 +7,11 @@
     
     <devices>
         <device name="Load Cell" type="HX711">
-            <setting id="dout_pin" value="5"></setting>
-            <setting id="sck_pin" value="6"></setting>
+            <setting id="dout_pin" value="6"></setting>
+            <setting id="sck_pin" value="7"></setting>
         </device>
     </devices>
+
+    <raat loglevel="RAAT_LOG_LEVEL_DEBUG">
+    </raat>
 </board>

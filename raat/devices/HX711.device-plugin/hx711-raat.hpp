@@ -11,6 +11,7 @@ public:
     uint16_t command_handler(char const * const command, char * reply);
     bool get(long& reading);
     long get(void);
+    void tare(void);
 private:
 
 	HX711 m_loadcell;
