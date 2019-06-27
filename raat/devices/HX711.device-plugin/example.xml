@@ -9,6 +9,7 @@
         <device name="Load Cell" type="HX711">
             <setting id="dout_pin" value="6"></setting>
             <setting id="sck_pin" value="7"></setting>
+            <setting id="tare_at_boot" value="true"></setting>
         </device>
     </devices>
 
