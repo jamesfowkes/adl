@@ -5,7 +5,8 @@
 HX711RAAT::HX711RAAT(uint8_t dout_pin, uint8_t sck_pin, bool tare_at_boot) :
     m_dout_pin(dout_pin), m_sck_pin(sck_pin), m_tare_at_boot(tare_at_boot)
 {
-
+    m_scale_location.size = sizeof(float);
+    raat_nv_alloc(m_scale_location);
 }
 
 void HX711RAAT::tick()
@@ -65,12 +66,24 @@ long HX711RAAT::get_raw(void)
 void HX711RAAT::setup()
 {
     this->reset();
+
     m_loadcell.begin(m_dout_pin, m_sck_pin);
+
+    raat_nv_load(&m_scale, m_scale_location);
+
+    m_loadcell.set_scale(m_scale);
 }
 
 void HX711RAAT::tare(void)
 {
     m_loadcell.tare();
+}
+
+void HX711RAAT::set_scale(float new_scale)
+{
+    m_scale = new_scale;
+    raat_nv_save(&m_scale, m_scale_location);
+    m_loadcell.set_scale(m_scale); 
 }
 
 uint16_t HX711RAAT::command_handler(char const * const command, char * reply)
@@ -120,7 +133,9 @@ uint16_t HX711RAAT::command_handler(char const * const command, char * reply)
             if (scale_value > 0)
             {
                 long current_value = this->get_raw();
-                m_loadcell.set_scale(float(current_value) / float(scale_value));
+
+                this->set_scale(float(current_value) / float(scale_value));
+
                 sprintf(reply, "OK");
             }
             else
@@ -132,6 +147,11 @@ uint16_t HX711RAAT::command_handler(char const * const command, char * reply)
         {
             sprintf(reply, "VAL?");
         }
+    }
+    else if (strncmp(command, "RST", 3) == 0)
+    {
+        this->set_scale(1.0f);
+        sprintf(reply, "OK");
     }
     return strlen(reply);
 }
