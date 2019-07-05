@@ -66,6 +66,11 @@ void raat_logging_setup(Print& log_printer)
 
 void raat_log(RAAT_LOG_MODULES module, char const * const fmt, ...)
 {
+    if ((module == LOG_RAAT) && (RAAT_LOG_LEVEL == RAAT_LOG_LEVEL_NONE))
+    {
+        return;
+    }
+
     print_prefix(module);
     va_list args;
     va_start(args, fmt);
@@ -76,6 +81,11 @@ void raat_log(RAAT_LOG_MODULES module, char const * const fmt, ...)
 
 void raat_logln(RAAT_LOG_MODULES module, char const * const fmt, ...)
 {
+    if ((module == LOG_RAAT) && (RAAT_LOG_LEVEL == RAAT_LOG_LEVEL_NONE))
+    {
+        return;
+    }
+
     print_prefix(module);
     va_list args;
     va_start(args, fmt);
@@ -86,6 +96,11 @@ void raat_logln(RAAT_LOG_MODULES module, char const * const fmt, ...)
 
 void raat_log_P(RAAT_LOG_MODULES module, char const * const fmt, ...)
 {
+    if ((module == LOG_RAAT) && (RAAT_LOG_LEVEL == RAAT_LOG_LEVEL_NONE))
+    {
+        return;
+    }
+
     print_prefix(module);
     va_list args;
     va_start(args, fmt);
@@ -96,6 +111,11 @@ void raat_log_P(RAAT_LOG_MODULES module, char const * const fmt, ...)
 
 void raat_logln_P(RAAT_LOG_MODULES module, char const * const fmt, ...)
 {
+    if ((module == LOG_RAAT) && (RAAT_LOG_LEVEL == RAAT_LOG_LEVEL_NONE))
+    {
+        return;
+    }
+    
     print_prefix(module);
     va_list args;
     va_start(args, fmt);
