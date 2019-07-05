@@ -49,7 +49,7 @@ RAAT_SOURCE_FILES = [
 
 PROTOCOLS_PATH = RAAT_CODE_PATH.joinpath("protocols")
 VALID_PROTOCOLS = get_subfolders(PROTOCOLS_PATH)
-
+VALID_LOG_LEVELS = ["RAAT_LOG_LEVEL_NONE", "RAAT_LOG_LEVEL_DEBUG"]
 
 def write_file(template_file, target_directory, target_file, raat_config, board):
 

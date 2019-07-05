@@ -7,6 +7,15 @@
 
 #define PROGRAM_MEMORY {{ board.progmem }}
 
+enum raat_log_level_enum
+{
+	RAAT_LOG_LEVEL_NONE,
+	RAAT_LOG_LEVEL_DEBUG		
+};
+typedef enum raat_log_level_enum RAAT_LOG_LEVEL_ENUM;
+
+static const int RAAT_LOG_LEVEL = {{raat.raat_log_level}};
+
 enum raat_devices_enum
 {
     RAAT_DEVICE_BOARD,
