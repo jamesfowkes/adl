@@ -32,7 +32,7 @@ typedef struct _field
 class CSVLog
 {
 public:
-	CSVLog(print_function pfn_printer);
+	CSVLog(print_function pfn_printer, char const * prefix=NULL);
 	void AddField(void * pField, eCSVDataType CSVDataType, char const * formatter);
 	void PrintNow(void);
 
@@ -56,6 +56,7 @@ private:
 	Field m_fields[N_FIELDS];
 	uint8_t m_num_fields = 0;
 	print_function m_pfn_printer = NULL;
+	char const * m_prefix;
 
 };
 

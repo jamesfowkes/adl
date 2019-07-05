@@ -45,8 +45,9 @@ class CSVLogTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testCSVLogPrintsDoubleWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsPointerWithDefaultFormatter);
     CPPUNIT_TEST(testCSVLogPrintsIntegerWithCustomFormatter);
-    CPPUNIT_TEST(testCSVLogPrintsStringWithLeadingSpaces);
+    CPPUNIT_TEST(testCSVLogPrintsStringWithCustomFormatter);
     CPPUNIT_TEST(testCSVLogPrintsMultipleFields);
+    CPPUNIT_TEST(testCSVLogAddsPrefixIfSet);
     
     CPPUNIT_TEST_SUITE_END();
 
@@ -184,11 +185,11 @@ class CSVLogTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(std::string("0x00003141\n"), std::string(s_test_buffer));   
     }
 
-    void testCSVLogPrintsStringWithLeadingSpaces()
+    void testCSVLogPrintsStringWithCustomFormatter()
     {
         char toPrintWithLeadingSpaces[] = "ABC";
         CSVLog testLogger(test_printer);
-        testLogger.AddField(toPrintWithLeadingSpaces, eCSVDataType_str, "%06s");
+        testLogger.AddField(toPrintWithLeadingSpaces, eCSVDataType_str, "%6s");
         testLogger.PrintNow();
         CPPUNIT_ASSERT_EQUAL(std::string("   ABC\n"), std::string(s_test_buffer));   
     }
@@ -208,7 +209,16 @@ class CSVLogTest : public CppUnit::TestFixture {
         testLogger.AddField(&field4, eCSVDataType_float, NULL);
         testLogger.AddField(field5, eCSVDataType_str, NULL);
         testLogger.PrintNow();
-        CPPUNIT_ASSERT_EQUAL(std::string("Z,100,-12345678,1.141000,Hello!\n"), std::string(s_test_buffer));      
+        CPPUNIT_ASSERT_EQUAL(std::string("Z,100,-12345678,1.141000,Hello!\n"), std::string(s_test_buffer));
+    }
+
+    void testCSVLogAddsPrefixIfSet()
+    {
+        char str[] = "Hello!";
+        CSVLog testLogger(test_printer, "PREFIX");
+        testLogger.AddField(str, eCSVDataType_str, NULL);
+        testLogger.PrintNow();
+        CPPUNIT_ASSERT_EQUAL(std::string("PREFIX, Hello!\n"), std::string(s_test_buffer));
     }
 
 public:

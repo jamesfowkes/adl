@@ -82,6 +82,12 @@ void CSVLog::print_ptr(char const * pFmt, void * pToPrint)
 
 void CSVLog::print_now()
 {
+	if (m_prefix)
+	{
+		m_pfn_printer(m_prefix);
+		m_pfn_printer(", ");
+	}
+	
 	for (uint8_t i=0; i<m_num_fields; i++)
 	{
 		switch(m_fields[i].eType)
@@ -143,7 +149,7 @@ void CSVLog::print_now()
 
 /* Public Functions */
 
-CSVLog::CSVLog(print_function pfn_printer) : m_pfn_printer(pfn_printer)
+CSVLog::CSVLog(print_function pfn_printer, char const * prefix) : m_pfn_printer(pfn_printer), m_prefix(prefix)
 {
 	for (uint8_t i=0; i<N_FIELDS; i++)
 	{
