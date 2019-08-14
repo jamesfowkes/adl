@@ -18,7 +18,7 @@ class RAATConfig(namedtuple("RAATConfig", [
 def get(board, source_file):
 
     protocol = board.raat.get("protocol", "simple")
-    raat_log_level = board.raat.get("loglevel", "NONE")
+    raat_log_level = board.raat.get("loglevel", "RAAT_LOG_LEVEL_NONE")
 
     if protocol not in VALID_PROTOCOLS:
         raise Exception("Protocol {} not found in {}".format(
