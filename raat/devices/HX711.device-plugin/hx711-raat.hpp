@@ -15,6 +15,7 @@ public:
     long get_raw(void);
     void tare(void);
     void set_scale(float new_scale);
+    bool set_scale(char const * const new_scale);
 private:
 
 	HX711 m_loadcell;
