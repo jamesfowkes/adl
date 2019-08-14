@@ -49,7 +49,7 @@ void raat_delay_start(uint8_t seconds);
 int raat_board_strcpy_progmem(char * const pMemory, char const * const pProgmem);
 int raat_board_memcmp_progmem(char * const pMemory, char const * const pProgmem, size_t len);
 int raat_board_strcmp_progmem(char * const pMemory, char const * const pProgmem);
-int raat_board_strncmp_progmem(char * const pMemory, char const * const pProgmem, size_t len);
+int raat_board_strncmp_progmem(char const * const pMemory, char const * const pProgmem, size_t len);
 int raat_board_strlen_progmem(char const * const pProgmem);
 
 uint16_t raat_board_max_adc_reading();

@@ -21,7 +21,7 @@ int raat_board_strcmp_progmem(char * const pMemory, char const * const pProgmem)
     return strcmp_P(pMemory, pProgmem);
 }
 
-int raat_board_strncmp_progmem(char * const pMemory, char const * const pProgmem, size_t len)
+int raat_board_strncmp_progmem(char const * const pMemory, char const * const pProgmem, size_t len)
 {
     return strncmp_P(pMemory, pProgmem, len);
 }
