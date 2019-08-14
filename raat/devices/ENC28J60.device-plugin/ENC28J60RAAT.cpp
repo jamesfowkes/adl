@@ -28,13 +28,23 @@ ENC28J60RAAT::ENC28J60RAAT(uint8_t cs_pin) :
 
 void ENC28J60RAAT::tick()
 {
+    static uint32_t lastSeqNo = (uint32_t)-1;
+
     word len = ether.packetReceive();
     word pos = ether.packetLoop(len);
 
     if (pos)
     {
-        ethernet_packet_handler((char *) Ethernet::buffer + pos);
-        ether.httpServerReply(sendEthernet(ethernet_response_provider()));
+        if (lastSeqNo != ether.getSequenceNumber())
+        {
+            lastSeqNo = ether.getSequenceNumber();
+            ethernet_packet_handler((char *) Ethernet::buffer + pos);
+            ether.httpServerReply(sendEthernet(ethernet_response_provider()));
+        }
+        else
+        {
+            raat_logln_P(LOG_RAAT, PSTR("Dropped duplicate packet"));
+        }
     }
 }
 
@@ -64,6 +74,7 @@ void ENC28J60RAAT::setup()
     this->print_settings();
 
     raat_logln_P(LOG_RAAT, INIT_STRING);
+
     if (ether.begin(ENC28J60_BUFFER_SIZE, m_mac_address, m_cs_pin) == 0) 
     {
         raat_logln_P(LOG_RAAT, FAIL_STRING);

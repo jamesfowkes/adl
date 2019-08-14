@@ -29,10 +29,13 @@ static void relay_req_off(char const * const url)
 	send_standard_erm_response();
 }
 
+static const char ON_URL[] PROGMEM = "/d2/on";
+static const char OFF_URL[] PROGMEM = "/d2/off";
+
 static http_get_handler s_handlers[] = 
 {
-    {"/d2/on", relay_req_on},
-    {"/d2/off", relay_req_off},
+    {ON_URL, relay_req_on},
+    {OFF_URL, relay_req_off},
     {"", NULL}
 };
 

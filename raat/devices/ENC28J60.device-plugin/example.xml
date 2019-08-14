@@ -22,4 +22,8 @@
     <defines>
         <define>ENC28J60_BUFFER_SIZE 256</define>
     </defines>
+
+    <raat loglevel="RAAT_LOG_LEVEL_DEBUG">
+    </raat>
+
 </board>
