@@ -13,4 +13,10 @@ uint8_t raat_parse_comma_separated_numerics(char const * const s, int32_t * pres
 char nibble_to_hex(uint8_t b);
 void byte_to_hex(char * buffer, uint8_t b);
 
+template <class INT_TYPE>
+bool inrange(INT_TYPE a, INT_TYPE min_value, INT_TYPE max_value)
+{
+	return (a >= min_value) && (a <= max_value);
+}
+
 #endif
