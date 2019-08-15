@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="Servo">
+    <info>
+        An example sketch for the servo device
+    </info>
+    
+    <devices>
+        <device name="Servo" type="Servo">
+            <setting id="pin" value="5"/>
+        </device>
+    </devices>
+</board>

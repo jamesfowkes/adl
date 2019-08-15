@@ -1,0 +1,9 @@
+[Core]
+Name = Servo
+Module = servo
+
+[Documentation]
+Description = Allows control of a servo
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
