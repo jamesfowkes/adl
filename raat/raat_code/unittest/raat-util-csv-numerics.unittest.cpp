@@ -47,40 +47,40 @@ class CSVNumericsTest : public CppUnit::TestFixture {
 
     void testConvertCSVReturnsZeroAndDoesNotFillArrayForNull()
     {      
-        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics(NULL, numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics<int32_t>(NULL, numbers));
         CPPUNIT_ASSERT(array_is_empty(numbers));
-        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics("1,2,3", NULL));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics<int32_t>("1,2,3", NULL));
         CPPUNIT_ASSERT(array_is_empty(numbers));
     }
 
     void testConvertCSVReturnsZeroAndDoesNotFillArrayForEmptyString()
     {
-        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics("", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics<int32_t>("", numbers));
         CPPUNIT_ASSERT(array_is_empty(numbers));
     }
 
     void testConvertCSVReturnsZeroAndDoesNotFillArrayForNonNumericString()
     {
-        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics("A", numbers));
-        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics("A,A", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics<int32_t>("A", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, raat_parse_comma_separated_numerics<int32_t>("A,A", numbers));
     }
 
     void testConvertCSVConvertsSingleNumberWithoutComma()
     {
-        CPPUNIT_ASSERT_EQUAL((uint8_t)1, raat_parse_comma_separated_numerics("1", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)1, raat_parse_comma_separated_numerics<int32_t>("1", numbers));
         CPPUNIT_ASSERT_EQUAL(1, numbers[0]);
     }
 
     void testConvertCSVConvertsTwoCSVNumbers()
     {
-        CPPUNIT_ASSERT_EQUAL((uint8_t)2, raat_parse_comma_separated_numerics("1,2", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)2, raat_parse_comma_separated_numerics<int32_t>("1,2", numbers));
         CPPUNIT_ASSERT_EQUAL(1, numbers[0]);
         CPPUNIT_ASSERT_EQUAL(2, numbers[1]);
     }
 
     void testConvertCSVConvertsThreeCSVNumbers()
     {
-        CPPUNIT_ASSERT_EQUAL((uint8_t)3, raat_parse_comma_separated_numerics("1,2,3", numbers));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)3, raat_parse_comma_separated_numerics<int32_t>("1,2,3", numbers));
         CPPUNIT_ASSERT_EQUAL(1, numbers[0]);
         CPPUNIT_ASSERT_EQUAL(2, numbers[1]);
         CPPUNIT_ASSERT_EQUAL(3, numbers[2]);

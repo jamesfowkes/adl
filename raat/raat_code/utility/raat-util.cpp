@@ -61,7 +61,7 @@ bool raat_parse_single_numeric(char const * const numeric, int32_t& parsed, char
     return (p_local_end > numeric);
 }
 
-static bool string_is_valid_for_csv_numerics(char const * s)
+bool string_is_valid_for_csv_numerics(char const * s)
 {
     while (*s)
     {
@@ -72,31 +72,6 @@ static bool string_is_valid_for_csv_numerics(char const * s)
         s++;
     }
     return true;
-}
-
-uint8_t raat_parse_comma_separated_numerics(char const * const s, int32_t * presults)
-{
-    if (!s) { return 0; }
-    if (!presults) { return 0; }
-    if (strlen(s) == 0) { return 0; }
-    if (!string_is_valid_for_csv_numerics(s)) { return 0; }
-
-    uint8_t count = 0;
-    char const * p = s;
-    bool converted;
-    bool continue_with_conversion;
-
-    do
-    {
-        converted = raat_parse_single_numeric(p, presults[count], (char**)&p);
-        if (converted) { count++; };
-        
-        continue_with_conversion = (*p==',');
-        if (continue_with_conversion) {p++;}
-
-    } while (converted && continue_with_conversion);
-
-    return count;
 }
 
 char nibble_to_hex(uint8_t b)
