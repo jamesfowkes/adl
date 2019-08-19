@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Multiple Parameters">
+<board type="Arduino Uno" name="Multiple Parameters.Example">
     <info>
         An example sketch that has multiple string, integer and boolean parameters
     </info>

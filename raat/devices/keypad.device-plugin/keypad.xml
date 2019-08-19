@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Keypad">
+<board type="Arduino Uno" name="Keypad.Example">
     <info>
         An example sketch for the Keypad device
     </info>

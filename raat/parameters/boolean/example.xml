@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Boolean Parameter Example">
+<board type="Arduino Uno" name="Boolean Parameter.Example">
     <info>
         An example sketch for the boolean parameter
     </info>

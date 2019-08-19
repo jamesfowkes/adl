@@ -1,11 +1,11 @@
 """ create_all_example_sketches.py
 
 Usage:
-    create_all_example_sketches.py all [-v] [--sketchbook=<sketchbook_path>]
-    create_all_example_sketches.py devices [-v] [--sketchbook=<sketchbook_path>]
-    create_all_example_sketches.py parameters [-v] [--sketchbook=<sketchbook_path>]
-    create_all_example_sketches.py modules [-v] [--sketchbook=<sketchbook_path>]
-    create_all_example_sketches.py general [-v] [--sketchbook=<sketchbook_path>]
+    create_all_example_sketches.py all [-v] [--sketchbook=<sketchbook_path>|--localdir]
+    create_all_example_sketches.py devices [-v] [--sketchbook=<sketchbook_path>|--localdir]
+    create_all_example_sketches.py parameters [-v] [--sketchbook=<sketchbook_path>|--localdir]
+    create_all_example_sketches.py modules [-v] [--sketchbook=<sketchbook_path>|--localdir]
+    create_all_example_sketches.py general [-v] [--sketchbook=<sketchbook_path>|--localdir]
 
 Options:
     -v, --verbose  Output extra logging information
@@ -52,6 +52,8 @@ if __name__ == "__main__":
 
     if "--sketchbook" in args and args["--sketchbook"] is not None:
         sketchbook_path = Path(args["--sketchbook"]).expanduser()
+    elif "--localdir" in args:
+        sketchbook_path = ""
     else:
         sketchbook_path = find_sketchbook_path()
 
@@ -82,10 +84,14 @@ if __name__ == "__main__":
     for example in example_files:
         print("Trying to build {}".format(example))
         board, raat_config = parser.parse_file(Path(example))
-        make(board, raat_config, sketchbook_path)
 
-        sketch_directory = get_sketch_directory(
-            sketchbook_path, board.sketch_path().parent)
+        if sketchbook_path != "":
+            make(board, raat_config, sketchbook_path)
+            sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
+        else:
+            make(board, raat_config, example.parent)
+            sketch_directory = get_sketch_directory(example.parent, board.sketch_path().parent)
+
         cli = arduino_cli_interface.ArduinoCLIInterface()
         if not cli.verify(board, sketch_directory):
             sys.exit(1)

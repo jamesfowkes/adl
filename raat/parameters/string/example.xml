@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Duemilanove" name="String Parameter Example">
+<board type="Arduino Duemilanove" name="String Parameter.Example">
     <info>
         An example sketch for the boolean parameter
     </info>

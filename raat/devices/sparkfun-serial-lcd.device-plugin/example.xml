@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Sparkfun Serial LCD">
+<board type="Arduino Uno" name="Sparkfun Serial LCD.Example">
     <info>
         An example sketch for the Sparkfun serial LCD device
     </info>

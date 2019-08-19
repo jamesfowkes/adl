@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="ADS1115">
+<board type="Arduino Uno" name="ADS1115.Example">
     <info>
         An example sketch for the ADS1115 device
     </info>

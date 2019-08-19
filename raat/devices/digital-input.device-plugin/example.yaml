@@ -1,6 +1,6 @@
 board: 
   type: "Arduino Uno"
-  name: "Digital Input"
+  name: "Digital Input.Example"
   info: "An example sketch for the digital input device"
   devices:
     - device:

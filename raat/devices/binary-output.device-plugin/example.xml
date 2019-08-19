@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Binary Output">
+<board type="Arduino Uno" name="Binary Output.Example">
     <info>
         An example sketch for the binary output device
     </info>

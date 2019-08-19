@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Analog Input">
+<board type="Arduino Uno" name="Analog Input.Example">
     <info>
         An example sketch for the analog input device
     </info>

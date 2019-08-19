@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="MCP4725">
+<board type="Arduino Uno" name="MCP4725.Example">
     <info>
         An example sketch for the MCP4725 device
     </info>

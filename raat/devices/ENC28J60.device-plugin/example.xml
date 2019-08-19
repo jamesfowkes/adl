@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="ENC28J60 Example">
+<board type="Arduino Uno" name="ENC28J60.Example">
     <info>
         An example sketch for the ENC28J60 device
     </info>

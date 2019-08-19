@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Multiple Devices">
+<board type="Arduino Uno" name="Multiple Devices.Example">
     <info>
         An example sketch that has multiple analog output devices
     </info>

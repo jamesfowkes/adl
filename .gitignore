@@ -106,3 +106,6 @@ raat/behavetests/test_files/Many_Params/Many_Params/
 raat/behavetests/test_files/Many_Single_Parameters/Many_Single_Parameters/
 raat/behavetests/test_files/One_Multiple_Param/One_Multiple_Param/
 raat/behavetests/test_files/One_Single_Parameter/One_Single_Parameter/
+
+# Code Examples
+*.Example/

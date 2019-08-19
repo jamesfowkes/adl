@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<board type="Arduino Duemilanove" name="Thermistor">
+<board type="Arduino Duemilanove" name="Thermistor.Example">
     <info>
         An example sketch for the thermistor device
     </info>

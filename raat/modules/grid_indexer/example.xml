@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Grid Indexer Example">
+<board type="Arduino Uno" name="Grid Indexer.Example">
     <info>
         An example sketch for grid indexer module
         This module reverses the direction of every other

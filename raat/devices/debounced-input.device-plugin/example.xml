@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Debounced Input">
+<board type="Arduino Uno" name="Debounced Input.Example">
     <info>
         An example sketch for the debounced input device
     </info>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Duemilanove" name="IR Receiver Example">
+<board type="Arduino Duemilanove" name="IR Receiver.Example">
     <info>
         An example sketch for the IR Receiver device
     </info>

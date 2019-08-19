@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Analog Output">
+<board type="Arduino Uno" name="Analog Output.Example">
     <info>
         An example sketch for the analog output device
         Implements 3x PWM outputs, one of which is limited to 50% duty

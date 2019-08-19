@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="TLC5973">
+<board type="Arduino Uno" name="TLC5973.Example">
     <info>
         An example sketch for the TLC5973 device.
     </info>

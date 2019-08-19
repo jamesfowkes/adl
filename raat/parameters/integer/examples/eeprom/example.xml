@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Integer Parameter EEPROM Example">
+<board type="Arduino Uno" name="Integer Parameter EEPROM.Example">
     <info>
         An example sketch for the integer parameter, with EEPROM support
     </info>

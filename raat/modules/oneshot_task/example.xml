@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Oneshot Task Example">
+<board type="Arduino Uno" name="Oneshot Task.Example">
     <info>
         An example sketch for the oneshot task
     </info>

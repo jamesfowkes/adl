@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Duemilanove" name="LED Effect Example">
+<board type="Arduino Duemilanove" name="LED Effect.Example">
     <info>
         An example sketch for the LED effect module
     </info>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="HX711 Example">
+<board type="Arduino Uno" name="HX711.Example">
     <info>
         An example sketch for the HX711 device
     </info>

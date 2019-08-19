@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="RGB Parameter Example">
+<board type="Arduino Uno" name="RGB Parameter.Example">
 	<info>
 		An example sketch for the RGB parameter
 	</info>

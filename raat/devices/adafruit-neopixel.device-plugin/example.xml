@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Duemilanove" name="Adafruit NeoPixel">
+<board type="Arduino Duemilanove" name="Adafruit NeoPixel.Example">
     <info>
         An example sketch for the Adafruit Neopixel device
     </info>

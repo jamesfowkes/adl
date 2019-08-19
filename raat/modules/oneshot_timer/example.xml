@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Oneshot Timer Example">
+<board type="Arduino Uno" name="Oneshot Timer.Example">
     <info>
         An example sketch for the oneshot timer
     </info>

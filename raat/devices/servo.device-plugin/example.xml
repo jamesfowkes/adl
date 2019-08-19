@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<board type="Arduino Uno" name="Servo">
+<board type="Arduino Uno" name="Servo.Example">
     <info>
         An example sketch for the servo device
     </info>
