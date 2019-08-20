@@ -1,0 +1,9 @@
+[Core]
+Name = WS2801
+Module = WS2801
+
+[Documentation]
+Description = Allows control of WS2801s with the Adafruit WS2801 library
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

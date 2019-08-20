@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Duemilanove" name="WS2801.Example">
+    <info>
+        An example sketch for the WS2801 device
+    </info>
+    
+    <devices>
+        <device name="WS2801" type="WS2801">
+            <setting id="data_pin" value="2"/>
+            <setting id="clock_pin" value="3"/>
+            <setting id="npixels" value="20"/>
+        </device>
+    </devices>
+    <raat protocol="simple"></raat>
+</board>
