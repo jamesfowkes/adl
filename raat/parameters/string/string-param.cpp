@@ -27,16 +27,16 @@ StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, 
     }
     if (p_reset_value)
     {
-        m_pResetValue = (char*)malloc(strlen(p_reset_value)+1);
-        strncpy(m_pResetValue, p_reset_value, strlen(p_reset_value)+1);
-        strncpy(m_pValue, m_pResetValue, m_length);
+        m_pResetValue = (char*)malloc(::strlen(p_reset_value)+1);
+        ::strncpy(m_pResetValue, p_reset_value, ::strlen(p_reset_value)+1);
+        ::strncpy(m_pValue, m_pResetValue, m_length);
     }
 }
 
 void StringParam::reset() {
     if (m_pValue && m_pResetValue)
     {
-        strncpy(m_pValue, m_pResetValue, m_length);
+        ::strncpy(m_pValue, m_pResetValue, m_length);
         this->on_change();
     }
     else if (m_pValue)
@@ -52,7 +52,7 @@ void StringParam::get(char * const dst)
 {
     if (dst && m_pValue)
     {
-        strncpy(dst, m_pValue, m_length);
+        ::strncpy(dst, m_pValue, m_length);
         dst[m_length] = '\0';
     }
 }
@@ -61,10 +61,10 @@ bool StringParam::set(char const * const src)
 {
     bool ok_to_set = false;
 
-    ok_to_set = src && (strlen(src) <= m_length);
+    ok_to_set = src && (::strlen(src) <= m_length);
     if (ok_to_set)
     {
-        strncpy(m_pValue, src, m_length);
+        ::strncpy(m_pValue, src, m_length);
         this->on_change();
     }
 
@@ -79,25 +79,25 @@ uint16_t StringParam::command_handler(char const * const command, char * reply)
         if (this->set(&command[1]))
         {
             strcpy(reply, "OK");
-            reply_length = strlen(reply);
+            reply_length = ::strlen(reply);
         }
         else
         {
             strcpy(reply, "LEN!");
-            reply_length = strlen(reply);   
+            reply_length = ::strlen(reply);   
         }
     }
     else if (command[0] == 'R')
     {
         this->reset();
         strcpy(reply, "ROK");
-        reply_length = strlen(reply);
+        reply_length = ::strlen(reply);
     }
     else if (command[0] == '?' && m_pValue)
     {
         reply[0]='\'';
         this->get(&reply[1]);
-        reply_length = strlen(reply);
+        reply_length = ::strlen(reply);
         reply[reply_length++]='\'';
         reply[reply_length]='\0';
         
@@ -121,6 +121,11 @@ int StringParam::strncmp(char const * const to_compare, int n)
     }
 
     return diff;
+}
+
+uint16_t StringParam::strlen(void)
+{
+    return ::strlen(m_pValue);
 }
 
 void StringParam::save()

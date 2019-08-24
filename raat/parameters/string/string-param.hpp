@@ -24,6 +24,8 @@ public:
     void load();
 
     int strncmp(char const * const to_compare, int n);
+    uint16_t strlen(void);
+
 private:
     char * m_pValue;
     char * m_pResetValue;
