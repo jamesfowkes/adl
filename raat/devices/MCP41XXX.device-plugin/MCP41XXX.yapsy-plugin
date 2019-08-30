@@ -1,0 +1,9 @@
+[Core]
+Name = MCP41XXX
+Module = MCP41XXX
+
+[Documentation]
+Description = Allows control of an MCP41XXX digipot
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

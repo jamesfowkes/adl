@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<board type="Arduino Uno" name="MCP41XXX.Example">
+    <info>
+        An example sketch for the MCP41XXX device.
+    </info>
+    
+    <devices>
+        <device name="MCP41XXX" type="MCP41XXX">
+            <setting id="cs_pin" value="2"/>
+        </device>
+    </devices>
+    <raat protocol="url"></raat>
+</board>
