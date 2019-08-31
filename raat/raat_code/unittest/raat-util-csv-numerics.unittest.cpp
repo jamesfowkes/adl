@@ -42,6 +42,8 @@ class CSVNumericsTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testConvertCSVConvertsSingleNumberWithoutComma);
     CPPUNIT_TEST(testConvertCSVConvertsTwoCSVNumbers);
     CPPUNIT_TEST(testConvertCSVConvertsThreeCSVNumbers);
+    CPPUNIT_TEST(testConvertCSVStopsAfterSpecifiedLimit);
+    CPPUNIT_TEST(testConvertDSV);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -84,6 +86,25 @@ class CSVNumericsTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(1, numbers[0]);
         CPPUNIT_ASSERT_EQUAL(2, numbers[1]);
         CPPUNIT_ASSERT_EQUAL(3, numbers[2]);
+    }
+
+    void testConvertCSVStopsAfterSpecifiedLimit()
+    {
+        CPPUNIT_ASSERT_EQUAL((uint8_t)3, raat_parse_comma_separated_numerics<int32_t>("1,2,3,4,5", numbers, 3));
+        CPPUNIT_ASSERT_EQUAL(1, numbers[0]);
+        CPPUNIT_ASSERT_EQUAL(2, numbers[1]);
+        CPPUNIT_ASSERT_EQUAL(3, numbers[2]);
+        CPPUNIT_ASSERT_EQUAL(INT16_MAX, numbers[3]);
+        CPPUNIT_ASSERT_EQUAL(INT16_MAX, numbers[4]);
+    }
+
+    void testConvertDSV()
+    {
+        static uint16_t unumbers[5];
+        CPPUNIT_ASSERT_EQUAL((uint8_t)3, raat_parse_delimited_numerics<uint16_t>("3/150/400", unumbers, '/', 3));
+        CPPUNIT_ASSERT_EQUAL((uint16_t)3U, unumbers[0]);
+        CPPUNIT_ASSERT_EQUAL((uint16_t)150U, unumbers[1]);
+        CPPUNIT_ASSERT_EQUAL((uint16_t)400U, unumbers[2]);
     }
 
 public:

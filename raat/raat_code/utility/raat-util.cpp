@@ -61,11 +61,11 @@ bool raat_parse_single_numeric(char const * const numeric, int32_t& parsed, char
     return (p_local_end > numeric);
 }
 
-bool string_is_valid_for_csv_numerics(char const * s)
+bool string_is_valid_for_delimited_numerics(char const * s, char delimiter)
 {
     while (*s)
     {
-        if (!isdigit(*s) && (*s != ','))
+        if (!isdigit(*s) && (*s != delimiter))
         {
             return false;
         }

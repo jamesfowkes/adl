@@ -7,7 +7,7 @@ typedef struct
     uint16_t max_size;
 } raat_string_buffer;
 
-bool string_is_valid_for_csv_numerics(char const * s);
+bool string_is_valid_for_delimited_numerics(char const * s, char delimiter);
 
 bool raat_convert_numeric_range(char const * const range, int32_t& min, int32_t& max, char ** pend);
 
@@ -31,12 +31,13 @@ bool raat_parse_single_numeric(char const * const numeric, RESULT_TYPE& parsed, 
 }
 
 template <class RESULT_TYPE>
-uint8_t raat_parse_comma_separated_numerics(char const * const s, RESULT_TYPE * presults)
+uint8_t raat_parse_delimited_numerics(
+    char const * const s, RESULT_TYPE * presults, char delimiter, uint8_t max_to_convert=0)
 {
     if (!s) { return 0; }
     if (!presults) { return 0; }
     if (strlen(s) == 0) { return 0; }
-    if (!string_is_valid_for_csv_numerics(s)) { return 0; }
+    if (!string_is_valid_for_delimited_numerics(s, delimiter)) { return 0; }
 
     uint8_t count = 0;
     char const * p = s;
@@ -48,12 +49,26 @@ uint8_t raat_parse_comma_separated_numerics(char const * const s, RESULT_TYPE * 
         converted = raat_parse_single_numeric<RESULT_TYPE>(p, presults[count], (char**)&p);
         if (converted) { count++; };
         
-        continue_with_conversion = (*p==',');
+        if ((max_to_convert > 0) && (count == max_to_convert))
+        {
+            continue_with_conversion = false;
+        }
+        else
+        {
+            continue_with_conversion = (*p==delimiter);
+        }
+
         if (continue_with_conversion) {p++;}
 
     } while (converted && continue_with_conversion);
 
     return count;
+}
+
+template <class RESULT_TYPE>
+uint8_t raat_parse_comma_separated_numerics(char const * const s, RESULT_TYPE * presults, uint8_t max_to_convert=0)
+{
+    return raat_parse_delimited_numerics<RESULT_TYPE>(s, presults, ',', max_to_convert);
 }
 
 char nibble_to_hex(uint8_t b);
