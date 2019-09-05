@@ -25,7 +25,7 @@ static http_get_handler s_raat_handlers[] =
 };
 
 HTTPGetServer::HTTPGetServer(bool handle_raat_commands) :
-	m_current_response(m_response, 256),
+	m_current_response(m_response, HTTP_SERVER_RESPONSE_SIZE),
 	m_handle_raat_commands(handle_raat_commands)
 {
 
@@ -111,7 +111,7 @@ void HTTPGetServer::handle_req(http_get_handler * handlers, char const * const r
 	bool handled = false;
 
 	http_get_handler * handler;
-	m_current_response.attach(m_response, 256);
+	m_current_response.attach(m_response, HTTP_SERVER_RESPONSE_SIZE);
 
 	if ((recvd[0] == 'G') && (recvd[1] == 'E') && (recvd[2] == 'T'))
 	{

@@ -1,6 +1,8 @@
 #ifndef _RAAT_HTTP_GET_SERVER_H_
 #define _RAAT_HTTP_GET_SERVER_H_
 
+#define HTTP_SERVER_RESPONSE_SIZE (64)
+
 typedef void (*http_get_response_fn)(char const * const url);
 
 typedef struct
@@ -33,7 +35,7 @@ public:
     char * get_response();
 
 private:
-    char m_response[256];
+    char m_response[HTTP_SERVER_RESPONSE_SIZE];
     RAATBuffer m_current_response;
 
     bool m_handle_raat_commands;
