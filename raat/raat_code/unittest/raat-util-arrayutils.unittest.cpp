@@ -30,7 +30,15 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testCountValuesReturnsFalseForNonMatchingArray);
     CPPUNIT_TEST(testCountValuesReturnsCorrectCountForMatchingArray);
     CPPUNIT_TEST(testCountValuesReturnsCorrectCountMatchingArrayWithLimit);
-
+    CPPUNIT_TEST(testArrayContainsReturnsFalseForEmptyOrNullArray);
+    CPPUNIT_TEST(testArrayContainsReturnsFalseForNonMatchingArray);
+    CPPUNIT_TEST(testArrayContainsReturnsFalseForArrayWithMatchOutsideLimit);
+    CPPUNIT_TEST(testArrayContainsReturnsTrueForMatchingArray);
+    CPPUNIT_TEST(testAllUniqueReturnsFalseForEmptyOrNullArray);
+    CPPUNIT_TEST(testAllUniqueReturnsTrueForUniqueArray);
+    CPPUNIT_TEST(testAllUniqueReturnsFalseForNonUniqueArray);
+    CPPUNIT_TEST(testAllUniqueReturnsTrueForUniqueArrayBeforeLimit);
+    
     CPPUNIT_TEST_SUITE_END();
 
     void testAnyAreNullReturnsFalseForEmptyOrNULLArray()
@@ -115,6 +123,58 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     {
         char array[] = "ABABABABAB";
         CPPUNIT_ASSERT_EQUAL((uint8_t)3, count_values<char>(array, 'A', 5));
+    }
+
+    void testArrayContainsReturnsFalseForEmptyOrNullArray()
+    {
+        char array[1];
+        CPPUNIT_ASSERT(!array_contains<char>(NULL, 'A', 0));
+        CPPUNIT_ASSERT(!array_contains<char>(NULL, 'A', 1));
+        CPPUNIT_ASSERT(!array_contains<char>(array, 'A', 0));
+    }
+
+    void testArrayContainsReturnsFalseForNonMatchingArray()
+    {
+        char array[] = "AAAAAAAAAA";
+        CPPUNIT_ASSERT(!array_contains<char>(array, 'B', 10));
+    }
+
+    void testArrayContainsReturnsFalseForArrayWithMatchOutsideLimit()
+    {
+        char array[] = "AAAAAAAAAB";
+        CPPUNIT_ASSERT(!array_contains<char>(array, 'B', 9));
+    }
+
+    void testArrayContainsReturnsTrueForMatchingArray()
+    {
+        char array[] = "AAAAAAAAAB";
+        CPPUNIT_ASSERT(array_contains<char>(array, 'B', 10));
+    }
+
+    void testAllUniqueReturnsFalseForEmptyOrNullArray()
+    {
+        char array[1];
+        CPPUNIT_ASSERT(!all_unique<char>(NULL, 0));
+        CPPUNIT_ASSERT(!all_unique<char>(NULL, 1));
+        CPPUNIT_ASSERT(!all_unique<char>(array, 0));
+    }
+
+    void testAllUniqueReturnsTrueForUniqueArray()
+    {
+        char array[] = "ABCDEFGHIJ";
+        CPPUNIT_ASSERT(all_unique<char>(array, 10));
+    }
+
+    void testAllUniqueReturnsFalseForNonUniqueArray()
+    {
+        char array[] = "ABCDEFGHIA";
+        CPPUNIT_ASSERT(!all_unique<char>(array, 10));
+    }
+
+    void testAllUniqueReturnsTrueForUniqueArrayBeforeLimit()
+    {
+        char array[] = "ABCDEFGHIA";
+        CPPUNIT_ASSERT(all_unique<char>(array, 9));
     }
 
 public:

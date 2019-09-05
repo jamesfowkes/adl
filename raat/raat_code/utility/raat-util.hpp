@@ -116,4 +116,41 @@ uint8_t count_values(ARRAY_TYPE * haystack, ARRAY_TYPE needle, int n)
     return count;
 }
 
+template <class ARRAY_TYPE>
+bool array_contains(ARRAY_TYPE * haystack, ARRAY_TYPE needle, int n)
+{
+    bool found = false;
+    if (haystack && n)
+    {     
+        for (int i=0; i<n; i++)
+        {
+            if (haystack[i] == needle)
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+    return found;
+}
+
+template <class ARRAY_TYPE>
+bool all_unique(ARRAY_TYPE * vals, int n)
+{
+    bool unique = false;
+    if (vals && n)
+    {
+        unique = true;
+        for (int i=0; i<n; i++)
+        {
+            if (array_contains<ARRAY_TYPE>(&vals[i+1], vals[i], n-i-1))
+            {
+                unique = false;
+                break;
+            }
+        }
+    }
+    return unique;
+}
+
 #endif
