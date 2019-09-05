@@ -27,16 +27,15 @@ StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, 
     }
     if (p_reset_value)
     {
-        m_pResetValue = (char*)malloc(::strlen(p_reset_value)+1);
-        ::strncpy(m_pResetValue, p_reset_value, ::strlen(p_reset_value)+1);
-        ::strncpy(m_pValue, m_pResetValue, m_length);
+        m_pResetValue = p_reset_value;
+        raat_board_strcpy_progmem(m_pValue, m_pResetValue);
     }
 }
 
 void StringParam::reset() {
     if (m_pValue && m_pResetValue)
     {
-        ::strncpy(m_pValue, m_pResetValue, m_length);
+        raat_board_strcpy_progmem(m_pValue, m_pResetValue);
         this->on_change();
     }
     else if (m_pValue)
@@ -47,6 +46,11 @@ void StringParam::reset() {
 }
 
 void StringParam::setup() { ParameterBase::setup(); }
+
+char const * StringParam::get(void)
+{
+    return m_pValue;
+}
 
 void StringParam::get(char * const dst)
 {

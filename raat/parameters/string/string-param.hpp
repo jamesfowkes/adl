@@ -17,6 +17,7 @@ public:
     void reset();
     uint16_t command_handler(char const * const command, char * reply);
 
+    char const * get(void);
     void get(char * const dst);
     bool set(char const * const src);
 
@@ -28,7 +29,7 @@ public:
 
 private:
     char * m_pValue;
-    char * m_pResetValue;
+    char const * m_pResetValue;
     
     uint16_t m_length;
 };

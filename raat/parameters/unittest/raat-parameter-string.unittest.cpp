@@ -15,6 +15,11 @@
 
 static char scratchpad[64];
 
+int raat_board_strcpy_progmem(char * const pMemory, char const * const pProgmem)
+{
+    return strcpy(pMemory, pProgmem) - pMemory; 
+}
+
 class StringTest : public CppUnit::TestFixture { 
 
     CPPUNIT_TEST_SUITE(StringTest);
