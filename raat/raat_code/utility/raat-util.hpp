@@ -83,4 +83,24 @@ bool inrange(INT_TYPE a, INT_TYPE min_value, INT_TYPE max_value)
 /* Array Utils */
 bool any_are_null(void * ptrs[], const int n);
 
+template <class PTR_TYPE>
+bool all_match(PTR_TYPE const * const pvals, int n)
+{
+    bool match = false;
+    if (pvals && n)
+    {
+        match = true;
+        for (int i=1; i<n; i++)
+        {
+            if (pvals[0] != pvals[i])
+            {
+                match = false;
+                break;
+            }
+        }
+    }
+    return match;
+}
+
+
 #endif

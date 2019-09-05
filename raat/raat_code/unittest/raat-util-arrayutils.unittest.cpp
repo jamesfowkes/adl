@@ -22,6 +22,10 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testAnyAreNullReturnsFalseForNonNullArrayWithLimit);
     CPPUNIT_TEST(testAnyAreNullReturnsTrueForArrayWithNulls);
     CPPUNIT_TEST(testAnyAreNullReturnsTrueForArrayWithNullsWithLimit);
+    CPPUNIT_TEST(testAllMatchReturnsFalseForEmptyOrNullArray);
+    CPPUNIT_TEST(testAllMatchReturnsFalseForNonMatchingArray);
+    CPPUNIT_TEST(testAllMatchReturnsTrueForMatchingArray);
+    CPPUNIT_TEST(testAllMatchReturnsTrueForMatchingArrayWithLimit);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -55,6 +59,32 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     {
         void * array[10] = {(void*)1, (void*)2, (void*)3, (void*)4, NULL, NULL, NULL, NULL, NULL, NULL};
         CPPUNIT_ASSERT(any_are_null(array, 5));
+    }
+
+    void testAllMatchReturnsFalseForEmptyOrNullArray()
+    {
+        char array[1];
+        CPPUNIT_ASSERT(!(all_match<char>(NULL, 0)));
+        CPPUNIT_ASSERT(!(all_match<char>(NULL, 1)));
+        CPPUNIT_ASSERT(!(all_match<char>(array, 0)));
+    }
+
+    void testAllMatchReturnsFalseForNonMatchingArray()
+    {
+        char array[] = "AAAAAAAAAB";
+        CPPUNIT_ASSERT(!all_match<char>(array, 10));
+    }
+
+    void testAllMatchReturnsTrueForMatchingArray()
+    {
+        char array[] = "AAAAAAAAAA";
+        CPPUNIT_ASSERT(all_match<char>(array, 10));
+    }
+
+    void testAllMatchReturnsTrueForMatchingArrayWithLimit()
+    {
+        char array[] = "AAAAABBBBB";
+        CPPUNIT_ASSERT(all_match<char>(array, 5));
     }
 
 public:
