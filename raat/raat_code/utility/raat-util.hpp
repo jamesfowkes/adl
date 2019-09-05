@@ -102,5 +102,18 @@ bool all_match(PTR_TYPE const * const pvals, int n)
     return match;
 }
 
+template <class ARRAY_TYPE>
+uint8_t count_values(ARRAY_TYPE * haystack, ARRAY_TYPE needle, int n)
+{
+    uint8_t count = 0;
+    if (haystack && n)
+    {       
+        for (int i=0; i<n; i++)
+        {
+            if (haystack[i] == needle) { count++; }
+        }
+    }
+    return count;
+}
 
 #endif

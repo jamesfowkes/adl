@@ -26,6 +26,10 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testAllMatchReturnsFalseForNonMatchingArray);
     CPPUNIT_TEST(testAllMatchReturnsTrueForMatchingArray);
     CPPUNIT_TEST(testAllMatchReturnsTrueForMatchingArrayWithLimit);
+    CPPUNIT_TEST(testCountValuesReturns0ForEmptyOrNullArray);
+    CPPUNIT_TEST(testCountValuesReturnsFalseForNonMatchingArray);
+    CPPUNIT_TEST(testCountValuesReturnsCorrectCountForMatchingArray);
+    CPPUNIT_TEST(testCountValuesReturnsCorrectCountMatchingArrayWithLimit);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -85,6 +89,32 @@ class ArrayUtilsParserTest : public CppUnit::TestFixture {
     {
         char array[] = "AAAAABBBBB";
         CPPUNIT_ASSERT(all_match<char>(array, 5));
+    }
+
+    void testCountValuesReturns0ForEmptyOrNullArray()
+    {
+        char array[1];
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, count_values<char>(NULL, 'A', 0));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, count_values<char>(NULL, 'A', 1));
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, count_values<char>(array, 'A', 0));
+    }
+
+    void testCountValuesReturnsFalseForNonMatchingArray()
+    {
+        char array[] = "AAAAAAAAAA";
+        CPPUNIT_ASSERT_EQUAL((uint8_t)0, count_values<char>(array, 'B', 10));
+    }
+
+    void testCountValuesReturnsCorrectCountForMatchingArray()
+    {
+        char array[] = "ABABABABAB";
+        CPPUNIT_ASSERT_EQUAL((uint8_t)5, count_values<char>(array, 'A', 10));
+    }
+
+    void testCountValuesReturnsCorrectCountMatchingArrayWithLimit()
+    {
+        char array[] = "ABABABABAB";
+        CPPUNIT_ASSERT_EQUAL((uint8_t)3, count_values<char>(array, 'A', 5));
     }
 
 public:
