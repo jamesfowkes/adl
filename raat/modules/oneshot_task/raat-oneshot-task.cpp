@@ -30,9 +30,9 @@ RAATOneShotTask::RAATOneShotTask(uint16_t period, OneShotTaskFn pfnTask, void * 
     
 }
 
-void RAATOneShotTask::start()
+void RAATOneShotTask::start(uint16_t period)
 {
-    m_timer.start();
+    m_timer.start(period);
 }
 
 bool RAATOneShotTask::run(void * pData)
