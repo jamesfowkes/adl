@@ -80,4 +80,7 @@ bool inrange(INT_TYPE a, INT_TYPE min_value, INT_TYPE max_value)
 	return (a >= min_value) && (a <= max_value);
 }
 
+/* Array Utils */
+bool any_are_null(void * ptrs[], const int n);
+
 #endif
