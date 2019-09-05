@@ -29,7 +29,7 @@ uint16_t RAATServo::command_handler(char const * const command, char * reply)
 
     if ((ok = raat_parse_single_numeric(&command[1], setting_degrees, NULL)))
     {
-        if (inrange(setting_degrees, 0, 180))
+        if (inrange<int32_t>(setting_degrees, 0, 180))
         {
             this->set((uint8_t)setting_degrees);
             strcpy(reply, "OK");            
