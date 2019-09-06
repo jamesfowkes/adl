@@ -20,8 +20,10 @@ class SingleNumericTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testConvertSingleNumericReturnsFalseForEmptyString);
     CPPUNIT_TEST(testConvertSingleNumericReturnsFalseForNonNumericString);
     CPPUNIT_TEST(testConvertSingleNumericReturnsTrueForNumericString);
+    CPPUNIT_TEST(testConvertSingleNumericCorrectlySetEndPointer);
 
     CPPUNIT_TEST_SUITE_END();
+
     void testConvertSingleNumericReturnsFalseForNull()
     {
         int32_t num;
@@ -49,6 +51,15 @@ class SingleNumericTest : public CppUnit::TestFixture {
         CPPUNIT_ASSERT_EQUAL(num, 1);
         CPPUNIT_ASSERT(raat_parse_single_numeric("-1", num, &p_result));
         CPPUNIT_ASSERT_EQUAL(num, -1);
+    }
+
+    void testConvertSingleNumericCorrectlySetEndPointer()
+    {
+        int32_t num;
+        char to_convert[] = "123ABC";
+        CPPUNIT_ASSERT(raat_parse_single_numeric(to_convert, num, &p_result));
+        CPPUNIT_ASSERT_EQUAL(num, 123);
+        CPPUNIT_ASSERT(&to_convert[3] == p_result);
     }
 };
 
