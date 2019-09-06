@@ -138,7 +138,7 @@ void HTTPGetServer::handle_req(http_get_handler * handlers, char const * const r
 
 	if (!handled)
 	{
-		raat_logln(LOG_RAAT, "URL %s not handled", url);
+		raat_logln_P(LOG_RAAT, PSTR("URL %s not handled"), url);
 	}
 
 	m_current_response.detach();
