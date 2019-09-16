@@ -67,10 +67,12 @@ int AdafruitNeoPixelRAAT::handle_command(char const * const command, char * repl
         {
             if (valid_rgb_values(rgb))
             {
-                set_pixels(range_min, range_max, rgb[0], rgb[1], rgb[2]);
+                this->set_pixels(range_min, range_max, rgb[0], rgb[1], rgb[2]);
+                this->show();
                 return sprintf(reply, "%u-%u: %u,%u,%u",
                     (uint8_t)range_min, (uint8_t)range_max,
                     (uint8_t)rgb[0], (uint8_t)rgb[1], (uint8_t)rgb[2]);
+
             }
             else
             {
