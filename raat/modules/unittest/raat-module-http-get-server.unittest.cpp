@@ -50,8 +50,9 @@ class RAATModuleHTTPGetServerTest : public CppUnit::TestFixture {
 
     CPPUNIT_TEST(test_server_with_no_raat_handler_fn_does_nothing_when_passed_raat_commands);
     CPPUNIT_TEST(test_server_with_raat_handler_fn_correctly_passes_commands);
-    CPPUNIT_TEST(test_server_with_no_handler_functions_does_nothing_when_passed_commands);
-    
+    CPPUNIT_TEST(test_server_with_no_handler_functions_does_nothing_when_passed_commands); 
+    CPPUNIT_TEST(test_server_correctly_adds_response_code_headers_and_body);
+
     CPPUNIT_TEST_SUITE_END();
 
     void test_server_with_no_raat_handler_fn_does_nothing_when_passed_raat_commands()
@@ -87,6 +88,24 @@ class RAATModuleHTTPGetServerTest : public CppUnit::TestFixture {
         test_server.handle_req(NULL, "GET /module/01/run");
         CPPUNIT_ASSERT_EQUAL(0, s_called_last);
     }
+
+    void test_server_correctly_adds_response_code_headers_and_body()
+    {
+        HTTPGetServer test_server = HTTPGetServer(NULL);
+        test_server.set_response_code("200 OK");
+        test_server.set_header("Access-Control-Allow-Origin", "*");
+        test_server.set_header("X-Clacks-Overhead", "GNU Terry Pratchett");
+        test_server.finish_headers();
+        test_server.add_body("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        char * pResponse = test_server.get_response();
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("HTTP/1.1 200 OK\r\n"
+            "Access-Control-Allow-Origin: *\r\n"
+            "X-Clacks-Overhead: GNU Terry Pratchett\r\n\r\n"
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
+            std::string(pResponse));
+    }
+
 
 public:
     void setUp()

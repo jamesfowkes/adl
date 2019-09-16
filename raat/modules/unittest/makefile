@@ -24,6 +24,8 @@ INC = -I../ \
 
 CFLAGS = -Wall -Wextra
 
+DEFINES = -DHTTP_SERVER_RESPONSE_SIZE=1024
+
 GLOBAL_OBJS = raat-module.unittest.runner.o \
 	../../unittest/raat-mock-board.o
 

@@ -1,7 +1,9 @@
 #ifndef _RAAT_HTTP_GET_SERVER_H_
 #define _RAAT_HTTP_GET_SERVER_H_
 
+#ifndef HTTP_SERVER_RESPONSE_SIZE
 #define HTTP_SERVER_RESPONSE_SIZE (64)
+#endif
 
 typedef void (*http_get_response_fn)(char const * const url);
 
