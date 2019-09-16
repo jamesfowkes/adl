@@ -159,7 +159,8 @@ void HTTPGetServer::handle_req(http_get_handler const * const handlers, char con
 		{
 			if ((handler = HTTPGetServer::match_handler_url(url, s_raat_handlers)))
 			{
-				handler->fn(url);
+				uint8_t match_length = raat_board_strlen_progmem(handler->url);
+				handler->fn(url, url+match_length);
 				handled = true;
 			}
 		}
@@ -168,7 +169,8 @@ void HTTPGetServer::handle_req(http_get_handler const * const handlers, char con
 		{
 			if ((handler = HTTPGetServer::match_handler_url(url, handlers)))
 			{
-				handler->fn(url);
+				uint8_t match_length = raat_board_strlen_progmem(handler->url);
+				handler->fn(url, url+match_length);
 				handled = true;
 			}
 		}

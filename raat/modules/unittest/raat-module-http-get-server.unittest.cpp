@@ -16,22 +16,35 @@
 
 static int s_called_last = 0;
 static char s_last_url[16];
+static char s_last_url_additional[16];
 
-static void handler_function_1(char const * const url)
+static void handler_function_1(char const * const url, char const * const url_additional)
 {
     strncpy(s_last_url, url, 16);
+    if (url_additional)
+    {
+        strncpy(s_last_url_additional, url_additional, 16);
+    }
     s_called_last = 1;
 }
 
-static void handler_function_2(char const * const url)
+static void handler_function_2(char const * const url, char const * const url_additional)
 {
     strncpy(s_last_url, url, 16);
+    if (url_additional)
+    {
+        strncpy(s_last_url_additional, url_additional, 16);
+    }
     s_called_last = 2;
 }
 
-static void handler_function_3(char const * const url)
+static void handler_function_3(char const * const url, char const * const url_additional)
 {
     strncpy(s_last_url, url, 16);
+    if (url_additional)
+    {
+        strncpy(s_last_url_additional, url_additional, 16);
+    }
     s_called_last = 3;
 }
 
@@ -73,12 +86,15 @@ class RAATModuleHTTPGetServerTest : public CppUnit::TestFixture {
         test_server.handle_req(s_handlers, "GET /device/01/run");
         CPPUNIT_ASSERT_EQUAL(1, s_called_last);
         CPPUNIT_ASSERT_EQUAL(std::string("/device/01/run"), std::string(s_last_url));
+        CPPUNIT_ASSERT_EQUAL(std::string("01/run"), std::string(s_last_url_additional));
         test_server.handle_req(s_handlers, "GET /param/01/run");
         CPPUNIT_ASSERT_EQUAL(2, s_called_last);
         CPPUNIT_ASSERT_EQUAL(std::string("/param/01/run"), std::string(s_last_url));
+        CPPUNIT_ASSERT_EQUAL(std::string("01/run"), std::string(s_last_url_additional));
         test_server.handle_req(s_handlers, "GET /module/01/run");
         CPPUNIT_ASSERT_EQUAL(3, s_called_last);
         CPPUNIT_ASSERT_EQUAL(std::string("/module/01/run"), std::string(s_last_url));
+        CPPUNIT_ASSERT_EQUAL(std::string("01/run"), std::string(s_last_url_additional));
     }
 
     void test_server_with_no_handler_functions_does_nothing_when_passed_commands()
@@ -115,6 +131,7 @@ public:
     {
         s_called_last = 0;
         s_last_url[0] = '\0';
+        s_last_url_additional[0] = '\0';
     }
 };
 

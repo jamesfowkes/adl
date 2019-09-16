@@ -51,6 +51,7 @@ int raat_board_memcmp_progmem(char * const pMemory, char const * const pProgmem,
 int raat_board_strcmp_progmem(char * const pMemory, char const * const pProgmem);
 int raat_board_strncmp_progmem(char const * const pMemory, char const * const pProgmem, size_t len);
 int raat_board_strlen_progmem(char const * const pProgmem);
+void raat_board_memcpy_progmem(char * pMemory, char const * const pProgmem, size_t len);
 
 uint16_t raat_board_max_adc_reading();
 

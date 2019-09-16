@@ -82,3 +82,8 @@ int raat_board_strncmp_progmem(char const * const pMemory, char const * const pP
 {
     return (int)strncmp(pMemory, pProgmem, len);
 }
+
+void raat_board_memcpy_progmem(char * pMemory, char const * const pProgmem, size_t len)
+{
+    memcpy(pMemory, pProgmem, len);
+}

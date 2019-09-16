@@ -5,7 +5,7 @@
 #define HTTP_SERVER_RESPONSE_SIZE (64)
 #endif
 
-typedef void (*http_get_response_fn)(char const * const url);
+typedef void (*http_get_response_fn)(char const * const url, char const * const additional);
 
 typedef struct _http_get_handler
 {
