@@ -1,5 +1,7 @@
-#ifndef _ADAFRUIT_ADS1X15_H_
-#define _ADAFRUIT_ADS1X15_H_
+#ifndef _RAAT_ADAFRUIT_ADS1X15_H_
+#define _RAAT_ADAFRUIT_ADS1X15_H_
+
+#include <Adafruit_ADS1015.h>
 
 enum ads_reading_type
 {
