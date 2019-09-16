@@ -8,4 +8,7 @@ static const int RAAT_TICK_MS = 5;
 
 typedef uint32_t RAAT_NV_ADDR;
 
+#define PROGRAM_MEMORY
+#define PSTR(x) x
+
 #endif

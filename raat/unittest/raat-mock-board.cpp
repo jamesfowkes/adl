@@ -72,3 +72,13 @@ void raat_nv_save(void * src, RAAT_NV_LOCATION& save_to)
         memcpy(last_write_addr, src, save_to.size);
     }
 }
+
+int raat_board_strlen_progmem(char const * s)
+{
+    return (int)strlen(s);
+}
+
+int raat_board_strncmp_progmem(char const * const pMemory, char const * const pProgmem, size_t len)
+{
+    return (int)strncmp(pMemory, pProgmem, len);
+}

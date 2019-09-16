@@ -18,7 +18,9 @@ INC = -I../ \
 	-I../oneshot_timer \
 	-I../oneshot_task \
 	-I../grid_indexer \
-	-I../led_effect
+	-I../led_effect \
+	-I../http \
+	-I../buffer
 
 CFLAGS = -Wall -Wextra
 
@@ -49,6 +51,12 @@ LED_EFFECT_OBJS = ../led_effect/larson-scanner.o \
 	raat-module-led-effect.unittest.o \
 	$(GLOBAL_OBJS)
 
+HTTP_GET_SERVER_OBJS = ../http/http-get-server.o \
+	../buffer/raat-buffer.o \
+	../../unittest/raat-mock-logging.o \
+	raat-module-http-get-server.unittest.o \
+	$(GLOBAL_OBJS)
+
 %.o: %.cpp
 	$(CC) $(INC) $(DEFINES) -c -o $@ $< $(CFLAGS)
 
@@ -72,7 +80,18 @@ raat-module-led-effect.$(TARGET_EXTENSION): $(LED_EFFECT_OBJS)
 	$(CC) -o raat-module-led-effect.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
 	./raat-module-led-effect.$(TARGET_EXTENSION)
 
-all: clean raat-module-oneshot-timer.$(TARGET_EXTENSION) raat-module-oneshot-task.$(TARGET_EXTENSION) raat-module-task.$(TARGET_EXTENSION) raat-module-grid-indexer.$(TARGET_EXTENSION) raat-module-led-effect.$(TARGET_EXTENSION)
+raat-module-http-get-server.$(TARGET_EXTENSION): $(HTTP_GET_SERVER_OBJS)
+	$(CC) -o raat-module-http-get-server.$(TARGET_EXTENSION) $^ $(CFLAGS) $(LIBS)
+	./raat-module-http-get-server.$(TARGET_EXTENSION)
+
+ALL_TARGETS = raat-module-oneshot-timer.$(TARGET_EXTENSION) \
+	raat-module-oneshot-task.$(TARGET_EXTENSION) \
+	raat-module-task.$(TARGET_EXTENSION) \
+	raat-module-grid-indexer.$(TARGET_EXTENSION) \
+	raat-module-led-effect.$(TARGET_EXTENSION) \
+	raat-module-http-get-server.$(TARGET_EXTENSION)
+
+all: clean $(ALL_TARGETS)
 
 clean:
 	$(DEL) $(GLOBAL_OBJS)

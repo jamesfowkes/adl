@@ -14,11 +14,11 @@ typedef struct
 class HTTPGetServer
 {
 public:
-    HTTPGetServer(bool handle_raat_commands);
+    HTTPGetServer(http_get_response_fn raat_handler_fn);
     void setup();
     void reset();
 
-    void handle_req(http_get_handler * handlers, char const * const recvd);
+    void handle_req(http_get_handler const * const handlers, char const * const recvd);
 
     void set_response_code(char const * const code);
     void set_response_code_P(char const * const code);
@@ -31,7 +31,7 @@ public:
     void add_body(char const * const body);
     void add_body_P(char const * const body);
 
-    http_get_handler * match_handler_url(char const * const url, http_get_handler * handlers);
+    http_get_handler const * match_handler_url(char const * const url, http_get_handler const * const handlers);
     char * get_response();
 
 private:

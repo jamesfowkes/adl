@@ -10,7 +10,7 @@ class RAATBuffer
         bool writeString(const char * s);
         bool writeLine(const char * s);
     
-        #if defined(PROGMEM)
+        #if defined(PROGRAM_MEMORY)
         bool writeStringP(const char * s);
         bool writeLineP(const char * s);
         #endif
