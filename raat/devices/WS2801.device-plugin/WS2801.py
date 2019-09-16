@@ -38,7 +38,7 @@ class WS2801(GenericDevice, namedtuple("WS2801", ["name", "data_pin", "clock_pin
 
     @property
     def required_libraries(self):
-        return ["Adafruit WS2801"]
+        return ["Adafruit WS2801 Library"]
 
     @property
     def declarations(self):
