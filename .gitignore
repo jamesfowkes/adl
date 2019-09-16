@@ -111,5 +111,5 @@ raat/behavetests/test_files/One_Single_Parameter/One_Single_Parameter/
 *.Example/
 
 # Sublime Text files
-raat.sublime-project
-raat.sublime-workspace
+*.sublime-project
+*.sublime-workspace
