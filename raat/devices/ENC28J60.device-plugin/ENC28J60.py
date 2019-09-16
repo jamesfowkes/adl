@@ -25,6 +25,10 @@ class ENC28J60RAAT(GenericDevice, namedtuple("ENC28J60RAAT", ["name", "cs_pin"])
     )
 
     @property
+    def required_libraries(self):
+        return ["EtherCard"]
+
+    @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
 
