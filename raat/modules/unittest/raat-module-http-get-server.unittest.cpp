@@ -72,10 +72,13 @@ class RAATModuleHTTPGetServerTest : public CppUnit::TestFixture {
         HTTPGetServer test_server = HTTPGetServer(&raat_handlers);
         test_server.handle_req(s_handlers, "GET /device/01/run");
         CPPUNIT_ASSERT_EQUAL(1, s_called_last);
+        CPPUNIT_ASSERT_EQUAL(std::string("/device/01/run"), std::string(s_last_url));
         test_server.handle_req(s_handlers, "GET /param/01/run");
         CPPUNIT_ASSERT_EQUAL(2, s_called_last);
+        CPPUNIT_ASSERT_EQUAL(std::string("/param/01/run"), std::string(s_last_url));
         test_server.handle_req(s_handlers, "GET /module/01/run");
         CPPUNIT_ASSERT_EQUAL(3, s_called_last);
+        CPPUNIT_ASSERT_EQUAL(std::string("/module/01/run"), std::string(s_last_url));
     }
 
     void test_server_with_no_handler_functions_does_nothing_when_passed_commands()
