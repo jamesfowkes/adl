@@ -54,15 +54,15 @@ static void get_url(char * url, char const * req)
  * Class Functions
  */
 
-HTTPGetServer::HTTPGetServer(http_get_response_fn raat_handler_fn) :
+HTTPGetServer::HTTPGetServer(raat_http_handlers const * const p_raat_http_handlers) :
 	m_current_response(m_response, HTTP_SERVER_RESPONSE_SIZE),
-	m_handle_raat_commands((bool)raat_handler_fn)
+	m_handle_raat_commands((bool)p_raat_http_handlers)
 {
-	if (raat_handler_fn)
+	if (p_raat_http_handlers)
 	{
-		s_raat_handlers[0].fn = raat_handler_fn;
-		s_raat_handlers[1].fn = raat_handler_fn;
-		s_raat_handlers[2].fn = raat_handler_fn;
+		s_raat_handlers[0].fn = p_raat_http_handlers->device_handler;
+		s_raat_handlers[1].fn = p_raat_http_handlers->param_handler;
+		s_raat_handlers[2].fn = p_raat_http_handlers->module_handler;
 	}
 
 }
@@ -151,7 +151,7 @@ void HTTPGetServer::handle_req(http_get_handler const * const handlers, char con
 	http_get_handler const * handler;
 	m_current_response.attach(m_response, HTTP_SERVER_RESPONSE_SIZE);
 
-	if ((recvd[0] == 'G') && (recvd[1] == 'E') && (recvd[2] == 'T'))
+	if (handlers && (recvd[0] == 'G') && (recvd[1] == 'E') && (recvd[2] == 'T'))
 	{
 		get_url(url, recvd);
 

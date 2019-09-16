@@ -5,16 +5,23 @@
 
 typedef void (*http_get_response_fn)(char const * const url);
 
-typedef struct
+typedef struct _http_get_handler
 {
     char const * const url;
     http_get_response_fn fn;
 } http_get_handler;
 
+typedef struct _raat_http_handlers
+{
+    http_get_response_fn device_handler;
+    http_get_response_fn param_handler;
+    http_get_response_fn module_handler;
+} raat_http_handlers;
+
 class HTTPGetServer
 {
 public:
-    HTTPGetServer(http_get_response_fn raat_handler_fn);
+    HTTPGetServer(raat_http_handlers const * const p_raat_http_handlers);
     void setup();
     void reset();
 
