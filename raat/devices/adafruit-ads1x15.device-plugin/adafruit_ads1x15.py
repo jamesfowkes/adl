@@ -26,6 +26,10 @@ class Adafruit_ADS1x15(GenericDevice, namedtuple("Adafruit_ADS1x15", ["name", "a
     )
 
     @property
+    def required_libraries(self):
+        return ["Adafruit ADS1X15"]
+
+    @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
 
