@@ -10,7 +10,7 @@ class RAATOneShotTask
 public:
     RAATOneShotTask(uint16_t period, OneShotTaskFn pfnTask);
     RAATOneShotTask(uint16_t period, OneShotTaskFn pfnTask, void * pData);
-    void start();
+    void start(uint16_t period = 0);
     bool run(void * pData = NULL);
     bool is_running();
     void reset();
