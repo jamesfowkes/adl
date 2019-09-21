@@ -15,6 +15,7 @@ void MCP41XXX::setup()
 {
     SPI.begin();
     pinMode(m_cs_pin, OUTPUT);
+    digitalWrite(m_cs_pin, HIGH);
 }
 
 void MCP41XXX::set_wiper(uint8_t position)
