@@ -105,7 +105,7 @@ class ArduinoCLIInterface:
             sketch_path = modify_cygwin_path(sketch_path)
 
         args = [self.location, "compile", "--fqbn", board.fqbn,
-                str(sketch_path), "--output", str(sketch_path / board.sanitised_name())]
+                str(sketch_path)]
 
         try:
             result = subprocess.run(args)
@@ -126,7 +126,11 @@ class ArduinoCLIInterface:
                 "--fqbn", board.fqbn, str(sketch_path)]
         try:
             result = subprocess.run(args)
-            get_module_logger().info("Upload Success: '{}'".format(" ".join(result.args)))
+            success = result.returncode == 0
+            if success:
+                get_module_logger().info("Upload Success: '{}'".format(" ".join(result.args)))
+            else:
+                get_module_logger().info("Upload Failed: '{}'".format(" ".join(args)))
         except: # noqa: disable=bare-except
             get_module_logger().info("Upload Failed: '{}'".format(" ".join(args)))
             raise

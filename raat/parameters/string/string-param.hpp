@@ -29,7 +29,7 @@ public:
 
 private:
     char * m_pValue;
-    char * m_pResetValue;
+    char const * m_pResetValue;
     
     uint16_t m_length;
 };

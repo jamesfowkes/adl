@@ -80,4 +80,77 @@ bool inrange(INT_TYPE a, INT_TYPE min_value, INT_TYPE max_value)
 	return (a >= min_value) && (a <= max_value);
 }
 
+/* Array Utils */
+bool any_are_null(void * ptrs[], const int n);
+
+template <class PTR_TYPE>
+bool all_match(PTR_TYPE const * const pvals, int n)
+{
+    bool match = false;
+    if (pvals && n)
+    {
+        match = true;
+        for (int i=1; i<n; i++)
+        {
+            if (pvals[0] != pvals[i])
+            {
+                match = false;
+                break;
+            }
+        }
+    }
+    return match;
+}
+
+template <class ARRAY_TYPE>
+uint8_t count_values(ARRAY_TYPE * haystack, ARRAY_TYPE needle, int n)
+{
+    uint8_t count = 0;
+    if (haystack && n)
+    {       
+        for (int i=0; i<n; i++)
+        {
+            if (haystack[i] == needle) { count++; }
+        }
+    }
+    return count;
+}
+
+template <class ARRAY_TYPE>
+bool array_contains(ARRAY_TYPE * haystack, ARRAY_TYPE needle, int n)
+{
+    bool found = false;
+    if (haystack && n)
+    {     
+        for (int i=0; i<n; i++)
+        {
+            if (haystack[i] == needle)
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+    return found;
+}
+
+template <class ARRAY_TYPE>
+bool all_unique(ARRAY_TYPE * vals, int n)
+{
+    bool unique = false;
+    if (vals && n)
+    {
+        unique = true;
+        for (int i=0; i<n; i++)
+        {
+            if (array_contains<ARRAY_TYPE>(&vals[i+1], vals[i], n-i-1))
+            {
+                unique = false;
+                break;
+            }
+        }
+    }
+    return unique;
+}
+
 #endif

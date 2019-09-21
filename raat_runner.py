@@ -125,5 +125,7 @@ if __name__ == "__main__":
 
     if args["--upload"]:
         port = args.get("--port", None)
+        if port is None:
+            get_module_logger().warning("No port has been provided (use --port=<port>)!")
         sketch_directory = get_sketch_directory(sketchbook_path, board.sketch_path().parent)
         cli.upload(board, sketch_directory, port)

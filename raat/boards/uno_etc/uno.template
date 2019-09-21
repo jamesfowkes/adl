@@ -31,6 +31,11 @@ int raat_board_strlen_progmem(char const * const pProgmem)
 	return strlen_P(pProgmem);
 }
 
+void raat_board_memcpy_progmem(char * pMemory, char const * const pProgmem, size_t len)
+{
+    memcpy_P(pMemory, pProgmem, len);
+}
+
 uint16_t raat_board_max_adc_reading()
 {
 	return 1023U;

@@ -28,6 +28,10 @@ class Adafruit_MCP4725RAAT(
     )
 
     @property
+    def required_libraries(self):
+        return ["Adafruit MCP4725"]
+
+    @property
     def setup(self):
         return "{name}.setup();".format(name=self.cname())
 

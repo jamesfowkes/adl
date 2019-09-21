@@ -1,3 +1,4 @@
+import os
 import logging
 
 from pathlib import Path
@@ -28,10 +29,14 @@ class StringParam(GenericParameter, namedtuple("StringParam", ["name", "reset_va
 
     @property
     def declarations(self):
-        return "static StringParam {name} = StringParam(\"{reset_value}\", {length}, {use_eeprom});".format(
-            name=self.cname(), reset_value=self.reset_value.value, length=self.length.value,
-            use_eeprom=self.use_eeprom.value
+        reset_value_decl = "static const char {name}_reset_value[] PROGRAM_MEMORY = \"{reset_value}\";".format(
+            name=self.cname(), reset_value=self.reset_value.value
         )
+        param_decl = "static StringParam {name} = StringParam({name}_reset_value, {length}, {use_eeprom});".format(
+            name=self.cname(), length=self.length.value, use_eeprom=self.use_eeprom.value
+        )
+
+        return reset_value_decl + os.linesep + param_decl
 
     @property
     def directory(self):

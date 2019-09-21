@@ -88,3 +88,23 @@ void byte_to_hex(char * buffer, uint8_t b)
     buffer[0] = nibble_to_hex(upper);
     buffer[1] = nibble_to_hex(lower);
 }
+
+/* Array Utils */
+bool any_are_null(void * ptrs[], const int n)
+{
+    bool result = false;
+
+    if (ptrs && n)
+    {
+
+        for (int i=0; i < n; i++)
+        {
+            if (!ptrs[i])
+            {
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}

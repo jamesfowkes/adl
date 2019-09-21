@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "raat.hpp"
 #include "raat-buffer.hpp"
 
 /* RAATBuffer class */
@@ -185,10 +186,10 @@ bool RAATBuffer::writeStringP(const char * s)
     bool success = false;
     if (s)
     {
-        uint16_t len = strlen_P(s);
+        uint16_t len = raat_board_strlen_progmem(s);
         if (m_writeIndex + len < m_maxLength)
         {
-            memcpy_P(&m_buffer[m_writeIndex], s, len);
+            raat_board_memcpy_progmem(&m_buffer[m_writeIndex], s, (size_t)len);
         }
         m_writeIndex += len;
         m_buffer[m_writeIndex] = '\0';

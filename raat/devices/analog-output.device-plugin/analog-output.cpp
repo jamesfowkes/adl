@@ -17,8 +17,7 @@ AnalogOutput::AnalogOutput(int pin, int limit_min, int limit_max, int reset_leve
 
 void AnalogOutput::reset()
 {
-    m_setting = m_reset_level;
-    analogWrite(m_pin, m_setting);
+    this->set(m_reset_level);
 }
 
 void AnalogOutput::setup()
@@ -35,8 +34,7 @@ uint16_t AnalogOutput::command_handler(char const * const command, char * reply)
         int value = atol(command);
         if ((value >= m_limit_min) && (value <= m_limit_max))
         {
-            m_setting = value;
-            analogWrite(m_pin, m_setting);
+            this->set(value);
             strcpy(reply, command);
             reply_length = strlen(reply);
         }
@@ -64,4 +62,10 @@ uint16_t AnalogOutput::command_handler(char const * const command, char * reply)
     }
 
     return reply_length;
+}
+
+void AnalogOutput::set(uint8_t new_value)
+{
+    this->m_setting = new_value;
+    analogWrite(m_pin, m_setting);
 }

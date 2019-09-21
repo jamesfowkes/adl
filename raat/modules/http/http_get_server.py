@@ -24,7 +24,7 @@ class HTTPGetServerModule(GenericModule):
         return THIS_PATH
 
 
-class DebouncerPlugin(IPlugin):
+class HTTPGetServerPlugin(IPlugin):
     def activate(self):
         pass
 

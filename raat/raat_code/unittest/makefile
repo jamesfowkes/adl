@@ -17,6 +17,7 @@ RAAT_UTIL_OBJS = raat-util-numeric-range.unittest.o \
 	raat-util-single-numeric.unittest.o \
 	raat-util-csv-numerics.unittest.o \
 	raat-util-nibbleandbyte.unittest.o \
+	raat-util-arrayutils.unittest.o \
 	raat-util.unittest.runner.o \
 	../utility/raat-util.o
 

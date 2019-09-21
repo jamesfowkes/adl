@@ -10,6 +10,8 @@ public:
     void tick() {}
     uint16_t command_handler(char const * const command, char * reply);
     
+    void set(uint8_t new_value);
+    
 private:
     int m_pin;
     int m_limit_min;

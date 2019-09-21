@@ -97,9 +97,9 @@ int ENC28J60RAAT::handle_set_command(char const * const command, char * reply)
     unsigned int local_scan_buffer[6] = {0};
     uint8_t reply_length = 0;
 
-    if (strncmp(command, "MAC", 3) == 0)
+    if (strncmp_P(command, PSTR("MAC"), 3) == 0)
     {
-        n = sscanf(command+3, "%02x:%02x:%02x:%02x:%02x:%02x",
+        n = sscanf_P(command+3, PSTR("%02x:%02x:%02x:%02x:%02x:%02x"),
             &local_scan_buffer[0], &local_scan_buffer[1], &local_scan_buffer[2],
             &local_scan_buffer[3], &local_scan_buffer[4], &local_scan_buffer[5]
         );
@@ -110,9 +110,9 @@ int ENC28J60RAAT::handle_set_command(char const * const command, char * reply)
             raat_nv_save(m_mac_address, m_mac_eeprom_location);
         }
     }
-    else if (strncmp(command, "IP", 2) == 0)
+    else if (strncmp_P(command, PSTR("IP"), 2) == 0)
     {
-        n = sscanf(command+2, "%d.%d.%d.%d",
+        n = sscanf_P(command+2, PSTR("%d.%d.%d.%d"),
             &local_scan_buffer[0], &local_scan_buffer[1], &local_scan_buffer[2], &local_scan_buffer[3]
         );
         result = (n == 4) ? OK : BAD_VALUE;
@@ -122,9 +122,9 @@ int ENC28J60RAAT::handle_set_command(char const * const command, char * reply)
             raat_nv_save(m_ip_address, m_ip_eeprom_location);
         }
     }
-    else if (strncmp(command, "GWAY", 4) == 0)
+    else if (strncmp_P(command, PSTR("GWAY"), 4) == 0)
     {
-        n = sscanf(command+4, "%d.%d.%d.%d",
+        n = sscanf_P(command+4, PSTR("%d.%d.%d.%d"),
             &local_scan_buffer[0], &local_scan_buffer[1], &local_scan_buffer[2], &local_scan_buffer[3]
         );
         result = (n == 4) ? OK : BAD_VALUE;
@@ -138,14 +138,14 @@ int ENC28J60RAAT::handle_set_command(char const * const command, char * reply)
     switch(result)
     {
     case OK:
-        strncpy(reply, "OK", 2);
+        strncpy_P(reply, PSTR("OK"), 2);
         reply_length = 2;
         break;
     case BAD_VALUE:
-        reply_length = sprintf(reply, "VAL (n=%d)?", n);
+        reply_length = sprintf_P(reply, PSTR("VAL (n=%d)?"), n);
         break;
     case BAD_COMMAND:
-        strncpy(reply, "CMD?", 4);
+        strncpy_P(reply, PSTR("CMD?"), 4);
         reply_length = 4;
         break;
     }
@@ -165,7 +165,7 @@ uint16_t ENC28J60RAAT::command_handler(char const * const command, char * reply)
         break;
     case '?':
         this->print_settings();
-        strncpy(reply, "OK", 2);
+        strncpy_P(reply, PSTR("OK"), 2);
         reply_length = 2;
         break;
     }
