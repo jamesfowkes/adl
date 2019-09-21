@@ -48,6 +48,11 @@ void StringParam::reset() {
 
 void StringParam::setup() { ParameterBase::setup(); }
 
+char const * StringParam::get(void)
+{
+    return (char const *)m_pValue;
+}
+
 void StringParam::get(char * const dst)
 {
     if (dst && m_pValue)
