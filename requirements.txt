@@ -1,9 +1,16 @@
+behave==1.2.6
+clang==6.0.0.2
 docopt==0.6.2
-Jinja2==2.10.1
+gitdb2==2.0.5
+GitPython==2.1.11
+Jinja2==2.10
 MarkupSafe==1.0
 orderedset==2.0.1
+parse==1.11.1
+parse-type==0.4.2
 plumbum==1.6.6
 pyserial==3.4
-PyYAML==3.12 ; python_version < '3.7'
-PyYAML==3.13 ; python_version >= '3.7'
-Yapsy==1.11.223
+PyYAML==5.1.2
+six==1.12.0
+smmap2==2.0.5
+Yapsy==1.12.0
