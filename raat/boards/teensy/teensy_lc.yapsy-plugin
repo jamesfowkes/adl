@@ -1,0 +1,9 @@
+[Core]
+Name = Teensy LC
+Module = teensy_lc
+
+[Documentation]
+Description = Board plugin for the Teensy LC board
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk
