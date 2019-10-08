@@ -17,12 +17,21 @@ public:
     void tick();
     uint16_t command_handler(char const * const command, char * reply);
     
-    void set(bool on);
+    void set(bool on, uint16_t timeout=0);
+    void toggle(uint16_t timeout=0);
     bool state(void);
     void tristate();
 
 private:
+
+    struct
+    {
+        uint16_t time;
+        bool active;
+    } m_timeout;
+
     int m_pin;
+    void start_timeout(uint16_t timeout);
     estartup_state m_startup_state;
 };
 
