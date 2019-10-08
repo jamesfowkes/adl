@@ -115,7 +115,7 @@ static int raat_process_param_command(PARAM_ADDRESS address, char const * const 
     return reply_length;
 }
 
-int raat_chars_to_address(char const * const buffer)
+RAAT_ADDRESS raat_chars_to_address(char const * const buffer)
 {
     return ((buffer[0] - '0') * 10) + (buffer[1] - '0');
 }
