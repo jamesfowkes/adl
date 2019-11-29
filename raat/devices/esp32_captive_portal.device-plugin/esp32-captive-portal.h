@@ -17,9 +17,10 @@ public:
 private:
     WiFiManager m_wifi_manager;
     bool m_debug_wifi_manager;
-    uint8_t m_ap_name[32];
-    uint8_t m_ap_pwd[32];
-    
+
+    char m_ap_name[32];
+    char m_ap_pwd[32];
+
     RAAT_NV_LOCATION m_ap_name_eeprom_location;
     RAAT_NV_LOCATION m_ap_pwd_eeprom_location;
 }

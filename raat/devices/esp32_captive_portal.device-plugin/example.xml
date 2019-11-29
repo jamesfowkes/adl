@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<board type="ESP32" fqbn="ESP32 Dev Board" name="ESP32 Captive Portal Example">
+    <info>
+        An example sketch for the ESP32 Captive Portal device
+    </info>
+    
+    <devices>
+        <device name="Captive Portal" type="ESP32 Captive Portal">
+            <setting id="debug" value="true"></setting>
+        </device>
+    </devices>
+
+    <modules>
+    	<module>HTTP Get Server</module>
+    </modules>
+
+    <custom_code>
+    	<file>handler.cpp</file>
+    </custom_code>
+
+    <defines>
+        <define>ENC28J60_BUFFER_SIZE 256</define>
+    </defines>
+
+    <logging>
+        <log_module>APPLICATION</log_module>
+    </logging>
+
+    <raat loglevel="RAAT_LOG_LEVEL_DEBUG">
+    </raat>
+
+</board>

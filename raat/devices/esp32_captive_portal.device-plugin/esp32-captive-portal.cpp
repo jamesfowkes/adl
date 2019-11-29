@@ -33,12 +33,15 @@ static bool check_pwd_length(char * pwd)
  * Class Functions
  */
 
-ESP32CaptivePortal::ESP32CaptivePortal(bool debug) : m_debug_wifi_manager(debug)
+ESP32CaptivePortal::ESP32CaptivePortal(bool debug, char * default_ap_name, char * default_ap_pwd) : m_debug_wifi_manager(debug)
 {
     m_ap_name_eeprom_location.size = 32;
     m_ap_pwd_eeprom_location.size = 32;
     raat_nv_alloc(m_ap_name_eeprom_location);
     raat_nv_alloc(m_ap_pwd_eeprom_location);
+
+    strncpy(m_ap_name, default_ap_name, 32);
+    strncpy(m_ap_pwd, default_ap_pwd, 32);
 }
 
 void ESP32CaptivePortal::setup()
@@ -51,11 +54,11 @@ void ESP32CaptivePortal::setup()
 
     check_pwd_length(m_ap_pwd);
 
-    if (m_ap_name && m_ap_pwd)
+    if (strlen(m_ap_name) && strlen(m_ap_pwd))
     {
         this->m_wifi_manager.autoConnect(m_ap_name, m_ap_pwd);
     }
-    else if (m_ap_name)
+    else if (strlen(m_ap_name))
     {
         this->m_wifi_manager.autoConnect(m_ap_name);
     }

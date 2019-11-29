@@ -6,7 +6,7 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import DeviceSource, DeviceInclude, LibraryInclude
+from raat.types import DeviceSource, DeviceInclude, LibraryInclude, Setting
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 
@@ -15,7 +15,7 @@ THIS_PATH = Path(__file__).parent
 
 class ESP32CaptivePortal(
     GenericDevice,
-    namedtuple("ESP32CaptivePortal", ["callback_fn", "debug_wifi_manager"])
+    namedtuple("ESP32CaptivePortal", ["ap_name", "ap_password", "debug_wifi_manager"])
 ):
 
     __slots__ = ()
@@ -61,7 +61,17 @@ class ESP32CaptivePortalPlugin(IPlugin, GenericDevicePlugin):
         pass
 
     def get(self, device):
-        return ESP32CaptivePortal(device.ap_password, device.debug_wifi_manager)
+
+        ap_name = device.settings.get("ap_name",
+            Setting("ap_name", "", ""))
+
+        ap_pwd = device.settings.get("ap_pwd",
+            Setting("ap_pwd", "", ""))
+
+        debug = device.settings.get("debug",
+            Setting("debug", "", "true"))
+
+        return ESP32CaptivePortal(ap_name, ap_pwd, debug)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)
