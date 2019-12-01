@@ -12,10 +12,11 @@ from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 THIS_PATH = Path(__file__).parent
 
+BLANK_C_STRING = "\"\""
 
 class ESP32CaptivePortal(
     GenericDevice,
-    namedtuple("ESP32CaptivePortal", ["ap_name", "ap_password", "debug_wifi_manager"])
+    namedtuple("ESP32CaptivePortal", ["name", "ap_name", "ap_pwd", "debug_wifi_manager"])
 ):
 
     __slots__ = ()
@@ -33,7 +34,7 @@ class ESP32CaptivePortal(
 
     @property
     def setup(self):
-        return "{name}.setup();".format(self.debug_wifi_manager)
+        return "{name}.setup();".format(name=self.cname())
 
     @property
     def command_handler(self):
@@ -45,7 +46,10 @@ class ESP32CaptivePortal(
 
     @property
     def declarations(self):
-        return "static ESP32CaptivePortal {name} = ESP32CaptivePortal();".format()
+        return "static ESP32CaptivePortal {name} = ESP32CaptivePortal({debug}, {ap_name}, {ap_pwd});".format(
+            name=self.cname(), debug=self.debug_wifi_manager.value,
+            ap_name=self.ap_name.value, ap_pwd=self.ap_pwd.value
+        )
 
 
 class ESP32CaptivePortalPlugin(IPlugin, GenericDevicePlugin):
@@ -63,15 +67,15 @@ class ESP32CaptivePortalPlugin(IPlugin, GenericDevicePlugin):
     def get(self, device):
 
         ap_name = device.settings.get("ap_name",
-            Setting("ap_name", "", ""))
+            Setting("ap_name", "", BLANK_C_STRING))
 
         ap_pwd = device.settings.get("ap_pwd",
-            Setting("ap_pwd", "", ""))
+            Setting("ap_pwd", "", BLANK_C_STRING))
 
         debug = device.settings.get("debug",
             Setting("debug", "", "true"))
 
-        return ESP32CaptivePortal(ap_name, ap_pwd, debug)
+        return ESP32CaptivePortal(device.name, ap_name, ap_pwd, debug)
 
     def set_log_level(self, level):
         logging.getLogger(__name__).setLevel(level)

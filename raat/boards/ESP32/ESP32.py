@@ -1,16 +1,18 @@
 import logging
 
+from pathlib import Path
+
 from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.boards.serial.serial0 import Serial0DueMicro
+from raat.boards.serial.serial0 import Serial0
 from raat.boards.generic_board import GenericBoard
-from raat.boards.nonvolatile.EEPROM.EEPROM import EEPROM
+from raat.boards.nonvolatile.ESP32Flash.ESP32Flash import ESP32Flash
 
 
 THIS_PATH = Path(__file__).parent
-TEMPLATE = THIS_PATH.joinpath("esp32.template")
+TEMPLATE = THIS_PATH.joinpath("ESP32.template")
 
 class ESP32(
     GenericBoard,
@@ -40,7 +42,7 @@ class ESP32(
 
     @property
     def required_core(self):
-        return "pololu-a-star:avr"
+        return "esp32:esp32"
 
 
 class ESP32Plugin(IPlugin):
@@ -52,13 +54,13 @@ class ESP32Plugin(IPlugin):
 
     def get(self, board, devices, parameters, modules):
         baudrate = board.attrs.get("baudrate", 115200)
-        serial = Serial0DueMicro(baudrate)
-        nonvolatile = EEPROM()
+        serial = Serial0(baudrate)
+        nonvolatile = ESP32Flash()
 
-        return AStar32U4(
+        return ESP32(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
-            board.defines, board.arduino_libs, fqbn=board.attrs.get("fqbn", "pololu-a-star:avr:a-star32U4")
+            board.defines, board.arduino_libs, fqbn=board.attrs.get("fqbn", "esp32:esp32:esp32")
         )
 
     def set_log_level(self, level):

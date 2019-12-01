@@ -12,19 +12,19 @@
  */
 
 #include "raat.hpp"
-#include "esp32-captive-portal.h"
+#include "esp32-captive-portal.hpp"
 
 /*
  * Private Functions
  */
 
-static bool check_pwd_length(char * pwd)
+static void check_pwd_length(char * pwd)
 {
     if (pwd)
     {
-        if (strlen(pwd <= 8))
+        if (strlen(pwd) <= 8)
         {
-            raat_logln(LOG_RAAT, "Warning: password length <= 8 chars")
+            raat_logln(LOG_RAAT, "Warning: password length <= 8 chars");
         }
     }
 }
@@ -33,7 +33,8 @@ static bool check_pwd_length(char * pwd)
  * Class Functions
  */
 
-ESP32CaptivePortal::ESP32CaptivePortal(bool debug, char * default_ap_name, char * default_ap_pwd) : m_debug_wifi_manager(debug)
+ESP32CaptivePortal::ESP32CaptivePortal(bool debug, char const * const default_ap_name, char const * const default_ap_pwd) :
+    m_debug_wifi_manager(debug)
 {
     m_ap_name_eeprom_location.size = 32;
     m_ap_pwd_eeprom_location.size = 32;
@@ -89,10 +90,10 @@ uint16_t ESP32CaptivePortal::command_handler(char const * const command, char * 
 {
     uint16_t reply_length = 0;
 
-    if (command[0] == "R")
+    if (command[0] == 'R')
     {
         this->reset_portal();
-        strcpy(reply, "ROK")
+        strcpy(reply, "ROK");
         reply_length = 3;
     }
 
