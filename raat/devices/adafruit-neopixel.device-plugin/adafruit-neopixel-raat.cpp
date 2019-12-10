@@ -49,8 +49,8 @@ int AdafruitNeoPixelRAAT::handle_command(char const * const command, char * repl
 {
     int32_t rgb[3];
 
-    int32_t range_min;
-    int32_t range_max;
+    int32_t range_min = INT32_MAX;
+    int32_t range_max = INT32_MIN;
 
     char * end_of_range = NULL;
 
