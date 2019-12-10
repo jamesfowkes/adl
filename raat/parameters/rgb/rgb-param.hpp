@@ -120,7 +120,8 @@ uint16_t RGBParam<INT_TYPE>::command_handler(char const * const command, char * 
             }
             else if (m_clip)
             {
-                return sprintf(reply, RGB_FORMAT " (clipped)", m_rgb[0].value(), m_rgb[1].value(), m_rgb[2].value());
+                return sprintf(reply, RGB_FORMAT " (clipped)", 
+                    (int32_t)m_rgb[0].value(), (int32_t)m_rgb[1].value(), (int32_t)m_rgb[2].value());
             }
             else
             {
@@ -134,7 +135,7 @@ uint16_t RGBParam<INT_TYPE>::command_handler(char const * const command, char * 
     }
     else if (command[0] == '?')
     {
-        sprintf(reply, RGB_FORMAT, m_rgb[0].value(), m_rgb[1].value(), m_rgb[2].value());
+        sprintf(reply, RGB_FORMAT, (int32_t)m_rgb[0].value(), (int32_t)m_rgb[1].value(), (int32_t)m_rgb[2].value());
         reply_length = strlen(reply);
     }
 
