@@ -133,6 +133,12 @@ uint16_t RGBParam<INT_TYPE>::command_handler(char const * const command, char * 
             return raat_msg_wrong_number_of_values(reply, parsed_count, &command[1]);
         }
     }
+    else if (command[0] == 'R')
+    {
+        this->reset();
+        sprintf(reply, "ROK");
+        reply_length = strlen(reply);
+    }
     else if (command[0] == '?')
     {
         sprintf(reply, RGB_FORMAT, (int32_t)m_rgb[0].value(), (int32_t)m_rgb[1].value(), (int32_t)m_rgb[2].value());
