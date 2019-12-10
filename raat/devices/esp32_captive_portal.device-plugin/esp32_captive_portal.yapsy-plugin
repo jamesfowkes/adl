@@ -1,0 +1,9 @@
+[Core]
+Name = ESP32 Captive Portal
+Module = esp32_captive_portal
+
+[Documentation]
+Description = Implements a wrapper for an ESP32 captive portal
+Author = James Fowkes
+Version = 1.0
+Website = www.returnzero.co.uk

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<board type="ESP32" name="ESP32 Captive Portal Example">
+    <info>
+        An example sketch for the ESP32 Captive Portal device
+    </info>
+    
+    <devices>
+        <device name="Captive Portal" type="ESP32 Captive Portal">
+            <setting id="debug" value="true"></setting>
+        </device>
+    </devices>
+
+    <logging>
+        <log_module>APPLICATION</log_module>
+    </logging>
+
+    <raat loglevel="RAAT_LOG_LEVEL_DEBUG">
+    </raat>
+
+</board>

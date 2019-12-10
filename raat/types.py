@@ -261,7 +261,7 @@ def get_unique_log_modules(nodes):
 
 
 class Board(namedtuple("Board", [
-    "type", "name",
+    "type", "subtype", "name",
     "devices", "parameters",
     "modules", "settings", "info", "raat", "custom_code",
     "attrs", "log_modules", "defines", "arduino_libs"])
@@ -273,6 +273,7 @@ class Board(namedtuple("Board", [
         board_node = node.find(".")
         name = board_node.attrib["name"]
         board_type = board_node.attrib["type"]
+        board_subtype = board_node.attrib.get("subtype", "")
 
         devices = Devices.from_xml_list(node.find("devices") or [])
         parameters = Parameters.from_xml_list(node.find("parameters") or [])
@@ -311,13 +312,14 @@ class Board(namedtuple("Board", [
             arduino_libs = []
 
         return cls(
-            board_type, name, devices, parameters, modules, settings_dict, info, raat,
+            board_type, board_subtype, name, devices, parameters, modules, settings_dict, info, raat,
             custom_code_filenames, board_node.attrib, log_modules, defines, arduino_libs
         )
 
     @classmethod
     def from_yaml(cls, board_dict):
         board_type = board_dict["board"]["type"]
+        board_subtype = board_dict["board"].get("subtype", "")
         name = board_dict["board"]["name"]
         devices = [Device.from_yaml(dev) for dev in board_dict["board"]["devices"]]
 
@@ -348,6 +350,6 @@ class Board(namedtuple("Board", [
         log_modules = get_unique_log_modules(board_dict["board"].get("logging", []))
 
         return cls(
-            board_type, name, devices, settings_dict, info, raat,
+            board_type, board_subtype, name, devices, settings_dict, info, raat,
             filenames, board_dict["board"], log_modules, defines, arduino_libs
         )

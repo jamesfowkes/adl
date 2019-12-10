@@ -15,6 +15,16 @@ class Nano168(UnoBaseType):
         return self
 
 
+class OldNano(UnoBaseType):
+
+    __slots__ = ()
+
+    def __new__(cls, *args, **kwargs):
+        kwargs["fqbn"] = "arduino:avr:nano:cpu=atmega328old"
+        self = super(UnoBaseType, cls).__new__(cls, *args, **kwargs)
+        return self
+
+
 class Nano(UnoBaseType):
 
     __slots__ = ()
@@ -29,11 +39,18 @@ class Nano(UnoBaseType):
 class NanoPlugin(UnoPlugin):
 
     def get(self, board, devices, parameters, modules):
+        if board.subtype == "":
+            cls = Nano
+        elif board.subtype == "168":
+            cls = Nano168
+        elif board.subtype == "Old":
+            cls = OldNano
+
         baudrate = board.attrs.get("baudrate", 115200)
         serial = Serial0(baudrate)
         nonvolatile = EEPROM()
 
-        return Nano(
+        return cls(
             board.name, serial, nonvolatile, devices, parameters, modules,
             board.custom_code, board.settings, board.info, board.log_modules,
             board.defines, board.arduino_libs, fqbn=board.attrs.get("fqbn", None)
