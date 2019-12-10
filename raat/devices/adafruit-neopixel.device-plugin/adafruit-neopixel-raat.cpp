@@ -97,6 +97,14 @@ void AdafruitNeoPixelRAAT::setPixelColor(uint16_t n, RGBParam<uint8_t>& param)
     this->setPixelColor(n, (uint8_t)rgb[0], (uint8_t)rgb[1], (uint8_t)rgb[2]);
 }
 
+void AdafruitNeoPixelRAAT::setPixelColor(uint16_t n, uint8_t * pRGB)
+{
+    if (pRGB)
+    {
+        m_pixels.setPixelColor(n, pRGB[0], pRGB[1], pRGB[2]);   
+    }
+}
+
 void AdafruitNeoPixelRAAT::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
 {
     m_pixels.setPixelColor(n, r, g, b);
