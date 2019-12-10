@@ -153,4 +153,26 @@ bool all_unique(ARRAY_TYPE * vals, int n)
     return unique;
 }
 
+template <class NUMERIC_TYPE>
+NUMERIC_TYPE subtract_with_limit(NUMERIC_TYPE a, NUMERIC_TYPE b, NUMERIC_TYPE limit)
+{
+    NUMERIC_TYPE result = a - b;
+    if (result < limit)
+    {
+        result = limit;
+    }
+    return result;
+}
+
+template <class NUMERIC_TYPE>
+NUMERIC_TYPE add_with_limit(NUMERIC_TYPE a, NUMERIC_TYPE b, NUMERIC_TYPE limit)
+{
+    NUMERIC_TYPE result = a + b;
+    if (result > limit)
+    {
+        result = limit;
+    }
+    return result;
+}
+
 #endif
