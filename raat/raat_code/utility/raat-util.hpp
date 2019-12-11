@@ -175,4 +175,6 @@ NUMERIC_TYPE add_with_limit(NUMERIC_TYPE a, NUMERIC_TYPE b, NUMERIC_TYPE limit)
     return result;
 }
 
+bool check_and_clear(bool& flag);
+
 #endif
