@@ -62,3 +62,8 @@ void RAATOneShotTask::set_period(uint16_t period)
 {
     m_timer.set_period(period);
 }
+
+uint16_t RAATOneShotTask::period()
+{
+    return m_timer.period();
+}

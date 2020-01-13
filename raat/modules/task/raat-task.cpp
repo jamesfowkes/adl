@@ -70,3 +70,8 @@ void RAATTask::set_period(uint16_t period)
 {
     m_task.set_period(period);
 }
+
+uint16_t RAATTask::period()
+{
+    return m_task.period();
+}

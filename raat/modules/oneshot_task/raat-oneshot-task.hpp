@@ -15,6 +15,7 @@ public:
     bool is_running();
     void reset();
     void set_period(uint16_t period);
+    uint16_t period();
 
 private:
     RAATOneShotTimer m_timer;

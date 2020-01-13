@@ -71,3 +71,8 @@ void RAATOneShotTimer::set_period(uint16_t period)
 {
     m_period = period;
 }
+
+uint16_t RAATOneShotTimer::period()
+{
+    return m_period;
+}

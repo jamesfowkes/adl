@@ -12,6 +12,7 @@ public:
     bool check_and_restart();
     bool is_running();
     void set_period(uint16_t period);
+    uint16_t period();
     
 private:
     unsigned long m_start;

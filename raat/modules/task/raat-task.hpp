@@ -16,6 +16,8 @@ public:
     bool is_running();
     void reset();
     void set_period(uint16_t period);
+    uint16_t period();
+
 private:
     RAATOneShotTask m_task;
     TaskFn m_pfn_task;
