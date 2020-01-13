@@ -11,7 +11,6 @@
  */
 
 #include "raat.hpp"
-
 #include "string-param.hpp"
 
 StringParam::StringParam(char const * const p_reset_value, uint16_t max_length, bool use_eeprom) :
@@ -57,7 +56,26 @@ void StringParam::get(char * const dst)
     if (dst && m_pValue)
     {
         ::strncpy(dst, m_pValue, m_length);
-        dst[m_length] = '\0';
+    }
+}
+
+void StringParam::get(char * const dst, uint16_t max_length)
+{
+    uint16_t my_length = this->strlen();
+    if (dst && m_pValue)
+    {
+        Serial.println(my_length);
+        Serial.println(max_length);
+        if (my_length > max_length)
+        {
+            ::strncpy(dst, m_pValue, max_length-1);
+            dst[max_length-1] = '\0';
+        }
+        else
+        {
+            ::strncpy(dst, m_pValue, my_length);
+        }
+        Serial.println(::strlen(dst));
     }
 }
 
