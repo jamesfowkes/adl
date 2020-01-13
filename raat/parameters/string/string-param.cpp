@@ -72,6 +72,7 @@ void StringParam::get(char * const dst, uint16_t max_length)
         else
         {
             ::strncpy(dst, m_pValue, my_length);
+            dst[my_length] = '\0';
         }
     }
 }
