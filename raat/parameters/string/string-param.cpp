@@ -64,8 +64,6 @@ void StringParam::get(char * const dst, uint16_t max_length)
     uint16_t my_length = this->strlen();
     if (dst && m_pValue)
     {
-        Serial.println(my_length);
-        Serial.println(max_length);
         if (my_length > max_length)
         {
             ::strncpy(dst, m_pValue, max_length-1);
@@ -75,7 +73,6 @@ void StringParam::get(char * const dst, uint16_t max_length)
         {
             ::strncpy(dst, m_pValue, my_length);
         }
-        Serial.println(::strlen(dst));
     }
 }
 
