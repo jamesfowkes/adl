@@ -91,7 +91,10 @@ class Setting(namedtuple("Setting", ["id", "name", "value"])):
             elif "all_values" in setting_node.attrib:
                 value = [setting_node.attrib["all_values"]] * count
             else:
-                raise Exception("Expected 'values' or 'all_values' attribute for multiple settings")
+                raise Exception(
+                    "Expected 'values' or 'all_values' attribute for multiple settings (got {}, count {})".format(
+                        setting_node.attrib, count)
+                )
 
         return cls(dev_id, name, value)
 
@@ -202,12 +205,17 @@ class Parameter(namedtuple("Parameter", ["name", "type", "settings"])):
 
     @classmethod
     def from_xml(cls, parameter_node):
+        #name = parameter_node.attrib["name"]
+        #parameter_type = parameter_node.attrib["type"]
+        #settings = [Setting.from_xml(setting_node, count) for setting_node in parameter_node.findall("setting")]
+        #settings_dict = {setting.id: setting for setting in settings}
+        #return cls(name, parameter_type, settings_dict)
         name = parameter_node.attrib["name"]
         parameter_type = parameter_node.attrib["type"]
-        settings = [Setting.from_xml(setting_node, 0) for setting_node in parameter_node.findall("setting")]
+        parameter_count = int(parameter_node.attrib.get("count", 0))
+        settings = [Setting.from_xml(setting_node, parameter_count) for setting_node in parameter_node.findall("setting")]
         settings_dict = {setting.id: setting for setting in settings}
         return cls(name, parameter_type, settings_dict)
-
 
 class ParameterGroup(namedtuple("Parameter", ["name", "type", "settings", "count"])):
 

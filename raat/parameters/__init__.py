@@ -1,7 +1,7 @@
 import logging
 from collections import namedtuple
 from pathlib import Path
-from raat.types import flatten
+from raat.types import flatten, Setting
 
 from yapsy.PluginManager import PluginManager
 
@@ -43,9 +43,16 @@ def get_single_parameter(parameter_def):
 def get_named_grouped_parameters(parameter_def):
     params = []
     count = parameter_def.count
+    if len(parameter_def.settings):
+        settings = Setting.make_group(parameter_def.settings, count)
+    else:
+        settings = None
+
     for i in range(0, count):
         copied = parameter_def._replace(
             name="{:s}{:02d}".format(parameter_def.name, i))
+        if settings:
+            copied = copied._replace(settings=settings[i])
         get_module_logger().info("Trying to load parameter '%s' (%s)", copied.name, copied.type)
         params.append(parameters_plugin_manager.getPluginByName(
             parameter_def.type).plugin_object.get(copied))

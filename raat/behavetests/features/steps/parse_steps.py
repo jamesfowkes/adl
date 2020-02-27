@@ -1,3 +1,5 @@
+import os
+
 import subprocess
 
 from collections import namedtuple
@@ -75,7 +77,13 @@ def the_user_runs_raat(context, filename):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
-    context.parsed_cpp, context.cpp_filename = context.generated_file.copy_and_parse_ino()
+    try:
+        context.parsed_cpp, context.cpp_filename = context.generated_file.copy_and_parse_ino()
+    except:
+        stderr = os.linesep.join([l.decode("utf-8") for l in context.completedprocess.stderr.splitlines()])
+        print(stderr)
+        raise
+
 
 @then(u'the process should have run successfully')
 def the_process_runs_successfully(context):
@@ -109,14 +117,13 @@ def the_sketch_has_a_parameter_or_device(context, param_or_device_type, paramete
 
     ## Assert that a pointer to the param is in the array
     expected = Expected.get(context, parameter_or_device)
-
+    
     array_def = context.parsed_cpp.find_vardefs(expected.array_name, expected.array_type,
         custom_filter_func=get_filename_filter_function(context.cpp_filename))
 
     array_def = cppparser.get_child(array_def[0], 2)
 
     array_members = cppparser.get_children(array_def)
-
 
     array_members = [cppparser.get_child(m, 0) for m in array_members]
 

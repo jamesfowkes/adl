@@ -14,9 +14,6 @@
         <parameter name="Test String 3" type="String">
             <setting id="length" value="10"></setting>
         </parameter>
-        <parameter name="Test Integer" type="Integer"></parameter>
-        <parameter name="Test Integer 2" type="Integer"></parameter>
-        <parameter name="Test Integer 3" type="Integer"></parameter>
         <parameter name="Test Boolean" type="Boolean"></parameter>
         <parameter name="Test Boolean 2" type="Boolean"></parameter>
         <parameter name="Test Boolean 3" type="Boolean"></parameter>
