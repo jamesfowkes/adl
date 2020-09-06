@@ -11,7 +11,7 @@ typedef enum startup_state
 class DigitalOutput : public DeviceBase
 {
 public:
-    DigitalOutput(int pin, estartup_state startupState);
+    DigitalOutput(uint8_t pin, estartup_state startupState);
     void setup();
     void reset();
     void tick();
@@ -22,6 +22,8 @@ public:
     bool state(void);
     void tristate();
 
+    uint8_t pin();
+
 private:
 
     struct
@@ -30,7 +32,7 @@ private:
         bool active;
     } m_timeout;
 
-    int m_pin;
+    uint8_t m_pin;
     void start_timeout(uint16_t timeout);
     estartup_state m_startup_state;
 };

@@ -3,7 +3,7 @@
 #include "raat-debouncer.hpp"
 #include "debounced-input.hpp"
 
-DebouncedInput::DebouncedInput(int pin, uint16_t debounce_time, bool pullup, bool invert) :
+DebouncedInput::DebouncedInput(uint8_t pin, uint16_t debounce_time, bool pullup, bool invert) :
     m_pin(pin),
     m_pullup(pullup),
     m_invert(invert),
@@ -75,4 +75,9 @@ void DebouncedInput::tick()
 bool DebouncedInput::read()
 {
     return m_invert ? digitalRead(m_pin) == LOW : digitalRead(m_pin) == HIGH;
+}
+
+uint8_t DebouncedInput::pin()
+{
+    return m_pin;
 }

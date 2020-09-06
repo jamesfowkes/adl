@@ -2,7 +2,7 @@
 
 #include "digital-output.hpp"
 
-DigitalOutput::DigitalOutput(int pin, estartup_state startupState) :
+DigitalOutput::DigitalOutput(uint8_t pin, estartup_state startupState) :
     m_pin(pin), m_startup_state(startupState)
 {
 }
@@ -119,4 +119,9 @@ void DigitalOutput::tick()
             this->toggle(0);
         }
     }
+}
+
+uint8_t DigitalOutput::pin()
+{
+    return m_pin;
 }

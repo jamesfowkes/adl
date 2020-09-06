@@ -4,15 +4,19 @@
 class DigitalInput : public DeviceBase
 {
 public:
-    DigitalInput(int pin);
+    DigitalInput(uint8_t pin);
     void setup();
     void reset();
     void tick();
     uint16_t command_handler(char const * const command, char * reply);
     
     bool state();
+
+    uint8_t pin();
+
 private:
-    int m_pin;
+    uint8_t m_pin;
+
 };
 
 #endif
