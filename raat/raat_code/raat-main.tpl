@@ -55,6 +55,8 @@ static const raat_devices_struct raat_devices = {
         &{{device.cname()}},
     {% endfor %}
     },
+    .{{device_group.base_device.sanitised_name}}Count = {{device_group.count}},
+
     {% endfor %}
 };
 

@@ -20,6 +20,7 @@ struct _raat_devices_struct
     {% endfor %}
     {% for device_group in board.devices.grouped -%}
     {{device_group.base_device.ctype}} * p{{device_group.base_device.sanitised_name}}[{{device_group.count}}];
+    uint8_t {{device_group.base_device.sanitised_name}}Count;
     {% endfor %}
 };
 typedef struct _raat_devices_struct raat_devices_struct;
