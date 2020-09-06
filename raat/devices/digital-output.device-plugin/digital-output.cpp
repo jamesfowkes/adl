@@ -1,9 +1,11 @@
 #include "raat.hpp"
 
+#include "raat-oneshot-timer.hpp"
+
 #include "digital-output.hpp"
 
 DigitalOutput::DigitalOutput(uint8_t pin, estartup_state startupState) :
-    m_pin(pin), m_startup_state(startupState)
+    m_pin(pin), m_startup_state(startupState), m_timeout(0)
 {
 }
 
@@ -23,7 +25,10 @@ void DigitalOutput::setup()
         this->set(true);
         break;
     case STARTUP_STATE_TRISTATE:
-        this->tristate();
+        this->tristate(false);
+        break;
+    case STARTUP_STATE_PU:
+        this->tristate(true);
         break;
     }
 }
@@ -61,8 +66,14 @@ uint16_t DigitalOutput::command_handler(char const * const command, char * reply
     }
     else if (command[0] == 'Z')
     {
-        this->tristate();
+        this->tristate(false);
         strcpy(reply, "ZOK");
+        reply_length = strlen(reply);
+    }
+    else if (command[0] == 'P')
+    {
+        this->tristate(true);
+        strcpy(reply, "POK");
         reply_length = strlen(reply);
     }
     else
@@ -84,7 +95,7 @@ void DigitalOutput::set(bool on, uint16_t timeout)
     }
     else
     {
-        this->m_timeout.active = false;
+        this->m_timeout.reset();
     }
 }
 
@@ -98,26 +109,21 @@ bool DigitalOutput::state()
     return digitalRead(m_pin) == HIGH;
 }
 
-void DigitalOutput::tristate()
+void DigitalOutput::tristate(bool pullup)
 {
-    pinMode(m_pin, INPUT);
+    pinMode(m_pin, pullup ? INPUT_PULLUP : INPUT);
 }
 
 void DigitalOutput::start_timeout(uint16_t timeout)
 {
-    this->m_timeout.time = (timeout / RAAT_TICK_MS) * RAAT_TICK_MS;;
-    this->m_timeout.active = true;
+    this->m_timeout.start(timeout);
 }
 
 void DigitalOutput::tick()
 {
-    if (this->m_timeout.active && this->m_timeout.time > 0)
+    if (this->m_timeout.check_and_reset())
     {
-        this->m_timeout.time -= RAAT_TICK_MS;   
-        if (this->m_timeout.time == 0)
-        {
-            this->toggle(0);
-        }
+        this->toggle(0);
     }
 }
 

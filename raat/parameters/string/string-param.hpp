@@ -19,6 +19,7 @@ public:
 
     char const * get(void);
     void get(char * const dst);
+    void get(char * const dst, uint16_t max_length);
     bool set(char const * const src);
 
     void save();

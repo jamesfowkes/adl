@@ -6,22 +6,23 @@ from collections import namedtuple
 
 from yapsy.IPlugin import IPlugin
 
-from raat.types import DeviceSource, DeviceInclude
+from raat.types import DeviceSource, DeviceInclude, ModuleSource, ModuleInclude
 
 from raat.devices.generic_device import GenericDevice, GenericDevicePlugin
 
 from raat.types import Setting
 
 THIS_PATH = Path(__file__).parent
+MODULES_PATH = Path(THIS_PATH.parent.parent, "modules")
+ONESHOT_TIMER_PATH = Path(MODULES_PATH, "oneshot_timer")
 
 
 class DigitalOutput(GenericDevice, namedtuple("DigitalOutput", ["name", "pin", "startup_state"])):
 
     __slots__ = ()
 
-    sources = (DeviceSource(THIS_PATH, "digital-output.cpp"), )
-
-    includes = (DeviceInclude(THIS_PATH, "digital-output.hpp"), )
+    sources = (DeviceSource(THIS_PATH, "digital-output.cpp"), ModuleSource(ONESHOT_TIMER_PATH, "raat-oneshot-timer.cpp"))
+    includes = (DeviceInclude(THIS_PATH, "digital-output.hpp"), ModuleInclude(ONESHOT_TIMER_PATH, "raat-oneshot-timer.hpp"))
 
     @property
     def setup(self):

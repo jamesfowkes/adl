@@ -77,11 +77,6 @@ class ParsedFile:
         self.index = clang.cindex.Index.create()
         self.tu = self.index.parse(str(filepath), args=arguments)
 
-        #for d in self.tu.diagnostics:
-        #    print(d)
-        #print_tu.tabs = 0
-        #print_tu(self.tu.cursor)
-
     def _find_nodes_recurse(self, node, filter_func=None):
         if filter_func is None:
             filter_func = lambda n: True
@@ -134,3 +129,19 @@ class ParsedFile:
             return match
 
         return self._find_nodes_recurse(self.tu.cursor, filter_function)
+
+    def dump(self):
+        for d in self.tu.diagnostics:
+            print(d)
+        print_tu.tabs = 0
+        print_tu(self.tu.cursor)
+
+if __name__ == "__main__":
+
+    import sys
+    
+    filename = sys.argv[1]
+
+    parser = ParsedFile(filename)
+
+    parser.dump()
