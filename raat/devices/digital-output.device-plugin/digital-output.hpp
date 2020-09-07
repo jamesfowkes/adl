@@ -29,23 +29,12 @@ public:
 
 private:
 
-<<<<<<< HEAD
-    struct
-    {
-        uint16_t time;
-        bool active;
-    } m_timeout;
+    void start_timeout(uint16_t timeout);
 
     uint8_t m_pin;
-    void start_timeout(uint16_t timeout);
-=======
-    int m_pin;
-    
->>>>>>> b5c8da3190586dbee144c2ca1df9e02595ea7929
     estartup_state m_startup_state;
     RAATOneShotTimer m_timeout;
 
-    void start_timeout(uint16_t timeout);
 };
 
 #endif

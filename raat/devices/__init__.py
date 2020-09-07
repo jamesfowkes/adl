@@ -26,9 +26,12 @@ class GroupedDevices(namedtuple("GroupedDevices", ["base_device", "devices", "co
 
     @classmethod
     def get(cls, base_device_def):
-        base_device = devices_plugin_manager.getPluginByName(
-            base_device_def.type).plugin_object.get(base_device_def)
-        grouped_devices = get_named_grouped_devices(base_device_def)
+        plugin = devices_plugin_manager.getPluginByName(base_device_def.type)
+        if plugin:
+            base_device = plugin.plugin_object.get(base_device_def)
+            grouped_devices = get_named_grouped_devices(base_device_def)
+        else:
+            raise Exception("Could not load plugin %s", base_device_def.type)
         return cls(base_device, grouped_devices, base_device_def.count)
 
 

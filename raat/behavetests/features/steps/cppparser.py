@@ -28,13 +28,14 @@ def node_string(node):
     except:
         typename = None
 
-    return "@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}, {:d} children".format(
+    return "@{:d}: {:s} ({:s}), {:s}, {:s}, {:s}, {:d} children ({:s})".format(
         node.location.line,
         node.displayname, spelling,
         "def" if node.is_definition() else "not def",
         "decl" if node.kind.is_declaration() else "not decl",
         typename if typename is not None else "no type",
-        len(list(node.get_children()))
+        len(list(node.get_children())),
+        str(node.kind)
     )
 
 def print_node(node):
@@ -54,7 +55,7 @@ def get_child(node, n):
 
 def print_tu(tu):
 
-    print ("  \t" * print_tu.tabs, end='')
+    print ("    " * print_tu.tabs, end='')
     print_node(tu)
 
     try:

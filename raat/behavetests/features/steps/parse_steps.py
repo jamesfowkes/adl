@@ -7,7 +7,7 @@ from pathlib import Path
 from shutil import copyfile
 
 import cppparser
-
+import clang.cindex
 from behave import given, when, then, step
 
 from util import pairwise
@@ -128,6 +128,7 @@ def the_sketch_has_a_parameter_or_device(context, param_or_device_type, paramete
     array_members = [cppparser.get_child(m, 0) for m in array_members]
 
     names = [m.displayname for m in array_members]
+
     assert names.count(expected_variable_name) == 1
 
     ## Assert that the parameter/device pointer has been defined in the struct
@@ -151,13 +152,16 @@ def the_sketch_has_a_parameter_or_device(context, param_or_device_type, paramete
     struct_matches = []
 
     for s in struct_members:
-        struct_member1 = cppparser.get_child(s, 0)
-        struct_member2 = cppparser.get_child(s, 1)
-        match = struct_member1.displayname == expected_pointer_name
-        assigned_variable = cppparser.get_child(struct_member2, 0)
+        try:
+            struct_member1 = cppparser.get_child(s, 0)
+            struct_member2 = cppparser.get_child(s, 1)
+            match = struct_member1.displayname == expected_pointer_name
+            assigned_variable = cppparser.get_child(struct_member2, 0)
 
-        match = match and assigned_variable.displayname == expected_variable_name
-        struct_matches.append(match)
+            match = match and assigned_variable.displayname == expected_variable_name
+            struct_matches.append(match)
+        except IndexError:
+            pass
 
     assert struct_matches.count(True) == 1
 
