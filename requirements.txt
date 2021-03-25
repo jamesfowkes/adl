@@ -10,7 +10,7 @@ parse==1.11.1
 parse-type==0.4.2
 plumbum==1.6.6
 pyserial==3.4
-PyYAML==5.1.2
+PyYAML==5.4
 six==1.12.0
 smmap2==2.0.5
 Yapsy==1.12.0
